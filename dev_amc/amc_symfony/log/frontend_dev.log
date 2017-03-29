@@ -1,0 +1,475 @@
+Sep 09 22:47:50 symfony [info] {sfPatternRouting} Connect sfRoute "sf_captchagd" (/captcha)
+Sep 09 22:47:50 symfony [info] {sfPatternRouting} Match route "homepage" (/) for / with parameters array (  'module' => 'default',  'action' => 'index',)
+Sep 09 22:47:50 symfony [info] {myUser} Flag old flash messages ("mailsuccess")
+Sep 09 22:47:50 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+Sep 09 22:47:50 symfony [info] {sfFilterChain} Executing filter "customForwardFilter"
+Sep 09 22:47:50 symfony [info] {sfFilterChain} Executing filter "sfCommonFilter"
+Sep 09 22:47:50 symfony [info] {sfFilterChain} Executing filter "sfValidationExecutionFilter"
+Sep 09 22:47:50 symfony [info] {defaultActions} Call "defaultActions->executeIndex()"
+Sep 09 22:47:50 symfony [debug] {sfPropelLogger} SET NAMES 'utf8'
+Sep 09 22:47:50 symfony [debug] {sfPropelLogger} SELECT property.ID, property.CODE, property.NAME, property.ADDRESS, property.CITY, property.STATE_ID, property.ZIP, property.PHONE, property.FAX, property.EMAIL, property.IMAGE, property.URL, property.PRICE_RANGE, property.UNIT_TYPE, property.SPECIAL, property.MERCIAL, property.DESCRIPTION, property.HOURS, property.PET_POLICY, property.DIRECTIONS, property.FEATURED, property.STATUS_ID FROM `property` WHERE property.FEATURED=1 AND property.STATUS_ID='2' ORDER BY property.NAME ASC LIMIT 2
+Sep 09 22:47:50 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/default/templates/indexSuccess.php"
+Sep 09 22:47:50 symfony [info] {sfPHPView} Decorate content with "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:47:50 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:47:50 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/_mainnav.php"
+Sep 09 22:47:50 symfony [info] {main} Call "property->executeSearch()"
+Sep 09 22:47:50 symfony [debug] {sfPropelLogger} SELECT DISTINCT state.CODE AS code, state.NAME AS state FROM state, property WHERE state.ID = property.STATE_ID AND property.STATUS_ID = 2 ORDER BY state.NAME 
+Sep 09 22:47:50 symfony [debug] {sfPropelLogger} SELECT DISTINCT property.CITY AS city FROM property WHERE property.STATUS_ID = 2 ORDER BY property.CITY 
+Sep 09 22:47:50 symfony [debug] {sfPropelLogger} SELECT property.ID as id, property.NAME as name FROM property WHERE property.STATUS_ID = 2 ORDER BY property.NAME
+Sep 09 22:47:50 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/property/templates/_search.php"
+Sep 09 22:47:50 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+Sep 09 22:47:50 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+Sep 09 22:47:50 symfony [info] {sfWebDebugLogger} Configuration 198.60 ms (10)
+Sep 09 22:47:50 symfony [info] {sfWebDebugLogger} Factories 60.24 ms (1)
+Sep 09 22:47:50 symfony [info] {sfWebDebugLogger} Action "default/index" 27.22 ms (1)
+Sep 09 22:47:50 symfony [info] {sfWebDebugLogger} View "Success" for "default/index" 87.98 ms (1)
+Sep 09 22:47:50 symfony [info] {sfWebDebugLogger} Partial "global/_mainnav" 1.01 ms (1)
+Sep 09 22:47:50 symfony [info] {sfWebDebugLogger} Component "property/search" 9.06 ms (1)
+Sep 09 22:47:50 symfony [info] {sfWebDebugLogger} Partial "property/_search" 60.24 ms (1)
+Sep 09 22:47:50 symfony [info] {sfWebResponse} Send content (108617 o)
+Sep 09 22:47:51 symfony [info] {myUser} Remove old flash messages ("mailsuccess")
+Sep 09 22:47:52 symfony [info] {sfPatternRouting} Connect sfRoute "sf_captchagd" (/captcha)
+Sep 09 22:47:52 symfony [info] {sfPatternRouting} Match route "default_index" (/:module) for /contactus with parameters array (  'module' => 'contactus',  'action' => 'index',)
+Sep 09 22:47:52 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+Sep 09 22:47:52 symfony [info] {sfFilterChain} Executing filter "customForwardFilter"
+Sep 09 22:47:52 symfony [info] {sfFilterChain} Executing filter "sfCommonFilter"
+Sep 09 22:47:52 symfony [info] {sfFilterChain} Executing filter "sfValidationExecutionFilter"
+Sep 09 22:47:52 symfony [debug] {sfPropelLogger} SET NAMES 'utf8'
+Sep 09 22:47:52 symfony [debug] {sfPropelLogger} SELECT property.ID, property.CODE, property.NAME, property.ADDRESS, property.CITY, property.STATE_ID, property.ZIP, property.PHONE, property.FAX, property.EMAIL, property.IMAGE, property.URL, property.PRICE_RANGE, property.UNIT_TYPE, property.SPECIAL, property.MERCIAL, property.DESCRIPTION, property.HOURS, property.PET_POLICY, property.DIRECTIONS, property.FEATURED, property.STATUS_ID FROM `property` WHERE 1<>1 LIMIT 1
+Sep 09 22:47:52 symfony [debug] {sfPropelLogger} SELECT property_template.ID, property_template.PROPERTY_ID, property_template.LOGO_IMAGE, property_template.HOME_IMAGE, property_template.WELCOME, property_template.DESCRIPTION, property_template.ANNOUNCEMENTS, property_template.STYLE_COLOR, property_template.BACKGROUND_COLOR, property_template.CHAT, property_template.RENTALAPP_FILE, property_template.MAP_HTML, property_template.MAP_FRAME_SRC, property_template.COMMUNITY_IMAGE, property_template.COMMUNITY_DESCRIPTION, property_template.COMMUNITY_ATTRACTIONS_LIST, property_template.CUSTOM_PAGE_NAME, property_template.CUSTOM_PAGE_PERMA_LINK, property_template.CUSTOM_PAGE_CONTENT, property_template.HOME_FLASH, property_template.TRACKING_CODE, property_template.CONTACT_EMAIL_TEXT, property_template.SHOW_WALKSCORE, property_template.EMAIL, property_template.FACEBOOK_URL FROM `property_template` WHERE 1<>1 LIMIT 1
+Sep 09 22:47:52 symfony [debug] {sfPropelLogger} SELECT user.ID, user.USERNAME, user.PASSWORD, user.EMAIL, user.NAME, user.CREATED_AT, user.UPDATED_AT FROM `user`, `user_property` WHERE 1<>1 AND user_property.USER_ID=user.ID LIMIT 1
+Sep 09 22:47:52 symfony [info] {contactusActions} Call "contactusActions->executeIndex()"
+Sep 09 22:47:52 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/contactus/templates/indexSuccess.php"
+Sep 09 22:47:52 symfony [info] {sfPHPView} Decorate content with "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:47:52 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:47:52 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/_mainnav.php"
+Sep 09 22:47:52 symfony [info] {main} Call "property->executeSearch()"
+Sep 09 22:47:52 symfony [debug] {sfPropelLogger} SELECT DISTINCT state.CODE AS code, state.NAME AS state FROM state, property WHERE state.ID = property.STATE_ID AND property.STATUS_ID = 2 ORDER BY state.NAME 
+Sep 09 22:47:53 symfony [debug] {sfPropelLogger} SELECT DISTINCT property.CITY AS city FROM property WHERE property.STATUS_ID = 2 ORDER BY property.CITY 
+Sep 09 22:47:53 symfony [debug] {sfPropelLogger} SELECT property.ID as id, property.NAME as name FROM property WHERE property.STATUS_ID = 2 ORDER BY property.NAME
+Sep 09 22:47:53 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/property/templates/_search.php"
+Sep 09 22:47:53 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+Sep 09 22:47:53 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+Sep 09 22:47:53 symfony [info] {sfWebDebugLogger} Configuration 15.80 ms (11)
+Sep 09 22:47:53 symfony [info] {sfWebDebugLogger} Factories 19.81 ms (1)
+Sep 09 22:47:53 symfony [info] {sfWebDebugLogger} Action "contactus/index" 29.13 ms (1)
+Sep 09 22:47:53 symfony [info] {sfWebDebugLogger} View "Success" for "contactus/index" 88.35 ms (1)
+Sep 09 22:47:53 symfony [info] {sfWebDebugLogger} Partial "global/_mainnav" 0.99 ms (1)
+Sep 09 22:47:53 symfony [info] {sfWebDebugLogger} Component "property/search" 8.89 ms (1)
+Sep 09 22:47:53 symfony [info] {sfWebDebugLogger} Partial "property/_search" 58.76 ms (1)
+Sep 09 22:47:53 symfony [info] {sfWebResponse} Send content (107223 o)
+Sep 09 22:47:59 symfony [info] {sfPatternRouting} Connect sfRoute "sf_captchagd" (/captcha)
+Sep 09 22:47:59 symfony [info] {sfPatternRouting} Match route "default_index" (/:module) for /contactus with parameters array (  'module' => 'contactus',  'action' => 'index',)
+Sep 09 22:47:59 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+Sep 09 22:47:59 symfony [info] {sfFilterChain} Executing filter "customForwardFilter"
+Sep 09 22:47:59 symfony [info] {sfFilterChain} Executing filter "sfCommonFilter"
+Sep 09 22:47:59 symfony [info] {sfFilterChain} Executing filter "sfValidationExecutionFilter"
+Sep 09 22:47:59 symfony [debug] {sfPropelLogger} SET NAMES 'utf8'
+Sep 09 22:47:59 symfony [debug] {sfPropelLogger} SELECT property.ID, property.CODE, property.NAME, property.ADDRESS, property.CITY, property.STATE_ID, property.ZIP, property.PHONE, property.FAX, property.EMAIL, property.IMAGE, property.URL, property.PRICE_RANGE, property.UNIT_TYPE, property.SPECIAL, property.MERCIAL, property.DESCRIPTION, property.HOURS, property.PET_POLICY, property.DIRECTIONS, property.FEATURED, property.STATUS_ID FROM `property` WHERE 1<>1 LIMIT 1
+Sep 09 22:47:59 symfony [debug] {sfPropelLogger} SELECT property_template.ID, property_template.PROPERTY_ID, property_template.LOGO_IMAGE, property_template.HOME_IMAGE, property_template.WELCOME, property_template.DESCRIPTION, property_template.ANNOUNCEMENTS, property_template.STYLE_COLOR, property_template.BACKGROUND_COLOR, property_template.CHAT, property_template.RENTALAPP_FILE, property_template.MAP_HTML, property_template.MAP_FRAME_SRC, property_template.COMMUNITY_IMAGE, property_template.COMMUNITY_DESCRIPTION, property_template.COMMUNITY_ATTRACTIONS_LIST, property_template.CUSTOM_PAGE_NAME, property_template.CUSTOM_PAGE_PERMA_LINK, property_template.CUSTOM_PAGE_CONTENT, property_template.HOME_FLASH, property_template.TRACKING_CODE, property_template.CONTACT_EMAIL_TEXT, property_template.SHOW_WALKSCORE, property_template.EMAIL, property_template.FACEBOOK_URL FROM `property_template` WHERE 1<>1 LIMIT 1
+Sep 09 22:47:59 symfony [debug] {sfPropelLogger} SELECT user.ID, user.USERNAME, user.PASSWORD, user.EMAIL, user.NAME, user.CREATED_AT, user.UPDATED_AT FROM `user`, `user_property` WHERE 1<>1 AND user_property.USER_ID=user.ID LIMIT 1
+Sep 09 22:47:59 symfony [info] {contactusActions} Call "contactusActions->executeIndex()"
+Sep 09 22:47:59 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/contactus/templates/indexSuccess.php"
+Sep 09 22:47:59 symfony [info] {sfPHPView} Decorate content with "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:47:59 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:47:59 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/_mainnav.php"
+Sep 09 22:47:59 symfony [info] {main} Call "property->executeSearch()"
+Sep 09 22:47:59 symfony [debug] {sfPropelLogger} SELECT DISTINCT state.CODE AS code, state.NAME AS state FROM state, property WHERE state.ID = property.STATE_ID AND property.STATUS_ID = 2 ORDER BY state.NAME 
+Sep 09 22:47:59 symfony [debug] {sfPropelLogger} SELECT DISTINCT property.CITY AS city FROM property WHERE property.STATUS_ID = 2 ORDER BY property.CITY 
+Sep 09 22:47:59 symfony [debug] {sfPropelLogger} SELECT property.ID as id, property.NAME as name FROM property WHERE property.STATUS_ID = 2 ORDER BY property.NAME
+Sep 09 22:47:59 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/property/templates/_search.php"
+Sep 09 22:47:59 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+Sep 09 22:47:59 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+Sep 09 22:47:59 symfony [info] {sfWebDebugLogger} Configuration 2.42 ms (10)
+Sep 09 22:47:59 symfony [info] {sfWebDebugLogger} Factories 19.93 ms (1)
+Sep 09 22:47:59 symfony [info] {sfWebDebugLogger} Action "contactus/index" 30.00 ms (1)
+Sep 09 22:47:59 symfony [info] {sfWebDebugLogger} View "Success" for "contactus/index" 85.54 ms (1)
+Sep 09 22:47:59 symfony [info] {sfWebDebugLogger} Partial "global/_mainnav" 0.95 ms (1)
+Sep 09 22:47:59 symfony [info] {sfWebDebugLogger} Component "property/search" 8.91 ms (1)
+Sep 09 22:47:59 symfony [info] {sfWebDebugLogger} Partial "property/_search" 58.80 ms (1)
+Sep 09 22:47:59 symfony [info] {sfWebResponse} Send content (107278 o)
+Sep 09 22:48:00 symfony [info] {sfPatternRouting} Connect sfRoute "sf_captchagd" (/captcha)
+Sep 09 22:48:00 symfony [info] {sfPatternRouting} Match route "sf_captchagd" (/captcha) for /captcha with parameters array (  'module' => 'sfCaptchaGD',  'action' => 'GetImage',)
+Sep 09 22:48:00 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+Sep 09 22:48:00 symfony [info] {sfFilterChain} Executing filter "customForwardFilter"
+Sep 09 22:48:00 symfony [info] {sfFilterChain} Executing filter "sfCommonFilter"
+Sep 09 22:48:00 symfony [info] {sfFilterChain} Executing filter "sfValidationExecutionFilter"
+Sep 09 22:48:00 symfony [info] {sfCaptchaGDActions} Call "sfCaptchaGDActions->executeGetImage()"
+Sep 09 22:48:00 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+Sep 09 22:48:00 symfony [info] {sfWebResponse} Send header "Content-Type: image/gif"
+Sep 09 22:48:00 symfony [info] {sfWebDebugLogger} Configuration 12.57 ms (9)
+Sep 09 22:48:00 symfony [info] {sfWebDebugLogger} Factories 19.86 ms (1)
+Sep 09 22:48:00 symfony [info] {sfWebDebugLogger} Action "sfCaptchaGD/GetImage" 3.69 ms (1)
+Sep 09 22:48:00 symfony [info] {sfWebResponse} Send content (0 o)
+Sep 09 22:48:00 symfony [info] {sfWebDebugLogger} Configuration 12.57 ms (9)
+Sep 09 22:48:00 symfony [info] {sfWebDebugLogger} Factories 19.86 ms (1)
+Sep 09 22:48:00 symfony [info] {sfWebDebugLogger} Action "sfCaptchaGD/GetImage" 7.71 ms (2)
+Sep 09 22:48:00 symfony [info] {sfWebDebugLogger} View "None" for "sfCaptchaGD/GetImage" 0.01 ms (1)
+Sep 09 22:48:00 symfony [info] {sfWebResponse} Send content (0 o)
+Sep 09 22:48:04 symfony [info] {sfPatternRouting} Connect sfRoute "sf_captchagd" (/captcha)
+Sep 09 22:48:04 symfony [info] {sfPatternRouting} Match route "default_index" (/:module) for /contactus with parameters array (  'module' => 'contactus',  'action' => 'index',)
+Sep 09 22:48:04 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+Sep 09 22:48:04 symfony [info] {sfFilterChain} Executing filter "customForwardFilter"
+Sep 09 22:48:04 symfony [info] {sfFilterChain} Executing filter "sfCommonFilter"
+Sep 09 22:48:04 symfony [info] {sfFilterChain} Executing filter "sfValidationExecutionFilter"
+Sep 09 22:48:04 symfony [debug] {sfPropelLogger} SET NAMES 'utf8'
+Sep 09 22:48:04 symfony [debug] {sfPropelLogger} SELECT property.ID, property.CODE, property.NAME, property.ADDRESS, property.CITY, property.STATE_ID, property.ZIP, property.PHONE, property.FAX, property.EMAIL, property.IMAGE, property.URL, property.PRICE_RANGE, property.UNIT_TYPE, property.SPECIAL, property.MERCIAL, property.DESCRIPTION, property.HOURS, property.PET_POLICY, property.DIRECTIONS, property.FEATURED, property.STATUS_ID FROM `property` WHERE 1<>1 LIMIT 1
+Sep 09 22:48:04 symfony [debug] {sfPropelLogger} SELECT property_template.ID, property_template.PROPERTY_ID, property_template.LOGO_IMAGE, property_template.HOME_IMAGE, property_template.WELCOME, property_template.DESCRIPTION, property_template.ANNOUNCEMENTS, property_template.STYLE_COLOR, property_template.BACKGROUND_COLOR, property_template.CHAT, property_template.RENTALAPP_FILE, property_template.MAP_HTML, property_template.MAP_FRAME_SRC, property_template.COMMUNITY_IMAGE, property_template.COMMUNITY_DESCRIPTION, property_template.COMMUNITY_ATTRACTIONS_LIST, property_template.CUSTOM_PAGE_NAME, property_template.CUSTOM_PAGE_PERMA_LINK, property_template.CUSTOM_PAGE_CONTENT, property_template.HOME_FLASH, property_template.TRACKING_CODE, property_template.CONTACT_EMAIL_TEXT, property_template.SHOW_WALKSCORE, property_template.EMAIL, property_template.FACEBOOK_URL FROM `property_template` WHERE 1<>1 LIMIT 1
+Sep 09 22:48:04 symfony [debug] {sfPropelLogger} SELECT user.ID, user.USERNAME, user.PASSWORD, user.EMAIL, user.NAME, user.CREATED_AT, user.UPDATED_AT FROM `user`, `user_property` WHERE 1<>1 AND user_property.USER_ID=user.ID LIMIT 1
+Sep 09 22:48:04 symfony [info] {contactusActions} Call "contactusActions->executeIndex()"
+Sep 09 22:48:05 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/contactus/templates/indexSuccess.php"
+Sep 09 22:48:05 symfony [info] {sfPHPView} Decorate content with "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:48:05 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:48:05 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/_mainnav.php"
+Sep 09 22:48:05 symfony [info] {main} Call "property->executeSearch()"
+Sep 09 22:48:05 symfony [debug] {sfPropelLogger} SELECT DISTINCT state.CODE AS code, state.NAME AS state FROM state, property WHERE state.ID = property.STATE_ID AND property.STATUS_ID = 2 ORDER BY state.NAME 
+Sep 09 22:48:05 symfony [debug] {sfPropelLogger} SELECT DISTINCT property.CITY AS city FROM property WHERE property.STATUS_ID = 2 ORDER BY property.CITY 
+Sep 09 22:48:05 symfony [debug] {sfPropelLogger} SELECT property.ID as id, property.NAME as name FROM property WHERE property.STATUS_ID = 2 ORDER BY property.NAME
+Sep 09 22:48:05 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/property/templates/_search.php"
+Sep 09 22:48:05 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+Sep 09 22:48:05 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+Sep 09 22:48:05 symfony [info] {sfWebDebugLogger} Configuration 2.42 ms (10)
+Sep 09 22:48:05 symfony [info] {sfWebDebugLogger} Factories 21.63 ms (1)
+Sep 09 22:48:05 symfony [info] {sfWebDebugLogger} Action "contactus/index" 38.20 ms (1)
+Sep 09 22:48:05 symfony [info] {sfWebDebugLogger} View "Success" for "contactus/index" 89.68 ms (1)
+Sep 09 22:48:05 symfony [info] {sfWebDebugLogger} Partial "global/_mainnav" 1.00 ms (1)
+Sep 09 22:48:05 symfony [info] {sfWebDebugLogger} Component "property/search" 9.89 ms (1)
+Sep 09 22:48:05 symfony [info] {sfWebDebugLogger} Partial "property/_search" 58.89 ms (1)
+Sep 09 22:48:05 symfony [info] {sfWebResponse} Send content (109501 o)
+Sep 09 22:48:06 symfony [info] {sfPatternRouting} Connect sfRoute "sf_captchagd" (/captcha)
+Sep 09 22:48:06 symfony [info] {sfPatternRouting} Match route "sf_captchagd" (/captcha) for /captcha with parameters array (  'module' => 'sfCaptchaGD',  'action' => 'GetImage',)
+Sep 09 22:48:06 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+Sep 09 22:48:06 symfony [info] {sfFilterChain} Executing filter "customForwardFilter"
+Sep 09 22:48:06 symfony [info] {sfFilterChain} Executing filter "sfCommonFilter"
+Sep 09 22:48:06 symfony [info] {sfFilterChain} Executing filter "sfValidationExecutionFilter"
+Sep 09 22:48:06 symfony [info] {sfCaptchaGDActions} Call "sfCaptchaGDActions->executeGetImage()"
+Sep 09 22:48:06 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+Sep 09 22:48:06 symfony [info] {sfWebResponse} Send header "Content-Type: image/gif"
+Sep 09 22:48:06 symfony [info] {sfWebDebugLogger} Configuration 1.94 ms (8)
+Sep 09 22:48:06 symfony [info] {sfWebDebugLogger} Factories 20.61 ms (1)
+Sep 09 22:48:06 symfony [info] {sfWebDebugLogger} Action "sfCaptchaGD/GetImage" 4.47 ms (1)
+Sep 09 22:48:06 symfony [info] {sfWebResponse} Send content (0 o)
+Sep 09 22:48:06 symfony [info] {sfWebDebugLogger} Configuration 1.94 ms (8)
+Sep 09 22:48:06 symfony [info] {sfWebDebugLogger} Factories 20.61 ms (1)
+Sep 09 22:48:06 symfony [info] {sfWebDebugLogger} Action "sfCaptchaGD/GetImage" 9.29 ms (2)
+Sep 09 22:48:06 symfony [info] {sfWebDebugLogger} View "None" for "sfCaptchaGD/GetImage" 0.01 ms (1)
+Sep 09 22:48:06 symfony [info] {sfWebResponse} Send content (0 o)
+Sep 09 22:48:40 symfony [info] {sfPatternRouting} Connect sfRoute "sf_captchagd" (/captcha)
+Sep 09 22:48:40 symfony [info] {sfPatternRouting} Match route "sf_captchagd" (/captcha) for /captcha with parameters array (  'module' => 'sfCaptchaGD',  'action' => 'GetImage',)
+Sep 09 22:48:40 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+Sep 09 22:48:40 symfony [info] {sfFilterChain} Executing filter "customForwardFilter"
+Sep 09 22:48:40 symfony [info] {sfFilterChain} Executing filter "sfCommonFilter"
+Sep 09 22:48:40 symfony [info] {sfFilterChain} Executing filter "sfValidationExecutionFilter"
+Sep 09 22:48:40 symfony [info] {sfCaptchaGDActions} Call "sfCaptchaGDActions->executeGetImage()"
+Sep 09 22:48:41 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+Sep 09 22:48:41 symfony [info] {sfWebResponse} Send header "Content-Type: image/gif"
+Sep 09 22:48:41 symfony [info] {sfWebDebugLogger} Configuration 1.90 ms (8)
+Sep 09 22:48:41 symfony [info] {sfWebDebugLogger} Factories 20.12 ms (1)
+Sep 09 22:48:41 symfony [info] {sfWebDebugLogger} Action "sfCaptchaGD/GetImage" 3.52 ms (1)
+Sep 09 22:48:41 symfony [info] {sfWebResponse} Send content (0 o)
+Sep 09 22:48:41 symfony [info] {sfWebDebugLogger} Configuration 1.90 ms (8)
+Sep 09 22:48:41 symfony [info] {sfWebDebugLogger} Factories 20.12 ms (1)
+Sep 09 22:48:41 symfony [info] {sfWebDebugLogger} Action "sfCaptchaGD/GetImage" 7.38 ms (2)
+Sep 09 22:48:41 symfony [info] {sfWebDebugLogger} View "None" for "sfCaptchaGD/GetImage" 0.01 ms (1)
+Sep 09 22:48:41 symfony [info] {sfWebResponse} Send content (0 o)
+Sep 09 22:48:46 symfony [info] {sfPatternRouting} Connect sfRoute "sf_captchagd" (/captcha)
+Sep 09 22:48:46 symfony [info] {sfPatternRouting} Match route "default_index" (/:module) for /contactus with parameters array (  'module' => 'contactus',  'action' => 'index',)
+Sep 09 22:48:46 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+Sep 09 22:48:46 symfony [info] {sfFilterChain} Executing filter "customForwardFilter"
+Sep 09 22:48:46 symfony [info] {sfFilterChain} Executing filter "sfCommonFilter"
+Sep 09 22:48:46 symfony [info] {sfFilterChain} Executing filter "sfValidationExecutionFilter"
+Sep 09 22:48:46 symfony [debug] {sfPropelLogger} SET NAMES 'utf8'
+Sep 09 22:48:46 symfony [debug] {sfPropelLogger} SELECT property.ID, property.CODE, property.NAME, property.ADDRESS, property.CITY, property.STATE_ID, property.ZIP, property.PHONE, property.FAX, property.EMAIL, property.IMAGE, property.URL, property.PRICE_RANGE, property.UNIT_TYPE, property.SPECIAL, property.MERCIAL, property.DESCRIPTION, property.HOURS, property.PET_POLICY, property.DIRECTIONS, property.FEATURED, property.STATUS_ID FROM `property` WHERE 1<>1 LIMIT 1
+Sep 09 22:48:46 symfony [debug] {sfPropelLogger} SELECT property_template.ID, property_template.PROPERTY_ID, property_template.LOGO_IMAGE, property_template.HOME_IMAGE, property_template.WELCOME, property_template.DESCRIPTION, property_template.ANNOUNCEMENTS, property_template.STYLE_COLOR, property_template.BACKGROUND_COLOR, property_template.CHAT, property_template.RENTALAPP_FILE, property_template.MAP_HTML, property_template.MAP_FRAME_SRC, property_template.COMMUNITY_IMAGE, property_template.COMMUNITY_DESCRIPTION, property_template.COMMUNITY_ATTRACTIONS_LIST, property_template.CUSTOM_PAGE_NAME, property_template.CUSTOM_PAGE_PERMA_LINK, property_template.CUSTOM_PAGE_CONTENT, property_template.HOME_FLASH, property_template.TRACKING_CODE, property_template.CONTACT_EMAIL_TEXT, property_template.SHOW_WALKSCORE, property_template.EMAIL, property_template.FACEBOOK_URL FROM `property_template` WHERE 1<>1 LIMIT 1
+Sep 09 22:48:46 symfony [debug] {sfPropelLogger} SELECT user.ID, user.USERNAME, user.PASSWORD, user.EMAIL, user.NAME, user.CREATED_AT, user.UPDATED_AT FROM `user`, `user_property` WHERE 1<>1 AND user_property.USER_ID=user.ID LIMIT 1
+Sep 09 22:48:46 symfony [info] {contactusActions} Call "contactusActions->executeIndex()"
+Sep 09 22:48:46 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/contactus/templates/indexSuccess.php"
+Sep 09 22:48:46 symfony [info] {sfPHPView} Decorate content with "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:48:46 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:48:46 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/_mainnav.php"
+Sep 09 22:48:46 symfony [info] {main} Call "property->executeSearch()"
+Sep 09 22:48:46 symfony [debug] {sfPropelLogger} SELECT DISTINCT state.CODE AS code, state.NAME AS state FROM state, property WHERE state.ID = property.STATE_ID AND property.STATUS_ID = 2 ORDER BY state.NAME 
+Sep 09 22:48:46 symfony [debug] {sfPropelLogger} SELECT DISTINCT property.CITY AS city FROM property WHERE property.STATUS_ID = 2 ORDER BY property.CITY 
+Sep 09 22:48:46 symfony [debug] {sfPropelLogger} SELECT property.ID as id, property.NAME as name FROM property WHERE property.STATUS_ID = 2 ORDER BY property.NAME
+Sep 09 22:48:46 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/property/templates/_search.php"
+Sep 09 22:48:46 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+Sep 09 22:48:46 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+Sep 09 22:48:46 symfony [info] {sfWebDebugLogger} Configuration 2.54 ms (10)
+Sep 09 22:48:46 symfony [info] {sfWebDebugLogger} Factories 20.71 ms (1)
+Sep 09 22:48:46 symfony [info] {sfWebDebugLogger} Action "contactus/index" 30.44 ms (1)
+Sep 09 22:48:46 symfony [info] {sfWebDebugLogger} View "Success" for "contactus/index" 85.79 ms (1)
+Sep 09 22:48:46 symfony [info] {sfWebDebugLogger} Partial "global/_mainnav" 0.97 ms (1)
+Sep 09 22:48:46 symfony [info] {sfWebDebugLogger} Component "property/search" 8.99 ms (1)
+Sep 09 22:48:46 symfony [info] {sfWebDebugLogger} Partial "property/_search" 58.08 ms (1)
+Sep 09 22:48:46 symfony [info] {sfWebResponse} Send content (108767 o)
+Sep 09 22:48:47 symfony [info] {sfPatternRouting} Connect sfRoute "sf_captchagd" (/captcha)
+Sep 09 22:48:47 symfony [info] {sfPatternRouting} Match route "sf_captchagd" (/captcha) for /captcha with parameters array (  'module' => 'sfCaptchaGD',  'action' => 'GetImage',)
+Sep 09 22:48:47 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+Sep 09 22:48:47 symfony [info] {sfFilterChain} Executing filter "customForwardFilter"
+Sep 09 22:48:47 symfony [info] {sfFilterChain} Executing filter "sfCommonFilter"
+Sep 09 22:48:47 symfony [info] {sfFilterChain} Executing filter "sfValidationExecutionFilter"
+Sep 09 22:48:47 symfony [info] {sfCaptchaGDActions} Call "sfCaptchaGDActions->executeGetImage()"
+Sep 09 22:48:47 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+Sep 09 22:48:47 symfony [info] {sfWebResponse} Send header "Content-Type: image/gif"
+Sep 09 22:48:47 symfony [info] {sfWebDebugLogger} Configuration 2.18 ms (8)
+Sep 09 22:48:47 symfony [info] {sfWebDebugLogger} Factories 20.50 ms (1)
+Sep 09 22:48:47 symfony [info] {sfWebDebugLogger} Action "sfCaptchaGD/GetImage" 3.30 ms (1)
+Sep 09 22:48:47 symfony [info] {sfWebResponse} Send content (0 o)
+Sep 09 22:48:47 symfony [info] {sfWebDebugLogger} Configuration 2.18 ms (8)
+Sep 09 22:48:47 symfony [info] {sfWebDebugLogger} Factories 20.50 ms (1)
+Sep 09 22:48:47 symfony [info] {sfWebDebugLogger} Action "sfCaptchaGD/GetImage" 6.93 ms (2)
+Sep 09 22:48:47 symfony [info] {sfWebDebugLogger} View "None" for "sfCaptchaGD/GetImage" 0.01 ms (1)
+Sep 09 22:48:47 symfony [info] {sfWebResponse} Send content (0 o)
+Sep 09 22:48:55 symfony [info] {sfPatternRouting} Connect sfRoute "sf_captchagd" (/captcha)
+Sep 09 22:48:55 symfony [info] {sfPatternRouting} Match route "default_index" (/:module) for /contactus with parameters array (  'module' => 'contactus',  'action' => 'index',)
+Sep 09 22:48:55 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+Sep 09 22:48:55 symfony [info] {sfFilterChain} Executing filter "customForwardFilter"
+Sep 09 22:48:55 symfony [info] {sfFilterChain} Executing filter "sfCommonFilter"
+Sep 09 22:48:55 symfony [info] {sfFilterChain} Executing filter "sfValidationExecutionFilter"
+Sep 09 22:48:55 symfony [debug] {sfPropelLogger} SET NAMES 'utf8'
+Sep 09 22:48:55 symfony [debug] {sfPropelLogger} SELECT property.ID, property.CODE, property.NAME, property.ADDRESS, property.CITY, property.STATE_ID, property.ZIP, property.PHONE, property.FAX, property.EMAIL, property.IMAGE, property.URL, property.PRICE_RANGE, property.UNIT_TYPE, property.SPECIAL, property.MERCIAL, property.DESCRIPTION, property.HOURS, property.PET_POLICY, property.DIRECTIONS, property.FEATURED, property.STATUS_ID FROM `property` WHERE 1<>1 LIMIT 1
+Sep 09 22:48:55 symfony [debug] {sfPropelLogger} SELECT property_template.ID, property_template.PROPERTY_ID, property_template.LOGO_IMAGE, property_template.HOME_IMAGE, property_template.WELCOME, property_template.DESCRIPTION, property_template.ANNOUNCEMENTS, property_template.STYLE_COLOR, property_template.BACKGROUND_COLOR, property_template.CHAT, property_template.RENTALAPP_FILE, property_template.MAP_HTML, property_template.MAP_FRAME_SRC, property_template.COMMUNITY_IMAGE, property_template.COMMUNITY_DESCRIPTION, property_template.COMMUNITY_ATTRACTIONS_LIST, property_template.CUSTOM_PAGE_NAME, property_template.CUSTOM_PAGE_PERMA_LINK, property_template.CUSTOM_PAGE_CONTENT, property_template.HOME_FLASH, property_template.TRACKING_CODE, property_template.CONTACT_EMAIL_TEXT, property_template.SHOW_WALKSCORE, property_template.EMAIL, property_template.FACEBOOK_URL FROM `property_template` WHERE 1<>1 LIMIT 1
+Sep 09 22:48:55 symfony [debug] {sfPropelLogger} SELECT user.ID, user.USERNAME, user.PASSWORD, user.EMAIL, user.NAME, user.CREATED_AT, user.UPDATED_AT FROM `user`, `user_property` WHERE 1<>1 AND user_property.USER_ID=user.ID LIMIT 1
+Sep 09 22:48:55 symfony [info] {contactusActions} Call "contactusActions->executeIndex()"
+Sep 09 22:48:55 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/contactus/templates/_contactEmail.php"
+Sep 09 22:48:55 symfony [info] {sfMailerMessageLoggerPlugin} Sending email "AMC Apartments Contact request" to "webguyblake@gmail.com"
+Sep 09 22:48:55 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/contactus/templates/indexSuccess.php"
+Sep 09 22:48:55 symfony [info] {sfPHPView} Decorate content with "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:48:55 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:48:55 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/_mainnav.php"
+Sep 09 22:48:55 symfony [info] {main} Call "property->executeSearch()"
+Sep 09 22:48:55 symfony [debug] {sfPropelLogger} SELECT DISTINCT state.CODE AS code, state.NAME AS state FROM state, property WHERE state.ID = property.STATE_ID AND property.STATUS_ID = 2 ORDER BY state.NAME 
+Sep 09 22:48:55 symfony [debug] {sfPropelLogger} SELECT DISTINCT property.CITY AS city FROM property WHERE property.STATUS_ID = 2 ORDER BY property.CITY 
+Sep 09 22:48:55 symfony [debug] {sfPropelLogger} SELECT property.ID as id, property.NAME as name FROM property WHERE property.STATUS_ID = 2 ORDER BY property.NAME
+Sep 09 22:48:55 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/property/templates/_search.php"
+Sep 09 22:48:55 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+Sep 09 22:48:55 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+Sep 09 22:48:55 symfony [info] {sfWebDebugLogger} Configuration 2.55 ms (10)
+Sep 09 22:48:55 symfony [info] {sfWebDebugLogger} Factories 20.35 ms (1)
+Sep 09 22:48:55 symfony [info] {sfWebDebugLogger} Action "contactus/index" 193.38 ms (1)
+Sep 09 22:48:55 symfony [info] {sfWebDebugLogger} Partial "contactus/_contactEmail" 5.01 ms (1)
+Sep 09 22:48:55 symfony [info] {sfWebDebugLogger} View "Success" for "contactus/index" 79.36 ms (1)
+Sep 09 22:48:55 symfony [info] {sfWebDebugLogger} Partial "global/_mainnav" 1.08 ms (1)
+Sep 09 22:48:55 symfony [info] {sfWebDebugLogger} Component "property/search" 9.75 ms (1)
+Sep 09 22:48:55 symfony [info] {sfWebDebugLogger} Partial "property/_search" 62.12 ms (1)
+Sep 09 22:48:55 symfony [info] {sfWebResponse} Send content (107545 o)
+Sep 09 22:51:42 symfony [info] {sfPatternRouting} Connect sfRoute "sf_captchagd" (/captcha)
+Sep 09 22:51:42 symfony [info] {sfPatternRouting} Match route "default_index" (/:module) for /contactus with parameters array (  'module' => 'contactus',  'action' => 'index',)
+Sep 09 22:51:42 symfony [info] {myUser} Flag old flash messages ("mailsuccess")
+Sep 09 22:51:42 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+Sep 09 22:51:42 symfony [info] {sfFilterChain} Executing filter "customForwardFilter"
+Sep 09 22:51:42 symfony [info] {sfFilterChain} Executing filter "sfCommonFilter"
+Sep 09 22:51:42 symfony [info] {sfFilterChain} Executing filter "sfValidationExecutionFilter"
+Sep 09 22:51:42 symfony [debug] {sfPropelLogger} SET NAMES 'utf8'
+Sep 09 22:51:42 symfony [debug] {sfPropelLogger} SELECT property.ID, property.CODE, property.NAME, property.ADDRESS, property.CITY, property.STATE_ID, property.ZIP, property.PHONE, property.FAX, property.EMAIL, property.IMAGE, property.URL, property.PRICE_RANGE, property.UNIT_TYPE, property.SPECIAL, property.MERCIAL, property.DESCRIPTION, property.HOURS, property.PET_POLICY, property.DIRECTIONS, property.FEATURED, property.STATUS_ID FROM `property` WHERE 1<>1 LIMIT 1
+Sep 09 22:51:42 symfony [debug] {sfPropelLogger} SELECT property_template.ID, property_template.PROPERTY_ID, property_template.LOGO_IMAGE, property_template.HOME_IMAGE, property_template.WELCOME, property_template.DESCRIPTION, property_template.ANNOUNCEMENTS, property_template.STYLE_COLOR, property_template.BACKGROUND_COLOR, property_template.CHAT, property_template.RENTALAPP_FILE, property_template.MAP_HTML, property_template.MAP_FRAME_SRC, property_template.COMMUNITY_IMAGE, property_template.COMMUNITY_DESCRIPTION, property_template.COMMUNITY_ATTRACTIONS_LIST, property_template.CUSTOM_PAGE_NAME, property_template.CUSTOM_PAGE_PERMA_LINK, property_template.CUSTOM_PAGE_CONTENT, property_template.HOME_FLASH, property_template.TRACKING_CODE, property_template.CONTACT_EMAIL_TEXT, property_template.SHOW_WALKSCORE, property_template.EMAIL, property_template.FACEBOOK_URL FROM `property_template` WHERE 1<>1 LIMIT 1
+Sep 09 22:51:42 symfony [debug] {sfPropelLogger} SELECT user.ID, user.USERNAME, user.PASSWORD, user.EMAIL, user.NAME, user.CREATED_AT, user.UPDATED_AT FROM `user`, `user_property` WHERE 1<>1 AND user_property.USER_ID=user.ID LIMIT 1
+Sep 09 22:51:42 symfony [info] {contactusActions} Call "contactusActions->executeIndex()"
+Sep 09 22:51:42 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/contactus/templates/_contactEmail.php"
+Sep 09 22:51:42 symfony [info] {sfMailerMessageLoggerPlugin} Sending email "AMC Apartments Contact request" to "webguyblake@gmail.com"
+Sep 09 22:51:42 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/contactus/templates/indexSuccess.php"
+Sep 09 22:51:42 symfony [info] {sfPHPView} Decorate content with "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:51:42 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:51:42 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/_mainnav.php"
+Sep 09 22:51:42 symfony [info] {main} Call "property->executeSearch()"
+Sep 09 22:51:42 symfony [debug] {sfPropelLogger} SELECT DISTINCT state.CODE AS code, state.NAME AS state FROM state, property WHERE state.ID = property.STATE_ID AND property.STATUS_ID = 2 ORDER BY state.NAME 
+Sep 09 22:51:42 symfony [debug] {sfPropelLogger} SELECT DISTINCT property.CITY AS city FROM property WHERE property.STATUS_ID = 2 ORDER BY property.CITY 
+Sep 09 22:51:42 symfony [debug] {sfPropelLogger} SELECT property.ID as id, property.NAME as name FROM property WHERE property.STATUS_ID = 2 ORDER BY property.NAME
+Sep 09 22:51:42 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/property/templates/_search.php"
+Sep 09 22:51:42 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+Sep 09 22:51:42 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+Sep 09 22:51:42 symfony [info] {sfWebDebugLogger} Configuration 2.63 ms (10)
+Sep 09 22:51:42 symfony [info] {sfWebDebugLogger} Factories 20.77 ms (1)
+Sep 09 22:51:42 symfony [info] {sfWebDebugLogger} Action "contactus/index" 174.16 ms (1)
+Sep 09 22:51:42 symfony [info] {sfWebDebugLogger} Partial "contactus/_contactEmail" 5.02 ms (1)
+Sep 09 22:51:42 symfony [info] {sfWebDebugLogger} View "Success" for "contactus/index" 78.57 ms (1)
+Sep 09 22:51:42 symfony [info] {sfWebDebugLogger} Partial "global/_mainnav" 1.19 ms (1)
+Sep 09 22:51:42 symfony [info] {sfWebDebugLogger} Component "property/search" 10.51 ms (1)
+Sep 09 22:51:42 symfony [info] {sfWebDebugLogger} Partial "property/_search" 59.99 ms (1)
+Sep 09 22:51:42 symfony [info] {sfWebResponse} Send content (108083 o)
+Sep 09 22:52:11 symfony [info] {sfPatternRouting} Connect sfRoute "sf_captchagd" (/captcha)
+Sep 09 22:52:11 symfony [info] {sfPatternRouting} Match route "default_index" (/:module) for /contactus with parameters array (  'module' => 'contactus',  'action' => 'index',)
+Sep 09 22:52:11 symfony [info] {myUser} Flag old flash messages ("mailsuccess")
+Sep 09 22:52:11 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+Sep 09 22:52:11 symfony [info] {sfFilterChain} Executing filter "customForwardFilter"
+Sep 09 22:52:11 symfony [info] {sfFilterChain} Executing filter "sfCommonFilter"
+Sep 09 22:52:11 symfony [info] {sfFilterChain} Executing filter "sfValidationExecutionFilter"
+Sep 09 22:52:11 symfony [debug] {sfPropelLogger} SET NAMES 'utf8'
+Sep 09 22:52:11 symfony [debug] {sfPropelLogger} SELECT property.ID, property.CODE, property.NAME, property.ADDRESS, property.CITY, property.STATE_ID, property.ZIP, property.PHONE, property.FAX, property.EMAIL, property.IMAGE, property.URL, property.PRICE_RANGE, property.UNIT_TYPE, property.SPECIAL, property.MERCIAL, property.DESCRIPTION, property.HOURS, property.PET_POLICY, property.DIRECTIONS, property.FEATURED, property.STATUS_ID FROM `property` WHERE 1<>1 LIMIT 1
+Sep 09 22:52:11 symfony [debug] {sfPropelLogger} SELECT property_template.ID, property_template.PROPERTY_ID, property_template.LOGO_IMAGE, property_template.HOME_IMAGE, property_template.WELCOME, property_template.DESCRIPTION, property_template.ANNOUNCEMENTS, property_template.STYLE_COLOR, property_template.BACKGROUND_COLOR, property_template.CHAT, property_template.RENTALAPP_FILE, property_template.MAP_HTML, property_template.MAP_FRAME_SRC, property_template.COMMUNITY_IMAGE, property_template.COMMUNITY_DESCRIPTION, property_template.COMMUNITY_ATTRACTIONS_LIST, property_template.CUSTOM_PAGE_NAME, property_template.CUSTOM_PAGE_PERMA_LINK, property_template.CUSTOM_PAGE_CONTENT, property_template.HOME_FLASH, property_template.TRACKING_CODE, property_template.CONTACT_EMAIL_TEXT, property_template.SHOW_WALKSCORE, property_template.EMAIL, property_template.FACEBOOK_URL FROM `property_template` WHERE 1<>1 LIMIT 1
+Sep 09 22:52:11 symfony [debug] {sfPropelLogger} SELECT user.ID, user.USERNAME, user.PASSWORD, user.EMAIL, user.NAME, user.CREATED_AT, user.UPDATED_AT FROM `user`, `user_property` WHERE 1<>1 AND user_property.USER_ID=user.ID LIMIT 1
+Sep 09 22:52:11 symfony [info] {contactusActions} Call "contactusActions->executeIndex()"
+Sep 09 22:52:11 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/contactus/templates/_contactEmail.php"
+Sep 09 22:52:11 symfony [info] {sfMailerMessageLoggerPlugin} Sending email "AMC Apartments Contact request" to "webguyblake@ggmail.com"
+Sep 09 22:52:11 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/contactus/templates/indexSuccess.php"
+Sep 09 22:52:11 symfony [info] {sfPHPView} Decorate content with "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:52:11 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:52:11 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/_mainnav.php"
+Sep 09 22:52:11 symfony [info] {main} Call "property->executeSearch()"
+Sep 09 22:52:11 symfony [debug] {sfPropelLogger} SELECT DISTINCT state.CODE AS code, state.NAME AS state FROM state, property WHERE state.ID = property.STATE_ID AND property.STATUS_ID = 2 ORDER BY state.NAME 
+Sep 09 22:52:11 symfony [debug] {sfPropelLogger} SELECT DISTINCT property.CITY AS city FROM property WHERE property.STATUS_ID = 2 ORDER BY property.CITY 
+Sep 09 22:52:11 symfony [debug] {sfPropelLogger} SELECT property.ID as id, property.NAME as name FROM property WHERE property.STATUS_ID = 2 ORDER BY property.NAME
+Sep 09 22:52:11 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/property/templates/_search.php"
+Sep 09 22:52:11 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+Sep 09 22:52:11 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+Sep 09 22:52:11 symfony [info] {sfWebDebugLogger} Configuration 2.43 ms (10)
+Sep 09 22:52:11 symfony [info] {sfWebDebugLogger} Factories 20.73 ms (1)
+Sep 09 22:52:11 symfony [info] {sfWebDebugLogger} Action "contactus/index" 125.13 ms (1)
+Sep 09 22:52:11 symfony [info] {sfWebDebugLogger} Partial "contactus/_contactEmail" 5.10 ms (1)
+Sep 09 22:52:11 symfony [info] {sfWebDebugLogger} View "Success" for "contactus/index" 74.17 ms (1)
+Sep 09 22:52:11 symfony [info] {sfWebDebugLogger} Partial "global/_mainnav" 0.99 ms (1)
+Sep 09 22:52:11 symfony [info] {sfWebDebugLogger} Component "property/search" 9.10 ms (1)
+Sep 09 22:52:11 symfony [info] {sfWebDebugLogger} Partial "property/_search" 58.52 ms (1)
+Sep 09 22:52:12 symfony [info] {sfWebResponse} Send content (108085 o)
+Sep 09 22:53:21 symfony [info] {sfPatternRouting} Connect sfRoute "sf_captchagd" (/captcha)
+Sep 09 22:53:21 symfony [info] {sfPatternRouting} Match route "default_index" (/:module) for /contactus with parameters array (  'module' => 'contactus',  'action' => 'index',)
+Sep 09 22:53:21 symfony [info] {myUser} Flag old flash messages ("mailsuccess")
+Sep 09 22:53:21 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+Sep 09 22:53:21 symfony [info] {sfFilterChain} Executing filter "customForwardFilter"
+Sep 09 22:53:21 symfony [info] {sfFilterChain} Executing filter "sfCommonFilter"
+Sep 09 22:53:21 symfony [info] {sfFilterChain} Executing filter "sfValidationExecutionFilter"
+Sep 09 22:53:21 symfony [debug] {sfPropelLogger} SET NAMES 'utf8'
+Sep 09 22:53:21 symfony [debug] {sfPropelLogger} SELECT property.ID, property.CODE, property.NAME, property.ADDRESS, property.CITY, property.STATE_ID, property.ZIP, property.PHONE, property.FAX, property.EMAIL, property.IMAGE, property.URL, property.PRICE_RANGE, property.UNIT_TYPE, property.SPECIAL, property.MERCIAL, property.DESCRIPTION, property.HOURS, property.PET_POLICY, property.DIRECTIONS, property.FEATURED, property.STATUS_ID FROM `property` WHERE 1<>1 LIMIT 1
+Sep 09 22:53:21 symfony [debug] {sfPropelLogger} SELECT property_template.ID, property_template.PROPERTY_ID, property_template.LOGO_IMAGE, property_template.HOME_IMAGE, property_template.WELCOME, property_template.DESCRIPTION, property_template.ANNOUNCEMENTS, property_template.STYLE_COLOR, property_template.BACKGROUND_COLOR, property_template.CHAT, property_template.RENTALAPP_FILE, property_template.MAP_HTML, property_template.MAP_FRAME_SRC, property_template.COMMUNITY_IMAGE, property_template.COMMUNITY_DESCRIPTION, property_template.COMMUNITY_ATTRACTIONS_LIST, property_template.CUSTOM_PAGE_NAME, property_template.CUSTOM_PAGE_PERMA_LINK, property_template.CUSTOM_PAGE_CONTENT, property_template.HOME_FLASH, property_template.TRACKING_CODE, property_template.CONTACT_EMAIL_TEXT, property_template.SHOW_WALKSCORE, property_template.EMAIL, property_template.FACEBOOK_URL FROM `property_template` WHERE 1<>1 LIMIT 1
+Sep 09 22:53:21 symfony [debug] {sfPropelLogger} SELECT user.ID, user.USERNAME, user.PASSWORD, user.EMAIL, user.NAME, user.CREATED_AT, user.UPDATED_AT FROM `user`, `user_property` WHERE 1<>1 AND user_property.USER_ID=user.ID LIMIT 1
+Sep 09 22:53:21 symfony [info] {contactusActions} Call "contactusActions->executeIndex()"
+Sep 09 22:53:21 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/contactus/templates/_contactEmail.php"
+Sep 09 22:53:21 symfony [info] {sfMailerMessageLoggerPlugin} Sending email "AMC Apartments Contact request" to "webguyblake@ggmail.com"
+Sep 09 22:53:21 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/contactus/templates/indexSuccess.php"
+Sep 09 22:53:21 symfony [info] {sfPHPView} Decorate content with "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:53:21 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:53:21 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/_mainnav.php"
+Sep 09 22:53:21 symfony [info] {main} Call "property->executeSearch()"
+Sep 09 22:53:21 symfony [debug] {sfPropelLogger} SELECT DISTINCT state.CODE AS code, state.NAME AS state FROM state, property WHERE state.ID = property.STATE_ID AND property.STATUS_ID = 2 ORDER BY state.NAME 
+Sep 09 22:53:21 symfony [debug] {sfPropelLogger} SELECT DISTINCT property.CITY AS city FROM property WHERE property.STATUS_ID = 2 ORDER BY property.CITY 
+Sep 09 22:53:21 symfony [debug] {sfPropelLogger} SELECT property.ID as id, property.NAME as name FROM property WHERE property.STATUS_ID = 2 ORDER BY property.NAME
+Sep 09 22:53:21 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/property/templates/_search.php"
+Sep 09 22:53:21 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+Sep 09 22:53:21 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+Sep 09 22:53:21 symfony [info] {sfWebDebugLogger} Configuration 2.37 ms (10)
+Sep 09 22:53:21 symfony [info] {sfWebDebugLogger} Factories 20.08 ms (1)
+Sep 09 22:53:21 symfony [info] {sfWebDebugLogger} Action "contactus/index" 116.59 ms (1)
+Sep 09 22:53:21 symfony [info] {sfWebDebugLogger} Partial "contactus/_contactEmail" 6.17 ms (1)
+Sep 09 22:53:21 symfony [info] {sfWebDebugLogger} View "Success" for "contactus/index" 75.26 ms (1)
+Sep 09 22:53:21 symfony [info] {sfWebDebugLogger} Partial "global/_mainnav" 1.06 ms (1)
+Sep 09 22:53:21 symfony [info] {sfWebDebugLogger} Component "property/search" 9.57 ms (1)
+Sep 09 22:53:21 symfony [info] {sfWebDebugLogger} Partial "property/_search" 58.69 ms (1)
+Sep 09 22:53:22 symfony [info] {sfWebResponse} Send content (108085 o)
+Sep 09 22:53:43 symfony [info] {sfPatternRouting} Connect sfRoute "sf_captchagd" (/captcha)
+Sep 09 22:53:43 symfony [info] {sfPatternRouting} Match route "default_index" (/:module) for /contactus with parameters array (  'module' => 'contactus',  'action' => 'index',)
+Sep 09 22:53:43 symfony [info] {myUser} Flag old flash messages ("mailsuccess")
+Sep 09 22:53:43 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+Sep 09 22:53:43 symfony [info] {sfFilterChain} Executing filter "customForwardFilter"
+Sep 09 22:53:43 symfony [info] {sfFilterChain} Executing filter "sfCommonFilter"
+Sep 09 22:53:43 symfony [info] {sfFilterChain} Executing filter "sfValidationExecutionFilter"
+Sep 09 22:53:43 symfony [debug] {sfPropelLogger} SET NAMES 'utf8'
+Sep 09 22:53:43 symfony [debug] {sfPropelLogger} SELECT property.ID, property.CODE, property.NAME, property.ADDRESS, property.CITY, property.STATE_ID, property.ZIP, property.PHONE, property.FAX, property.EMAIL, property.IMAGE, property.URL, property.PRICE_RANGE, property.UNIT_TYPE, property.SPECIAL, property.MERCIAL, property.DESCRIPTION, property.HOURS, property.PET_POLICY, property.DIRECTIONS, property.FEATURED, property.STATUS_ID FROM `property` WHERE 1<>1 LIMIT 1
+Sep 09 22:53:43 symfony [debug] {sfPropelLogger} SELECT property_template.ID, property_template.PROPERTY_ID, property_template.LOGO_IMAGE, property_template.HOME_IMAGE, property_template.WELCOME, property_template.DESCRIPTION, property_template.ANNOUNCEMENTS, property_template.STYLE_COLOR, property_template.BACKGROUND_COLOR, property_template.CHAT, property_template.RENTALAPP_FILE, property_template.MAP_HTML, property_template.MAP_FRAME_SRC, property_template.COMMUNITY_IMAGE, property_template.COMMUNITY_DESCRIPTION, property_template.COMMUNITY_ATTRACTIONS_LIST, property_template.CUSTOM_PAGE_NAME, property_template.CUSTOM_PAGE_PERMA_LINK, property_template.CUSTOM_PAGE_CONTENT, property_template.HOME_FLASH, property_template.TRACKING_CODE, property_template.CONTACT_EMAIL_TEXT, property_template.SHOW_WALKSCORE, property_template.EMAIL, property_template.FACEBOOK_URL FROM `property_template` WHERE 1<>1 LIMIT 1
+Sep 09 22:53:43 symfony [debug] {sfPropelLogger} SELECT user.ID, user.USERNAME, user.PASSWORD, user.EMAIL, user.NAME, user.CREATED_AT, user.UPDATED_AT FROM `user`, `user_property` WHERE 1<>1 AND user_property.USER_ID=user.ID LIMIT 1
+Sep 09 22:53:43 symfony [info] {contactusActions} Call "contactusActions->executeIndex()"
+Sep 09 22:53:43 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/contactus/templates/_contactEmail.php"
+Sep 09 22:53:43 symfony [info] {sfMailerMessageLoggerPlugin} Sending email "AMC Apartments Contact request" to "webguyblake@gmail.com"
+Sep 09 22:53:43 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/contactus/templates/indexSuccess.php"
+Sep 09 22:53:43 symfony [info] {sfPHPView} Decorate content with "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:53:43 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:53:43 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/_mainnav.php"
+Sep 09 22:53:43 symfony [info] {main} Call "property->executeSearch()"
+Sep 09 22:53:43 symfony [debug] {sfPropelLogger} SELECT DISTINCT state.CODE AS code, state.NAME AS state FROM state, property WHERE state.ID = property.STATE_ID AND property.STATUS_ID = 2 ORDER BY state.NAME 
+Sep 09 22:53:43 symfony [debug] {sfPropelLogger} SELECT DISTINCT property.CITY AS city FROM property WHERE property.STATUS_ID = 2 ORDER BY property.CITY 
+Sep 09 22:53:43 symfony [debug] {sfPropelLogger} SELECT property.ID as id, property.NAME as name FROM property WHERE property.STATUS_ID = 2 ORDER BY property.NAME
+Sep 09 22:53:43 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/property/templates/_search.php"
+Sep 09 22:53:44 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+Sep 09 22:53:44 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+Sep 09 22:53:44 symfony [info] {sfWebDebugLogger} Configuration 2.41 ms (10)
+Sep 09 22:53:44 symfony [info] {sfWebDebugLogger} Factories 21.04 ms (1)
+Sep 09 22:53:44 symfony [info] {sfWebDebugLogger} Action "contactus/index" 121.44 ms (1)
+Sep 09 22:53:44 symfony [info] {sfWebDebugLogger} Partial "contactus/_contactEmail" 5.03 ms (1)
+Sep 09 22:53:44 symfony [info] {sfWebDebugLogger} View "Success" for "contactus/index" 74.57 ms (1)
+Sep 09 22:53:44 symfony [info] {sfWebDebugLogger} Partial "global/_mainnav" 1.00 ms (1)
+Sep 09 22:53:44 symfony [info] {sfWebDebugLogger} Component "property/search" 9.13 ms (1)
+Sep 09 22:53:44 symfony [info] {sfWebDebugLogger} Partial "property/_search" 58.80 ms (1)
+Sep 09 22:53:44 symfony [info] {sfWebResponse} Send content (108082 o)
+Sep 09 22:57:40 symfony [info] {sfPatternRouting} Connect sfRoute "sf_captchagd" (/captcha)
+Sep 09 22:57:40 symfony [info] {sfPatternRouting} Match route "default_index" (/:module) for /employment with parameters array (  'module' => 'employment',  'action' => 'index',)
+Sep 09 22:57:40 symfony [info] {myUser} Flag old flash messages ("mailsuccess")
+Sep 09 22:57:40 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+Sep 09 22:57:40 symfony [info] {sfFilterChain} Executing filter "customForwardFilter"
+Sep 09 22:57:40 symfony [info] {sfFilterChain} Executing filter "sfCommonFilter"
+Sep 09 22:57:40 symfony [info] {sfFilterChain} Executing filter "sfValidationExecutionFilter"
+Sep 09 22:57:40 symfony [info] {employmentActions} Call "employmentActions->executeIndex()"
+Sep 09 22:57:40 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/employment/templates/indexSuccess.php"
+Sep 09 22:57:40 symfony [info] {sfPHPView} Decorate content with "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:57:40 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:57:40 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/_mainnav.php"
+Sep 09 22:57:40 symfony [info] {main} Call "property->executeSearch()"
+Sep 09 22:57:40 symfony [debug] {sfPropelLogger} SET NAMES 'utf8'
+Sep 09 22:57:40 symfony [debug] {sfPropelLogger} SELECT DISTINCT state.CODE AS code, state.NAME AS state FROM state, property WHERE state.ID = property.STATE_ID AND property.STATUS_ID = 2 ORDER BY state.NAME 
+Sep 09 22:57:40 symfony [debug] {sfPropelLogger} SELECT DISTINCT property.CITY AS city FROM property WHERE property.STATUS_ID = 2 ORDER BY property.CITY 
+Sep 09 22:57:40 symfony [debug] {sfPropelLogger} SELECT property.ID as id, property.NAME as name FROM property WHERE property.STATUS_ID = 2 ORDER BY property.NAME
+Sep 09 22:57:40 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/property/templates/_search.php"
+Sep 09 22:57:40 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+Sep 09 22:57:40 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+Sep 09 22:57:40 symfony [info] {sfWebDebugLogger} Configuration 15.82 ms (11)
+Sep 09 22:57:40 symfony [info] {sfWebDebugLogger} Factories 20.40 ms (1)
+Sep 09 22:57:40 symfony [info] {sfWebDebugLogger} Action "employment/index" 0.55 ms (1)
+Sep 09 22:57:40 symfony [info] {sfWebDebugLogger} View "Success" for "employment/index" 90.99 ms (1)
+Sep 09 22:57:40 symfony [info] {sfWebDebugLogger} Partial "global/_mainnav" 0.97 ms (1)
+Sep 09 22:57:40 symfony [info] {sfWebDebugLogger} Component "property/search" 16.38 ms (1)
+Sep 09 22:57:40 symfony [info] {sfWebDebugLogger} Partial "property/_search" 59.08 ms (1)
+Sep 09 22:57:40 symfony [info] {sfWebResponse} Send content (95702 o)
+Sep 09 22:57:40 symfony [info] {myUser} Remove old flash messages ("mailsuccess")
+Sep 09 22:57:41 symfony [info] {sfPatternRouting} Connect sfRoute "sf_captchagd" (/captcha)
+Sep 09 22:57:41 symfony [info] {sfPatternRouting} Match route "default_index" (/:module) for /seniorliving with parameters array (  'module' => 'seniorliving',  'action' => 'index',)
+Sep 09 22:57:42 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+Sep 09 22:57:42 symfony [info] {sfFilterChain} Executing filter "customForwardFilter"
+Sep 09 22:57:42 symfony [info] {sfFilterChain} Executing filter "sfCommonFilter"
+Sep 09 22:57:42 symfony [info] {sfFilterChain} Executing filter "sfValidationExecutionFilter"
+Sep 09 22:57:42 symfony [info] {seniorlivingActions} Call "seniorlivingActions->executeIndex()"
+Sep 09 22:57:42 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/seniorliving/templates/indexSuccess.php"
+Sep 09 22:57:42 symfony [info] {sfPHPView} Decorate content with "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:57:42 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:57:42 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/_mainnav.php"
+Sep 09 22:57:42 symfony [info] {main} Call "property->executeSearch()"
+Sep 09 22:57:42 symfony [debug] {sfPropelLogger} SET NAMES 'utf8'
+Sep 09 22:57:42 symfony [debug] {sfPropelLogger} SELECT DISTINCT state.CODE AS code, state.NAME AS state FROM state, property WHERE state.ID = property.STATE_ID AND property.STATUS_ID = 2 ORDER BY state.NAME 
+Sep 09 22:57:42 symfony [debug] {sfPropelLogger} SELECT DISTINCT property.CITY AS city FROM property WHERE property.STATUS_ID = 2 ORDER BY property.CITY 
+Sep 09 22:57:42 symfony [debug] {sfPropelLogger} SELECT property.ID as id, property.NAME as name FROM property WHERE property.STATUS_ID = 2 ORDER BY property.NAME
+Sep 09 22:57:42 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/property/templates/_search.php"
+Sep 09 22:57:42 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+Sep 09 22:57:42 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+Sep 09 22:57:42 symfony [info] {sfWebDebugLogger} Configuration 17.52 ms (11)
+Sep 09 22:57:42 symfony [info] {sfWebDebugLogger} Factories 20.46 ms (1)
+Sep 09 22:57:42 symfony [info] {sfWebDebugLogger} Action "seniorliving/index" 0.62 ms (1)
+Sep 09 22:57:42 symfony [info] {sfWebDebugLogger} View "Success" for "seniorliving/index" 89.79 ms (1)
+Sep 09 22:57:42 symfony [info] {sfWebDebugLogger} Partial "global/_mainnav" 0.94 ms (1)
+Sep 09 22:57:42 symfony [info] {sfWebDebugLogger} Component "property/search" 16.32 ms (1)
+Sep 09 22:57:42 symfony [info] {sfWebDebugLogger} Partial "property/_search" 58.02 ms (1)
+Sep 09 22:57:42 symfony [info] {sfWebResponse} Send content (95815 o)
+Sep 09 22:57:58 symfony [info] {sfPatternRouting} Connect sfRoute "sf_captchagd" (/captcha)
+Sep 09 22:57:58 symfony [info] {sfPatternRouting} Match route "homepage" (/) for / with parameters array (  'module' => 'default',  'action' => 'index',)
+Sep 09 22:57:58 symfony [info] {sfFilterChain} Executing filter "sfRenderingFilter"
+Sep 09 22:57:58 symfony [info] {sfFilterChain} Executing filter "customForwardFilter"
+Sep 09 22:57:58 symfony [info] {sfFilterChain} Executing filter "sfCommonFilter"
+Sep 09 22:57:58 symfony [info] {sfFilterChain} Executing filter "sfValidationExecutionFilter"
+Sep 09 22:57:58 symfony [info] {defaultActions} Call "defaultActions->executeIndex()"
+Sep 09 22:57:58 symfony [debug] {sfPropelLogger} SET NAMES 'utf8'
+Sep 09 22:57:58 symfony [debug] {sfPropelLogger} SELECT property.ID, property.CODE, property.NAME, property.ADDRESS, property.CITY, property.STATE_ID, property.ZIP, property.PHONE, property.FAX, property.EMAIL, property.IMAGE, property.URL, property.PRICE_RANGE, property.UNIT_TYPE, property.SPECIAL, property.MERCIAL, property.DESCRIPTION, property.HOURS, property.PET_POLICY, property.DIRECTIONS, property.FEATURED, property.STATUS_ID FROM `property` WHERE property.FEATURED=1 AND property.STATUS_ID='2' ORDER BY property.NAME ASC LIMIT 2
+Sep 09 22:57:58 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/default/templates/indexSuccess.php"
+Sep 09 22:57:58 symfony [info] {sfPHPView} Decorate content with "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:57:58 symfony [info] {sfPHPView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/layout.php"
+Sep 09 22:57:58 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/templates/_mainnav.php"
+Sep 09 22:57:58 symfony [info] {main} Call "property->executeSearch()"
+Sep 09 22:57:58 symfony [debug] {sfPropelLogger} SELECT DISTINCT state.CODE AS code, state.NAME AS state FROM state, property WHERE state.ID = property.STATE_ID AND property.STATUS_ID = 2 ORDER BY state.NAME 
+Sep 09 22:57:58 symfony [debug] {sfPropelLogger} SELECT DISTINCT property.CITY AS city FROM property WHERE property.STATUS_ID = 2 ORDER BY property.CITY 
+Sep 09 22:57:58 symfony [debug] {sfPropelLogger} SELECT property.ID as id, property.NAME as name FROM property WHERE property.STATUS_ID = 2 ORDER BY property.NAME
+Sep 09 22:57:58 symfony [info] {sfPartialView} Render "/home/amcllc/amcapartments_com/amc/amc_symfony/apps/frontend/modules/property/templates/_search.php"
+Sep 09 22:57:58 symfony [info] {sfWebResponse} Send status "HTTP/1.1 200 OK"
+Sep 09 22:57:58 symfony [info] {sfWebResponse} Send header "Content-Type: text/html; charset=utf-8"
+Sep 09 22:57:58 symfony [info] {sfWebDebugLogger} Configuration 2.44 ms (10)
+Sep 09 22:57:58 symfony [info] {sfWebDebugLogger} Factories 20.09 ms (1)
+Sep 09 22:57:58 symfony [info] {sfWebDebugLogger} Action "default/index" 22.54 ms (1)
+Sep 09 22:57:58 symfony [info] {sfWebDebugLogger} View "Success" for "default/index" 79.58 ms (1)
+Sep 09 22:57:58 symfony [info] {sfWebDebugLogger} Partial "global/_mainnav" 1.00 ms (1)
+Sep 09 22:57:58 symfony [info] {sfWebDebugLogger} Component "property/search" 8.78 ms (1)
+Sep 09 22:57:58 symfony [info] {sfWebDebugLogger} Partial "property/_search" 57.81 ms (1)
+Sep 09 22:57:58 symfony [info] {sfWebResponse} Send content (107972 o)
