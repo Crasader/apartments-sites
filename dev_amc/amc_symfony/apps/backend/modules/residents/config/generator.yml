@@ -1,0 +1,21 @@
+generator:
+  class:              sfPropelAdminGenerator
+  param:
+    model_class:      Resident
+    theme:            default
+    list:
+      title: Resident List
+      fields:
+        property: { sort_method: orderByProperty }
+        property_id:
+          params: 
+            peer_method: getAll
+      display: [first_name, last_name, email, property, status]
+      filters: [email, property_id]
+      object_actions:
+        _edit: false
+        _delete: false
+
+    edit:
+      title: Edit Residents
+      display: [first_name, last_name, email, password, tenantid, property_id, status_id]

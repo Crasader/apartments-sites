@@ -1,0 +1,226 @@
+propel:
+  _attributes:
+    package: lib.model
+    defaultIdMethod: native
+  apartment_feature:
+    _attributes: { phpName: ApartmentFeature }
+    id: { phpName: Id, type: INTEGER, size: '10', primaryKey: true, autoIncrement: true, required: true }
+    name: { phpName: Name, type: VARCHAR, size: '255', required: true }
+  community_feature:
+    _attributes: { phpName: CommunityFeature }
+    id: { phpName: Id, type: INTEGER, size: '10', primaryKey: true, autoIncrement: true, required: true }
+    name: { phpName: Name, type: VARCHAR, size: '255', required: true }
+  contact:
+    _attributes: { phpName: Contact }
+    id: { phpName: Id, type: INTEGER, size: '10', primaryKey: true, autoIncrement: true, required: true }
+    first_name: { phpName: FirstName, type: VARCHAR, size: '128', required: false }
+    last_name: { phpName: LastName, type: VARCHAR, size: '128', required: false }
+    employer: { phpName: Employer, type: VARCHAR, size: '255', required: false }
+    email: { phpName: Email, type: VARCHAR, size: '255', required: false }
+    created_at: { phpName: CreatedAt, type: TIMESTAMP, required: false }
+    updated_at: { phpName: UpdatedAt, type: TIMESTAMP, required: false }
+    property_id: { phpName: PropertyId, type: INTEGER, size: '10', required: true, foreignTable: property, foreignReference: id, onDelete: RESTRICT, onUpdate: RESTRICT }
+    occupants: { phpName: Occupants, type: VARCHAR, size: '48', required: false }
+    pets: { phpName: Pets, type: VARCHAR, size: '48', required: false }
+    when: { phpName: When, type: VARCHAR, size: '128', required: false }
+    bedrooms: { phpName: Bedrooms, type: VARCHAR, size: '48', required: false }
+    howhear: { phpName: Howhear, type: VARCHAR, size: '48', required: false }
+    howcontact: { phpName: Howcontact, type: VARCHAR, size: '48', required: false }
+    notes: { phpName: Notes, type: LONGVARCHAR, required: false }
+    phone: { phpName: Phone, type: VARCHAR, size: '48', required: false }
+    fax: { phpName: Fax, type: VARCHAR, size: '48', required: false }
+    _indexes: { property_id: [property_id] }
+  other_feature:
+    _attributes: { phpName: OtherFeature }
+    id: { phpName: Id, type: INTEGER, size: '10', primaryKey: true, autoIncrement: true, required: true }
+    name: { phpName: Name, type: VARCHAR, size: '150', required: true }
+  photo_type:
+    _attributes: { phpName: PhotoType }
+    id: { phpName: Id, type: INTEGER, size: '10', primaryKey: true, autoIncrement: true, required: true }
+    name: { phpName: Name, type: VARCHAR, size: '30', required: true }
+  property:
+    _attributes: { phpName: Property }
+    id: { phpName: Id, type: INTEGER, size: '10', primaryKey: true, autoIncrement: true, required: true }
+    code: { phpName: Code, type: VARCHAR, size: '50', required: true }
+    name: { phpName: Name, type: VARCHAR, size: '50', required: true }
+    address: { phpName: Address, type: VARCHAR, size: '128', required: true }
+    city: { phpName: City, type: VARCHAR, size: '50', required: true }
+    state_id: { phpName: StateId, type: INTEGER, size: '10', required: true, foreignTable: state, foreignReference: id, onDelete: CASCADE, onUpdate: CASCADE }
+    zip: { phpName: Zip, type: VARCHAR, size: '20', required: true }
+    phone: { phpName: Phone, type: VARCHAR, size: '20', required: true }
+    fax: { phpName: Fax, type: VARCHAR, size: '20', required: true }
+    email: { phpName: Email, type: VARCHAR, size: '128', required: true }
+    image: { phpName: Image, type: VARCHAR, size: '50', required: true }
+    url: { phpName: Url, type: VARCHAR, size: '150', required: true }
+    price_range: { phpName: PriceRange, type: VARCHAR, size: '50', required: true }
+    unit_type: { phpName: UnitType, type: VARCHAR, size: '50', required: true }
+    special: { phpName: Special, type: VARCHAR, size: '100', required: true }
+    mercial: { phpName: Mercial, type: VARCHAR, size: '150', required: true }
+    description: { phpName: Description, type: LONGVARCHAR, required: true }
+    hours: { phpName: Hours, type: LONGVARCHAR, required: true }
+    pet_policy: { phpName: PetPolicy, type: LONGVARCHAR, required: true }
+    directions: { phpName: Directions, type: LONGVARCHAR, required: true }
+    featured: { phpName: Featured, type: TINYINT, size: '1', required: true, defaultValue: '0' }
+    status_id: { phpName: StatusId, type: INTEGER, size: '10', required: true, foreignTable: status, foreignReference: id, onDelete: CASCADE, onUpdate: CASCADE }
+    _indexes: { state_id: [state_id], city: [city], url: [url], status_id: [status_id] }
+  property_apartment_feature:
+    _attributes: { phpName: PropertyApartmentFeature }
+    id: { phpName: Id, type: INTEGER, size: '10', primaryKey: true, autoIncrement: true, required: true }
+    property_id: { phpName: PropertyId, type: INTEGER, size: '10', required: true, foreignTable: property, foreignReference: id, onDelete: CASCADE, onUpdate: CASCADE }
+    apartment_feature_id: { phpName: ApartmentFeatureId, type: INTEGER, size: '10', required: true, foreignTable: apartment_feature, foreignReference: id, onDelete: CASCADE, onUpdate: CASCADE }
+    _indexes: { property_id: [property_id], apartment_feature_id: [apartment_feature_id] }
+  property_blogarticle:
+    _attributes: { phpName: PropertyBlogarticle }
+    id: { phpName: Id, type: INTEGER, size: '10', primaryKey: true, autoIncrement: true, required: true }
+    property_id: { phpName: PropertyId, type: INTEGER, size: '10', required: true, foreignTable: property, foreignReference: id, onDelete: CASCADE, onUpdate: CASCADE }
+    title: { phpName: Title, type: VARCHAR, size: '255', required: false }
+    perma_link: { phpName: PermaLink, type: VARCHAR, size: '255', required: false }
+    article_image1: { phpName: ArticleImage1, type: VARCHAR, size: '50', required: false }
+    article_image2: { phpName: ArticleImage2, type: VARCHAR, size: '50', required: false }
+    article_content: { phpName: ArticleContent, type: LONGVARCHAR, required: false }
+    _indexes: { property_id: [property_id] }
+  property_community_feature:
+    _attributes: { phpName: PropertyCommunityFeature }
+    id: { phpName: Id, type: INTEGER, size: '10', primaryKey: true, autoIncrement: true, required: true }
+    property_id: { phpName: PropertyId, type: INTEGER, size: '10', required: true, foreignTable: property, foreignReference: id, onDelete: CASCADE, onUpdate: CASCADE }
+    community_feature_id: { phpName: CommunityFeatureId, type: INTEGER, size: '10', required: true, foreignTable: community_feature, foreignReference: id, onDelete: CASCADE, onUpdate: CASCADE }
+    _indexes: { property_id: [property_id], community_feature_id: [community_feature_id] }
+  property_community_map:
+    _attributes: { phpName: PropertyCommunityMap }
+    id: { phpName: Id, type: INTEGER, size: '10', primaryKey: true, autoIncrement: true, required: true }
+    property_id: { phpName: PropertyId, type: INTEGER, size: '10', required: true }
+    type: { phpName: Type, type: CHAR, required: true, defaultValue: entertainment }
+    name: { phpName: Name, type: VARCHAR, size: '128', required: false }
+    latitude: { phpName: Latitude, type: DECIMAL, size: '10', scale: '6', required: false }
+    longitude: { phpName: Longitude, type: DECIMAL, size: '10', scale: '6', required: false }
+    url: { phpName: Url, type: VARCHAR, size: '255', required: false }
+    _indexes: { property_id: [property_id] }
+  property_floorplan:
+    _attributes: { phpName: PropertyFloorplan }
+    id: { phpName: Id, type: INTEGER, size: '10', primaryKey: true, autoIncrement: true, required: true }
+    property_id: { phpName: PropertyId, type: INTEGER, size: '10', required: true, foreignTable: property, foreignReference: id, onDelete: CASCADE, onUpdate: CASCADE }
+    name: { phpName: Name, type: VARCHAR, size: '50', required: true }
+    bedrooms: { phpName: Bedrooms, type: INTEGER, size: '10', required: true }
+    bathrooms: { phpName: Bathrooms, type: INTEGER, size: '10', required: true }
+    square_feet: { phpName: SquareFeet, type: VARCHAR, size: '50', required: true }
+    price: { phpName: Price, type: VARCHAR, size: '50', required: true }
+    lease_term: { phpName: LeaseTerm, type: VARCHAR, size: '50', required: true }
+    deposit: { phpName: Deposit, type: VARCHAR, size: '50', required: true }
+    image: { phpName: Image, type: VARCHAR, size: '50', required: true }
+    availability_link: { phpName: AvailabilityLink, type: VARCHAR, size: '255', required: true }
+    _indexes: { property_id: [property_id] }
+  property_other_feature:
+    _attributes: { phpName: PropertyOtherFeature }
+    id: { phpName: Id, type: INTEGER, size: '10', primaryKey: true, autoIncrement: true, required: true }
+    property_id: { phpName: PropertyId, type: INTEGER, size: '10', required: true, foreignTable: property, foreignReference: id, onDelete: CASCADE, onUpdate: CASCADE }
+    other_feature_id: { phpName: OtherFeatureId, type: INTEGER, size: '10', required: true, foreignTable: other_feature, foreignReference: id, onDelete: CASCADE, onUpdate: CASCADE }
+    _indexes: { property_id: [property_id], community_feature_id: [other_feature_id] }
+  property_photo:
+    _attributes: { phpName: PropertyPhoto }
+    id: { phpName: Id, type: INTEGER, size: '10', primaryKey: true, autoIncrement: true, required: true }
+    property_id: { phpName: PropertyId, type: INTEGER, size: '10', required: true, foreignTable: property, foreignReference: id, onDelete: CASCADE, onUpdate: CASCADE }
+    name: { phpName: Name, type: VARCHAR, size: '50', required: true }
+    image: { phpName: Image, type: VARCHAR, size: '50', required: true }
+    photo_type_id: { phpName: PhotoTypeId, type: INTEGER, size: '10', required: true, foreignTable: photo_type, foreignReference: id, onDelete: CASCADE, onUpdate: CASCADE }
+    _indexes: { property_id: [property_id], photo_type_id: [photo_type_id] }
+  property_template:
+    _attributes: { phpName: PropertyTemplate }
+    id: { phpName: Id, type: INTEGER, size: '10', primaryKey: true, autoIncrement: true, required: true }
+    property_id: { phpName: PropertyId, type: INTEGER, size: '10', required: true, foreignTable: property, foreignReference: id, onDelete: CASCADE, onUpdate: CASCADE }
+    logo_image: { phpName: LogoImage, type: VARCHAR, size: '50', required: false }
+    home_image: { phpName: HomeImage, type: VARCHAR, size: '50', required: false }
+    welcome: { phpName: Welcome, type: VARCHAR, size: '255', required: false }
+    description: { phpName: Description, type: LONGVARCHAR, required: false }
+    announcements: { phpName: Announcements, type: LONGVARCHAR, required: false }
+    style_color: { phpName: StyleColor, type: VARCHAR, size: '10', required: false }
+    background_color: { phpName: BackgroundColor, type: VARCHAR, size: '10', required: false }
+    chat: { phpName: Chat, type: LONGVARCHAR, required: false }
+    rentalapp_file: { phpName: RentalappFile, type: VARCHAR, size: '50', required: false }
+    map_html: { phpName: MapHtml, type: LONGVARCHAR, required: false }
+    map_frame_src: { phpName: MapFrameSrc, type: LONGVARCHAR, required: false }
+    community_image: { phpName: CommunityImage, type: VARCHAR, size: '50', required: false }
+    community_description: { phpName: CommunityDescription, type: LONGVARCHAR, required: false }
+    community_attractions_list: { phpName: CommunityAttractionsList, type: LONGVARCHAR, required: false }
+    custom_page_name: { phpName: CustomPageName, type: VARCHAR, size: '128', required: false }
+    custom_page_perma_link: { phpName: CustomPagePermaLink, type: VARCHAR, size: '255', required: false }
+    custom_page_content: { phpName: CustomPageContent, type: LONGVARCHAR, required: false }
+    home_flash: { phpName: HomeFlash, type: VARCHAR, size: '50', required: false }
+    tracking_code: { phpName: TrackingCode, type: LONGVARCHAR, required: false }
+    contact_email_text: { phpName: ContactEmailText, type: LONGVARCHAR, required: false }
+    show_walkscore: { phpName: ShowWalkscore, type: TINYINT, size: '1', required: true, defaultValue: '1' }
+    email: { phpName: Email, type: LONGVARCHAR, required: false }
+    facebook_url: { phpName: FacebookUrl, type: VARCHAR, size: '255', required: false }
+    acacia_home1_desc: { phpName: AcaciaHome1Desc, type: VARCHAR, size: '64', required: false }
+    acacia_features_desc: { phpName: AcaciaFeaturesDesc, type: LONGVARCHAR, required: false }
+    acacia_home2_desc: { phpName: AcaciaHome2Desc, type: VARCHAR, size: '64', required: false }
+    acacia_home3_desc: { phpName: AcaciaHome3Desc, type: VARCHAR, size: '64', required: false }
+    acacia_floorpan_desc: { phpName: AcaciaFloorpanDesc, type: LONGVARCHAR, required: false }
+    acacia_ebrochure_desc: { phpName: AcaciaEbrochureDesc, type: LONGVARCHAR, required: false }
+    _indexes: { property_id: [property_id] }
+  resident:
+    _attributes: { phpName: Resident }
+    id: { phpName: Id, type: INTEGER, size: '10', primaryKey: true, autoIncrement: true, required: true }
+    first_name: { phpName: FirstName, type: VARCHAR, size: '128', required: true }
+    last_name: { phpName: LastName, type: VARCHAR, size: '128', required: true }
+    password: { phpName: Password, type: VARCHAR, size: '255', required: true }
+    email: { phpName: Email, type: VARCHAR, size: '255', required: true }
+    tenantid: { phpName: Tenantid, type: VARCHAR, size: '24', required: true }
+    created_at: { phpName: CreatedAt, type: TIMESTAMP, required: false }
+    updated_at: { phpName: UpdatedAt, type: TIMESTAMP, required: false }
+    property_id: { phpName: PropertyId, type: INTEGER, size: '10', required: true, foreignTable: property, foreignReference: id, onDelete: CASCADE, onUpdate: CASCADE }
+    status_id: { phpName: StatusId, type: INTEGER, size: '10', required: true, foreignTable: status, foreignReference: id, onDelete: CASCADE, onUpdate: CASCADE }
+    _indexes: { property_id: [property_id], status_id: [status_id] }
+  state:
+    _attributes: { phpName: State }
+    id: { phpName: Id, type: INTEGER, size: '10', primaryKey: true, autoIncrement: true, required: true }
+    name: { phpName: Name, type: VARCHAR, size: '50', required: true }
+    code: { phpName: Code, type: VARCHAR, size: '2', required: true }
+    country: { phpName: Country, type: VARCHAR, size: '3', required: true }
+    order_by: { phpName: OrderBy, type: INTEGER, size: '11', required: true }
+    _indexes: { code: [code] }
+  status:
+    _attributes: { phpName: Status }
+    id: { phpName: Id, type: INTEGER, size: '10', primaryKey: true, autoIncrement: true, required: true }
+    name: { phpName: Name, type: VARCHAR, size: '30', required: true }
+  user:
+    _attributes: { phpName: User }
+    id: { phpName: Id, type: INTEGER, size: '10', primaryKey: true, autoIncrement: true, required: true }
+    username: { phpName: Username, type: VARCHAR, size: '30', required: true }
+    password: { phpName: Password, type: VARCHAR, size: '255', required: true }
+    email: { phpName: Email, type: VARCHAR, size: '255', required: true }
+    name: { phpName: Name, type: VARCHAR, size: '255', required: false }
+    created_at: { phpName: CreatedAt, type: TIMESTAMP, required: false }
+    updated_at: { phpName: UpdatedAt, type: TIMESTAMP, required: false }
+    _uniques: { username: [username] }
+  user_property:
+    _attributes: { phpName: UserProperty }
+    id: { phpName: Id, type: INTEGER, size: '10', primaryKey: true, autoIncrement: true, required: true }
+    user_id: { phpName: UserId, type: INTEGER, size: '10', required: true, foreignTable: user, foreignReference: id, onDelete: CASCADE, onUpdate: CASCADE }
+    property_id: { phpName: PropertyId, type: INTEGER, size: '10', required: true, foreignTable: property, foreignReference: id, onDelete: CASCADE, onUpdate: CASCADE }
+    _indexes: { user_id: [user_id], property_id: [property_id] }
+  user_role:
+    _attributes: { phpName: UserRole }
+    id: { phpName: Id, type: INTEGER, size: '10', primaryKey: true, autoIncrement: true, required: true }
+    role_name: { phpName: RoleName, type: VARCHAR, size: '30', required: true }
+    _uniques: { role_name: [role_name] }
+  user_user_role:
+    _attributes: { phpName: UserUserRole }
+    id: { phpName: Id, type: INTEGER, size: '10', primaryKey: true, autoIncrement: true, required: true }
+    user_id: { phpName: UserId, type: INTEGER, size: '10', required: true, foreignTable: user, foreignReference: id, onDelete: CASCADE, onUpdate: CASCADE }
+    user_role_id: { phpName: UserRoleId, type: INTEGER, size: '10', required: true, foreignTable: user_role, foreignReference: id, onDelete: CASCADE, onUpdate: CASCADE }
+    _indexes: { user_id: [user_id], user_role_id: [user_role_id] }
+  zip_code:
+    _attributes: { phpName: ZipCode }
+    zip_code: { phpName: ZipCode, type: VARCHAR, size: '5', primaryKey: true, required: true }
+    zip_code_type: { phpName: ZipCodeType, type: VARCHAR, size: '32', required: true }
+    city: { phpName: City, type: VARCHAR, size: '128', required: true }
+    state: { phpName: State, type: VARCHAR, size: '4', required: true }
+    location_type: { phpName: LocationType, type: VARCHAR, size: '32', required: true }
+    lat: { phpName: Lat, type: DECIMAL, size: '10', scale: '2', required: true }
+    long: { phpName: Long, type: DECIMAL, size: '10', scale: '2', required: true }
+    location: { phpName: Location, type: VARCHAR, size: '32', required: true }
+    decommisioned: { phpName: Decommisioned, type: VARCHAR, size: '12', required: true }
+    tax_returns_filed: { phpName: TaxReturnsFiled, type: INTEGER, size: '11', required: false }
+    estimated_population: { phpName: EstimatedPopulation, type: INTEGER, size: '11', required: false }
+    total_wages: { phpName: TotalWages, type: INTEGER, size: '11', required: false }
+    _indexes: { state: [state], lat: [lat], long: [long] }

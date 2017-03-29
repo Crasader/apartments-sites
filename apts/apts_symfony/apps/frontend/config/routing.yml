@@ -1,0 +1,31 @@
+# default rules
+xml_sitemap:
+  url: /sitemap.xml
+  param: { module: sitemap, action: XmlSiteMap }
+
+blog:
+  url:   /blog/:permalink
+  param: { module: blog, action: read }
+
+3dtour:
+  url:   /3dtour/*
+  param: { module: matterport, action: index }
+
+ourpage:
+  url:   /ourpage/:permalink
+  param: { module: ourpage, action: index }
+
+ourpagenp:
+  url:   /ourpage/*
+  param: { module: ourpage, action: index }
+
+homepage:
+  url:   /
+  param: { module: default, action: index }
+
+default_index:
+  url:   /:module
+  param: { action: index }
+
+default:
+  url:   /:module/:action/*

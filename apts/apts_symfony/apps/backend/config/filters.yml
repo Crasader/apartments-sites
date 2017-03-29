@@ -1,0 +1,11 @@
+rendering: ~
+security:  ~
+
+# insert your own filters here
+custom_look:
+  class: customLookFilter
+  
+cache:     ~
+common:
+  class: sfCommonFilter
+execution: ~

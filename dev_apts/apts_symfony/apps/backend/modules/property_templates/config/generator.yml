@@ -1,0 +1,40 @@
+generator:
+  class:              sfPropelAdminGenerator
+  param:
+    model_class:      PropertyTemplate
+    theme:            default
+    list:
+      title: Property Web Template List
+      display: [property, welcome]
+#      filters: [property_id]
+      object_actions:
+        _edit: false
+      actions: []
+
+    edit:
+      title: Edit Property Web Template
+      fields:
+        description: { type: plain }
+        announcements: { params: size=80x10 }
+        custom_page_content: { params: size=80x10 }
+        #logo_image: { type: plain}
+        #home_image: { type: plain}
+        rentalapp_file: { name: "Rental Application" type: admin_input_file_tag, upload_dir: properties, params: include_link=properties include_remove=true}
+        style_color: {params: onclick=startColorPicker(this)}
+        background_color: {params: onclick=startColorPicker(this)}
+        property: {type: plain}
+        community_description: { params: size=80x10 }
+        email: { help: "Use ~ to separate multiple email addresses. Example joe@amcllc.net~jack@amcllc.net" params: size=80x5}
+        community_attractions_list: { help: "Use ~ to separate attraction from milage. Put each attraction on a separate line. Example:<br />Crossroads Shopping Plaza~1.5 miles<br />Walmart Super Center~1.5 miles<br />Marshalls~1.5 miles" params: size=80x10}
+        #logo_image: { type: admin_input_file_tag, upload_dir: properties, params: include_link=properties include_remove=true}
+        #home_image: { help: "Must be formatted to 900 pixels wide x 219 pixels high" type: admin_input_file_tag, upload_dir: properties, params: include_link=properties include_remove=true}
+        community_image: { type: admin_input_file_tag, upload_dir: properties, params: include_link=properties include_remove=true}
+        contact_email_text: { params: size=80x10 }
+
+        
+      #display: [property, welcome, logo_image, home_image, description, announcements, style_color, background_color, rentalapp_file]
+      display: [property, welcome, description, announcements, email, style_color, background_color, rentalapp_file, community_image, community_description, show_walkscore, community_attractions_list, custom_page_name, custom_page_content, contact_email_text, facebook_url]
+      actions:
+        _list: false
+        _save: false
+        

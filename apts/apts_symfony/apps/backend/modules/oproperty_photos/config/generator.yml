@@ -1,0 +1,19 @@
+generator:
+  class:              sfPropelAdminGenerator
+  param:
+    model_class:      PropertyPhoto
+    theme:            default
+
+    list:
+      title: Property Photos List
+      display: [name, property, photo_type, display_order]
+      filters: [name, photo_type_id]
+      object_actions:
+        _edit: false
+        _delete: false
+
+    edit:
+      title: Edit Property Photos
+      fields:
+        image: { type: admin_input_file_tag, upload_dir: photos, params: include_link=photos include_remove=true}
+      display: [name, property_id, image, photo_type_id, display_order]

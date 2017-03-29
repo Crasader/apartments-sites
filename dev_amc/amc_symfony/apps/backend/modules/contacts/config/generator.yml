@@ -1,0 +1,17 @@
+generator:
+  class:              sfPropelAdminGenerator
+  param:
+    model_class:      Contact
+    theme:            default
+    list:
+      title: Contact List
+      display: [first_name, last_name, email, phone, property, created_at]
+      filters: [last_name, created_at]
+      sort: [created_at, asc]
+      object_actions:
+        _edit: false
+        _delete: false
+
+    edit:
+      title: Edit Contact
+      fields:

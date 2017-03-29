@@ -1,0 +1,29 @@
+property_photo:
+  class: sfPropelRouteCollection
+  options:
+    model:                PropertyPhoto
+    module:               property_photos
+    prefix_path:          /property_photos
+    column:               id
+    with_wildcard_routes: true
+
+property_template:
+  class: sfPropelRouteCollection
+  options:
+    model:                PropertyTemplate
+    module:               property_template
+    prefix_path:          /property_template
+    column:               id
+    with_wildcard_routes: true
+
+# default rules
+homepage:
+  url:   /
+  param: { module: default, action: index }
+
+default_index:
+  url:   /:module
+  param: { action: index }
+
+default:
+  url:   /:module/:action/*

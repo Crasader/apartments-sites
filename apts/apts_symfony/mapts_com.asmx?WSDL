@@ -1,0 +1,700 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="GetAvailableLeaseTerms">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sPropertyCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sysPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAvailableLeaseTermsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAvailableLeaseTermsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUnits">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sPropertyCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sysPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUnitsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUnitsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUnitByUserID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sUserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sysPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUnitByUserIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUnitByUserIDResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetResidentNameByUserID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sUserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sysPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetResidentNameByUserIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetResidentNameByUserIDResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPropertyCodeByUserID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sUserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sysPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetPropertyCodeByUserIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetPropertyCodeByUserIDResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetResidentInfo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sUserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sysPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetResidentInfoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetResidentInfoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetWorkOrderCategories">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sPropertyCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sysPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetWorkOrderCategoriesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetWorkOrderCategoriesResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUnitTypes">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sPropertyCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sysPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUnitTypesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUnitTypesResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUnitAvailability">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sPropertyCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sysPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUnitAvailabilityResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUnitAvailabilityResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUnitAvailabilityTotalBySqFt">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sPropertyCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sSqFt" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sysPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUnitAvailabilityTotalBySqFtResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUnitAvailabilityTotalBySqFtResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUnitAvailabilityDetailBySqFt">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sPropertyCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sSqFt" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sysPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetUnitAvailabilityDetailBySqFtResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetUnitAvailabilityDetailBySqFtResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertTraffic">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sPropertyCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FirstName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MiddleName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LastName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Address1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="City" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="State" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ZipCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="HomePhone" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="WorkPhone" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CellPhone" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Notes" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UnitNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UnitType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PriceRange" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PetType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PetBreed" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PetWeight" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="LeaseTerm" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NumOccupants" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sysPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertTrafficResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="InsertTrafficResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertWorkOrder">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sPropertyCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Unit" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="WorkOrderCategory" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Phone" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PermissionToEnterGivenBy" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PermissionToEnterDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sysPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertWorkOrderResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="InsertWorkOrderResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertWorkOrderShortForm">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="sPropertyCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Unit" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Phone" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sysPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertWorkOrderShortFormResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="InsertWorkOrderShortFormResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValidateUserLogin">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sysPassword" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValidateUserLoginResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ValidateUserLoginResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetAvailableLeaseTermsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAvailableLeaseTerms" />
+  </wsdl:message>
+  <wsdl:message name="GetAvailableLeaseTermsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAvailableLeaseTermsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUnitsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUnits" />
+  </wsdl:message>
+  <wsdl:message name="GetUnitsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUnitsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUnitByUserIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUnitByUserID" />
+  </wsdl:message>
+  <wsdl:message name="GetUnitByUserIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUnitByUserIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetResidentNameByUserIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetResidentNameByUserID" />
+  </wsdl:message>
+  <wsdl:message name="GetResidentNameByUserIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetResidentNameByUserIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetPropertyCodeByUserIDSoapIn">
+    <wsdl:part name="parameters" element="tns:GetPropertyCodeByUserID" />
+  </wsdl:message>
+  <wsdl:message name="GetPropertyCodeByUserIDSoapOut">
+    <wsdl:part name="parameters" element="tns:GetPropertyCodeByUserIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetResidentInfoSoapIn">
+    <wsdl:part name="parameters" element="tns:GetResidentInfo" />
+  </wsdl:message>
+  <wsdl:message name="GetResidentInfoSoapOut">
+    <wsdl:part name="parameters" element="tns:GetResidentInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetWorkOrderCategoriesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetWorkOrderCategories" />
+  </wsdl:message>
+  <wsdl:message name="GetWorkOrderCategoriesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetWorkOrderCategoriesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUnitTypesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUnitTypes" />
+  </wsdl:message>
+  <wsdl:message name="GetUnitTypesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUnitTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUnitAvailabilitySoapIn">
+    <wsdl:part name="parameters" element="tns:GetUnitAvailability" />
+  </wsdl:message>
+  <wsdl:message name="GetUnitAvailabilitySoapOut">
+    <wsdl:part name="parameters" element="tns:GetUnitAvailabilityResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUnitAvailabilityTotalBySqFtSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUnitAvailabilityTotalBySqFt" />
+  </wsdl:message>
+  <wsdl:message name="GetUnitAvailabilityTotalBySqFtSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUnitAvailabilityTotalBySqFtResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetUnitAvailabilityDetailBySqFtSoapIn">
+    <wsdl:part name="parameters" element="tns:GetUnitAvailabilityDetailBySqFt" />
+  </wsdl:message>
+  <wsdl:message name="GetUnitAvailabilityDetailBySqFtSoapOut">
+    <wsdl:part name="parameters" element="tns:GetUnitAvailabilityDetailBySqFtResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertTrafficSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertTraffic" />
+  </wsdl:message>
+  <wsdl:message name="InsertTrafficSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertTrafficResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertWorkOrderSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertWorkOrder" />
+  </wsdl:message>
+  <wsdl:message name="InsertWorkOrderSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertWorkOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertWorkOrderShortFormSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertWorkOrderShortForm" />
+  </wsdl:message>
+  <wsdl:message name="InsertWorkOrderShortFormSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertWorkOrderShortFormResponse" />
+  </wsdl:message>
+  <wsdl:message name="ValidateUserLoginSoapIn">
+    <wsdl:part name="parameters" element="tns:ValidateUserLogin" />
+  </wsdl:message>
+  <wsdl:message name="ValidateUserLoginSoapOut">
+    <wsdl:part name="parameters" element="tns:ValidateUserLoginResponse" />
+  </wsdl:message>
+  <wsdl:portType name="MApts_comSoap">
+    <wsdl:operation name="GetAvailableLeaseTerms">
+      <wsdl:input message="tns:GetAvailableLeaseTermsSoapIn" />
+      <wsdl:output message="tns:GetAvailableLeaseTermsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUnits">
+      <wsdl:input message="tns:GetUnitsSoapIn" />
+      <wsdl:output message="tns:GetUnitsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUnitByUserID">
+      <wsdl:input message="tns:GetUnitByUserIDSoapIn" />
+      <wsdl:output message="tns:GetUnitByUserIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetResidentNameByUserID">
+      <wsdl:input message="tns:GetResidentNameByUserIDSoapIn" />
+      <wsdl:output message="tns:GetResidentNameByUserIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPropertyCodeByUserID">
+      <wsdl:input message="tns:GetPropertyCodeByUserIDSoapIn" />
+      <wsdl:output message="tns:GetPropertyCodeByUserIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetResidentInfo">
+      <wsdl:input message="tns:GetResidentInfoSoapIn" />
+      <wsdl:output message="tns:GetResidentInfoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetWorkOrderCategories">
+      <wsdl:input message="tns:GetWorkOrderCategoriesSoapIn" />
+      <wsdl:output message="tns:GetWorkOrderCategoriesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUnitTypes">
+      <wsdl:input message="tns:GetUnitTypesSoapIn" />
+      <wsdl:output message="tns:GetUnitTypesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUnitAvailability">
+      <wsdl:input message="tns:GetUnitAvailabilitySoapIn" />
+      <wsdl:output message="tns:GetUnitAvailabilitySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUnitAvailabilityTotalBySqFt">
+      <wsdl:input message="tns:GetUnitAvailabilityTotalBySqFtSoapIn" />
+      <wsdl:output message="tns:GetUnitAvailabilityTotalBySqFtSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUnitAvailabilityDetailBySqFt">
+      <wsdl:input message="tns:GetUnitAvailabilityDetailBySqFtSoapIn" />
+      <wsdl:output message="tns:GetUnitAvailabilityDetailBySqFtSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertTraffic">
+      <wsdl:input message="tns:InsertTrafficSoapIn" />
+      <wsdl:output message="tns:InsertTrafficSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertWorkOrder">
+      <wsdl:input message="tns:InsertWorkOrderSoapIn" />
+      <wsdl:output message="tns:InsertWorkOrderSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertWorkOrderShortForm">
+      <wsdl:input message="tns:InsertWorkOrderShortFormSoapIn" />
+      <wsdl:output message="tns:InsertWorkOrderShortFormSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidateUserLogin">
+      <wsdl:input message="tns:ValidateUserLoginSoapIn" />
+      <wsdl:output message="tns:ValidateUserLoginSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MApts_comSoap" type="tns:MApts_comSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetAvailableLeaseTerms">
+      <soap:operation soapAction="http://tempuri.org/GetAvailableLeaseTerms" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUnits">
+      <soap:operation soapAction="http://tempuri.org/GetUnits" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUnitByUserID">
+      <soap:operation soapAction="http://tempuri.org/GetUnitByUserID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetResidentNameByUserID">
+      <soap:operation soapAction="http://tempuri.org/GetResidentNameByUserID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPropertyCodeByUserID">
+      <soap:operation soapAction="http://tempuri.org/GetPropertyCodeByUserID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetResidentInfo">
+      <soap:operation soapAction="http://tempuri.org/GetResidentInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetWorkOrderCategories">
+      <soap:operation soapAction="http://tempuri.org/GetWorkOrderCategories" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUnitTypes">
+      <soap:operation soapAction="http://tempuri.org/GetUnitTypes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUnitAvailability">
+      <soap:operation soapAction="http://tempuri.org/GetUnitAvailability" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUnitAvailabilityTotalBySqFt">
+      <soap:operation soapAction="http://tempuri.org/GetUnitAvailabilityTotalBySqFt" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUnitAvailabilityDetailBySqFt">
+      <soap:operation soapAction="http://tempuri.org/GetUnitAvailabilityDetailBySqFt" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertTraffic">
+      <soap:operation soapAction="http://tempuri.org/InsertTraffic" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertWorkOrder">
+      <soap:operation soapAction="http://tempuri.org/InsertWorkOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertWorkOrderShortForm">
+      <soap:operation soapAction="http://tempuri.org/InsertWorkOrderShortForm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateUserLogin">
+      <soap:operation soapAction="http://tempuri.org/ValidateUserLogin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="MApts_comSoap12" type="tns:MApts_comSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetAvailableLeaseTerms">
+      <soap12:operation soapAction="http://tempuri.org/GetAvailableLeaseTerms" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUnits">
+      <soap12:operation soapAction="http://tempuri.org/GetUnits" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUnitByUserID">
+      <soap12:operation soapAction="http://tempuri.org/GetUnitByUserID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetResidentNameByUserID">
+      <soap12:operation soapAction="http://tempuri.org/GetResidentNameByUserID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPropertyCodeByUserID">
+      <soap12:operation soapAction="http://tempuri.org/GetPropertyCodeByUserID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetResidentInfo">
+      <soap12:operation soapAction="http://tempuri.org/GetResidentInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetWorkOrderCategories">
+      <soap12:operation soapAction="http://tempuri.org/GetWorkOrderCategories" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUnitTypes">
+      <soap12:operation soapAction="http://tempuri.org/GetUnitTypes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUnitAvailability">
+      <soap12:operation soapAction="http://tempuri.org/GetUnitAvailability" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUnitAvailabilityTotalBySqFt">
+      <soap12:operation soapAction="http://tempuri.org/GetUnitAvailabilityTotalBySqFt" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUnitAvailabilityDetailBySqFt">
+      <soap12:operation soapAction="http://tempuri.org/GetUnitAvailabilityDetailBySqFt" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertTraffic">
+      <soap12:operation soapAction="http://tempuri.org/InsertTraffic" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertWorkOrder">
+      <soap12:operation soapAction="http://tempuri.org/InsertWorkOrder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertWorkOrderShortForm">
+      <soap12:operation soapAction="http://tempuri.org/InsertWorkOrderShortForm" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidateUserLogin">
+      <soap12:operation soapAction="http://tempuri.org/ValidateUserLogin" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MApts_com">
+    <wsdl:port name="MApts_comSoap" binding="tns:MApts_comSoap">
+      <soap:address location="http://192.168.1.135:8088/mapts_com.asmx" />
+    </wsdl:port>
+    <wsdl:port name="MApts_comSoap12" binding="tns:MApts_comSoap12">
+      <soap12:address location="http://192.168.1.135:8088/mapts_com.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

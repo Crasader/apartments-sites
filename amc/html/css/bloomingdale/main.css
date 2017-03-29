@@ -1,0 +1,96 @@
+/*
+YUI 3.4.1 (build 4118)
+Copyright 2011 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+http://yuilibrary.com/license/
+*/
+html{color:#000;background:#3f3f3f}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal}ol,ul{list-style:none}caption,th{text-align:left}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}q:before,q:after{content:''}abbr,acronym{border:0;font-variant:normal}input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit}input,textarea,select{*font-size:100%}legend{color:#000}
+/* END CSS RESET */
+
+html,html body {height:100% !important; background:#fff !important; font-family:Arial, Helvetica, sans-serif; font-size:14px; color:#fff;}
+
+body { height:100% !important;  font-size:14px; line-height: 18px;}
+
+a { color:#636363; text-decoration:none;}
+
+a:hover {color:#fff !imporant; text-decoration:none;}
+
+ul {
+	list-style:disc;
+	margin:0 0 0 35px;
+}
+
+ol {
+	list-style-type:decimal;
+	margin:0 0 0 35px;
+	font-size:12px;
+}
+
+ul li {
+ margin:7px 0 7px 0;
+}
+
+strong {
+	font-weight:bold;
+}
+
+@font-face {
+    font-family: 'open_sans_condensedbold';
+    src: url('opensans-condbold-webfont.eot');
+    src: url('opensans-condbold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('opensans-condbold-webfont.woff') format('woff'),
+         url('opensans-condbold-webfont.ttf') format('truetype'),
+         url('opensans-condbold-webfont.svg#open_sans_condensedbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'open_sanscondensed_light';
+    src: url('opensans-condlight-webfont.eot');
+    src: url('opensans-condlight-webfont.eot?#iefix') format('embedded-opentype'),
+         url('opensans-condlight-webfont.woff') format('woff'),
+         url('opensans-condlight-webfont.ttf') format('truetype'),
+         url('opensans-condlight-webfont.svg#open_sanscondensed_light') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+.open_cond_bold {font-family: 'open_sans_condensedbold', Arial, sans-serif;}
+.open_cond_light {font-family: 'open_sanscondensed_light', Arial, sans-serif;}
+
+.main_shell {width:100%; margin:0 auto; background:url('/images/bloomingdale/bg.png') center top no-repeat; min-height:787px;}
+
+.content_container {width:813px; margin:0 auto;}
+.content_bg_centerfix {float:left; width:813px; min-height:787px; background:url('/images/bloomingdale/bg.png') center top no-repeat;}
+
+.top_container {float:left; width:813px; height:178px; text-align:center;}
+.top_params {margin:50px 0 0 0; font-size:42px; line-height:52px; color:#4d4d4d;}
+
+.top_two {color:#701b07;}
+.top_everett {color:#d0ac6a;}
+
+.camden_container {float:left; width:813px; height:300px;}
+.camden_content {float:left; width:415px; margin:20px 30px 20px 30px; color:#264f75;}
+.camden_logo {float:left; width:415px; text-align:center;}
+.camden_data {float:left; width:415px; margin:15px 0 0 0;}
+.camden_data_left {float:left; width:200px; border-right:1px solid #619271; font-weight:bold; font-size:16px; line-height:22px;}
+.camden_data_right {float:left; margin:0 0 0 45px; font-size:16px; line-height:22px;}
+.camden_url {float:left; width:415px; margin:20px 0 0 0;}
+.camden_link {font-size:30px; color:#a84109;}
+.camden_link:hover {color:#fff;}
+
+.camden_pic {float:right; margin:0 0 0 0;}
+
+.stratford_container {float:left; width:813px; height:300px;}
+.stratford_pic {float:left; margin:0 0 0 0;}
+.stratford_content {float:left; width:415px; margin:20px 30px 20px 30px; color:#585756;}
+.stratford_logo {float:left; width:415px; text-align:center;}
+.stratford_data {float:left; width:415px; margin:15px 0 0 0;}
+.stratford_data_left {float:left; width:200px; border-right:1px solid #a08060; font-weight:bold; font-size:16px; line-height:22px;}
+.stratford_data_right {float:left; margin:0 0 0 45px; font-size:16px; line-height:22px;}
+.stratford_url {float:left; width:415px; margin:20px 0 0 0;}
+.stratford_link {font-size:32px; color:#7f2525;}
+.stratford_link:hover {color:#fff;}

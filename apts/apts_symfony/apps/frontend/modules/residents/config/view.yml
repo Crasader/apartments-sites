@@ -1,0 +1,56 @@
+acaciaSuccess:
+  metas:
+    viewport: width=device-width; initial-scale=1; maximum-scale=1
+  stylesheets: [-*, acacia.css]
+  javascripts: [-*, https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js, acacia.js]
+jspSuccess:
+  stylesheets: [-*, jsp.css, jquery.lightbox-0.5.css]
+  javascripts: [-*, https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js, jquery.lightbox-0.5.min.js, jsp.js]
+amcSuccess:
+  stylesheets: [-*, //code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css, respmain.css, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css]
+  javascripts: [-*, //code.jquery.com/jquery-2.1.0.min.js, //code.jquery.com/ui/1.10.3/jquery-ui.js, box.js, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.pack.js, jquery.gmap.min.js, //cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.0.6/jquery.mousewheel.min.js, respscripts.js]
+jspLoginSuccess:
+  stylesheets: [-*, jsp.css, jquery.lightbox-0.5.css]
+  javascripts: [-*, https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js, jquery.lightbox-0.5.min.js, jsp.js]
+jspForgotUserIDSuccess:
+  stylesheets: [-*, jsp.css, jquery.lightbox-0.5.css]
+  javascripts: [-*, https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js, jquery.lightbox-0.5.min.js, jsp.js]
+jspForgotPasswordSuccess:
+  stylesheets: [-*, jsp.css, jquery.lightbox-0.5.css]
+  javascripts: [-*, https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js, jquery.lightbox-0.5.min.js, jsp.js]
+amcForgotPasswordSuccess:
+  stylesheets: [-*, //code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css, respmain.css, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css]
+  javascripts: [-*, //code.jquery.com/jquery-2.1.0.min.js, //code.jquery.com/ui/1.10.3/jquery-ui.js, box.js, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.pack.js, jquery.gmap.min.js, //cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.0.6/jquery.mousewheel.min.js, respscripts.js]
+amcForgotUserIDSuccess:
+  stylesheets: [-*, //code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css, respmain.css, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css]
+  javascripts: [-*, //code.jquery.com/jquery-2.1.0.min.js, //code.jquery.com/ui/1.10.3/jquery-ui.js, box.js, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.pack.js, jquery.gmap.min.js, //cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.0.6/jquery.mousewheel.min.js, respscripts.js]
+
+acaciaLoginSuccess:
+  metas:
+    viewport: width=device-width; initial-scale=1; maximum-scale=1
+  stylesheets: [-*, acacia.css]
+  javascripts: [-*, https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js, acacia.js]
+acaciaForgotPasswordSuccess:
+  metas:
+    viewport: width=device-width; initial-scale=1; maximum-scale=1
+  stylesheets: [-*, acacia.css]
+  javascripts: [-*, https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js, acacia.js]
+acaciaForgotUserIDSuccess:
+  metas:
+    viewport: width=device-width; initial-scale=1; maximum-scale=1
+  stylesheets: [-*, acacia.css]
+  javascripts: [-*, https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js, acacia.js]
+amcLoginSuccess:
+  stylesheets: [-*, //code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css, respmain.css, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css]
+  javascripts: [-*, //code.jquery.com/jquery-2.1.0.min.js, //code.jquery.com/ui/1.10.3/jquery-ui.js, box.js, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.pack.js, jquery.gmap.min.js, //cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.0.6/jquery.mousewheel.min.js, respscripts.js]
+jspMaintenanceSuccess:
+  stylesheets: [-*, jsp.css, jquery.lightbox-0.5.css]
+  javascripts: [-*, https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js, jquery.lightbox-0.5.min.js, jsp.js]
+acaciaMaintenanceSuccess:
+  metas:
+    viewport: width=device-width; initial-scale=1; maximum-scale=1
+  stylesheets: [-*, acacia.css]
+  javascripts: [-*, https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js, acacia.js]
+amcMaintenanceSuccess:
+  stylesheets: [-*, //code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css, respmain.css, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css]
+  javascripts: [-*, //code.jquery.com/jquery-2.1.0.min.js, //code.jquery.com/ui/1.10.3/jquery-ui.js, box.js, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.pack.js, jquery.gmap.min.js, //cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.0.6/jquery.mousewheel.min.js, respscripts.js]jspWevemovedSuccess:

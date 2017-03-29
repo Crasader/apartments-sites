@@ -1,0 +1,31 @@
+default:
+  http_metas:
+    content-type: text/html
+
+  metas:
+    #title:        "AMC Appartments"
+    #description:  symfony project
+    #keywords:
+    #language:     en
+    #robots:       index, follow
+
+  stylesheets:
+    - lightbox
+    - styles
+    - print: { media: print }
+    - ie6-styles: { condition: lte IE 6 }
+    - "//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/themes/smoothness/jquery-ui.css"
+
+  javascripts:
+    - "//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"
+    - "//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"
+    - common
+    - prototype
+    - scriptaculous
+    - builder
+    - effects
+    - lightbox
+    - unitpngfix: { condition: lte IE 6 }
+
+  has_layout:     true
+  layout:         layout

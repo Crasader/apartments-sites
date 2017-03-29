@@ -1,0 +1,48 @@
+generator:
+  class:              DbFinderAdminGenerator
+  param:
+    model_class:      PropertyTemplate
+    theme:            default
+    list:
+      title: Property Web Template List
+      fields:
+        property: { sort_method: orderByProperty }
+        property_id:
+          params:
+            peer_method: getAll
+      display: [property, _property_url]
+      filters: [property_id]
+      object_actions:
+        _edit: false
+        _delete: false
+#_edit_form.php template overrides generator
+    edit:
+      title: Edit Property Web Template
+      fields:
+        description: { params: rich=true size=80x10 id=description }
+        announcements: { params: size=80x10 }
+        email: { params: size=80x10 }
+        chat: { params: size=80x10 }
+        map_html: { params: size=80x10 }
+        map_frame_src: { params: size=80x10 }
+        community_description: { params: size=80x10 }
+        tracking_code: { params: size=80x10 }
+        community_attractions_list: { params: size=80x10 }
+        custom_page_content: { params: rich=true size=80x10 id=custom_page_content }
+        logo_image: { type: admin_input_file_tag, upload_dir: properties, params: include_link=properties include_remove=true}
+        home_image: { type: admin_input_file_tag, upload_dir: properties, params: include_link=properties include_remove=true}
+        home_flash: { type: admin_input_file_tag, upload_dir: properties, params: include_link=properties include_remove=true}
+        rentalapp_file: { type: admin_input_file_tag, upload_dir: properties, params: include_link=properties include_remove=true}
+        community_image: { type: admin_input_file_tag, upload_dir: properties, params: include_link=properties include_remove=true}
+        style_color: {params: onclick=startColorPicker(this)}
+        background_color: {params: onclick=startColorPicker(this)}
+        contact_email_text: { params: size=80x10 }
+        facebook_url: { help: "Social Media Tags: facebook, google, twitter, yelp, instagram, linkedin, pinterest. Example:<br /><-multi-><br />facebook~http://facebook.com/willowcoveapartments<br />google~https://plus.google.com/+WillowCoveApartmentsWestJordan" params: size=80x10 }
+        online_application_url: { params: size=80x10 }
+        src_3dtour: { params: size=80x10 }
+        home_photo_desc: { params: size=80x10 }
+        gmap_key: { params: size=80x10 }
+        e_brochure: { type: admin_input_file_tag, upload_dir: properties, params: include_link=properties include_remove=true}
+
+
+      display: [property_id, welcome, logo_image, home_image, home_flash, description, announcements, email, style_color, background_color, chat,  rentalapp_file, map_html, map_frame_src, community_image, community_description, show_walkscore, community_attractions_list, custom_page_name, custom_page_perma_link, custom_page_content, tracking_code, contact_email_text, facebook_url, online_application_url, src_3dtour, home_photo_desc, gmap_key, e_brochure]

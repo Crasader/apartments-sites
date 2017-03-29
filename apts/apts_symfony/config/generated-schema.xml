@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database name="propel" package="lib.model" defaultIdMethod="native">
+
+  <table name="apartment_feature" phpName="ApartmentFeature">
+    <column name="id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true" />
+    <column name="name" type="VARCHAR" size="255" required="true" defaultValue="" />
+  </table>
+
+  <table name="community_feature" phpName="CommunityFeature">
+    <column name="id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true" />
+    <column name="name" type="VARCHAR" size="255" required="true" defaultValue="" />
+  </table>
+
+  <table name="contact" phpName="Contact">
+    <column name="id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true" />
+    <column name="first_name" type="VARCHAR" size="128" required="false" />
+    <column name="last_name" type="VARCHAR" size="128" required="false" />
+    <column name="employer" type="VARCHAR" size="255" required="false" />
+    <column name="email" type="VARCHAR" size="255" required="false" />
+    <column name="created_at" type="TIMESTAMP" required="false" />
+    <column name="updated_at" type="TIMESTAMP" required="false" />
+    <column name="property_id" type="INTEGER" size="10" required="true" defaultValue="" />
+    <foreign-key foreignTable="property" onDelete="RESTRICT" onUpdate="RESTRICT">
+      <reference local="property_id" foreign="id" />
+    </foreign-key>
+    <column name="occupants" type="VARCHAR" size="48" required="false" />
+    <column name="pets" type="VARCHAR" size="48" required="false" />
+    <column name="when" type="VARCHAR" size="128" required="false" />
+    <column name="bedrooms" type="VARCHAR" size="48" required="false" />
+    <column name="howhear" type="VARCHAR" size="48" required="false" />
+    <column name="howcontact" type="VARCHAR" size="48" required="false" />
+    <column name="notes" type="LONGVARCHAR" required="false" />
+    <column name="phone" type="VARCHAR" size="48" required="false" />
+    <column name="fax" type="VARCHAR" size="48" required="false" />
+    <column name="corporate_group_id" type="INTEGER" size="10" required="true" defaultValue="1" />
+    <foreign-key foreignTable="corporate_group" onDelete="RESTRICT" onUpdate="RESTRICT">
+      <reference local="corporate_group_id" foreign="id" />
+    </foreign-key>
+    <index name="property_id">
+      <index-column name="property_id" />
+    </index>
+    <index name="corporate_group_id">
+      <index-column name="corporate_group_id" />
+    </index>
+  </table>
+
+  <table name="corporate_group" phpName="CorporateGroup">
+    <column name="id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true" />
+    <column name="name" type="VARCHAR" size="30" required="true" defaultValue="" />
+  </table>
+
+  <table name="other_feature" phpName="OtherFeature">
+    <column name="id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true" />
+    <column name="name" type="VARCHAR" size="50" required="true" defaultValue="" />
+  </table>
+
+  <table name="photo_type" phpName="PhotoType">
+    <column name="id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true" />
+    <column name="name" type="VARCHAR" size="30" required="true" defaultValue="" />
+  </table>
+
+  <table name="property" phpName="Property">
+    <column name="id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true" />
+    <column name="code" type="VARCHAR" size="50" required="true" defaultValue="" />
+    <column name="name" type="VARCHAR" size="50" required="true" defaultValue="" />
+    <column name="address" type="VARCHAR" size="128" required="true" defaultValue="" />
+    <column name="city" type="VARCHAR" size="50" required="true" defaultValue="" />
+    <column name="state_id" type="INTEGER" size="10" required="true" defaultValue="" />
+    <foreign-key foreignTable="state" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="state_id" foreign="id" />
+    </foreign-key>
+    <column name="zip" type="VARCHAR" size="20" required="true" defaultValue="" />
+    <column name="phone" type="VARCHAR" size="20" required="true" defaultValue="" />
+    <column name="fax" type="VARCHAR" size="20" required="true" defaultValue="" />
+    <column name="email" type="VARCHAR" size="128" required="true" defaultValue="" />
+    <column name="image" type="VARCHAR" size="50" required="true" defaultValue="" />
+    <column name="url" type="VARCHAR" size="150" required="true" defaultValue="" />
+    <column name="price_range" type="VARCHAR" size="50" required="true" defaultValue="" />
+    <column name="unit_type" type="VARCHAR" size="50" required="true" defaultValue="" />
+    <column name="special" type="VARCHAR" size="100" required="true" defaultValue="" />
+    <column name="mercial" type="VARCHAR" size="150" required="true" defaultValue="" />
+    <column name="description" type="LONGVARCHAR" required="true" />
+    <column name="hours" type="LONGVARCHAR" required="true" />
+    <column name="pet_policy" type="LONGVARCHAR" required="true" />
+    <column name="directions" type="LONGVARCHAR" required="true" />
+    <column name="featured" type="BOOLEAN" size="1" required="true" defaultValue="0" />
+    <column name="status_id" type="INTEGER" size="10" required="true" defaultValue="" />
+    <foreign-key foreignTable="status" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="status_id" foreign="id" />
+    </foreign-key>
+    <column name="corporate_group_id" type="INTEGER" size="10" required="true" defaultValue="1" />
+    <foreign-key foreignTable="corporate_group" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="corporate_group_id" foreign="id" />
+    </foreign-key>
+    <index name="state_id">
+      <index-column name="state_id" />
+    </index>
+    <index name="city">
+      <index-column name="city" />
+    </index>
+    <index name="url">
+      <index-column name="url" />
+    </index>
+    <index name="status_id">
+      <index-column name="status_id" />
+    </index>
+    <index name="corporate_group_id">
+      <index-column name="corporate_group_id" />
+    </index>
+  </table>
+
+  <table name="property_apartment_feature" phpName="PropertyApartmentFeature">
+    <column name="id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true" />
+    <column name="property_id" type="INTEGER" size="10" required="true" defaultValue="" />
+    <foreign-key foreignTable="property" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="property_id" foreign="id" />
+    </foreign-key>
+    <column name="apartment_feature_id" type="INTEGER" size="10" required="true" defaultValue="" />
+    <foreign-key foreignTable="apartment_feature" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="apartment_feature_id" foreign="id" />
+    </foreign-key>
+    <index name="property_id">
+      <index-column name="property_id" />
+    </index>
+    <index name="apartment_feature_id">
+      <index-column name="apartment_feature_id" />
+    </index>
+  </table>
+
+  <table name="property_community_feature" phpName="PropertyCommunityFeature">
+    <column name="id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true" />
+    <column name="property_id" type="INTEGER" size="10" required="true" defaultValue="" />
+    <foreign-key foreignTable="property" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="property_id" foreign="id" />
+    </foreign-key>
+    <column name="community_feature_id" type="INTEGER" size="10" required="true" defaultValue="" />
+    <foreign-key foreignTable="community_feature" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="community_feature_id" foreign="id" />
+    </foreign-key>
+    <index name="property_id">
+      <index-column name="property_id" />
+    </index>
+    <index name="community_feature_id">
+      <index-column name="community_feature_id" />
+    </index>
+  </table>
+
+  <table name="property_community_map" phpName="PropertyCommunityMap">
+    <column name="id" phpName="Id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true" />
+    <column name="property_id" phpName="PropertyId" type="INTEGER" size="10" required="true" />
+    <column name="type" phpName="Type" type="CHAR" required="true" defaultValue="entertainment" />
+    <column name="name" phpName="Name" type="VARCHAR" size="128" required="false" />
+    <column name="latitude" phpName="Latitude" type="DECIMAL" size="10" scale="6" required="false" />
+    <column name="longitude" phpName="Longitude" type="DECIMAL" size="10" scale="6" required="false" />
+    <column name="url" phpName="Url" type="VARCHAR" size="255" required="false" />
+    <index name="property_id">
+      <index-column name="property_id" />
+    </index>
+  </table>
+
+  <table name="property_floorplan" phpName="PropertyFloorplan">
+    <column name="id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true" />
+    <column name="property_id" type="INTEGER" size="10" required="true" defaultValue="" />
+    <foreign-key foreignTable="property" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="property_id" foreign="id" />
+    </foreign-key>
+    <column name="name" type="VARCHAR" size="50" required="true" defaultValue="" />
+    <column name="bedrooms" type="INTEGER" size="10" required="true" defaultValue="" />
+    <column name="bathrooms" phpName="Bathrooms" type="VARCHAR" size="16" required="true" defaultValue="0" />
+    <column name="square_feet" type="VARCHAR" size="50" required="true" defaultValue="" />
+    <column name="price" type="VARCHAR" size="50" required="true" defaultValue="" />
+    <column name="lease_term" type="VARCHAR" size="50" required="true" defaultValue="" />
+    <column name="deposit" type="VARCHAR" size="50" required="true" defaultValue="" />
+    <column name="image" type="VARCHAR" size="50" required="true" defaultValue="" />
+    <column name="availability_link" type="VARCHAR" size="255" required="true" defaultValue="" />
+    <column name="display_order" type="INTEGER" size="10" required="true" defaultValue="0" />
+    <index name="property_id">
+      <index-column name="property_id" />
+    </index>
+  </table>
+
+  <table name="property_neighborhood" phpName="PropertyNeighborhood">
+    <column name="id" phpName="Id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true" />
+    <column name="property_id" phpName="PropertyId" type="INTEGER" size="10" required="true" />
+    <column name="name" phpName="Name" type="VARCHAR" size="128" required="true" defaultValue="" />
+    <column name="description" phpName="Description" type="LONGVARCHAR" required="true" />
+    <column name="url" phpName="Url" type="VARCHAR" size="255" required="false" />
+    <column name="image" phpName="Image" type="VARCHAR" size="50" required="true" defaultValue="" />
+    <index name="property_id">
+      <index-column name="property_id" />
+    </index>
+  </table>
+
+  <table name="property_other_feature" phpName="PropertyOtherFeature">
+    <column name="id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true" />
+    <column name="property_id" type="INTEGER" size="10" required="true" defaultValue="" />
+    <foreign-key foreignTable="property" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="property_id" foreign="id" />
+    </foreign-key>
+    <column name="other_feature_id" type="INTEGER" size="10" required="true" defaultValue="" />
+    <foreign-key foreignTable="other_feature" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="other_feature_id" foreign="id" />
+    </foreign-key>
+    <index name="property_id">
+      <index-column name="property_id" />
+    </index>
+    <index name="community_feature_id">
+      <index-column name="other_feature_id" />
+    </index>
+  </table>
+
+  <table name="property_photo" phpName="PropertyPhoto">
+    <column name="id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true" />
+    <column name="property_id" type="INTEGER" size="10" required="true" defaultValue="" />
+    <foreign-key foreignTable="property" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="property_id" foreign="id" />
+    </foreign-key>
+    <column name="name" type="VARCHAR" size="50" required="true" defaultValue="" />
+    <column name="image" type="VARCHAR" size="50" required="true" defaultValue="" />
+    <column name="photo_type_id" type="INTEGER" size="10" required="true" defaultValue="" />
+    <foreign-key foreignTable="photo_type" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="photo_type_id" foreign="id" />
+    </foreign-key>
+    <column name="display_order" type="INTEGER" size="10" required="true" defaultValue="0" />
+    <index name="property_id">
+      <index-column name="property_id" />
+    </index>
+    <index name="photo_type_id">
+      <index-column name="photo_type_id" />
+    </index>
+  </table>
+
+  <table name="property_blogarticle" phpName="PropertyBlogarticle">
+    <column name="id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true" />
+    <column name="property_id" type="INTEGER" size="10" required="true" defaultValue="" />
+    <foreign-key foreignTable="property" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="property_id" foreign="id" />
+    </foreign-key>
+    <column name="title" type="VARCHAR" size="255" required="false" />
+    <column name="perma_link" type="VARCHAR" size="255" required="false" />
+    <column name="article_image1" type="VARCHAR" size="50" required="false" />
+    <column name="article_image2" type="VARCHAR" size="50" required="false" />
+    <column name="article_content" type="LONGVARCHAR" required="false" />
+    <index name="property_id">
+      <index-column name="property_id" />
+    </index>
+  </table>
+
+  <table name="property_template" phpName="PropertyTemplate">
+    <column name="id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true" />
+    <column name="property_id" type="INTEGER" size="10" required="true" defaultValue="" />
+    <foreign-key foreignTable="property" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="property_id" foreign="id" />
+    </foreign-key>
+    <column name="logo_image" type="VARCHAR" size="50" required="false" />
+    <column name="home_image" type="VARCHAR" size="50" required="false" />
+    <column name="welcome" type="VARCHAR" size="255" required="false" />
+    <column name="description" type="LONGVARCHAR" required="false" />
+    <column name="announcements" type="LONGVARCHAR" required="false" />
+    <column name="style_color" type="VARCHAR" size="10" required="false" />
+    <column name="background_color" type="VARCHAR" size="10" required="false" />
+    <column name="chat" type="LONGVARCHAR" required="false" />
+    <column name="rentalapp_file" type="VARCHAR" size="50" required="false" />
+    <column name="map_html" type="LONGVARCHAR" required="false" />
+    <column name="map_frame_src" type="LONGVARCHAR" required="false" />
+    <column name="community_image" type="VARCHAR" size="50" required="false" />
+    <column name="community_description" type="LONGVARCHAR" required="false" />
+    <column name="community_attractions_list" type="LONGVARCHAR" required="false" />
+    <column name="custom_page_name" type="VARCHAR" size="128" required="false" />
+    <column name="custom_page_perma_link" type="VARCHAR" size="255" required="false" />
+    <column name="custom_page_content" type="LONGVARCHAR" required="false" />
+    <column name="home_flash" type="VARCHAR" size="50" required="false" />
+    <column name="tracking_code" type="LONGVARCHAR" required="false" />
+    <column name="contact_email_text" type="LONGVARCHAR" required="false" />
+    <column name="show_walkscore" type="BOOLEAN" size="1" required="true" defaultValue="1" />
+    <column name="email" type="LONGVARCHAR" required="false" />
+    <column name="facebook_url" type="LONGVARCHAR" required="false" />
+    <column name="acacia_home1_desc" type="VARCHAR" size="64" required="false" />
+    <column name="acacia_features_desc" type="LONGVARCHAR" required="false" />
+    <column name="acacia_home2_desc" type="VARCHAR" size="64" required="false" />
+    <column name="acacia_home3_desc" type="VARCHAR" size="64" required="false" />
+    <column name="acacia_floorplan_desc" type="LONGVARCHAR" required="false" />
+    <column name="acacia_ebrochure_desc" type="LONGVARCHAR" required="false" />
+    <column name="latitude" phpName="Latitude" type="DECIMAL" size="10" scale="6" required="false" />
+    <column name="longitude" phpName="Longitude" type="DECIMAL" size="10" scale="6" required="false" />
+    <column name="online_application_url" type="LONGVARCHAR" required="false" />
+    <column name="e_brochure" type="VARCHAR" size="50" required="false" />
+    <column name="src_3dtour" type="LONGVARCHAR" required="false" />
+    <column name="home_photo_desc" type="LONGVARCHAR" required="false" />
+    <column name="gmap_key" type="LONGVARCHAR" required="false" />
+    <index name="property_id">
+      <index-column name="property_id" />
+    </index>
+  </table>
+
+  <table name="resident" phpName="Resident">
+    <column name="id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true" />
+    <column name="first_name" type="VARCHAR" size="128" required="true" defaultValue="" />
+    <column name="last_name" type="VARCHAR" size="128" required="true" defaultValue="" />
+    <column name="password" type="VARCHAR" size="255" required="true" defaultValue="" />
+    <column name="email" type="VARCHAR" size="255" required="true" defaultValue="" />
+    <column name="tenantid" type="VARCHAR" size="24" required="true" defaultValue="" />
+    <column name="created_at" type="TIMESTAMP" required="false" />
+    <column name="updated_at" type="TIMESTAMP" required="false" />
+    <column name="property_id" type="INTEGER" size="10" required="true" defaultValue="" />
+    <foreign-key foreignTable="property" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="property_id" foreign="id" />
+    </foreign-key>
+    <column name="status_id" type="INTEGER" size="10" required="true" defaultValue="" />
+    <foreign-key foreignTable="status" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="status_id" foreign="id" />
+    </foreign-key>
+    <index name="property_id">
+      <index-column name="property_id" />
+    </index>
+    <index name="status_id">
+      <index-column name="status_id" />
+    </index>
+  </table>
+
+  <table name="state" phpName="State">
+    <column name="id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true" />
+    <column name="name" type="VARCHAR" size="50" required="true" defaultValue="" />
+    <column name="code" type="VARCHAR" size="2" required="true" defaultValue="" />
+    <column name="country" type="VARCHAR" size="3" required="true" defaultValue="" />
+    <column name="order_by" type="INTEGER" size="11" required="true" defaultValue="" />
+    <index name="code">
+      <index-column name="code" />
+    </index>
+  </table>
+
+  <table name="status" phpName="Status">
+    <column name="id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true" />
+    <column name="name" type="VARCHAR" size="30" required="true" defaultValue="" />
+  </table>
+
+  <table name="user" phpName="User">
+    <column name="id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true" />
+    <column name="username" type="VARCHAR" size="30" required="true" defaultValue="" />
+    <column name="password" type="VARCHAR" size="255" required="true" defaultValue="" />
+    <column name="email" type="VARCHAR" size="255" required="true" defaultValue="" />
+    <column name="name" type="VARCHAR" size="255" required="false" />
+    <column name="created_at" type="TIMESTAMP" required="false" />
+    <column name="updated_at" type="TIMESTAMP" required="false" />
+    <unique name="username">
+      <unique-column name="username" />
+    </unique>
+  </table>
+
+  <table name="user_property" phpName="UserProperty">
+    <column name="id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true" />
+    <column name="user_id" type="INTEGER" size="10" required="true" defaultValue="" />
+    <foreign-key foreignTable="user" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="user_id" foreign="id" />
+    </foreign-key>
+    <column name="property_id" type="INTEGER" size="10" required="true" defaultValue="" />
+    <foreign-key foreignTable="property" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="property_id" foreign="id" />
+    </foreign-key>
+    <index name="user_id">
+      <index-column name="user_id" />
+    </index>
+    <index name="property_id">
+      <index-column name="property_id" />
+    </index>
+  </table>
+
+  <table name="user_role" phpName="UserRole">
+    <column name="id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true" />
+    <column name="role_name" type="VARCHAR" size="30" required="true" defaultValue="" />
+    <unique name="role_name">
+      <unique-column name="role_name" />
+    </unique>
+  </table>
+
+  <table name="user_user_role" phpName="UserUserRole">
+    <column name="id" type="INTEGER" size="10" primaryKey="true" autoIncrement="true" required="true" />
+    <column name="user_id" type="INTEGER" size="10" required="true" defaultValue="" />
+    <foreign-key foreignTable="user" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="user_id" foreign="id" />
+    </foreign-key>
+    <column name="user_role_id" type="INTEGER" size="10" required="true" defaultValue="" />
+    <foreign-key foreignTable="user_role" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="user_role_id" foreign="id" />
+    </foreign-key>
+    <index name="user_id">
+      <index-column name="user_id" />
+    </index>
+    <index name="user_role_id">
+      <index-column name="user_role_id" />
+    </index>
+  </table>
+
+</database>

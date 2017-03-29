@@ -1,0 +1,190 @@
+@charset "UTF-8";
+/* CSS Document */
+
+body {margin:0; padding:0; background:#e9e9e9 url(../images/bg-fade.gif) top left repeat-x; height:100%; width:100%; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:11px; color:#666666; line-height:14px;}
+body a {color:#5cb6cb; text-decoration:none;}
+body a:hover {color:#e64453;}
+
+body ul {list-style:outside; margin:0 0 0 20px; padding:0;}
+body ul li {padding:4px 0;}
+
+#container {width:914px; margin:10px auto;}
+#nav {width:920px;}
+#content {background:url(/images/content-repeat.png) top left repeat-y; width:914px; float:left;}
+#content-top-home {background:url(/images/content-top-home.png) top left no-repeat; width:914px; height:7px; line-height:2px; font-size:2px;}
+#content-bot-home {clear:both; background:url(/images/content-bot-home.png) bottom left no-repeat; width:914px; height:14px; margin:0 0 30px 0;}
+#content-sec {background:url(/images/content-repeat-sec.png) top left repeat-y; width:914px; float:left;}
+#content-top-sec {background:url(/images/content-top-sec.png) top left no-repeat; width:914px; height:7px; line-height:2px; font-size:2px;}
+#content-bot-sec {clear:both; background:url(/images/content-bot-sec.png) bottom left no-repeat; width:914px; height:14px; margin:0 0 30px 0;}
+
+#search {padding:18px 0 0 43px;}
+#search-title {padding:0 0 12px 0;}
+#search-viewall {padding:0 0 18px 0;}
+.search-divider {padding:0 0 20px 0;}
+#search-listtitle {padding:0 0 15px 0;}
+#search-property {padding:0 0 13px 0;}
+#search-city {padding:0 0 13px 0;}
+#search-state {padding:0 0 35px 0;}
+.search-list {border:#a3cb34 1px soild; width:237px;}
+#search-viewmap {padding:0 0 35px 0;}
+
+#home-leasing {background:url(/images/home-leasing.png) top left no-repeat; height:133px; width:320px;}
+#home-leasing-link {padding:97px 0 0 196px;}
+#home-content {float:left; padding:18px 0 0 35px;}
+#home-left {float:left; width:313px;}
+
+#featured-title {padding:0 0 12px 0;}
+#featured-listing1 {float:left; width:230px; border-right:solid 1px #e6e6e4; padding:0 30px 0 0;}
+#featured-listing2 {float:left; width:230px; padding:0 0 0 30px;}
+.featured-name {color:#99bf32; font-size:12px; padding:0 0 12px 0; font-weight:bold;}
+.featured-txt {}
+.featured-txt ul {margin:0 0 0 4px; padding:0 0 0 10px;}
+.featured-txt ul li {padding:2px 0 2px 0;}
+.featured-view {text-align:center; padding:20px 0 0 0;}
+
+#sec-content {float:left; padding:22px 0 20px 28px; width:620px; float:left;}
+#sec-left {float:left; width:244px;}
+#sec-search {padding:18px 0 0 34px;}
+#sec-search-title {padding:0 0 12px 0;}
+#sec-search-viewall {padding:0 0 18px 0;}
+.sec-search-divider {padding:0 0 20px 0;}
+#sec-search-listtitle {padding:0 0 15px 0;}
+#sec-search-property {padding:0 0 13px 0;}
+#sec-search-city {padding:0 0 13px 0;}
+#sec-search-state {padding:0 0 25px 0;}
+.sec-search-list {border:#a3cb34 1px soild; width:180px;}
+#sec-search-viewmap {padding:0 0 35px 0;}
+
+#sec-title {font-size:18px; font-weight:bold; color:#5cb6cb; padding:0 0 10px 0; border-bottom:solid 1px #a3cb34; width:610px;}
+
+.listing {padding:15px 0; width:610px; float:left; border-bottom:solid 1px #a3cb34;}
+.listing-txt {float:left; width:428px; padding:0 0 0 10px;}
+.listing-right {float:right; line-height:16px; width:220px;}
+.listing-right-txt {float:right; padding:0 6px 0 0; color:#a4c938; font-weight:bold;}
+.listing-title {color:#99bf32; font-size:13px; font-weight:bold;}
+.listing-br {line-height:6px;}
+.listing-info {float:left; width:100%; padding:10px 0 0 0;}
+
+.detail {padding:0; width:100%; float:left;}
+.detail-l {float:left; width:154px;}
+.detail-txt {float:left; width:421px; padding:0 0 0 30px;}
+.detail-info {float:left; width:100%; padding:10px 0 10px 0;}
+.detail-info2 {float:left; width:204px; padding:10px 0 10px 0;}
+.detail-info2 ul {margin:0; padding:6px 0 0 14px; line-height:16px;}
+#detail-table {float:left; width:601px; padding:20px 0 0 0;}
+#detail-table-top {float:left; background:url(/images/detail-table-top.gif) top left no-repeat; height:8px; width:100%; line-height:2px; font-size:2px;}
+#detail-table-bot {float:left; background:url(/images/detail-table-bot.gif) bottom left no-repeat; height:8px; width:100%; line-height:2px; font-size:2px;}
+#detail-table-rowh {width:100%; background-color:#a3cb34; float:left; color:#ffffff; font-size:12px; font-weight:bold; padding:0 0 6px 0;}
+.detail-table-row {width:599px; border-left:solid 1px #a3cb34; border-right:solid 1px #a3cb34; border-top:solid 1px #a3cb34; float:left; padding:6px 0;}
+.detail-table-floorplan {padding:0 8px 0 23px; width:140px; float:left;}
+.detail-table-floorplan2 {padding:0 8px 0 22px; width:140px; float:left;}
+.detail-table-bed {padding:0 8px 0 0; width:26px; float:left; text-align:center;}
+.detail-table-bath {padding:0 29px 0 0; width:30px; float:left; text-align:center;}
+.detail-table-sqfeet {padding:0 30px 0 0; width:58px; float:left; text-align:center;}
+.detail-table-price {padding:0 7px 0 0; width:50px; float:left;}
+.detail-table-term {padding:0 10px 0 0; width:36px; float:left; text-align:center;}
+.detail-table-deposit {padding:0 0 0 0; width:146px; float:left; text-align:center;}
+.detail-table-deposit2 {padding:0 0 0 0; width:145px; float:left; text-align:center;}
+
+.corporate-float {float:left; width:250px; padding:20px 20px 0 20px;}
+
+.jobs-listing {border-bottom:solid 1px #a3cb34; margin:16px 0 0 0; padding:0 0 16px 0; float:left; width:100%;}
+.jobs-floatr {float:right; padding:0 0 0 16px;}
+
+.blue {color:#5cb6cb;}
+.blue14 {color:#5cb6cb; font-size:14px;}
+.bold {font-weight:bold;}
+.bold13 {font-size:13px; font-weight:bold;}
+.floatl {float:left;}
+.floatr {float:right;}
+.red {color:#e64453}
+.red14 {color:#e64453; font-size:14px;}
+.black {color:#000000;}
+
+
+#iframe-content {background-color:#ffffff; float:left; width:100%; height:100%;}
+
+#map {padding:16px 0 30px 0;}
+
+/* Contact Form */
+.contact-form-row {width:610px; float:left; padding:10px 0 0 0; line-height:14px;}
+.contact-form-row ul {list-style-type:none; margin:0; padding:0;}
+.contact-form-row2 {width:580px; float:left; padding:20px 0 0 0; line-height:14px;}
+.contact-form-row2 ul {list-style-type:none; margin:0; padding:0;}
+.contact-form-txt {float:left; width:128px; padding:0 4px 0 0;}
+.contact-form-txt3 {float:left; padding:0 10px 0 0;}
+.contact-form-field1 {float:left; padding:0 10px 0 0;}
+.contact-form-field1 ul.checkbox_list li {float:left; padding:0 10px 0 0;}
+.contact-form-field1 img.captcha {float:left; padding:0 10px 0 0;}
+.contact-form-field2 {float:left;}
+
+
+/*featured images*/
+.photo {
+	margin: 0 0 10px 0;
+	position: relative;
+	width: 150px;
+	height: 100px;
+	text-align:center;
+	overflow:hidden;
+}
+.photo span {
+	width: 150px;
+	height: 100px;
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: url(/images/listing-img.png) no-repeat;
+	z-index:1000;
+}
+
+
+/*listing images*/
+.list-photo {
+	margin: 0 0 10px 0;
+	position: relative;
+	width: 150px;
+	height: 100px;
+	text-align:center;
+	overflow:hidden;
+}
+.list-photo span {
+	width: 150px;
+	height: 100px;
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: url(/images/listing-img.png) no-repeat;
+	z-index:1000;
+}
+
+#llc-sec-title {font-size:18px; font-weight:bold; color:#754b0e; padding:0 0 10px 0; border-bottom:solid 1px #74845d; width:610px;}
+
+.llc-listing {padding:15px 0; width:610px; float:left; border-bottom:solid 1px #74845d;}
+.llc-listing-txt {float:left; width:448px; padding:0 0 0 10px;}
+.llc-listing-right {float:right; line-height:16px; width:200px;}
+.llc-listing-right-txt {float:right; padding:0 6px 0 0; color:#60773e; font-weight:bold;}
+.llc-listing-title {float:left; color:#60773e; font-size:14px; font-weight:bold;}
+.llc-listing-br {line-height:6px;}
+.llc-listing-info {float:left; width:100%; padding:10px 0 0 0;}
+.llc-brown {color:#754b0e;}
+
+.llc-list-photo {
+  margin: 0 0 10px 0;
+  position: relative;
+  width: 148px;
+  height: 111px;
+  text-align:center;
+  overflow:hidden;
+}
+.llc-list-photo span {
+  width: 148px;
+  height: 111px;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: url(/images/listing-img.png) no-repeat;
+}

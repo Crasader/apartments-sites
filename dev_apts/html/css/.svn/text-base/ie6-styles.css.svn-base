@@ -1,0 +1,11 @@
+@charset "UTF-8";
+/* CSS Document */
+
+body {background:#7c6b51 url();}
+
+#login-login {float:right; padding:13px 42px 0 0; font-size:12px; text-align:right; color:#ffffff;}
+
+.contact-form-row {width:580px; float:none; padding:10px 0 0 0; line-height:14px;}
+.contact-form-row2 {width:580px; float:none; padding:20px 0 0 0; line-height:14px;}
+
+.res-form-row {width:100%; float:none; padding:0 0 20px 0;}

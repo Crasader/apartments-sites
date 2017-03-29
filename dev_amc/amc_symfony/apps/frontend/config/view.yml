@@ -1,0 +1,15 @@
+default:
+  http_metas:
+    content-type: text/html
+
+  metas:
+    title:        Apartments and Rentals | Apartments for Rent, Studio, Townhomes | Virtual Tours, Photos and Floor Plans
+    description:  Find Apartments for Rent, Studio, Townhomes using Apartment Locator, Listings and Search - View Virtual Tours, Photos, Floor Plans and Rental Information.
+    keywords:     Apartments, Rent, APTS, Apartment Finder, Rentals, Cheap Apartments, Apartment Search, Studio Apartment, Townhomes, Apartment Locator, Apartment Listings, Apartment Complexes
+
+  stylesheets:    [main.css, styles.css]
+
+  javascripts:    [common.js]
+
+  has_layout:     true
+  layout:         layout

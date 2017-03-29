@@ -1,0 +1,31 @@
+generator:
+  class:              sfPropelAdminGenerator
+  param:
+    model_class:      Property
+    theme:            default
+    list:
+      title: Property List
+      display: [code, name, city, state]
+      #filters: [code, name, city, state_id]
+      object_actions:
+        _edit: false
+      actions: []
+
+    edit:
+      title: Edit Property
+      fields:
+        apartment_features: { type: admin_double_list,  params: through_class=PropertyApartmentFeature }
+        community_features: { type: admin_double_list,  params: through_class=PropertyCommunityFeature }
+        other_features: { type: admin_double_list,  params: through_class=PropertyOtherFeature }
+        description: {type: plain }
+        hours: { params: size=80x10 }
+        pet_policy: { params: size=80x10 }
+        directions: { params: size=80x10 }
+        code: { type: plain }
+        name: { type: plain }
+        #description: { type: plain }
+
+      display: [code, name, description, price_range, unit_type, special, hours, pet_policy, directions, apartment_features, community_features, other_features]
+      actions: 
+        _list: false
+        _save: false

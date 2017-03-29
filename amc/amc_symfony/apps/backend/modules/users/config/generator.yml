@@ -1,0 +1,19 @@
+generator:
+  class:              sfPropelAdminGenerator
+  param:
+    model_class:      User
+    theme:            default
+    list:
+      title: Users List
+      display: [username, name, user_roles_list, email, created_at, user_propertys_list]
+      filters: [username, name, email, created_at, updated_at]
+      object_actions:
+        _edit: false
+        _delete: false
+
+    edit:
+      title: Edit Users
+      fields:
+        user_roles: { type: admin_check_list,  params: through_class=UserUserRole }
+        user_prperties: { type: admin_check_list,  params: through_class=UserProperty }
+      display: [username, name, user_roles, password, email, user_prperties]

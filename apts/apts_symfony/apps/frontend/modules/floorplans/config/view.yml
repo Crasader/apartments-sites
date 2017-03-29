@@ -1,0 +1,31 @@
+#mobileSuccess:
+#  stylesheets: [-*, http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css, mobilemain.css]
+#  javascripts: [-*, http://code.jquery.com/jquery-1.7.1.min.js, http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js, http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js, photos.js]
+acaciaSuccess:
+  metas:
+    viewport: width=device-width; initial-scale=1; maximum-scale=1
+  stylesheets: [-*, acacia.css, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css]
+  javascripts: [-*, https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js, box.js, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.pack.js, acacia.js]
+acaciadetailSuccess:
+  metas:
+    viewport: width=device-width; initial-scale=1; maximum-scale=1
+  stylesheets: [-*, acacia.css, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css]
+  javascripts: [-*, https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js, box.js, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.pack.js, acacia.js]
+jspSuccess:
+  stylesheets: [-*, http://fonts.googleapis.com/css?family=Lato:300, jsp.css, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css]
+  javascripts: [-*, https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js, box.js, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.pack.js, jsp.js]
+jspdetailSuccess:
+  stylesheets: [-*, http://fonts.googleapis.com/css?family=Lato:300, jsp.css, jquery.lightbox.css]
+  javascripts: [-*, https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js, jquery.lightbox.min.js, jsp.js]
+amcSuccess:
+  stylesheets: [-*, //code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css, respmain.css, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css]
+  javascripts: [-*, //code.jquery.com/jquery-2.1.0.min.js, //code.jquery.com/ui/1.10.3/jquery-ui.js, box.js, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.pack.js, jquery.gmap.min.js, //cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.0.6/jquery.mousewheel.min.js, respscripts.js, iframeresizer.min.js, iframeresizer.contentwindow.min.js, myiframe.js]
+amcdetailSuccess:
+  stylesheets: [-*, //code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css, respmain.css, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css]
+  javascripts: [-*, //code.jquery.com/jquery-2.1.0.min.js, //code.jquery.com/ui/1.10.3/jquery-ui.js, box.js, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.pack.js, jquery.gmap.min.js, //cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.0.6/jquery.mousewheel.min.js, respscripts.js, iframeresizer.min.js, iframeresizer.contentwindow.min.js, myiframe.js]
+cornerstoneSuccess:
+  stylesheets: [-*, //code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css, cornerstone_apt.css]
+  javascripts: [-*, //code.jquery.com/jquery-1.11.3.min.js, //code.jquery.com/ui/1.11.3/jquery-ui.min.js, //cdnjs.cloudflare.com/ajax/libs/jquery.cycle2/20140415/jquery.cycle2.min.js, //cdnjs.cloudflare.com/ajax/libs/jquery.cycle2/20140415/jquery.cycle2.carousel.min.js, cornerstone_apt.js, box.js, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.pack.js, 3dtournav.js]
+cornerstonedetailSuccess:
+  stylesheets: [-*, //code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css, cornerstone_apt.css]
+  javascripts: [-*, //code.jquery.com/jquery-1.11.3.min.js, //code.jquery.com/ui/1.11.3/jquery-ui.min.js, //cdnjs.cloudflare.com/ajax/libs/jquery.cycle2/20140415/jquery.cycle2.min.js, //cdnjs.cloudflare.com/ajax/libs/jquery.cycle2/20140415/jquery.cycle2.carousel.min.js, cornerstone_apt.js, box.js, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js, //cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.pack.js, 3dtournav.js]
