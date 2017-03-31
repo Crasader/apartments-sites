@@ -177,6 +177,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * Marketapts Service Providers
+         */
+       App\Providers\VirtualHostSwitch::class,
+
     ],
 
     /*
