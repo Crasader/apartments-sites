@@ -11,6 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+if(env('DEV')){
+    include('tests/file-system.php');
+    include('tests/create-new.php');
+}
+
+include('controllers/domain.php');
