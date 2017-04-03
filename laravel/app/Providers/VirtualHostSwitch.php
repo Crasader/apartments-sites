@@ -41,7 +41,6 @@ class VirtualHostSwitch extends ServiceProvider
             Site::$site_id_set = true;
             return Site::$site_id = $site->first()->id;
         }
-
     }
 
 }
