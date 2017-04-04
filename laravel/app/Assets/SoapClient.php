@@ -25,9 +25,8 @@ class SoapClient extends Model implements IDataFetcher
                 $soapResult = $client->ValidateUserLogin($data_query);
                 $arrResult = explode('|',$soapResult->ValidateUserLoginResult);
             } catch(\SoapFault $e){
-                var_dump($e);
+                //var_dump($e);
             }
-            var_dump($arrResult);
         }
     }
 

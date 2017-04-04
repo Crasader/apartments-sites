@@ -3,6 +3,7 @@
 namespace App\Legacy;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Legacy\State;
 
 class Property extends Model
 {
@@ -33,4 +34,8 @@ class Property extends Model
     ];
 
     protected $table = 'property';
+
+    public function getState(){
+        return State::find($this->state_id)->first()->name;
+    }
 }

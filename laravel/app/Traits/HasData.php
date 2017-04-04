@@ -11,7 +11,6 @@ trait HasData {
     public function traitGet($data){
         
         if(isset($this->_trait_hasData[$data])){
-            var_dump($this->_trait_hasData[$data]);
             return $this->_trait_hasData[$data];
         }
         return null;

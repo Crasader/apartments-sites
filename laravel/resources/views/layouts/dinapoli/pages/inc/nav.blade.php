@@ -69,8 +69,8 @@ if(isset($_GET['s'])){
                     <div class="row">
                         <div class="col-xs-6">
                             <ul class="top-nav-left">
-                                <li class="hidden-sm hidden-xs"><i class="fa fa-phone"></i> <b>Call Today</b> : (702) 435-4305</li>
-                                <li class="hidden-sm hidden-xs"><i class="fa fa-map-marker"></i> <b>Location</b> : 3000 High View Drive Henderson, NV 89014</li>
+                                <li class="hidden-sm hidden-xs"><i class="fa fa-phone"></i> <b>Call Today</b> : <?php echo $entity->getPhone(); ?></li>
+                                <li class="hidden-sm hidden-xs"><i class="fa fa-map-marker"></i> <b>Location</b> : <?php echo $entity->getFullAddress();?></li>
                                 <li class="hidden-md hidden-lg"><a href="tel:+7025666344" class="gray"><i class="fa fa-phone"></i> Call Us</a></li>
                             </ul>
                         </div>

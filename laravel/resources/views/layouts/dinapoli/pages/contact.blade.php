@@ -1,4 +1,4 @@
-@extends('layout/dinapoli/main')
+@extends('layouts/dinapoli/main')
                        @section('page-title-row') 
                         <div class="col-md-8">
                             <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Contact Us</h1>
@@ -57,6 +57,7 @@
                                                         <div>
 
                                                         <script type='text/javascript'>
+                                                            <?php //TODO: Grab latitude and longitude? Would that work here? Test it out. ?>
                                                             function init_map(){var myOptions = {zoom:17,center:new google.maps.LatLng(36.0670112,-115.0839982),scrollwheel:false,mapTypeId: google.maps.MapTypeId.ROADMAP};map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);iconBase='';marker = new google.maps.Marker({position: new google.maps.LatLng(36.0670112,-115.0839982),gestureHandling: 'cooperative',map: map,icon: iconBase + 'img/custom-marker.png'});infowindow = new google.maps.InfoWindow({content:'<strong>Martinique Bay</strong><br>3000 High View Drive Henderson, NV<br>'});google.maps.event.addListener(marker, 'click', function(){infowindow.open(map,marker);});infowindow.open(map,marker);}google.maps.event.addDomListener(window, 'load', init_map);</script>
                                                     </div>
                                                    
@@ -75,3 +76,5 @@
             </section>
             @stop
             <!-- End About Section -->
+            @section('schedule-a-tour','')
+            @section('action','')

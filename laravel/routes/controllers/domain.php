@@ -37,10 +37,16 @@ Route::get('/{page}',function($page){
             $ent = PropertyEntity::find($site->id);
             $templateDir = Template::find($ent->fk_template_id)->get()->first()-filesystem_id;
         }
+        $entity = $site->getEntity();
+        try{
+            $entity->loadLegacyProperty();
+        }catch(Exception $e){
+            echo "Unable to grab legacy property info";
+        }
         return view('layouts/' . $templateDir . '/pages/' . $page ,[
             'site'=>$site,
-            'page' => $page,
-            'title' => 'Foobar'
-            ]);
+            'entity'=>$entity,
+            'page' => $page
+        ]);
     }
 });
