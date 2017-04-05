@@ -54,6 +54,16 @@ return [
             'engine' => null,
         ],
 
+        'sqlsrv' => [
+            'driver' => 'sqlsrv',
+            'host' => env('AIM_SQL_HOST','192.168.1.139'),
+            'port' => env('AIM_SQL_PORT','1433'),
+            'database' => env('AIM_DB'),
+            'username' => env('AIM_USERNAME'),
+            'password' => env('AIM_PASSWORD'),
+            'prefix' => '',
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', '127.0.0.1'),

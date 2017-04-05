@@ -14,10 +14,6 @@ class SpecialsFetcher extends Model
     protected $_fetcher = null;
     public function __construct(IDataFetcher $fetcher){
         $this->_fetcher = $fetcher;
-        $this->_fetcher->traitSet('url',env('SPECIALS_SOAP_URL'));
-        $this->_fetcher->traitSet('username',env('SPECIALS_SOAP_USERNAME'));
-        $this->_fetcher->traitSet('password',env('SPECIALS_SOAP_PASSWORD'));
-        $this->_fetcher->traitSet('sysPassword',env('SPECIALS_SOAP_SYS_PASSWORD'));
         $this->loadSpecials();
     }
 

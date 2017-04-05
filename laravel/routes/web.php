@@ -14,6 +14,7 @@
 if(env('DEV')){
     include('tests/file-system.php');
     include('tests/create-new.php');
+    include('tests/ms-sql.php');
 }
 
 include('controllers/domain.php');

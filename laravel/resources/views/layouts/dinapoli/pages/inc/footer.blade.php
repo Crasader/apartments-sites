@@ -9,6 +9,7 @@
                     
                     <!-- Social Links -->
                     <div class="footer-social-links mb-30">
+                    <?php //TODO: grab social media links ?>
                         <a href="#" title="Facebook" target="_blank"><i class="fa fa-facebook"></i></a>
                         <a href="#" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a>
                         <a href="#" title="Instagram" target="_blank"><i class="fa fa-instagram"></i></a>
@@ -19,7 +20,7 @@
                     <div class="row mb-30">
                         <div class="col-md-12">
                             <h2 class="section-title font-alt">
-                                3000 High View Drive Henderson, NV 89014
+                                <?php echo $entity->getFullAddress(); ?>
                             </h2>
                         </div>
                     </div>
@@ -70,6 +71,7 @@
                         
                         <div class="footer-made">
                             Copyright © 2016<br>
+                            <?php //TODO: grab copyright info here ?>
                             Martinique Bay Apartments. All rights reserved.
                         </div>
                         

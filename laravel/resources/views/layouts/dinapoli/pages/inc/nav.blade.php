@@ -37,22 +37,29 @@ loop
 
 %>
 */
-use App\Property\Specials;
-
-$specials = app()->make('App\Property\SpecialsFetcher');
-if(isset($_GET['s'])){
-    $specials->traitSet('website',$_GET['s']);
+use App\Util\Util;
+$specials = app()->make('App\Property\Specials');
+$res = $specials->traitGet('specials');
+$data = [];
+foreach($res as $index => $object){
+    if($object->U_MARKETING_NAME == 'SpecialWebsite'){
+        $data['website'] = $object->SPECIAL_TEXT;
+    }
+    if($object->U_MARKETING_NAME == 'SpecialElse'){
+        $data['else'] = $object->SPECIAL_TEXT;
+    }
 }
 ?>
 			<!-- Speacials Dropdown -->
-            <?php if($specials->traitHas('website')): ?>
-                <?php if($_SERVER['REQUEST_URI'] == '/index' || $_SERVER['REQUEST_URI'] == '/'): ?>
+            
+            <?php if($data['website'] ?? false): ?>
+                <?php if(Util::isHome()): ?>
                 <div id="banner-special">
                 	<div class="container relative">
                 		<div class="row">
             				<div class="col-md-12 text-center">
         						<div class="text">
-        							<b><?php echo $specials->traitGet('website'); ?></b><br>
+        							<b><?php echo $data['website']; ?></b><br>
         							<a href="floor-plans" class="btn btn-mod btn-border-w btn-round">
                                  	  FIND OUT MORE
                             		</a> 
@@ -69,8 +76,8 @@ if(isset($_GET['s'])){
                     <div class="row">
                         <div class="col-xs-6">
                             <ul class="top-nav-left">
-                                <li class="hidden-sm hidden-xs"><i class="fa fa-phone"></i> <b>Call Today</b> : (702) 435-4305</li>
-                                <li class="hidden-sm hidden-xs"><i class="fa fa-map-marker"></i> <b>Location</b> : 3000 High View Drive Henderson, NV 89014</li>
+                                <li class="hidden-sm hidden-xs"><i class="fa fa-phone"></i> <b>Call Today</b> : <?php echo $entity->getPhone(); ?></li>
+                                <li class="hidden-sm hidden-xs"><i class="fa fa-map-marker"></i> <b>Location</b> : <?php echo $entity->getFullAddress();?></li>
                                 <li class="hidden-md hidden-lg"><a href="tel:+7025666344" class="gray"><i class="fa fa-phone"></i> Call Us</a></li>
                             </ul>
                         </div>

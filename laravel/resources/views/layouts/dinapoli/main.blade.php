@@ -52,39 +52,7 @@
             <!-- End Page Title Section -->
 
         	@yield('content')
-
-           	<!-- Call Action Section -->
-            <section class="page-section pt-0 pb-0 banner-section bg-dark" data-background="img/slides/home-top-slide2a.jpg">
-                <div class="container relative">
-
-                    <div class="row">
-
-                        <div class="col-sm-6">
-                            <div class="mt-70 mt-lg70 mb-70 mb-lg-70 mb-sm-30">
-                                <div class="banner-content text-shadow">
-                                    <h3 class="banner-heading font-alt">Join Our community</h3>
-                                    <div class="banner-decription">
-                                        Proin fringilla augue at maximus vestibulum. Nam pulvinar vitae neque et porttitor.
-                                        Integer non dapibus diam, ac eleifend lectus.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="mt-50 mt-lg50 mb-70 mb-lg-70 mb-sm-30">
-                                <div class="banner-content text-right">
-                                    <div class="local-scroll">
-                                        <p><a href="floor-plans.asp" class="btn btn-mod btn-brown btn-large btn-round">SEE FLOOR PLANS</a></p>
-                                        <p><a href="schedule-a-tour.asp" class="btn btn-mod  btn-large btn-round">SCHEDULE A TOUR</a></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </section>
-            <!-- End Call Action Section -->
+            @yield('action')
             @section('contact')
             <section class="contact-padding page-section" id="contact">
                 <div class="container relative">
@@ -104,7 +72,7 @@
                                             Call Us
                                         </div>
                                         <div class="ci-text">
-                                            702.435.4305
+                                            <?php echo $entity->getPhone(); ?>
                                         </div>
                                     </div>
                                 </div>
@@ -120,7 +88,9 @@
                                             Address
                                         </div>
                                         <div class="ci-text">
-                                            3000 High View Drive<br>Henderson, NV 89014
+                                            <?php echo $entity->getStreet() . "<br>" . $entity->getCity() . ", " .
+                                                $entity->getState() . " " . $entity->getZipCode(); 
+                                            ?>
                                         </div>
                                     </div>
                                 </div>
@@ -136,7 +106,7 @@
                                             Office Hours
                                         </div>
                                         <div class="ci-text">
-                                            Weekdays: 9:00 am - 6:00 pm<br>Weekends: 10:00 am - 5:00 pm
+                                            <?php echo $entity->getHours() ?>
                                         </div>
                                     </div>
                                 </div>
@@ -151,11 +121,13 @@
             </section>
             @show
 
+            @yield('schedule-a-tour')
             @section('footer')
             	<!-- Footer -->
                 @include('layouts/dinapoli/pages/inc/footer')
             	<!-- End Footer -->
             @show
+            @yield('epop')
 
        @section('js')
         <!-- JS -->
@@ -176,6 +148,7 @@
         <script type="text/javascript" src="js/isotope.pkgd.min.js"></script>
         <script type="text/javascript" src="js/imagesloaded.pkgd.min.js"></script>
         <script type="text/javascript" src="js/jquery.magnific-popup.min.js"></script>
+        @yield('google-maps-js')
         <script type="text/javascript" src="js/gmap3.min.js"></script>
         <script type="text/javascript" src="js/wow.min.js"></script>
         <script type="text/javascript" src="js/masonry.pkgd.min.js"></script>

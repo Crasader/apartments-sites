@@ -5,10 +5,16 @@ namespace App\Property;
 use Illuminate\Database\Eloquent\Model;
 use App\Legacy\Property as LegacyProperty;
 use App\Property\Group as PropertyGroup;
+use App\Interfaces\IFormatter;
 
 class Entity extends Model
 {
     protected $table = 'property_entity';
+    protected $_legacyProperty = null;
+    protected $_featuresFormatter = null;
+    protected $_featuresSectionNames = ['apartment','community','other'];
+    protected $_features = [];
+
     //
     public function createNew(array $attributes,LegacyProperty $legacyProperty){
         $this->_preprocessAttributes($attributes);
@@ -54,4 +60,103 @@ class Entity extends Model
             unset($attr['_property_group_name']);
         }
     }
+
+    public function loadLegacyProperty(int $legacyPropertyId = -1){
+        if($legacyPropertyId > -1){
+            $this->_legacyProperty = LegacyProperty::findOrFail($legacyPropertyId);
+            return $this;
+        }
+        if($this->fk_legacy_property_id){
+            $this->_legacyProperty = LegacyProperty::findOrFail($this->fk_legacy_property_id);
+            return $this;
+        }
+        return $this;
+    }
+
+    public function getLegacyProperty() : LegacyProperty {
+        return $this->_legacyProperty;
+    }
+
+    public function setFeaturesFormatter(IFormatter $if){
+        $this->_featuresFormatter = $if;
+    }
+
+    public function setFeaturesChunkCount(int $count){
+        $this->_featuresChunkCount = $count;
+    }
+
+    public function getFeaturesChunk(string $section,int $chunkOffset) : string{
+        $chunkSize = (int)floor(count($this->_features[$section]) / $this->_featuresChunkCount);
+        $this->_featuresFormatter->setLineItems($this->_features[$section]);
+        return implode('', array_chunk($this->_featuresFormatter->getFormattedAsArray(),$chunkSize)[$chunkOffset]);
+    }
+
+    public function loadAllFeatures(){
+        $this->_features = [];
+        foreach($this->_featuresSectionNames as $index => $value){
+            $this->_features[$value] = $this->_getFeaturesSection($value);
+        }
+        return $this;
+    }
+
+    protected function _getFeaturesSection(string $section){
+        switch($section){
+            case 'community':
+                //TODO: grab community features
+                return range(0,20);
+                break;
+            case 'other':
+                //TODO: grab other features
+                return range(0,30);
+                break;
+            case 'apartment':
+                //TODO: grab apartment features
+                return range(0,10);
+                break;
+            default:
+                return null;
+        }
+    }
+
+    public function getPhone() : string{
+        return $this->_legacyProperty->phone;
+    }
+
+    public function getStreet() : string{
+        return $this->_legacyProperty->address;
+    }
+
+    public function getCity() : string{
+        return $this->_legacyProperty->city;
+    }
+
+    public function getState() : string{
+        return $this->_legacyProperty->getState();
+    }
+
+    public function getZipCode() : string{
+        return $this->_legacyProperty->zip;
+    }
+
+    public function getHours() : string{
+        return $this->_legacyProperty->hours;
+    }
+
+    public function getWelcomeText(string $section) : string{
+        switch($section){
+            case 'amenities':
+                return "amenities welcome text stub";
+            default:
+                return "default welcome text stub";
+        }
+    }
+
+    public function getFullAddress() : string {
+        return $this->getStreet() . " " . $this->getCity() . ", " . $this->getState() . " " . $this->getZipCode();
+    }
+
+    public function getFullAddressBr() : string {
+        return $this->getStreet() . "<br>" . $this->getCity() . ", " . $this->getState() . " " . $this->getZipCode();
+    }
+
 }

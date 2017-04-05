@@ -15,12 +15,11 @@ class Site extends Model
     public static $site_id_set = false;
     public static $site_id = null;
     public static $template_dir = null;
-
+    protected $_entity = null;
     protected $table = 'property_entity';
 
     public function __construct(Entity $entity){
         if($entity->id){
-            echo "ENTITY ID SET IN SITE<hr>";
             self::$instance = $this;
             self::$site_id = $entity->id;
             self::$site_id_set = true;
@@ -30,5 +29,10 @@ class Site extends Model
             ;
             $this->id = $entity->id;
         }
+        $this->_entity = $entity;
+    }
+
+    public function getEntity(){
+        return $this->_entity;
     }
 }
