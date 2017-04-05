@@ -17,4 +17,8 @@ class Util
             strlen($_SERVER['REQUEST_URI']) == 0
         );
     }
+
+    public static function formatRentPrice(string $price){
+        return round($price,2,PHP_ROUND_HALF_UP);
+    }
 }

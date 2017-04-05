@@ -26,5 +26,5 @@ if($security->allowed()){
     });
 }
 Route::get('/{page}','SiteController@resolve');
-Route::get('/', 'SiteController@resove');
+Route::get('/','SiteController@resove');
 Route::post('/{page}','PostController@handle');

@@ -1,24 +1,38 @@
+<?php
+use App\Util\Util;
+use App\Javascript\ApplySubmitter;
+
+$unit = app()->make('App\AIM\Unit');
+$units = $unit->getAllByType($extras['unittype']);
+$js = app()->make('App\Javascript\ApplySubmitter');
+$js->setCollection($units);
+$js->generateIDs();
+
+?>
 @extends('layouts/dinapoli/main')
                         @section('page-title-row')
                         <div class="col-md-8">
-                            <h1 class="hs-line-11 font-alt mb-20 mb-xs-0"><%=unittype%></h1>
+                            <h1 class="hs-line-11 font-alt mb-20 mb-xs-0"><?php echo $extras['unittype'];?></h1>
                             <div class="hs-line-4 font-alt">
-                                <%=unittype%> AVAILABILITY
+                                <?php echo $extras['unittype'];?> AVAILABILITY
                             </div>
                         </div>
                         @stop
                         @section('page-title-span','FLOOR PLANS')
-                        <?php //TODO: do the rest of this
-                        /*
-                        <div class="col-md-4 mt-30">
-                            <div class="mod-breadcrumbs font-alt align-right">
-                                <a href="#">Home</a>&nbsp;/&nbsp;<span>FLOOR PLANS</span>&nbsp;/&nbsp;<span><%=unittype%></span>
-                            </div>
-                            
-                        </div>
-                        */
-                        ?>
+                        @section('page-title-span-suffix')
+                        &nbsp;/&nbsp;<span><?php echo $extras['unittype']; ?></span>
+                        @stop
             @section('content')
+            <?php //TODO: component/slot for submitUnit form ?>
+			<form id="submitUnit" method="post" action="">
+			  <input type="hidden" name="unittype" id="unittype" value="X">
+			  <input type="hidden" name="bed" id="bed" value="X">
+			  <input type="hidden" name="bath" id="bath" value="X">
+			  <input type="hidden" name="sqft" id="sqft" value="X">
+			  <input type="hidden" name="unitnumber" id="unitnumber" value="X">
+				{{ csrf_field() }}
+			</form>
+ 
             <!-- Amenities Section -->
             <section class="page-section" id="about">
                 <div class="container relative">
@@ -40,14 +54,14 @@
                         
                         <div class="col-sm-8 mb-40">
                         	<div class="row">
-                        		<div class="col-sm-6"><h3 class="uppercase mb-20"><%=unittype%></h3></div>
+                        		<div class="col-sm-6"><h3 class="uppercase mb-20"><?php echo $extras['unittype'];?></h3></div>
                         	</div>
                         	<div class="unit-description mb-40">
                         		<ul>
                                     <?php //TODO: grab bed bath sqft of unit ?>
-                        			<li>BED: <%=bed%></li>
-                        			<li>BATH: <%=bath%></li>
-                        			<li>SQ. FEET: <%=sqft%></li>
+                        			<li>BED: <?php echo $extras['bed'];?></li>
+                        			<li>BATH: <?php echo $extras['bath'];?></li>
+                        			<li>SQ. FEET: <?php echo $extras['sqft'];?></li>
                         		</ul>
                         	</div>
                         	<div class="text">		                            	
@@ -78,37 +92,31 @@
 								</div>
 							</div>
                             <?php //TODO: replace this with php. do unit, rent, available ?>
-                            <%
-                            rsViewDetail.movefirst
-                            do until rsViewDetail.eof 
-                            %>
+                            <?php
+                                $unit = app()->make('App\AIM\Unit');
+                                foreach($units as $index => $object):
+                            ?>
                         	<div class="row unit-table-row">
 								<div class="col-md-2">
-                                    <%
-                                    unitnumber = rsViewDetail( "UnitNumber" )
-                                    %>
-									<span class="visible-xs visible-sm"><b>Unit: </b></span><%=unitnumber%>
+									<span class="visible-xs visible-sm"><b>Unit: </b></span><?php echo $object->UnitNumber; ?>
 								</div>
 								<div class="col-md-2">
-									<span class="visible-xs visible-sm"><b>Rent: </b></span>$<%=rsViewDetail( "AskingRent" )%>
+									<span class="visible-xs visible-sm"><b>Rent: </b></span>$<?php echo Util::formatRentPrice($object->AskingRent);?>
 								</div>
 								<div class="col-md-2">
-									<span class="visible-xs visible-sm"><b>Available: </b></span><%=rsViewDetail( "UnitAvailableDate" )%>
+									<span class="visible-xs visible-sm"><b>Available: </b></span><?php echo $object->UnitAvailableDate;?>
 								</div>
 								<div class="col-md-3">
-									<%=rsViewDetail( "SPECIAL_TEXT" )%>
+                                    <?php echo $object->SPECIAL_TEXT; ?>
 								</div>
 								<div class="col-md-3 unit-table-btn">
-
-                                    <a style="cursor:pointer" onclick="document.getElementById('unittype').value='<%=unittype%>';document.getElementById('bed').value='<%=bed%>';document.getElementById('bath').value='<%=bath%>';document.getElementById('sqft').value='<%=sqft%>';document.getElementById('unitnumber').value='<%=unitnumber%>';document.submitUnit.action='/apartments_greenville_sc/online_application_applynow/';document.submitUnit.submit();" class="btn btn-mod btn-brown btn-medium btn-round">Apply Now</a>
+                                <?php //TODO: do this javascript mess ?>
+                                    <a style="cursor:pointer" id="<?php echo $js->getGenId($index);?>" class="btn btn-mod btn-brown btn-medium btn-round">Apply Now</a>
 
                                    
 								</div>
 							</div>
-                            <%
-                            rsViewDetail.movenext
-                            loop
-                            %>
+                            <?php endforeach; ?>
 						
                             <div classs="row">
                                 <div class="col-sm-12">
@@ -132,3 +140,28 @@
             <!-- End Schedule a Tour Section -->
             @stop
             @section('contact','')
+            @section('page-specific-js')
+            <script src="js/util.js" language="Javascript"></script>
+            <script language="Javascript">
+            $(document).ready(function(){
+                var json = <?php echo $js->dumpJSON(); ?>;
+                utilBindSubmitterVars(json,{
+                    'unittype': 'UnitType',
+                    'bed': {
+                        'static': "<?php echo $extras['bed'];?>"
+                    },
+                    'bath': {
+                        'static': "<?php echo $extras['bath'];?>"
+                    },
+                    'sqft': {
+                        'static': "<?php echo $extras['sqft'];?>"
+                    },
+                    'unitnumber': 'UnitNumber'
+                },{
+                    'action': "<?php echo '/apartments_greenville_sc/online_application_applynow/'; //TODO: Get this value?>",
+                    'form': 'submitUnit'
+                });
+            });
+            </script>
+
+            @stop

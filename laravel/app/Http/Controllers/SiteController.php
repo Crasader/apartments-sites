@@ -23,7 +23,7 @@ class SiteController extends Controller
         }
     }
     //
-    public function resolvePageBySite(string $page) : array{
+    public function resolvePageBySite(string $page,$inData = null) : array{
 		if(!$this->_site->id){
             throw new BaseException('No site ID set!');
 		}else{
@@ -44,7 +44,8 @@ class SiteController extends Controller
 				->loadAliases();
 			$data = ['site' => $this->_site,
 				'entity' => $entity,
-				'page' => $page
+				'page' => $page,
+                'extras' => $inData,
 			];
             $aliased = false;
             $origPage = $page;
@@ -58,7 +59,7 @@ class SiteController extends Controller
 				'fsid' => $templateDir,
                 'aliased' =>$aliased,
                 'orig' => $origPage,
-                'data' => $data
+                'data' => $data,
             ];
 		}
         return [];

@@ -15,3 +15,19 @@ function utilValidateDate(d){
     }
     return {'status': true, 'msg' : 'Good job :)'};
 }
+
+function utilBindSubmitterVars(json,varMapping,conf){
+    for(var i in json){
+        $("#" + i).bind("click",function(){
+            for(var b in varMapping){
+                if(varMapping[b].static){
+                    $("#" + b).val(varMapping[b].static);
+                }else{
+                    $("#" + b).val(json[i][varMapping[b]]);
+                }
+            }
+            $("#" + conf.form).prop('action',conf.action);
+            $("#" + conf.form).submit();
+        });
+    }
+}

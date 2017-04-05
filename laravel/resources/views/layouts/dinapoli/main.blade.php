@@ -42,7 +42,7 @@
 						@yield('page-title-row')
                         <div class="col-md-4 mt-30">
                             <div class="mod-breadcrumbs font-alt align-right">
-                                <a href="#">Home</a>&nbsp;/&nbsp;<span>@yield('page-title-span')</span>
+                                <a href="#">Home</a>&nbsp;/&nbsp;<span>@yield('page-title-span')</span>@yield('page-title-span-suffix')
                             </div>
 
                         </div>

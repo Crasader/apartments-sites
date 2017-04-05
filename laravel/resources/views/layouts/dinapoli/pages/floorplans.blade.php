@@ -28,6 +28,7 @@ foreach($fpData as $index => $object){
         </div>
     @stop
     @section('page-title-span','Floor Plans & Availability') 
+    @section('content')
     <form id="submitUnit" method="post" action="">
       <input type="hidden" name="unittype" id="unittype" value="X">
       <input type="hidden" name="bed" id="bed" value="X">
