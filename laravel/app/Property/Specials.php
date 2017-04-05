@@ -25,4 +25,18 @@ class Specials extends Model
             $this->traitSet('specials',$resource);
         }
     }
+
+    public function fetchAllSpecials() : array {
+		$res = $this->traitGet('specials');
+		$data = [];
+		foreach($res as $index => $object){
+		   if($object->U_MARKETING_NAME == 'SpecialWebsite'){
+			   $data['website'] = $object->SPECIAL_TEXT;
+		   }
+		   if($object->U_MARKETING_NAME == 'SpecialElse'){
+			   $data['else'] = $object->SPECIAL_TEXT;
+		   }
+		}
+        return $data;
+    }
 }

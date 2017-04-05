@@ -1,54 +1,3 @@
-<?php
-/*
-<%
-if len (Request.Form("unittype") ) = 0 then 
-    response.redirect ("floor-plans")
-end if
-' Connection to the database
-
-' declare variables
-dim unittype
-dim bed
-dim bath
-dim sqft
-
-unittype = request.form("unittype")
-bed = request.form("bed")
-bath = request.form("bath")
-sqft = request.form("sqft")
-
-dim dbConnection
-
-Set dbConnection = Server.CreateObject( "ADODB.Connection" )
-
-dbConnection.Open "Driver={SQL Server};" & _
-           "Server=192.168.1.139;" & _
-           "Address=rentegisql1,1433;" & _
-           "Network=DBMSSOCN;" & _
-           "Database=AIM_164MTB;" & _
-           "Uid=sa;" & _
-           "Pwd=mdb121bdm(("
-
-
-' SQL grabs lastRecord, creates recordSetArray ********************************
-        
-dim sqlViewDetail
-dim rsViewDetail
-
-
-' Halladay - subquery added - 8/15/2003
-
-sqlViewDetail = "WS_SP_MAPTS_GET_UNIT_AVAILABILITY_DETAIL_BY_SQFT_NO_XML '" & unittype & "'"
-'Response.WRITE(sqlViewDetail)
-'RESPONSE.END
-      
-'Response.Write( sqlViewDetail )
-set rsViewDetail = dbConnection.Execute( sqlViewDetail )
-
-' **************************************************
-
-%>
-*/?>
 @extends('layouts/dinapoli/main')
                         @section('page-title-row')
                         <div class="col-md-8">
@@ -59,6 +8,16 @@ set rsViewDetail = dbConnection.Execute( sqlViewDetail )
                         </div>
                         @stop
                         @section('page-title-span','FLOOR PLANS')
+                        <?php //TODO: do the rest of this
+                        /*
+                        <div class="col-md-4 mt-30">
+                            <div class="mod-breadcrumbs font-alt align-right">
+                                <a href="#">Home</a>&nbsp;/&nbsp;<span>FLOOR PLANS</span>&nbsp;/&nbsp;<span><%=unittype%></span>
+                            </div>
+                            
+                        </div>
+                        */
+                        ?>
             @section('content')
             <!-- Amenities Section -->
             <section class="page-section" id="about">
@@ -172,5 +131,4 @@ set rsViewDetail = dbConnection.Execute( sqlViewDetail )
                 @include('layouts/dinapoli/pages/inc/schedule-a-tour')
             <!-- End Schedule a Tour Section -->
             @stop
-
-            @section('contact','<!-- -->')
+            @section('contact','')

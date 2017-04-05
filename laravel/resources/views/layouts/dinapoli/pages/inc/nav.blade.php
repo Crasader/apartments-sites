@@ -1,59 +1,11 @@
-<?php /*
-<% 
-' Database connection
-
-Set dbConnection = Server.CreateObject( "ADODB.Connection" )
-dbConnection.Open "Driver={SQL Server};" & _
-           "Server=192.168.1.139;" & _
-           "Address=rentegisql1,1433;" & _
-           "Network=DBMSSOCN;" & _
-           "Database=AIM_164MTB;" & _
-           "Uid=sa;" & _
-           "Pwd=mdb121bdm(("
- 
-
-dim sqlWebsiteSpecials
-dim objRSWebsiteSpecials
-
-sqlWebsiteSpecials = "WS_SP_MAPTS_GET_WEBSITE_SPECIALS"
-'WHERE U_MARKETING_NAME IN ('SpecialWebsite','SpecialElse') 
-set objRSWebsiteSpecials = dbConnection.Execute( sqlWebsiteSpecials )
-
-do until objRSWebsiteSpecials.eof
-
-U_MARKETING_NAME = objRSWebsiteSpecials( "U_MARKETING_NAME" )
-EXPIRATIONDATE = objRSWebsiteSpecials( "EXPIRATIONDATE" )
-SPECIAL_TEXT = objRSWebsiteSpecials( "SPECIAL_TEXT" )
-
-dim SpecialWebsite, SpecialStudio, SpecialOneBedroom, SpecialTwoBedroom, SpecialThreeBedroom, SpecialElse
-if U_MARKETING_NAME = "SpecialWebsite" then
-    SpecialWebsite = SPECIAL_TEXT 
-elseif U_MARKETING_NAME = "SpecialElse" then
-    SpecialElse = SPECIAL_TEXT 
-end if
-
-objRSWebsiteSpecials.movenext
-loop
-
-%>
-*/
+<?php 
 use App\Util\Util;
 $specials = app()->make('App\Property\Specials');
-$res = $specials->traitGet('specials');
-$data = [];
-foreach($res as $index => $object){
-    if($object->U_MARKETING_NAME == 'SpecialWebsite'){
-        $data['website'] = $object->SPECIAL_TEXT;
-    }
-    if($object->U_MARKETING_NAME == 'SpecialElse'){
-        $data['else'] = $object->SPECIAL_TEXT;
-    }
-}
+$data = $specials->fetchAllSpecials();
 ?>
 			<!-- Speacials Dropdown -->
-            
-            <?php if($data['website'] ?? false): ?>
-                <?php if(Util::isHome()): ?>
+            <?php if($specials->traitHas('website')): ?>
+                <?php if(Utils::isHome()): ?>
                 <div id="banner-special">
                 	<div class="container relative">
                 		<div class="row">
@@ -78,7 +30,7 @@ foreach($res as $index => $object){
                             <ul class="top-nav-left">
                                 <li class="hidden-sm hidden-xs"><i class="fa fa-phone"></i> <b>Call Today</b> : <?php echo $entity->getPhone(); ?></li>
                                 <li class="hidden-sm hidden-xs"><i class="fa fa-map-marker"></i> <b>Location</b> : <?php echo $entity->getFullAddress();?></li>
-                                <li class="hidden-md hidden-lg"><a href="tel:+7025666344" class="gray"><i class="fa fa-phone"></i> Call Us</a></li>
+                                <li class="hidden-md hidden-lg"><a href="tel:<?php //TODO: get entity->getPhoneHref(); ?>+7025666344" class="gray"><i class="fa fa-phone"></i> Call Us</a></li>
                             </ul>
                         </div>
                         <div class="col-xs-6 text-right">

@@ -1,38 +1,12 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Martinique Bay - Apartment Homes in Henderson, NV</title>
-        <meta name="description" content="">
-        <meta name="keywords" content="">
-        <meta charset="utf-8">
-        <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-        
-        <!-- CSS -->
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/main.css">
-        <link rel="stylesheet" href="css/custom.css">
-        <link rel="stylesheet" href="css/animate.min.css">
-        <link rel="stylesheet" href="css/owl.carousel.css">
-        <link rel="stylesheet" href="css/magnific-popup.css">        
-
-    </head>
-    <body class="appear-animate">
-         
-        <!-- Page Loader -->        
-        <div class="page-loader">
-            <div class="loader">Loading...</div>
-        </div>
-        <!-- End Page Loader -->
-       
-       
+<?php
+    $specials = app()->make('App\Property\Specials');
+    $spec = $specials->fetchAllSpecials();
+    
+?>
+@extends('layouts/dinapoli/main')
+        @section('content')
         <!-- Page Wrap -->
         <div class="page" id="top">
-			
-            <!-- Nav -->
-            <!--#include virtual="/inc/nav.asp" -->
-            <!-- End Nav-->
-
             <!-- Home Section -->
             <section class="home-section" id="home">
                 <!-- Scroll Down -->
@@ -44,11 +18,12 @@
                 <div class="main-slider">
                     <ul class="slippry">
                         <li>
+                            <?php //TODO: Loop through and dump slideshow ?>
                             <div class="container">
                                 <div class="slide-title text-shadow">
                                     <h1>The Gateway to Henderson Nevada</h1>
                                     <h2>Live seconds from shopping, dining, arts & culture.</h2>
-                                    <a href="schedule-a-tour.asp" class="btn btn-block btn-mod btn-brown btn-large btn-round">Schedule a Tour</a>
+                                    <a href="schedule-a-tour" class="btn btn-block btn-mod btn-brown btn-large btn-round">Schedule a Tour</a>
                                 </div>
                             </div>
                             <img src="img/slides/home-top-slide1a.jpg" class="visible-md visible-lg">
@@ -59,7 +34,7 @@
                                 <div class="slide-title text-shadow">
                                     <h1>Modern Living in the Heart of the Green Valley</h1>
                                     <h2>One- and two-bedroom apartment <br>homes in a tree-lined community.</h2>
-                                    <a href="schedule-a-tour.asp" class="btn btn-block btn-mod btn-brown btn-large btn-round">Schedule a Tour</a>
+                                    <a href="schedule-a-tour" class="btn btn-block btn-mod btn-brown btn-large btn-round">Schedule a Tour</a>
                                 </div>
                             </div>
                             <img src="img/slides/home-top-slide2a.jpg" class="visible-md visible-lg">
@@ -70,7 +45,7 @@
                                 <div class="slide-title text-shadow">
                                     <h1>Comfort and Luxuries</h1>
                                     <h2>24 hour town, scenic pool area, <br>and outdoor lounges. </h2>
-                                    <a href="schedule-a-tour.asp" class="btn btn-block btn-mod btn-brown btn-large btn-round">Schedule a Tour</a>
+                                    <a href="schedule-a-tour" class="btn btn-block btn-mod btn-brown btn-large btn-round">Schedule a Tour</a>
                                 </div>
                             </div>
                             <img src="img/slides/home-top-slide3a.jpg" class="visible-md visible-lg">
@@ -78,19 +53,17 @@
                         </li>
                     </ul>
                 </div>
-                <%if SpecialWebsite = "" then%>
-                    <!-- No Special -->
-                <%else%>
+                <?php if(isset($spec['website'])): ?>
                 <div class="specials-gallery visible-xs visible-sm visible-md visible-lg">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12 text-center">
-                                <b><%=SpecialWebsite%></b> - CALL FOR DETAILS
+                                <b><?php echo $spec['website']; ?></b> - CALL FOR DETAILS
                             </div>
                         </div>
                     </div>
                 </div>
-                <%end if%>
+                <?php endif; ?>
             </section>
             <!-- End Home Section -->
 
@@ -100,7 +73,7 @@
                 <div class="container relative">
                     
                     <h2 class="section-title font-alt mb-40 mb-sm-40">
-                        About Martinique Bay
+                        About <?php //TODO grab apartment title ?>Martinique Bay
                     </h2>
                     
                     <div class="container">
@@ -108,6 +81,7 @@
                             <div class="col-md-8 col-md-offset-2">
                                 
                                 <div class="section-text align-center mb-40 mb-xs-40">
+                                    <?php //TODO get welcome text for about section ?>
                                     No more endless searching when you visit this gated community in the heart of Green Valley. This tree lined community offers two bedroom or three bedroom apartments loaded with convenience and comfort. We offer both contemporary and classic designs with oversized garden tubs, window seating in almost every room, wood burning fireplaces, sky lights, and lofty vaulted ceilings.
                                 </div>
                                 
@@ -131,15 +105,17 @@
                                 <div class="banner-content text-shadow">
                                     <h3 class="banner-heading font-alt">Your New Neighborhood</h3>
                                     <div class="banner-decription">
+                                        <?php //TODO: grab neighborhood description ?>
                                         Immerse yourself in the culture of Downtown Henderson at Martinique Bay.<br>Located just seconds from all the fun, food, and entertainment, and near the freeway, our location is ideal for every lifestyle.
+                                        <?php //TODO: grab neighborhood points of interest ?>
                                         <ul>
-                                            <li><a href="neighborhood.asp">GALLERIA AT SUNSET</a></li>
-                                            <li><a href="neighborhood.asp">ACACIA PARK</a></li>
-                                            <li><a href="neighborhood.asp">COUNTRY FRESH FARMERS MARKET</a></li>
+                                            <li><a href="neighborhood">GALLERIA AT SUNSET</a></li>
+                                            <li><a href="neighborhood">ACACIA PARK</a></li>
+                                            <li><a href="neighborhood">COUNTRY FRESH FARMERS MARKET</a></li>
                                         </ul>
                                     </div>
                                     <div class="local-scroll">
-                                        <a href="neighborhood.asp" class="btn btn-mod btn-brown btn-large btn-round">SEE ALL THE ATTRACTIONS</a>
+                                        <a href="neighborhood" class="btn btn-mod btn-brown btn-large btn-round">SEE ALL THE ATTRACTIONS</a>
                                     </div>
                                 </div>
                             </div>
@@ -160,6 +136,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <h2 class="section-title font-alt mb-40 mb-sm-40">Apartment Features</h2>
+                                <?php //TODO: re-use the apartment features cruft ?>
                                 <div class="col-md-6">
                                      <div class="text">
                                         <ul style="list-style-type:none; line-height: 30px;">
@@ -179,6 +156,7 @@
                             </div>
                             <div class="col-sm-6">
                                 <h2 class="section-title font-alt mb-40 mb-sm-40">Community Features</h2>
+                                <?php //TODO: re-use the community features cruft ?>
                                 <div class="col-md-6">
                                     <div class="text">
                                         <ul style="list-style-type:none; line-height: 30px;">
@@ -219,8 +197,8 @@
                             <div class="mt-50 mt-lg50 mb-70 mb-lg-70 mb-sm-30">
                                 <div class="banner-content text-right">
                                     <div class="local-scroll">
-                                        <p><a href="floor-plans.asp" class="btn btn-mod btn-brown btn-large btn-round">SEE FLOOR PLANS</a></p>
-                                        <p><a href="schedule-a-tour.asp" class="btn btn-mod  btn-large btn-round">SCHEDULE A TOUR</a></p>
+                                        <p><a href="floor-plans" class="btn btn-mod btn-brown btn-large btn-round">SEE FLOOR PLANS</a></p>
+                                        <p><a href="schedule-a-tour" class="btn btn-mod  btn-large btn-round">SCHEDULE A TOUR</a></p>
                                     </div>
                                 </div>
                             </div>
@@ -246,6 +224,7 @@
                             <div class="col-md-8 col-md-offset-2">
                                 
                                 <div class="section-text align-center mb-70 mb-xs-40">
+                                <?php //TODO: grab gallery description ?>
                                     In&nbsp;auctor ex&nbsp;id&nbsp;urna faucibus porttitor. Lorem ipsum dolor sit amet, 
                                     consectetur adipiscing elit. In&nbsp;maximus ligula semper metus pellentesque mattis.  
                                     Maecenas volutpat, diam enim sagittis quam, id&nbsp;porta quam. Sed id&nbsp;dolor 
@@ -258,6 +237,7 @@
                     
                     <!-- Gallery Filter -->                    
                     <div class="works-filter font-alt align-center">
+                    <?php //TODO: grab gallery filters ?>
                         <a href="#" class="filter active" data-filter="*">All</a>
                         <a href="#exterior" class="filter" data-filter=".exterior">Community</a>
                         <a href="#interior" class="filter" data-filter=".interior">Apartment</a>
@@ -266,7 +246,7 @@
                     
                     <!-- Gallery Grid -->
                     <ul class="works-grid work-grid-3 work-grid-gut clearfix font-alt hover-white hide-titles" id="work-grid">
-                        
+                        <?php //TODO: grab gallery items ?>
                         <!-- Gallery Item (Lightbox) -->
                         <li class="work-item mix exterior">
                             <a href="img/gallery/ext1.jpg" class="work-lightbox-link mfp-image">
@@ -401,26 +381,24 @@
                                 <div>
                                 
                                 <script type='text/javascript'>
+                                <?php //TODO: update this google maps information ?>
                                     function init_map(){var myOptions = {zoom:17,center:new google.maps.LatLng(36.0670112,-115.0839982),scrollwheel:false,mapTypeId: google.maps.MapTypeId.ROADMAP};map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);iconBase='';marker = new google.maps.Marker({position: new google.maps.LatLng(36.0670112,-115.0839982),gestureHandling: 'cooperative',map: map,icon: iconBase + 'img/custom-marker.png'});infowindow = new google.maps.InfoWindow({content:'<strong>Martinique Bay</strong><br>3000 High View Drive Henderson, NV<br>'});google.maps.event.addListener(marker, 'click', function(){infowindow.open(map,marker);});infowindow.open(map,marker);}google.maps.event.addDomListener(window, 'load', init_map);</script>
                             </div>
                             <div class="container overlap-ds box-shadow--2dp hidden-sm hidden-xs">
                                 <div class="location">
-                                    <b>Martinique Bay</b>
+                                    <b><?php //TODO get property title ?>Martinique Bay</b>
                                     <p>
-                                        3000 High View Drive<br>
-                                        Henderson, NV 89014<br>
-                                        (702) 435-4305
+                                        <?php echo $entity->getStreet() . "<br>";
+                                        echo $entity->getCity() . ", " . $entity->getState() . " " ;
+                                        echo $entity->getZipCode() . "<br>";
+                                        echo $entity->getPhone();
+                                        ?>
                                     </p>
                                 </div>
                                 <div class="hours">
                                     <b>Office Hours</b>
                                     <p>
-                                        Monday - Friday<br>
-                                        9:00 am - 6:00 pm<br>
-                                    
-                                    
-                                        Weekends<br>
-                                        10:00 am - 5:00 pm
+                                    <?php echo $entity->getHours(); ?>
                                     </p>
                                 </div>
                             </div>
@@ -430,7 +408,9 @@
                         </div>
              </section>
             <!-- End Google Map -->
-			
+			@stop
+
+            @section('contact')
 			<section class="contact-padding page-section pb-0" id="contact">
                 <div class="container relative">
                     
@@ -449,7 +429,7 @@
                                             Call Us
                                         </div>
                                         <div class="ci-text">
-                                            702.435.4305 
+                                            <?php echo $entity->getPhone(); ?>
                                         </div>
                                     </div>
                                 </div>
@@ -465,7 +445,7 @@
                                             Address
                                         </div>
                                         <div class="ci-text">
-                                            3000 High View Drive<br>Henderson, NV 89014
+                                            <?php echo $entity->getFullAddressBr(); ?>
                                         </div>
                                     </div>
                                 </div>
@@ -481,7 +461,7 @@
                                             Office Hours
                                         </div>
                                         <div class="ci-text">
-                                            Weekdays: 9:00 am - 6:00 pm<br>Weekends: 10:00 am - 5:00 pm
+                                        <?php echo $entity->getHours(); ?>
                                         </div>
                                     </div>
                                 </div>
@@ -495,59 +475,14 @@
             	</div>        
             </section>
                       
+            @stop
             
-            <!-- Schedule a Tour Section -->
-            <!--#include virtual="/inc/schedule-tour.asp" -->
-            <!-- End Schedule a Tour Section -->
-            
-            
-            <!-- Footer -->
-            <!--#include virtual="/inc/footer.asp" -->
-           
-            <!-- End Footer -->
-        
-        
-			
-
-        </div>
-        <!-- End Page Wrap -->
-
-        
-        
-        
-        <!-- JS -->
-        <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
-        <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>        
-        <script type="text/javascript" src="js/SmoothScroll.js"></script>
-        <script type="text/javascript" src="js/jquery.scrollTo.min.js"></script>
-        <script type="text/javascript" src="js/jquery.localScroll.min.js"></script>
-        <script type="text/javascript" src="js/jquery.viewport.mini.js"></script>
-        <script type="text/javascript" src="js/jquery.countTo.js"></script>
-        <script type="text/javascript" src="js/jquery.appear.js"></script>
-        <script type="text/javascript" src="js/jquery.sticky.js"></script>
-        <script type="text/javascript" src="js/jquery.parallax-1.1.3.js"></script>
-        <script type="text/javascript" src="js/jquery.fitvids.js"></script>
-        <script type="text/javascript" src="js/owl.carousel.min.js"></script>
-        <script type="text/javascript" src="js/slippry.min.js"></script>
-        <script type="text/javascript" src="js/isotope.pkgd.min.js"></script>
-        <script type="text/javascript" src="js/imagesloaded.pkgd.min.js"></script>
-        <script type="text/javascript" src="js/jquery.magnific-popup.min.js"></script>
+        @section('google-map-js')
         <!-- Replace test API Key "AIzaSyAZsDkJFLS0b59q7cmW0EprwfcfUA8d9dg" with your own one below 
         **** You can get API Key here - https://developers.google.com/maps/documentation/javascript/get-api-key -->
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKPvpp1b3YxfaEfOZQ6ySdzcpkDSfwqs8"></script>
-        <script type="text/javascript" src="js/gmap3.min.js"></script>
-        <script type="text/javascript" src="js/wow.min.js"></script>
-        <script type="text/javascript" src="js/masonry.pkgd.min.js"></script>
-        <script type="text/javascript" src="js/jquery.simple-text-rotator.min.js"></script>
-        <script type="text/javascript" src="js/all.js"></script>
-        <script type="text/javascript" src="js/contact-form.js"></script>
-        <script type="text/javascript" src="js/jquery.ajaxchimp.min.js"></script>       
-        <!--[if lt IE 10]><script type="text/javascript" src="js/placeholder.js"></script><![endif]-->
-
-  
-        
-
+        @stop
+        @section('page-specific-js')
         <script type="text/javascript">
             $(function(){
                 if(localStorage.getItem('#banner-special') != 'shown'){
@@ -566,5 +501,4 @@
                 });
             });
         </script>
-    </body>
-</html>
+        @stop

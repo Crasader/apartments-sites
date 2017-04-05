@@ -1,56 +1,25 @@
-<?php /*
-<%
-' Connection to the database
-
-' declare variables
-
-dim dbConnection
-
-
-Set dbConnection = Server.CreateObject( "ADODB.Connection" )
-
-
-dbConnection.Open "Driver={SQL Server};" & _
-           "Server=192.168.1.139;" & _
-           "Address=rentegisql1,1433;" & _
-           "Network=DBMSSOCN;" & _
-           "Database=AIM_164MTB;" & _
-           "Uid=sa;" & _
-           "Pwd=mdb121bdm(("
-
-'==============================================================================
-' SQL grabs lastRecord, create an array                                       =
-'==============================================================================
-
-' Declare variables for SQL and array
-dim det_sql
-dim det_res
-dim det_arr
-dim det_str
-
-
-
-det_sql = "[WS_SP_MAPTS_GET_UNIT_AVAILABILITY_NOXML]"
-            
-
-' Create a recordset
-set det_res = dbconnection.execute(det_sql)
-
-
-' If recordset is not empty then create the array, else flag empty string
-if NOT det_res.eof then
-    det_arr = det_res.getrows()
-else
-    det_str = "empty"
-end if
-
-dim rc
-dim nor
-
-' Find the size of the array
-nor = ubound(det_arr, 2)
-%>
-*/
+<?php 
+$floorPlans = app()->make('App\AIM\FloorPlans');
+$fpData = $floorPlans->getFloorPlans();
+$sorted = [];
+$sortedIds = [];
+//TODO allow for multiple N bedrooms
+foreach($fpData as $index => $object){
+    $uniqueId = uniqid() . "_" . $object->BED;
+    $object->uniqid = $uniqueId;
+    if(intval($object->AVAIL) == 0){
+        $object->ACTION = 'contact';
+        $object->TEXT = 'Limited | MORE INFO';
+    }elseif(intval($object->AVAIL) == 1){
+        $object->TEXT = 'Unit Available';
+        $object->ACTION = 'unit';
+    }else{
+        $object->TEXT = 'Units Available';
+        $object->ACTION = 'unit';
+    }
+    $sorted[$object->BED] = $object;
+    $sortedIds[$uniqueId] = $object;
+}
 ?>
 @extends('layouts/dinapoli/main')
     @section('page-title-row')
@@ -59,32 +28,36 @@ nor = ubound(det_arr, 2)
         </div>
     @stop
     @section('page-title-span','Floor Plans & Availability') 
-    @section('content')
-    <form name="submitUnit" method="post" action="">
+    <form id="submitUnit" method="post" action="">
       <input type="hidden" name="unittype" id="unittype" value="X">
       <input type="hidden" name="bed" id="bed" value="X">
       <input type="hidden" name="bath" id="bath" value="X">
       <input type="hidden" name="sqft" id="sqft" value="X">
+        {{ csrf_field() }}
     </form>
-                    
             <section class="page-section">
                 <div class="container relative">
                     
                     <!-- Floorplans Filter -->                    
                     <div class="works-filter font-alt align-center">
-                        <?php //TODO: grab floor plans and display them here ?>
                         <a href="#" class="filter active" data-filter="*">All</a>
-                        <a href="#2bed" class="filter" data-filter=".2bed">2 Bedrooms</a>
-                        <a href="#3bed" class="filter" data-filter=".3bed">3 Bedrooms</a>
+                        <?php 
+                            foreach($sorted as $bedCount => $object):
+                        ?>
+                        <a href="#<?php echo $bedCount;?>bed" class="filter" data-filter=".<?php echo $bedCount;?>bed">
+                        <?php echo $bedCount; ?> Bedroom<?php if($bedCount > 1){ echo "s"; }?>
+                        </a>
+                        <?php
+                            endforeach;
+                        ?>
                     </div>                    
                     <!-- End Floorplans Filter -->
                     
                     <!-- Floor Plans Row -->
                         <div class="row multi-columns-row works-grid work-grid-3" id="work-grid">
-                        <?php //TODO: grab unit features ?>
-                            <%for rc = 0 to nor%>
+                            <?php foreach($sorted as $index => $object): ?>
                             <!-- Individual Unit -->
-                            <div class="col-sm-6 col-md-4 col-lg-4 work-item mix <%Response.Write ( det_arr(1,rc) )%>bed">
+                            <div class="col-sm-6 col-md-4 col-lg-4 work-item mix <?php echo $object->BED;?>bed">
                                 <div class="floorplan-item">
                                     <div class="floorplan-item-inner">
                                         <div class="floorplan-wrap">
@@ -96,27 +69,25 @@ nor = ubound(det_arr, 2)
 
                                              <!-- Unit Title -->
                                             <div class="floorplan-title">
-                                                <%Response.Write ( det_arr(0,rc) )%><br>
-                                                <%if det_arr(7,rc) = "" then%>
-                                                    
-                                                <%else%>
-                                                    <span class="special red"><i class="fa fa-star"><%Response.Write ( det_arr(7,rc) )%></i></span>
-                                                <%end if%>
+                                                <?php echo $object->U_MARKETING_NAME; ?><br>
+                                                <?php if(strlen($object->SPECIAL_TEXT)): ?>
+                                                    <span class="special red"><i class="fa fa-star"><?php echo $object->SPECIAL_TEXT;?></i></span>
+                                                <?php endif; ?>
                                                 
                                             </div>
                                             
                                             <!-- Unit Features -->
                                             <div class="floorplan-features font-alt">
                                                 <ul class="sf-list pr-list">
-                                                    <li>Sq Feet: <b><span><%Response.Write ( det_arr(3,rc) )%></span></b></li>
-                                                    <li>Bedrooms: <b><span><%Response.Write ( det_arr(1,rc) )%></span></b></li>
-                                                    <li>Bathrooms: <b><span><%Response.Write ( det_arr(2,rc) )%></span></b></li>
+                                                    <li>Sq Feet: <b><span><?php echo $object->SQFT; ?></span></b></li>
+                                                    <li>Bedrooms: <b><span><?php echo $object->BED; ?></span></b></li>
+                                                    <li>Bathrooms: <b><span><?php echo $object->BATH;?></span></b></li>
                                                     <li>Deposit: <b><span>$100</span></b></li>
                                                 </ul>
                                             </div>
                                             
                                             <div class="floorplan-num">
-                                                <sup>$</sup><%=Replace( det_arr(5,rc),".00","")%>
+                                                <sup>$</sup><?php echo round($object->RENT_FROM,2,PHP_ROUND_HALF_UP);?>
                                             </div>
                                             
                                             <div class="pr-per">
@@ -125,14 +96,22 @@ nor = ubound(det_arr, 2)
                                             
                                             <!-- Button -->                                         
                                             <div class="pr-button">
-                                                <%if det_arr(4,rc) = "0" then%>
-                                                <a style="cursor:pointer" onclick="document.getElementById('unittype').value='<%=det_arr(0,rc)%>';document.getElementById('bed').value='<%=det_arr(1,rc)%>';document.getElementById('bath').value='<%=det_arr(2,rc)%>';document.getElementById('sqft').value='<%=det_arr(3,rc)%>';document.submitUnit.action='contact';document.submitUnit.submit();" class="btn btn-brown btn-mod">Limited | MORE INFO</a>
-                                            <%elseif det_arr(4,rc) = "1" then%>
-                                                <a style="cursor:pointer" onclick="document.getElementById('unittype').value='<%=det_arr(0,rc)%>';document.getElementById('bed').value='<%=det_arr(1,rc)%>';document.getElementById('bath').value='<%=det_arr(2,rc)%>';document.getElementById('sqft').value='<%=det_arr(3,rc)%>';document.submitUnit.action='unit';document.submitUnit.submit();" class="btn btn-brown btn-mod"><%=det_arr(4,rc)%> Unit Available</a>
-                                            <%else%>
-                                            <a style="cursor:pointer" onclick="document.getElementById('unittype').value='<%=det_arr(0,rc)%>';document.getElementById('bed').value='<%=det_arr(1,rc)%>';document.getElementById('bath').value='<%=det_arr(2,rc)%>';document.getElementById('sqft').value='<%=det_arr(3,rc)%>';document.submitUnit.action='unit';document.submitUnit.submit();" class="btn btn-brown btn-mod"><%=det_arr(4,rc)%> Units Available</a>
-                                            <%end if%>
-
+                                                <?php 
+                                                    $text = '';
+                                                    switch($object->AVAIL){
+                                                    case '0':
+                                                        $text = 'Limited | MORE INFO';
+                                                        break;
+                                                    case '1':
+                                                        $text = 'Unit Available';
+                                                        break;
+                                                    default:
+                                                        $text = 'Units Available';
+                                                    }
+                                                ?>
+                                                         <a style="cursor:pointer" id="<?php echo $object->uniqid;?>" class="btn btn-brown btn-mod">
+                                                         <?php echo $text;?>
+                                                </a>
                                             </div>
                                             
                                         </div>
@@ -140,8 +119,7 @@ nor = ubound(det_arr, 2)
                                 </div>
                             </div>
                             <!-- End Individual Unit -->
-                            <%NEXT%>
-                            
+                            <?php endforeach; ?>
                         </div>
                         <!-- End Floor Plans Row -->
 
@@ -155,9 +133,6 @@ nor = ubound(det_arr, 2)
                     
                 </div>
             </section>
-        </div>
-        <!-- End Page Wrap -->
-            
         @stop
         @section('contact','')
 
@@ -167,3 +142,20 @@ nor = ubound(det_arr, 2)
         @section('epop')
             @include('layouts/dinapoli/pages/inc/epop')
         @stop
+    @section('page-specific-js')
+    <script language="javascript">
+        $(document).ready(function(){
+            var units = <?php echo json_encode($sortedIds); ?>;
+            for(var i in units){
+                $("#" + i).bind("click",function(){
+                    $('#unittype').val(units[i].U_MARKETING_NAME);
+                    $('#bed').val(units[i].BED);
+                    $('#bath').val(units[i].BATH);
+                    $('#sqft').val(units[i].SQFT);
+                    $('#submitUnit').prop('action',units[i].ACTION);
+                    $('#submitUnit').submit();
+                });
+            }
+        });
+    </script>
+    @stop
