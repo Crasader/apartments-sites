@@ -26,7 +26,11 @@ function utilBindSubmitterVars(json,varMapping,conf){
                     $("#" + b).val(json[i][varMapping[b]]);
                 }
             }
-            $("#" + conf.form).prop('action',conf.action);
+            if(conf.action.fetch){
+                $("#" + conf.form).prop('action',json[i][conf.action.fetch]);
+            }else{
+                $("#" + conf.form).prop('action',conf.action);
+            }
             $("#" + conf.form).submit();
         });
     }

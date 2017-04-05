@@ -12,7 +12,7 @@ $data = $specials->fetchAllSpecials();
             				<div class="col-md-12 text-center">
         						<div class="text">
         							<b><?php echo $data['website']; ?></b><br>
-        							<a href="floor-plans" class="btn btn-mod btn-border-w btn-round">
+        							<a href="floorplans" class="btn btn-mod btn-border-w btn-round">
                                  	  FIND OUT MORE
                             		</a> 
         						</div>
@@ -35,9 +35,9 @@ $data = $specials->fetchAllSpecials();
                         </div>
                         <div class="col-xs-6 text-right">
                             <ul class="top-nav-right">
-                                <li class="hidden-sm hidden-xs"><a href="floor-plans"><i class="fa fa-search"></i> Apartment Search</a></li>
+                                <li class="hidden-sm hidden-xs"><a href="floorplans"><i class="fa fa-search"></i> Apartment Search</a></li>
                                 <li class="hidden-sm hidden-xs"><a href="resident-portal"><i class="fa fa-user"></i> Residents</a></li>
-                                <li><a href="floor-plans" class="brown"><b>Apply Now <i class="fa fa-angle-right"></i></b></a></li>
+                                <li><a href="floorplans" class="brown"><b>Apply Now <i class="fa fa-angle-right"></i></b></a></li>
                             </ul>
                         </div>
                     </div>
@@ -59,10 +59,10 @@ $data = $specials->fetchAllSpecials();
                             <li class="active hidden-md hidden-sm"><a href="index">Home</a></li>
                             <li><a href="gallery">Gallery</a></li>
                             <li><a href="amenities">Amenities</a></li>
-                            <li><a href="floor-plans">Floor Plans</a></li>
+                            <li><a href="floorplans">Floor Plans</a></li>
                             <li><a href="neighborhood">Neighborhood</a></li>
                             <li class="hidden-md hidden-sm"><a href="contact">Contact</a></li>
-                            <li class="hidden-md hidden-lg"><a href="floor-plans">Apartment Search</a></li>
+                            <li class="hidden-md hidden-lg"><a href="floorplans">Apartment Search</a></li>
                             <li class="hidden-md hidden-lg"><a href="resident-portal">Residents</a></li> 
                             <li><a href="schedule-a-tour" class="red"><b>Schedule a Tour <i class="fa fa-angle-right"></i></b></a></li>
                         </ul>

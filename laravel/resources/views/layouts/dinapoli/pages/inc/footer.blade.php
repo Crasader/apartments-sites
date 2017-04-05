@@ -34,7 +34,7 @@
                                 <li class="active"><a href="index">Home</a></li>
                                 <li><a href="gallery">Gallery</a></li>
                                 <li><a href="amenities">Amenities</a></li>
-                                <li><a href="floor-plans">Floor Plans</a></li>
+                                <li><a href="floorplans">Floor Plans</a></li>
                             </ul>
                         </div>
 
@@ -42,7 +42,7 @@
                             <ul class="text-center">
                                 <li><a href="neighborhood">Neighborhood</a></li>
                                 <li><a href="schedule-a-tour">Schedule a Tour</a></li>
-                                <li><a href="floor-plans">View Available Units</a></li>
+                                <li><a href="floorplans">View Available Units</a></li>
                                 <li><a href="app-online">Apply Online</a></li>
                             </ul>
                         </div>

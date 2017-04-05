@@ -197,7 +197,7 @@
                             <div class="mt-50 mt-lg50 mb-70 mb-lg-70 mb-sm-30">
                                 <div class="banner-content text-right">
                                     <div class="local-scroll">
-                                        <p><a href="floor-plans" class="btn btn-mod btn-brown btn-large btn-round">SEE FLOOR PLANS</a></p>
+                                        <p><a href="floorplans" class="btn btn-mod btn-brown btn-large btn-round">SEE FLOOR PLANS</a></p>
                                         <p><a href="schedule-a-tour" class="btn btn-mod  btn-large btn-round">SCHEDULE A TOUR</a></p>
                                     </div>
                                 </div>

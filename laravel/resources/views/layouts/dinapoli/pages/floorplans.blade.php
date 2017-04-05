@@ -1,5 +1,6 @@
 <?php 
 $floorPlans = app()->make('App\AIM\FloorPlans');
+$js = app()->make('App\Javascript\ApplySubmitter');
 $fpData = $floorPlans->getFloorPlans();
 $sorted = [];
 $sortedIds = [];
@@ -20,6 +21,8 @@ foreach($fpData as $index => $object){
     $sorted[$object->BED] = $object;
     $sortedIds[$uniqueId] = $object;
 }
+$js->setCollection($sorted);
+$js->generateIDs();
 ?>
 @extends('layouts/dinapoli/main')
     @section('page-title-row')
@@ -65,7 +68,7 @@ foreach($fpData as $index => $object){
                                             
                                             <!-- Floor Plan Thumbnail -->
                                             <div class="floorplan-thumb">
-                                                <a href="img/floor-plans/sands.jpg" class="lightbox-gallery-2 mfp-image"><img src="img/floor-plans/sands.jpg"></a>
+                                                <a href="img/floorplans/sands.jpg" class="lightbox-gallery-2 mfp-image"><img src="img/floorplans/sands.jpg"></a>
                                             </div>
 
                                              <!-- Unit Title -->
@@ -110,7 +113,7 @@ foreach($fpData as $index => $object){
                                                         $text = 'Units Available';
                                                     }
                                                 ?>
-                                                         <a style="cursor:pointer" id="<?php echo $object->uniqid;?>" class="btn btn-brown btn-mod">
+                                                         <a style="cursor:pointer" id="<?php echo $js->getGenId($index); ?>" class="btn btn-brown btn-mod">
                                                          <?php echo $text;?>
                                                 </a>
                                             </div>
@@ -146,17 +149,18 @@ foreach($fpData as $index => $object){
     @section('page-specific-js')
     <script language="javascript">
         $(document).ready(function(){
-            var units = <?php echo json_encode($sortedIds); ?>;
-            for(var i in units){
-                $("#" + i).bind("click",function(){
-                    $('#unittype').val(units[i].U_MARKETING_NAME);
-                    $('#bed').val(units[i].BED);
-                    $('#bath').val(units[i].BATH);
-                    $('#sqft').val(units[i].SQFT);
-                    $('#submitUnit').prop('action',units[i].ACTION);
-                    $('#submitUnit').submit();
-                });
-            }
+            var json = <?php $js->dumpJSON(); ?>;
+            utilBindSubmitter(json,{
+                'unittype': 'U_MARKETING_NAME',
+                'bed': 'BED',
+                'bath': 'BATH',
+                'sqft': 'SQFT'
+            },{
+                'action': {
+                    'fetch': 'ACTION'
+                },
+                'form': 'submitUnit'
+            });
         });
     </script>
     @stop

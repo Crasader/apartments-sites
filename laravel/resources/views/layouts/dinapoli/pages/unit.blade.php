@@ -44,7 +44,7 @@ $js->generateIDs();
                             
                             <!-- Floor Plan Thumbnail -->
                             <div class="row unit-thumb">
-                                <a href="img/floor-plans/sands.jpg" class="lightbox-gallery-2 mfp-image"><img src="img/floor-plans/sands.jpg"></a>
+                                <a href="img/floorplans/sands.jpg" class="lightbox-gallery-2 mfp-image"><img src="img/floorplans/sands.jpg"></a>
                             </div>
                         </div>
                         
