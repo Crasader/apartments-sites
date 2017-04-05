@@ -23,8 +23,6 @@ function _createBindCallback(json,i,varMapping,conf){
                     $("#" + b).val(varMapping[b].static);
                 }else{
                     $("#" + b).val(json[i][varMapping[b]]);
-                    console.log("Bound: " + b + ": " + json[i][varMapping[b]]);
-                    console.log(json[i]);
                 }
             }
             if(conf.action.fetch){
@@ -38,7 +36,6 @@ function _createBindCallback(json,i,varMapping,conf){
 
 function utilBindSubmitterVars(json,varMapping,conf){
     for(var i in json){
-        console.log("I: " + i);
         $("#" + i).bind("click",_createBindCallback(json,i,varMapping,conf));
     }
 }

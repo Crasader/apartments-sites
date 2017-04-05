@@ -4,7 +4,7 @@ $js = app()->make('App\Javascript\ApplySubmitter');
 $fpData = $floorPlans->getFloorPlans();
 $sorted = [];
 $sortedIds = [];
-//TODO allow for multiple N bedrooms
+
 foreach($fpData as $index => $object){
     $uniqueId = uniqid() . "_" . $object->BED;
     $object->uniqid = $uniqueId;
