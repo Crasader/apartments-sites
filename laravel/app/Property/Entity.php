@@ -161,13 +161,13 @@ class Entity extends Model
         return "500.0000";
     }
 
-    public function getText($name) : string{
+    public function getText(string $name,string $default = null) : string{
         //TODO: !optimization Cache values in memory !cache
         $textTypes = TextType::where('str_key',$name)->get();
         if($textTypes->count()){
             return $textTypes[0]->hasText[0]->string_value;
         }
-        return null;
+        return $default;
     }
 
     public function getFullAddress() : string {
