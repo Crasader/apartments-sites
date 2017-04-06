@@ -39,3 +39,26 @@ function utilBindSubmitterVars(json,varMapping,conf){
         $("#" + i).bind("click",_createBindCallback(json,i,varMapping,conf));
     }
 }
+
+function focusAlert(id,friendly_id,custom_msg){
+	if(custom_msg){
+		alert(custom_msg);
+	}else{
+		alert("Please enter a " + friendly_id);
+	}
+	$("#" + id).trigger("focus");
+	$("#" + id).parent().addClass('has-error');
+	$("#" + id).bind('blur',function(){
+		if(id == 'email'){
+			if(utilValidateEmail($(this).val())){
+				$(this).parent().removeClass('has-error');
+			}
+			return;
+		}
+		if($(this).val().length > 0){
+			$(this).parent().removeClass('has-error');
+		}
+	});
+	event.preventDefault();
+	return false;
+}

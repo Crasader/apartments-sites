@@ -14,7 +14,7 @@
                     	<div class="col-sm-12">
                     		<h2 class="section-title font-alt align-left mb-20 mb-sm-20">
                             <?php //TODO: get slogan ?>
-                               More than just a place to sleep
+                               <?php //TODO: echo $entity->getSlogan(); ?>More than just a place to sleep
                             </h2>
                     	</div>
 

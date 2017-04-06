@@ -80,31 +80,12 @@
             @section('schedule-a-tour','')
             @section('action','')
             @section('page-specific-js')
+            <script src="js/jquery.validate.min.js"></script>
+            <script src="js/jquery.inputmask.bundle.js"></script>
+            <script src="js/jquery-ui.min.js"></script>
             <script language="javascript" src="js/util.js"></script>
             <script language="javascript">
             $(document).ready(function(){
-                function focusAlert(id,friendly_id,custom_msg){
-                    if(custom_msg){
-                        alert(custom_msg);
-                    }else{
-                        alert("Please enter a " + friendly_id);
-                    }
-                    $("#" + id).trigger("focus");
-                    $("#" + id).parent().addClass('has-error');
-                    $("#" + id).bind('blur',function(){
-                        if(id == 'email'){
-                            if(utilValidateEmail($(this).val())){
-                                $(this).parent().removeClass('has-error');
-                            }
-                            return;
-                        }
-                        if($(this).val().length > 0){
-                            $(this).parent().removeClass('has-error');
-                        }
-                    });
-                    event.preventDefault();
-                    return false;
-                }
                 window.submitContact = function(){
                     if($("#first_name").val().length == 0){
                         return focusAlert("first_name","First Name");

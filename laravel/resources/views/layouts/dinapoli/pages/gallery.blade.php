@@ -29,31 +29,43 @@
                     <!-- Gallery Filter -->                    
                     <div class="works-filter font-alt align-center">
                         <a href="#" class="filter active" data-filter="*">All</a>
-                        <?php //TODO: Grab gallery filters ?>
+                        <?php 
+                            $gallery = app()->make('App\Property\Gallery');
+                            $gallery->setFilters(['main','feature','community']);
+                            foreach(['exterior' => 'Community','interior' => 'Apartment'] as $type => $label):
+                        ?>
+                        <a href="#<?php echo $type;?>" class="filter" data-filter=".<?php echo $type;?>"><?php echo $label;?></a>
+                        <?php
+                            endforeach;
+                        ?>
                         <a href="#exterior" class="filter" data-filter=".exterior">Community</a>
                         <a href="#interior" class="filter" data-filter=".interior">Apartment</a>
                     </div>                    
                     <!-- End Gallery Filter -->
                     
                     <!-- Gallery Grid -->
-                    <?php //TODO: foreach($gallery ... ) ?>
                     <ul class="works-grid work-grid-3 work-grid-gut clearfix font-alt hover-white hide-titles" id="work-grid">
-                        <?php //TODO: grab exterior/interior lightbox html ?>
-                        <!-- Gallery Item (Lightbox) -->
-                        <li class="work-item mix exterior">
-                            <a href="img/gallery/ext1.jpg" class="work-lightbox-link mfp-image">
+                        <?php 
+                            $gallery->loadItems(['main','feature','community']);
+                            foreach($gallery->fetchSortedItems($gallery::SORT_TYPE_SPARSE) as $index => $imageData):
+                        ?>
+                        <!-- Gallery Item (Lightbox) :) -->
+                        <?php dd($imageData); ?>
+                        <li class="work-item mix <?php echo $imageData['type'];?>">
+                            <a href="<?php echo $imageData['url'];?>" class="work-lightbox-link mfp-image">
                                 <div class="work-img">
-                                    <img src="img/gallery/ext1.jpg" alt="Work" />
+                                    <img src="<?php echo $imageData['url'];?>" alt="<?php echo $imageData['alt'];?>" />
                                 </div>
                                 <div class="work-intro">
-                                    <h3 class="work-title">Exterior</h3>
+                                    <h3 class="work-title"><?php echo $imageData['title'];?></h3>
                                     <div class="work-descr">
-                                        Lorem ipsum dolor sit amet 
+                                        <?php echo $imageData['desc'];?>
                                     </div>
                                 </div>
                             </a>
                         </li>
                         <!-- End Gallery Item -->
+                        <?php endforeach; ?>
 
 
                         <!-- Gallery Item (Lightbox) -->

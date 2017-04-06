@@ -8,6 +8,9 @@
                         </div>
                         @stop
                         @section('page-title-span','SCHEDULE A TOUR')
+                        @section('recaptcha-js')
+                        <script src="https://www.google.com/recaptcha/api.js"></script>
+                        @stop
             @section('content')
              <!-- Schedule Form Section -->
             <section class="page-section pb-0" id="contact-form">
@@ -16,34 +19,37 @@
                     <div class="section-text mb-50 mb-sm-20">
                         <div class="row">
                             
-                            <div class="col-md-7 col-sm-7 mb-sm-50 mb-xs-30">
-                                <form>
-                                    <div class="mb-20 mb-md-10">
+                            <div class="col-md-7 col-sm-7 mb-sm-50 mb-xs-30 form-container">
+                                <form role="form" id="form1" name="form1" method="post" class="validate" action="/" novalidate="novalidate">
+                                    <?php //TODO: Find a form helper for laravel that will do this for us ?>
+                                    <div class="mb-20 mb-md-10 form-group">
                                         <label>First Name</label>
-                                        <input type="text" name="first_name" id="first_name" class="input-md form-control" maxlength="100">
+                                        <input type="hidden" name="ActionRequested" id="ActionRequested" value="schedule-a-tour">
+                                        <input type="text" name="first_name" id="first_name" data-validate="required" data-message-required="First name is a required field" class="input-md form-control" maxlength="100">
                                     </div>
-                                    <div class="mb-20 mb-md-10">
+                                    <div class="mb-20 mb-md-10 form-group">
                                         <label>Last Name</label>
-                                        <input type="text" name="last_name" id="last_name" class="input-md form-control" maxlength="100">
+                                        <input type="text" name="last_name" id="last_name" data-validate="required" data-message-required="Last name is a required field" class="input-md form-control" maxlength="100">
                                     </div>
-                                    <div class="mb-20 mb-md-10">
+                                    <div class="mb-20 mb-md-10 form-group">
                                         <label>Email</label>
-                                        <input type="text" name="email" id="email" class="input-md form-control" maxlength="100">
+                                        <input type="text" name="email" id="email" data-validate="required" data-message-required="Email is a required field" class="input-md form-control" maxlength="100">
                                     </div>
-                                    <div class="mb-20 mb-md-10">
+                                    <div class="mb-20 mb-md-10 form-group">
                                         <label>Phone</label>
-                                        <input type="text" name="phone" id="phone" class="input-md form-control" maxlength="100">
+                                        <input type="tel" name="phone" id="phone" data-validate="required" data-message-required="Phone number is a required field" data-mask="phone" class="input-md form-control" maxlength="100">
                                     </div>
-                                    <div class="mb-20 mb-md-10">
+                                    <div class="mb-20 mb-md-10 form-group">
                                         <label>Approximate Move-in Date</label>
                                         <input type="date" name="date" id="date" class="input-md form-control">
                                     </div>
-                                    <div class="mb-20 mb-md-10">
+                                    <div class="mb-20 mb-md-10 form-group">
                                         <label>When would you like to visit us?</label>
                                         <input type="date" name="visit-date" id="visit-date" class="input-md form-control">
                                     </div>
+                                    {{csrf_field()}}
                                     <div class="mb-20 mb-md-10">
-                                        <button type="submit" class="btn btn-mod btn-brown btn-large btn-round">Submit</button>
+                                        <button type="submit" class="btn btn-mod btn-brown btn-large btn-round submit-btn">Submit</button>
                                     </div>
                                 </form>
                             </div>
@@ -55,7 +61,7 @@
                                             <div class="map-block">
                                                 <div class="map">
                                                     <div class="map-container">
-                                                        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+                                                        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script> 
                                                         <div style="overflow:hidden;height:537px;max-width:100%;">
                                                             <div id="map-canvas" style="max-width:100%;"></div>
                                                         <div>
@@ -147,5 +153,15 @@
             @stop
 
         @section('google-maps-js')
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKPvpp1b3YxfaEfOZQ6ySdzcpkDSfwqs8"></script>
+        <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKPvpp1b3YxfaEfOZQ6ySdzcpkDSfwqs8"></script> -->
         @stop
+        @section('page-specific-js')
+		<script src="/js/bootstrap-datepicker.js"></script>
+		<script src="/js/TweenMax.min.js"></script>
+		<script src="/js/resizeable.js"></script>
+		<script src="/js/neon-api.js"></script>
+		<script src="/js/jquery.validate.min.js"></script>
+		<script src="/js/neon-custom.js"></script>
+		<script src="/js/neon-demo.js"></script>
+		<script src="/js/jquery.inputmask.bundle.js"></script>
+		@stop

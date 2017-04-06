@@ -159,4 +159,7 @@ class Entity extends Model
         return $this->getStreet() . "<br>" . $this->getCity() . ", " . $this->getState() . " " . $this->getZipCode();
     }
 
+    public function hasPhotos(){
+        return $this->hasMany('App\Property\Photo','property_id','fk_legacy_property_id');
+    }
 }

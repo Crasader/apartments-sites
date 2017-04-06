@@ -148,13 +148,13 @@ $js->generateIDs();
                 utilBindSubmitterVars(json,{
                     'unittype': 'UnitType',
                     'bed': {
-                        'static': "<?php echo $extras['bed'];?>"
+                        'static': "<?php echo floatval($extras['bed']);?>"
                     },
                     'bath': {
-                        'static': "<?php echo $extras['bath'];?>"
+                        'static': "<?php echo floatval($extras['bath']);?>"
                     },
                     'sqft': {
-                        'static': "<?php echo $extras['sqft'];?>"
+                        'static': "<?php echo floatval($extras['sqft']);?>"
                     },
                     'unitnumber': 'UnitNumber'
                 },{

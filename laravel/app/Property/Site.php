@@ -15,6 +15,7 @@ class Site extends Model
     public static $site_id_set = false;
     public static $site_id = null;
     public static $template_dir = null;
+    public static $legacyPropertyId = null;
     protected $_entity = null;
     protected $table = 'property_entity';
 

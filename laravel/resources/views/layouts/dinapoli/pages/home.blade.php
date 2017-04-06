@@ -365,6 +365,7 @@
                             <div class="col-md-8 col-md-offset-2">
                                 
                                 <div class="section-text align-center mb-70 mb-xs-40">
+                                    <?php //TODO: Grab OUR LOCATION text ?>
                                     Curabitur eu adipiscing lacus, a iaculis diam. Nullam placerat blandit auctor. Nulla accumsan ipsum et nibh rhoncus, eget tempus sapien ultricies. Donec mollis lorem vehicula.
                                 </div>
                                 

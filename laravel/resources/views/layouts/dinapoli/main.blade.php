@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="">
     <head>
         <title>@yield('title')</title>
 @section('meta')
@@ -18,7 +18,13 @@
         <link rel="stylesheet" href="css/owl.carousel.css">
         <link rel="stylesheet" href="css/magnific-popup.css">
 @show
- 
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		@yield('recaptcha-js')
     </head>
     <body class="appear-animate">
         <!-- Page Loader -->
@@ -153,8 +159,7 @@
         <script type="text/javascript" src="js/wow.min.js"></script>
         <script type="text/javascript" src="js/masonry.pkgd.min.js"></script>
         <script type="text/javascript" src="js/jquery.simple-text-rotator.min.js"></script>
-        <script type="text/javascript" src="js/all.js"></script>
-        <script type="text/javascript" src="js/contact-form.js"></script>
+        <script type="text/javascript" src="js/all.js"></script> 
         <script type="text/javascript" src="js/jquery.ajaxchimp.min.js"></script>
         <!--[if lt IE 10]><script type="text/javascript" src="js/placeholder.js"></script><![endif]-->
         <script type="text/javascript">

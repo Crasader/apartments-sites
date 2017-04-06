@@ -150,7 +150,7 @@ $js->generateIDs();
     <script src="js/util.js" language="Javascript"></script>
     <script language="javascript">
         $(document).ready(function(){
-            var json = <?php $js->dumpJSON(); ?>;
+            var json = <?php echo $js->dumpJSON(); ?>;
             utilBindSubmitterVars(json,{
                 'unittype': 'U_MARKETING_NAME',
                 'bed': 'BED',
