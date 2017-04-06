@@ -39,6 +39,7 @@
                                         <label>Phone</label>
                                         <input type="text" name="phone" id="phone" class="input-md form-control" maxlength="100">
                                     </div>
+                                    <label for="date">Approximate Move-In Date</label>
                                     <div class="mb-20 mb-md-10 input-group date" data-provide="datepicker" id="datediv" >
                                         <input type="text" class="form-control" id="date" name="date" readonly="true" placeholder="Approximate Move-In Date" />
                                         <div class="input-group-addon">
