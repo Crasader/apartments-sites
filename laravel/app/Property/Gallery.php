@@ -46,21 +46,54 @@ class Gallery extends Model
         }
     }
 
+    public function getPathToImage(string $image) :string{
+        return Site::$instance->getEntity()->getWebPublicDirectory() . '/img/' . $image;
+    }
+
+    public function decorate(string $itemName,array $items) : array{
+        $ret = [];
+        foreach($items as $index => $itemObject){
+            $itemObject['_itemName_'] = $itemName;
+            $itemObject['image'] = $this->getPathToImage($itemObject['image']);
+            $ret[] = $itemObject;
+        }
+        return $ret;
+    }
+
     public function loadItems(array $items){
-        //TODO: check if there items are already loaded into _fetchedItems. If they are, skip loading them !optimization
+        //TODO: check if there items are already loaded into _fetchedItems. If they are, skip loading them !optimization !optimization !cache
         foreach($items as $index => $itemName){
-            $this->_fetchedItems[$itemName] = $this->fetchItems($itemName);
+            $this->_fetchedItems[$itemName] = $this->decorate($itemName,$this->fetchItems($itemName));
         }
     }
 
     public function fetchItems(string $type){
-        //!optimization cache fetched items
+        //TODO: !optimization cache fetched items
         $legacyPropertyId = Site::$instance->getEntity()->getLegacyProperty()->id;
         return Photo::where(
             [
                 'property_id' => $legacyPropertyId,
                 'photo_type_id' => $this->getPhotoTypeId($type)
             ]
-        )->get();
+        )->get()->toArray();
+    }
+
+    public function fetchSortedItems(string $sortType) : array {
+        $sorted = [];
+        $count = 0;
+        foreach(array_keys($this->_fetchedItems) as $names){
+            $count += count($this->_fetchedItems[$names]);
+        }
+        $temp = $this->_fetchedItems;
+        while($count > 0){
+            foreach(array_keys($temp) as $names){
+                if(count($temp[$names])){
+                    $sorted[] = array_pop($temp[$names]);
+                    $count -= 1;
+                }
+            }
+        }
+        unset($temp);
+        return $sorted;
     }
 }

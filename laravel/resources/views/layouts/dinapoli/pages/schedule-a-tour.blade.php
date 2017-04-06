@@ -1,4 +1,7 @@
 @extends('layouts/dinapoli/main')
+            @section('extra-css')
+            <link rel="stylesheet" href="css/bootstrap-datepicker3.min.css"/>
+            @stop
                         @section('page-title-row')
                         <div class="col-md-8">
                             <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Schedule a Tour</h1>
@@ -20,16 +23,16 @@
                         <div class="row">
                             
                             <div class="col-md-7 col-sm-7 mb-sm-50 mb-xs-30 form-container">
-                                <form role="form" id="form1" name="form1" method="post" class="validate" action="/" novalidate="novalidate">
+                                <form role="form" id="form1" name="form1" method="post" class="validate" action="/post">
                                     <?php //TODO: Find a form helper for laravel that will do this for us ?>
                                     <div class="mb-20 mb-md-10 form-group">
                                         <label>First Name</label>
                                         <input type="hidden" name="ActionRequested" id="ActionRequested" value="schedule-a-tour">
-                                        <input type="text" name="first_name" id="first_name" data-validate="required" data-message-required="First name is a required field" class="input-md form-control" maxlength="100">
+                                        <input type="text" name="firstname" id="firstname" data-validate="required" data-message-required="First name is a required field" class="input-md form-control" maxlength="100">
                                     </div>
                                     <div class="mb-20 mb-md-10 form-group">
                                         <label>Last Name</label>
-                                        <input type="text" name="last_name" id="last_name" data-validate="required" data-message-required="Last name is a required field" class="input-md form-control" maxlength="100">
+                                        <input type="text" name="lastname" id="last_name" data-validate="required" data-message-required="Last name is a required field" class="input-md form-control" maxlength="100">
                                     </div>
                                     <div class="mb-20 mb-md-10 form-group">
                                         <label>Email</label>
@@ -39,13 +42,19 @@
                                         <label>Phone</label>
                                         <input type="tel" name="phone" id="phone" data-validate="required" data-message-required="Phone number is a required field" data-mask="phone" class="input-md form-control" maxlength="100">
                                     </div>
-                                    <div class="mb-20 mb-md-10 form-group">
-                                        <label>Approximate Move-in Date</label>
-                                        <input type="date" name="date" id="date" class="input-md form-control">
+                                    <label>Approximate Move-in Date</label>
+									<div class="mb-20 mb-md-10 input-group date" data-provide="datepicker" id="moveindatediv" >
+                                        <input type="text" class="form-control" id="moveindate" name="moveindate" readonly="true" placeholder="Approximate Move-In Date" />
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-th"></span>
+                                        </div>
                                     </div>
-                                    <div class="mb-20 mb-md-10 form-group">
-                                        <label>When would you like to visit us?</label>
-                                        <input type="date" name="visit-date" id="visit-date" class="input-md form-control">
+                                    <label for="visitdate">When would you like to visit us?</label>
+									<div class="mb-20 mb-md-10 input-group date" data-provide="datepicker" id="visitdatediv" >
+                                        <input type="text" class="form-control" id="visitdate" name="visitdate" readonly="true" placeholder="When would you like to visit us?" />
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-th"></span>
+                                        </div>
                                     </div>
                                     {{csrf_field()}}
                                     <div class="mb-20 mb-md-10">
@@ -154,12 +163,38 @@
 
         @section('page-specific-js')
         <?php //TODO: !optimization add version numbers to the end of .js files for caching validation/invalidation ?>
-		<script src="js/bootstrap-datepicker.js"></script>
-		<script src="js/TweenMax.min.js"></script>
-		<script src="js/resizeable.js"></script>
-		<script src="js/neon-api.js"></script>
-		<script src="js/jquery.validate.min.js"></script>
-		<script src="js/neon-custom.js"></script>
-		<script src="js/neon-demo.js"></script>
-		<script src="js/jquery.inputmask.bundle.js"></script>
+        <?php //TODO: !optimization combine javascript into one giant file that is minified ?>
+        <script type="text/javascript" src="js/jquery.validate.js"></script>
+	    <script type="text/javascript" src="js/jquery.maskedinput.js"></script>
+        <script type="text/javascript" src="js/amc.validate.js"></script>
+        <script type="text/javascript" src="js/bootstrap-datepicker.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function() {
+		    $("#visitdatediv").datepicker({format: 'mm/dd/yyyy'});
+            $("#moveindatediv").datepicker({format: 'mm/dd/yyyy'});	
+            amcBindValidate({ 
+                'form': '#form1',
+                'rules': {
+					firstname: "required",
+					lastname: "required",
+					email: {
+						required: true,
+						minlength: 5,
+						email: true
+					},
+					phone: "required",
+                    'date': {
+                        required: true,
+                        'date': true
+                    },
+                    'visitdate': {
+                        required: true,
+                        'date': true
+                    }
+                } /* End RULES */
+            });
+            amcMaskPhone('#phone','(999) 999-9999');
+		});	//End document.ready
+		
+	</script>
 		@stop

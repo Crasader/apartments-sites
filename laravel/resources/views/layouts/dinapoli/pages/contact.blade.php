@@ -1,4 +1,8 @@
 @extends('layouts/dinapoli/main')
+            @section('extra-css')
+                <!-- Latest compiled and minified CSS -->
+                <link id="bsdp-css" href="css/bootstrap-datepicker3.min.css" rel="stylesheet">
+            @stop
                        @section('page-title-row') 
                         <div class="col-md-8">
                             <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Contact Us</h1>
@@ -17,30 +21,32 @@
                         <div class="row">
                             
                             <div class="col-md-7 col-sm-7 mb-sm-50 mb-xs-30">
-                                <form method="post" action="/post">
+                                <form id="form1" method="post" action="/post">
                                     <input type="hidden" name="form_id" value="contact"/>
-                                    <div class="mb-20 mb-md-10">
+                                    <div class="mb-20 mb-md-10 form-group">
                                         <label>First Name</label>
-                                        <input type="text" name="first_name" id="first_name" class="input-md form-control" maxlength="100">
+                                        <input type="text" name="firstname" id="first_name" class="input-md form-control" maxlength="100">
                                     </div>
-                                    <div class="mb-20 mb-md-10">
+                                    <div class="mb-20 mb-md-10 form-group">
                                         <label>Last Name</label>
-                                        <input type="text" name="last_name" id="last_name" class="input-md form-control" maxlength="100">
+                                        <input type="text" name="lastname" id="last_name" class="input-md form-control" maxlength="100">
                                     </div>
-                                    <div class="mb-20 mb-md-10">
+                                    <div class="mb-20 mb-md-10 form-group">
                                         <label>Email</label>
                                         <input type="text" name="email" id="email" class="input-md form-control" maxlength="100">
                                     </div>
-                                    <div class="mb-20 mb-md-10">
+                                    <div class="mb-20 mb-md-10 form-group">
                                         <label>Phone</label>
                                         <input type="text" name="phone" id="phone" class="input-md form-control" maxlength="100">
                                     </div>
-                                    <div class="mb-20 mb-md-10">
-                                        <label>Approximate Move-in Date</label>
-                                        <input type="date" name="date" id="date" class="input-md form-control">
+                                    <div class="mb-20 mb-md-10 input-group date" data-provide="datepicker" id="datediv" >
+                                        <input type="text" class="form-control" id="date" name="date" readonly="true" placeholder="Approximate Move-In Date" />
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-th"></span>
+                                        </div>
                                     </div>
                                     <div class="mb-20 mb-md-10">
-                                        <button class="btn btn-mod btn-brown btn-large btn-round" onClick="submitContact()">Submit</button>
+                                        <button class="btn btn-mod btn-brown btn-large btn-round">Submit</button>
                                     </div>
                                 </form>
                             </div>
@@ -80,34 +86,31 @@
             @section('schedule-a-tour','')
             @section('action','')
             @section('page-specific-js')
-            <script src="js/jquery.validate.min.js"></script>
-            <script src="js/jquery.inputmask.bundle.js"></script>
-            <script src="js/jquery-ui.min.js"></script>
-            <script language="javascript" src="js/util.js"></script>
-            <script language="javascript">
+            <script type="text/javascript" src="js/jquery.validate.js"></script>
+            <script type="text/javascript" src="js/jquery.maskedinput.js"></script>
+            <script type="text/javascript" src="js/amc.validate.js"></script>
+            <script type="text/javascript" src="js/bootstrap-datepicker.js"></script>
+            <script type="text/javascript">
             $(document).ready(function(){
-                window.submitContact = function(){
-                    if($("#first_name").val().length == 0){
-                        return focusAlert("first_name","First Name");
-                    }
-                    if($("#last_name").val().length == 0){
-                        return focusAlert("last_name","Last Name");
-                    }
-                    if($("#email").val().length == 0){
-                        return focusAlert("email","Email");
-                    }
-                    if($("#phone").val().length == 0){
-                        return focusAlert("phone","Phone");
-                    }
-                    if(!utilValidateEmail($("#email").val())){
-                        return focusAlert("email",null,"Please enter a valid email address");
-                    }
-                    var dRet = utilValidateDate($("#date").val());
-                    if(dRet.status == false){
-                        return focusAlert("date",null,dRet.msg);
-                    }
-                    return true;
-                };
-            });
+			    $("#datediv").datepicker({ format: "mm/dd/yyyy" });	
+				amcBindValidate({
+					'form': '#form1',
+					'rules': {
+						firstname: "required",
+						lastname: "required",
+						email: {
+							required: true,
+							minlength: 5,
+							email: true
+						},
+						phone: "required",
+						'date': {
+							required: true,
+							'date': true
+						}
+					} /* End RULES */
+           		});
+            	amcMaskPhone('#phone','(999) 999-9999');
+        	}); //End document.ready
             </script>
             @stop

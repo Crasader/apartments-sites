@@ -11,13 +11,15 @@
 @show
         <!-- CSS -->
 @section('css')
-        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/custom.css">
         <link rel="stylesheet" href="css/animate.min.css">
         <link rel="stylesheet" href="css/owl.carousel.css">
         <link rel="stylesheet" href="css/magnific-popup.css">
 @show
+        @yield('extra-css')
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 		<!--[if lt IE 9]>
@@ -139,7 +141,7 @@
         <!-- JS -->
         <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
         <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script> 
         <script type="text/javascript" src="js/SmoothScroll.js"></script>
         <script type="text/javascript" src="js/jquery.scrollTo.min.js"></script>
         <script type="text/javascript" src="js/jquery.localScroll.min.js"></script>
@@ -159,8 +161,8 @@
         <script type="text/javascript" src="js/wow.min.js"></script>
         <script type="text/javascript" src="js/masonry.pkgd.min.js"></script>
         <script type="text/javascript" src="js/jquery.simple-text-rotator.min.js"></script>
-        <script type="text/javascript" src="js/all.js"></script> 
         <script type="text/javascript" src="js/jquery.ajaxchimp.min.js"></script>
+        <script type="text/javascript" src="js/all.js"></script>
         <!--[if lt IE 10]><script type="text/javascript" src="js/placeholder.js"></script><![endif]-->
         <script type="text/javascript">
             $(function(){

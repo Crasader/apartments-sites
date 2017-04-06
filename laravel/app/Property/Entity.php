@@ -8,6 +8,7 @@ use App\Property\Group as PropertyGroup;
 use App\Interfaces\IFormatter;
 use App\Property\Text as PropertyText;
 use App\Property\Text\Type as TextType;
+use App\Property\Site;
 
 class Entity extends Model
 {
@@ -46,6 +47,22 @@ class Entity extends Model
         }
 
         return $cleaned;
+    }
+
+    public function getFileSystemId(){
+        return $this->_legacyProperty->code . '-' . 
+            preg_replace("|\-{2,}|","-",
+                    preg_replace("|[^a-z0-9]+|","-",strtolower($this->_legacyProperty->name))
+                )
+            ;
+    }
+
+    public function getPublicDirectory(){
+        return public_path() . '/clients/' . $this->getFileSystemId();
+    }
+
+    public function getWebPublicDirectory(){
+        return url('/clients/' . $this->getFileSystemId());
     }
 
     protected function _preprocessAttributes(&$attr){

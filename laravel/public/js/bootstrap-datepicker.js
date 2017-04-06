@@ -1760,8 +1760,8 @@
 		immediateUpdates: false,
 		title: '',
 		templates: {
-			leftArrow: '&laquo;',
-			rightArrow: '&raquo;'
+			leftArrow: '<span class="glyphicon glyphicon-chevron-left" style="color:black;">',
+    		rightArrow: '<span class="glyphicon glyphicon-chevron-right" style="color:black;">'
 		}
 	};
 	var locale_opts = $.fn.datepicker.locale_opts = [

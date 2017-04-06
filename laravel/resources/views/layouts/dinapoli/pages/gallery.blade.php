@@ -34,14 +34,12 @@
                         <?php 
                             $gallery = app()->make('App\Property\Gallery');
                             $gallery->setFilters(['main','feature','community']);
-                            foreach(['exterior' => 'Community','interior' => 'Apartment'] as $type => $label):
+                            foreach(['main' => 'Main','feature' => 'Featured','community' => 'Community'] as $type => $label):
                         ?>
                         <a href="#<?php echo $type;?>" class="filter" data-filter=".<?php echo $type;?>"><?php echo $label;?></a>
                         <?php
                             endforeach;
                         ?>
-                        <a href="#exterior" class="filter" data-filter=".exterior">Community</a>
-                        <a href="#interior" class="filter" data-filter=".interior">Apartment</a>
                     </div>                    
                     <!-- End Gallery Filter -->
                     
@@ -52,16 +50,16 @@
                             foreach($gallery->fetchSortedItems($gallery::SORT_TYPE_SPARSE) as $index => $imageData):
                         ?>
                         <!-- Gallery Item (Lightbox) :) -->
-                        <?php dd($imageData); ?>
-                        <li class="work-item mix <?php echo $imageData['type'];?>">
-                            <a href="<?php echo $imageData['url'];?>" class="work-lightbox-link mfp-image">
+                        <li class="work-item mix <?php echo $imageData['_itemName_'] ?? "";?>">
+                            <a href="<?php echo $imageData['image'] ?? "";?>" class="work-lightbox-link mfp-image">
                                 <div class="work-img">
-                                    <img src="<?php echo $imageData['url'];?>" alt="<?php echo $imageData['alt'];?>" />
+                                    <?php //TODO: create migration to add 'alt' 'description' 'title' fields to property_photo ?>
+                                    <img src="<?php echo $imageData['image'] ?? "";?>" alt="<?php echo $imageData['alt'] ?? "Work" ;?>" />
                                 </div>
                                 <div class="work-intro">
-                                    <h3 class="work-title"><?php echo $imageData['title'];?></h3>
+                                    <h3 class="work-title"><?php echo $imageData['title'] ?? $imageData['_itemName_'];?></h3>
                                     <div class="work-descr">
-                                        <?php echo $imageData['desc'];?>
+                                        <?php echo $imageData['desc'] ?? "Lorem ipsum dolor sit amet";?>
                                     </div>
                                 </div>
                             </a>
@@ -69,7 +67,8 @@
                         <!-- End Gallery Item -->
                         <?php endforeach; ?>
 
-
+                        <?php /*
+                            #EXAMPLE GALLERY ITEM HTML#
                         <!-- Gallery Item (Lightbox) -->
                         <li class="work-item mix interior">
                             <a href="img/gallery/int1.jpg" class="work-lightbox-link mfp-image">
@@ -85,175 +84,9 @@
                             </a>
                         </li>
                         <!-- End Gallery Item -->
-
-
-                        <!-- Gallery Item (Lightbox) -->
-                        <li class="work-item mix exterior">
-                            <a href="img/gallery/ext2.jpg" class="work-lightbox-link mfp-image">
-                                <div class="work-img">
-                                    <img src="img/gallery/ext2.jpg" alt="Work" />
-                                </div>
-                                <div class="work-intro">
-                                    <h3 class="work-title">Exterior</h3>
-                                    <div class="work-descr">
-                                        Lorem ipsum dolor sit amet 
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <!-- End Gallery Item -->
-
-                         <!-- Gallery Item (Lightbox) -->
-                        <li class="work-item mix interior">
-                            <a href="img/gallery/int2.jpg" class="work-lightbox-link mfp-image">
-                                <div class="work-img">
-                                    <img src="img/gallery/int2.jpg" alt="Work" />
-                                </div>
-                                <div class="work-intro">
-                                    <h3 class="work-title">Interior</h3>
-                                    <div class="work-descr">
-                                        Lorem ipsum dolor sit amet 
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <!-- End Gallery Item -->
-
-
-                        <!-- Gallery Item (Lightbox) -->
-                        <li class="work-item mix exterior">
-                            <a href="img/gallery/ext3.jpg" class="work-lightbox-link mfp-image">
-                                <div class="work-img">
-                                    <img src="img/gallery/ext3.jpg" alt="Work" />
-                                </div>
-                                <div class="work-intro">
-                                    <h3 class="work-title">Exterior</h3>
-                                    <div class="work-descr">
-                                        Lorem ipsum dolor sit amet 
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <!-- End Gallery Item -->
-
-                        <!-- Gallery Item (Lightbox) -->
-                        <li class="work-item mix interior">
-                            <a href="img/gallery/int3.jpg" class="work-lightbox-link mfp-image">
-                                <div class="work-img">
-                                    <img src="img/gallery/int3.jpg" alt="Work" />
-                                </div>
-                                <div class="work-intro">
-                                    <h3 class="work-title">Interior</h3>
-                                    <div class="work-descr">
-                                        Lorem ipsum dolor sit amet 
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <!-- End Gallery Item -->
-
-                        <!-- Gallery Item (Lightbox) -->
-                        <li class="work-item mix exterior">
-                            <a href="img/gallery/ext1.jpg" class="work-lightbox-link mfp-image">
-                                <div class="work-img">
-                                    <img src="img/gallery/ext1.jpg" alt="Work" />
-                                </div>
-                                <div class="work-intro">
-                                    <h3 class="work-title">Exterior</h3>
-                                    <div class="work-descr">
-                                        Lorem ipsum dolor sit amet 
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <!-- End Gallery Item -->
-
-
-                        <!-- Gallery Item (Lightbox) -->
-                        <li class="work-item mix interior">
-                            <a href="img/gallery/int1.jpg" class="work-lightbox-link mfp-image">
-                                <div class="work-img">
-                                    <img src="img/gallery/int1.jpg" alt="Work" />
-                                </div>
-                                <div class="work-intro">
-                                    <h3 class="work-title">Interior</h3>
-                                    <div class="work-descr">
-                                        Lorem ipsum dolor sit amet 
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <!-- End Gallery Item -->
-
-
-                        <!-- Gallery Item (Lightbox) -->
-                        <li class="work-item mix exterior">
-                            <a href="img/gallery/ext2.jpg" class="work-lightbox-link mfp-image">
-                                <div class="work-img">
-                                    <img src="img/gallery/ext2.jpg" alt="Work" />
-                                </div>
-                                <div class="work-intro">
-                                    <h3 class="work-title">Exterior</h3>
-                                    <div class="work-descr">
-                                        Lorem ipsum dolor sit amet 
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <!-- End Gallery Item -->
-
-                         <!-- Gallery Item (Lightbox) -->
-                        <li class="work-item mix interior">
-                            <a href="img/gallery/int2.jpg" class="work-lightbox-link mfp-image">
-                                <div class="work-img">
-                                    <img src="img/gallery/int2.jpg" alt="Work" />
-                                </div>
-                                <div class="work-intro">
-                                    <h3 class="work-title">Interior</h3>
-                                    <div class="work-descr">
-                                        Lorem ipsum dolor sit amet 
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <!-- End Gallery Item -->
-
-
-                        <!-- Gallery Item (Lightbox) -->
-                        <li class="work-item mix exterior">
-                            <a href="img/gallery/ext3.jpg" class="work-lightbox-link mfp-image">
-                                <div class="work-img">
-                                    <img src="img/gallery/ext3.jpg" alt="Work" />
-                                </div>
-                                <div class="work-intro">
-                                    <h3 class="work-title">Exterior</h3>
-                                    <div class="work-descr">
-                                        Lorem ipsum dolor sit amet 
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <!-- End Gallery Item -->
-
-                        <!-- Gallery Item (Lightbox) -->
-                        <li class="work-item mix interior">
-                            <a href="img/gallery/int3.jpg" class="work-lightbox-link mfp-image">
-                                <div class="work-img">
-                                    <img src="img/gallery/int3.jpg" alt="Work" />
-                                </div>
-                                <div class="work-intro">
-                                    <h3 class="work-title">Interior</h3>
-                                    <div class="work-descr">
-                                        Lorem ipsum dolor sit amet 
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <!-- End Gallery Item -->
-                        
+                        */?>
                     </ul>
                     <!-- End Gallery Grid -->
-                    
                 </div>
             </section>
             <!-- End Gallery Section -->
