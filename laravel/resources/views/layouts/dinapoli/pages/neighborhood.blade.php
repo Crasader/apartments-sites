@@ -108,8 +108,11 @@
                                 <div class="banner-content text-shadow">
                                     <h3 class="banner-heading font-alt">Join Our community</h3>
                                     <div class="banner-decription">
+                                    <?php echo $entity->getText('neighborhood-community-banner','
                                         Proin fringilla augue at maximus vestibulum. Nam pulvinar vitae neque et porttitor. 
-                                        Integer non dapibus diam, ac eleifend lectus.
+                                        Integer non dapibus diam, ac eleifend lectus.'
+                                        );
+                                    ?>
                                     </div>
                                 </div>
                             </div>
@@ -136,7 +139,11 @@
                         <div class="row">
                             <div class="col-md-12 col-sm-12 mb-70 mb-sm-40 align-center">
                             	<h2 class="section-title font-alt">An Easier Commute</h2>
-                                <div class="section-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus ligula semper metus pellentesque mattis. Maecenas  volutpat, diam enim sagittis quam, id porta quam. Sed id dolor consectetur fermentum nibh volutpat, accumsan purus.</div>
+                                <div class="section-text">
+                                <?php echo $entity->getText('commute-text','Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus ligula semper metus pellentesque mattis. Maecenas  volutpat, diam enim sagittis quam, id porta quam. Sed id dolor consectetur fermentum nibh volutpat, accumsan purus.'
+                                );
+                                ?>
+                                </div>
                             </div>
                     
                         </div>

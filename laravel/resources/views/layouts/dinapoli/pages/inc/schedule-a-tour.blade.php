@@ -5,7 +5,7 @@
                         <div class="row">
                             <div class="col-md-8 col-md-offset-2">
                                 <div class="newsletter-label font-alt text-shadow">
-                                   Reserve Your New Home Now - Ask Us A Question
+                                   <?php echo $entity->getText('schedule-tour-newsletter','Reserve Your New Home Now - Ask Us A Question'); ?>
                                 </div>
                                 <div class="mb-20">
                                     <form class="form contact-form" id="contact_form">

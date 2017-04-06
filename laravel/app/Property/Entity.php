@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Legacy\Property as LegacyProperty;
 use App\Property\Group as PropertyGroup;
 use App\Interfaces\IFormatter;
+use App\Property\Text as PropertyText;
+use App\Property\Text\Type as TextType;
 
 class Entity extends Model
 {
@@ -151,6 +153,23 @@ class Entity extends Model
         }
     }
 
+    public function getLatitude(){
+        return "36.0000";
+    }
+
+    public function getLongitude(){
+        return "500.0000";
+    }
+
+    public function getText($name) : string{
+        //TODO: !optimization Cache values in memory !cache
+        $textTypes = TextType::where('str_key',$name)->get();
+        if($textTypes->count()){
+            return $textTypes[0]->hasText[0]->string_value;
+        }
+        return null;
+    }
+
     public function getFullAddress() : string {
         return $this->getStreet() . " " . $this->getCity() . ", " . $this->getState() . " " . $this->getZipCode();
     }
@@ -161,5 +180,9 @@ class Entity extends Model
 
     public function hasPhotos(){
         return $this->hasMany('App\Property\Photo','property_id','fk_legacy_property_id');
+    }
+
+    public function hasText(){
+        return $this->hasMany('App\Property\Text','entity_id','id');
     }
 }

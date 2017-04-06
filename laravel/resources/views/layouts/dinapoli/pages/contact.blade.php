@@ -3,7 +3,7 @@
                         <div class="col-md-8">
                             <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Contact Us</h1>
                             <div class="hs-line-4 font-alt">
-                                Have a question? Reach out to our helpful staff 24/7.
+                                <?php echo $entity->getText('contact-us-title','Have a question? Reach out to our helpful staff 24/7.');?>
                             </div>
                         </div>
                         @stop

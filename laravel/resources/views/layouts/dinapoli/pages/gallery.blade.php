@@ -15,11 +15,13 @@
                             <div class="col-md-8 col-md-offset-2">
                                 
                                 <div class="section-text align-center mb-70 mb-xs-40">
-                                    <?php //TODO: grab gallery intro text ?>
+                                    <?php echo $entity->getText('gallery-intro-text','
                                     In&nbsp;auctor ex&nbsp;id&nbsp;urna faucibus porttitor. Lorem ipsum dolor sit amet, 
                                     consectetur adipiscing elit. In&nbsp;maximus ligula semper metus pellentesque mattis.  
                                     Maecenas volutpat, diam enim sagittis quam, id&nbsp;porta quam. Sed id&nbsp;dolor 
                                     consectetur fermentum nibh volutpat, accumsan purus.
+                                    ');
+                                    ?>
                                 </div>
                                 
                             </div>
@@ -267,8 +269,11 @@
                                 <div class="banner-content text-shadow">
                                     <h3 class="banner-heading font-alt"><?php echo $entity->getPhone(); ?></h3>
                                     <div class="banner-decription">
+                                        <?php echo $entity->getText('gallery-action-banner-description','
                                         Call or email us to schedule a tour today.<br>
                                         Come see your new home and the community features in person.
+                                        ');
+                                        ?>
                                     </div>
                                 </div>
                             </div>

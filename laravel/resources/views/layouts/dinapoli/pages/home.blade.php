@@ -81,8 +81,10 @@
                             <div class="col-md-8 col-md-offset-2">
                                 
                                 <div class="section-text align-center mb-40 mb-xs-40">
-                                    <?php //TODO get welcome text for about section ?>
-                                    No more endless searching when you visit this gated community in the heart of Green Valley. This tree lined community offers two bedroom or three bedroom apartments loaded with convenience and comfort. We offer both contemporary and classic designs with oversized garden tubs, window seating in almost every room, wood burning fireplaces, sky lights, and lofty vaulted ceilings.
+                                    <?php echo $entity->getText('home-about','
+                                    No more endless searching when you visit this gated community in the heart of Green Valley. This tree lined community offers two bedroom or three bedroom apartments loaded with convenience and comfort. We offer both contemporary and classic designs with oversized garden tubs, window seating in almost every room, wood burning fireplaces, sky lights, and lofty vaulted ceilings.'
+                                    );
+                                    ?>
                                 </div>
                                 
                             </div>
@@ -224,11 +226,13 @@
                             <div class="col-md-8 col-md-offset-2">
                                 
                                 <div class="section-text align-center mb-70 mb-xs-40">
-                                <?php //TODO: grab gallery description ?>
+                                <?php echo $entity->getText('gallery-intro-section','
                                     In&nbsp;auctor ex&nbsp;id&nbsp;urna faucibus porttitor. Lorem ipsum dolor sit amet, 
                                     consectetur adipiscing elit. In&nbsp;maximus ligula semper metus pellentesque mattis.  
                                     Maecenas volutpat, diam enim sagittis quam, id&nbsp;porta quam. Sed id&nbsp;dolor 
-                                    consectetur fermentum nibh volutpat, accumsan purus.
+                                    consectetur fermentum nibh volutpat, accumsan purus.'
+                                    );
+                                ?>
                                 </div>
                                 
                             </div>
@@ -365,8 +369,10 @@
                             <div class="col-md-8 col-md-offset-2">
                                 
                                 <div class="section-text align-center mb-70 mb-xs-40">
-                                    <?php //TODO: Grab OUR LOCATION text ?>
-                                    Curabitur eu adipiscing lacus, a iaculis diam. Nullam placerat blandit auctor. Nulla accumsan ipsum et nibh rhoncus, eget tempus sapien ultricies. Donec mollis lorem vehicula.
+                                    <?php echo $entity->getText('gallery-our-location','
+                                    Curabitur eu adipiscing lacus, a iaculis diam. Nullam placerat blandit auctor. Nulla accumsan ipsum et nibh rhoncus, eget tempus sapien ultricies. Donec mollis lorem vehicula.'
+                                    );
+                                    ?>
                                 </div>
                                 
                             </div>

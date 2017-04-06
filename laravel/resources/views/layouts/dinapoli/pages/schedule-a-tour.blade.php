@@ -3,7 +3,7 @@
                         <div class="col-md-8">
                             <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Schedule a Tour</h1>
                             <div class="hs-line-4 font-alt">
-                                Want to see our units? What time works best for you?
+                                <?php echo $entity->getText('schedule-a-tour-title','Want to see our units? What time works best for you?'); ?>
                             </div>
                         </div>
                         @stop
@@ -67,7 +67,7 @@
                                                         <div>
                                                         <?php //TODO: grab google maps stuff here ?>
                                                         <script type='text/javascript'>
-                                                            function init_map(){var myOptions = {zoom:17,center:new google.maps.LatLng(36.0670112,-115.0839982),scrollwheel:false,mapTypeId: google.maps.MapTypeId.ROADMAP};map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);iconBase='';marker = new google.maps.Marker({position: new google.maps.LatLng(36.0670112,-115.0839982),gestureHandling: 'cooperative',map: map,icon: iconBase + 'img/custom-marker.png'});infowindow = new google.maps.InfoWindow({content:'<strong>Martinique Bay</strong><br>3000 High View Drive Henderson, NV<br>'});google.maps.event.addListener(marker, 'click', function(){infowindow.open(map,marker);});infowindow.open(map,marker);}google.maps.event.addDomListener(window, 'load', init_map);</script>
+                                                            function init_map(){var myOptions = {zoom:17,center:new google.maps.LatLng(<?php echo $entity->getLatitude() . ", " . $entity->getLongitude();?>),scrollwheel:false,mapTypeId: google.maps.MapTypeId.ROADMAP};map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);iconBase='';marker = new google.maps.Marker({position: new google.maps.LatLng(<?php echo $entity->getLatitude() . "," . $entity->getLongitude(); ?>),gestureHandling: 'cooperative',map: map,icon: iconBase + 'img/custom-marker.png'});infowindow = new google.maps.InfoWindow({content:'<?php echo $entity->getText('google-maps-title');?>'});google.maps.event.addListener(marker, 'click', function(){infowindow.open(map,marker);});infowindow.open(map,marker);}google.maps.event.addDomListener(window, 'load', init_map);</script>
                                                     </div>
                                                    
                                                 </div>
@@ -152,16 +152,14 @@
             </section>
             @stop
 
-        @section('google-maps-js')
-        <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKPvpp1b3YxfaEfOZQ6ySdzcpkDSfwqs8"></script> -->
-        @stop
         @section('page-specific-js')
-		<script src="/js/bootstrap-datepicker.js"></script>
-		<script src="/js/TweenMax.min.js"></script>
-		<script src="/js/resizeable.js"></script>
-		<script src="/js/neon-api.js"></script>
-		<script src="/js/jquery.validate.min.js"></script>
-		<script src="/js/neon-custom.js"></script>
-		<script src="/js/neon-demo.js"></script>
-		<script src="/js/jquery.inputmask.bundle.js"></script>
+        <?php //TODO: !optimization add version numbers to the end of .js files for caching validation/invalidation ?>
+		<script src="js/bootstrap-datepicker.js"></script>
+		<script src="js/TweenMax.min.js"></script>
+		<script src="js/resizeable.js"></script>
+		<script src="js/neon-api.js"></script>
+		<script src="js/jquery.validate.min.js"></script>
+		<script src="js/neon-custom.js"></script>
+		<script src="js/neon-demo.js"></script>
+		<script src="js/jquery.inputmask.bundle.js"></script>
 		@stop
