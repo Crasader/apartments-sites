@@ -144,11 +144,17 @@ class Entity extends Model
     }
 
     public function getFullAddress() : string {
-        return $this->getStreet() . " " . $this->getCity() . ", " . $this->getState() . " " . $this->getZipCode();
+        return trim($this->getStreet()) . " " . 
+            trim($this->getCity()) . ", " . 
+            trim($this->getState()) . " " . 
+            trim($this->getZipCode());
     }
 
     public function getFullAddressBr() : string {
-        return $this->getStreet() . "<br>" . $this->getCity() . ", " . $this->getState() . " " . $this->getZipCode();
+        return trim($this->getStreet()) . "<br>" . 
+            trim($this->getCity()) . ", " . 
+            trim($this->getState()) . " " . 
+            trim($this->getZipCode());
     }
 
     public function hasPhotos(){

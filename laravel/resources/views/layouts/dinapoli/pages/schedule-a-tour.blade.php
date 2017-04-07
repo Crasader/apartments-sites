@@ -177,7 +177,7 @@
 						email: true
 					},
 					phone: "required",
-                    'date': {
+                    'moveindate': {
                         required: true,
                         'date': true
                     },
