@@ -9,11 +9,9 @@ use App\Interfaces\IFormatter;
 use App\Property\Text as PropertyText;
 use App\Property\Text\Type as TextType;
 use App\Property\Site;
-use App\Traits\Features as FeaturesTrait;
 
 class Entity extends Model
 {
-    use FeaturesTrait;
     protected $table = 'property_entity';
     protected $_legacyProperty = null;
 
@@ -160,4 +158,12 @@ class Entity extends Model
     public function hasText(){
         return $this->hasMany('App\Property\Text','entity_id','id');
     }
+
+    public function hasNeighborhood(){
+        return $this->hasMany('App\Property\Neighborhood','property_id','fk_legacy_property_id');
+    }
+
+    //TODO: hasApartmentFeature
+    //TODO: hasCommunityFeature
+    //TODO: hasOtherFeature
 }

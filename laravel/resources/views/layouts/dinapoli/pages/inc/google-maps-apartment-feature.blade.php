@@ -1,0 +1,18 @@
+<div class="container overlap-ds box-shadow--2dp hidden-sm hidden-xs">
+	<div class="location">
+		<b><?php echo $entity->getText('apartment-title','Martinique Bay'); ?></b>
+		<p>
+			<?php echo $entity->getStreet() . '<br>';
+			echo $entity->getCity() . ', ' . $entity->getState() . ' ';
+			echo $entity->getZipCode() . '<br>';
+			echo $entity->getPhone();
+			?>
+		</p>
+	</div>
+	<div class="hours">
+		<b>Office Hours</b>
+		<p>
+			<?php echo $entity->getHours(); ?>
+		</p>
+	</div>
+</div>

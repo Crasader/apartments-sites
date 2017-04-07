@@ -9,90 +9,37 @@
             <!-- About Section -->
             <section class="page-section" id="about">
                 <div class="container relative">
-                    
-                    <div class="section-text mb-80 mb-sm-20">
-	                    <div class="row">
-	                        <?php //TODO: Grab team items and dump them accordingly ?>
-	                        <!-- Team item -->
-	                        <div class="col-sm-4 mb-xs-50 wow fadeInUp">
-	                            <div class="team-item ">
-	                                
-	                                <div class="team-item-image">
-	                                    
-	                                    <img src="img/shopping-dining-img.jpg" alt="" class="mb-40 mb-sm-20"/>
-	                                    
-	                                    <div class="team-item-detail">
-	                                        
-	                                        <h4 class="font-alt normal">Galleria at Sunset</h4>
-	                                        
-	                                        <p>
-	                                            Minutes from 80 On Gibson, enjoy Dining and Shopping at The Galleria at Sunset . 
-	                                        </p>
-	                                        
-	                                    </div>
-	                                    
-	                                </div>
-	                                <div class="text">
-	                               	
-	                               		Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus ligula semper metus pellentesque mattis. Maecenas  volutpat, diam enim sagittis quam, id porta quam. Sed id dolor consectetur fermentum nibh volutpat, accumsan purus.
-	                           		
-	                           		</div>
-	                            </div>
-	                            
-	                            
-	                        </div>
-	                        <!-- End Team item -->
-	                        
-	                        <!-- Team item -->
-	                        <div class="col-sm-4 mb-xs-50 wow fadeInUp" data-wow-delay="0.1s">
-	                            <div class="team-item">
-	                                <div class="team-item-image">
-	                                    
-	                                    <img src="img/acacia-park-img.jpg" alt="" class="mb-40 mb-sm-20"/>
-	                                    
-	                                    <div class="team-item-detail">
-	                                        
-	                                        <h4 class="font-alt normal">Acacia Park</h4>                            
-	                                       
-	                                    </div>
-	                                </div>    
-                                    <div class="text">	
-                                    	
-                                    	In maximus ligula semper metus pellentesque mattis. Maecenas  volutpat, diam enim sagittis quam, id porta quam. Sed id dolor consectetur fermentum nibh volutpat, accumsan purus. 
-                                    
-                                    </div>
-	                                
-	                              
-	                            </div>
-	                        </div>
-	                        <!-- End Team item -->
-	                        
-	                        <!-- Team item -->
-	                        <div class="col-sm-4 mb-xs-50 wow fadeInUp" data-wow-delay="0.2s">
-	                            <div class="team-item">
-	                                <div class="team-item-image">
-	                                    
-	                                    <img src="img/farmers-market-img.jpg" alt="" class="mb-40 mb-sm-20" />
-	                                    
-	                                    <div class="team-item-detail">
-	                                        
-	                                        <h4 class="font-alt normal">Country Fresh Farmers Market</h4>
-	                                        
-	                                        <p>Every Thursday (weather permitting) from 9 a.m. to 3 p.m. at The Henderson Events Plaza at 200 Water Street</p>
-	                                    </div>
-	                                </div>
-	                                <div class="text">
-	                                
-	                                	 Etiam sit amet fringilla lacus. Pellentesque suscipit ante at ullamcorper pulvinar neque porttitor. Integer lectus. Praesent sed nisi eleifend, fermentum orci amet, iaculis libero. Donec vel ultricies purus. Nam dictum sem, eu aliquam.
-	                                
-	                                </div>                               
-	                            </div>
-	                        </div>
-	                        <!-- End Team item -->
-                    	</div>
-						
+                    <?php
+                        $feature  = app()->make('App\Property\Feature');
+                        foreach(array_chunk($entity->hasNeighborhood()->get()->toArray(),3) as $chunkIndex => $chunkArray):
+                            echo '<div class="section-text mb-80 mb-sm-20">';
+                            echo '<div class="row">';
+                            foreach($chunkArray as $index => $nFeature):
+                    ?>
+                    <!-- Team item -->
+                    <div class="col-sm-4 mb-xs-50 wow fadeInUp">
+                        <div class="team-item ">
+                            <div class="team-item-image">
+                                <img src="<?php echo $feature->decorator($nFeature)['image'];?>" alt="" class="mb-40 mb-sm-20"/>
+                                <div class="team-item-detail">
+                                    <h4 class="font-alt normal"><?php echo $nFeature['name'];?></h4>
+                                    <p>
+                                        <?php echo $nFeature['short_description'];?>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="text">
+                                <?php echo $nFeature['description'];?>	
+                            </div>
+                        </div>
                     </div>
-                    
+                    <!-- End Team item -->
+                    <?php
+                            endforeach;
+                            echo "</div> <!-- end row -->";
+                            echo '</div>';
+                        endforeach;
+                    ?>
                 </div>
             </section>
             <!-- End About Section -->
@@ -163,29 +110,9 @@
                                 <div style="overflow:hidden;height:537px;max-width:100%;">
                                     <div id="map-canvas" style="max-width:100%;"></div>
                                 <div>
-                                
-                                <script type='text/javascript'>
-                                <?php //TODO: generate this via php and dump it here ?>
-                                    function init_map(){var myOptions = {zoom:17,center:new google.maps.LatLng(36.0670112,-115.0839982),scrollwheel:false,mapTypeId: google.maps.MapTypeId.ROADMAP};map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);iconBase='';marker = new google.maps.Marker({position: new google.maps.LatLng(36.0670112,-115.0839982),gestureHandling: 'cooperative',map: map,icon: iconBase + 'img/custom-marker.png'});infowindow = new google.maps.InfoWindow({content:'<strong>Martinique Bay</strong><br>3000 High View Drive Henderson, NV<br>'});google.maps.event.addListener(marker, 'click', function(){infowindow.open(map,marker);});infowindow.open(map,marker);}google.maps.event.addDomListener(window, 'load', init_map);</script>
+                                @include('layouts/dinapoli/pages/inc/google-maps-script')
                             </div>
-                            <div class="container overlap-ds box-shadow--2dp hidden-sm hidden-xs">
-                                <div class="location">
-                                    <b><?php //TODO grab entity title ?>Martinique Bay</b>
-                                    <p>
-                                        <?php echo $entity->getStreet() . '<br>';
-                                        echo $entity->getCity() . ', ' . $entity->getState() . ' ';
-                                        echo $entity->getZipCode() . '<br>';
-                                        echo $entity->getPhone();
-                                        ?>
-                                    </p>
-                                </div>
-                                <div class="hours">
-                                    <b>Office Hours</b>
-                                    <p>
-                                        <?php echo $entity->getHours(); ?>
-                                    </p>
-                                </div>
-                            </div>
+                            @include('layouts/dinapoli/pages/inc/google-maps-apartment-feature')
                         </div>
                     </div>
                 </div>

@@ -9,5 +9,13 @@ class Feature extends Model
 {
     //
     use FeaturesTrait;
+    public function decorator(array $row){
+        $row['image'] = $this->getImagePath() . $row['image'];
+        return $row;
+    }
+
+    public function getImagePath(){
+        return Site::$instance->getEntity()->getWebPublicDirectory() . '/img/';
+    }
 
 }

@@ -73,7 +73,7 @@
                 <div class="container relative">
                     
                     <h2 class="section-title font-alt mb-40 mb-sm-40">
-                        About <?php //TODO grab apartment title ?>Martinique Bay
+                        About <?php echo $entity->getText('apartment-title','Martinique Bay');?>
                     </h2>
                     
                     <div class="container">
@@ -107,13 +107,12 @@
                                 <div class="banner-content text-shadow">
                                     <h3 class="banner-heading font-alt">Your New Neighborhood</h3>
                                     <div class="banner-decription">
-                                        <?php //TODO: grab neighborhood description ?>
-                                        Immerse yourself in the culture of Downtown Henderson at Martinique Bay.<br>Located just seconds from all the fun, food, and entertainment, and near the freeway, our location is ideal for every lifestyle.
-                                        <?php //TODO: grab neighborhood points of interest ?>
+                                        <?php echo $entity->getText('home-neighborhood-description','Immerse yourself in the culture of Downtown Henderson at Martinique Bay.<br>Located just seconds from all the fun, food, and entertainment, and near the freeway, our location is ideal for every lifestyle.');
+                                        ?>
                                         <ul>
-                                            <li><a href="neighborhood">GALLERIA AT SUNSET</a></li>
-                                            <li><a href="neighborhood">ACACIA PARK</a></li>
-                                            <li><a href="neighborhood">COUNTRY FRESH FARMERS MARKET</a></li>
+                                            @foreach($entity->hasNeighborhood()->get()->toArray() as $index => $nFeature)
+                                                <li><a href="neighborhood">{{ $nFeature['name'] }}</a></li>
+                                            @endforeach
                                         </ul>
                                     </div>
                                     <div class="local-scroll">
@@ -136,45 +135,32 @@
                 <div class="container relative">
                     <div class="section-text mb-50 mb-sm-20">
                         <div class="row">
+                        <?php
+                            $features = app()->make('App\Property\Feature');
+                            $features->loadSelectedFeatures(['apartment','community']);
+                            $features->setFeaturesFormatter(new App\Util\Formatter('li'));
+                            foreach(['apartment' => 'Apartment Features',
+                                'community' => 'Community Features'
+                                ] as $section => $label):
+                                //TODO: Possibly add a "much more..." link?        
+                        ?>
                             <div class="col-sm-6">
-                                <h2 class="section-title font-alt mb-40 mb-sm-40">Apartment Features</h2>
-                                <?php //TODO: re-use the apartment features cruft ?>
+                                <h2 class="section-title font-alt mb-40 mb-sm-40">{{ $label }}</h2>
                                 <div class="col-md-6">
                                      <div class="text">
                                         <ul style="list-style-type:none; line-height: 30px;">
-                                            <li>- All Electric Kitchen</li>
-                                            <li>- Breakfast Bar</li>
-                                            <li>- Vaulted Ceiling</li>
-                                            <li>- Wood Burning Fireplaces</li>
-                                            <li>- Private Patios/Balconies</li>
-                                            <li>- New Renovations</li>
+                                            <?php echo implode('',$features->getEntireFeaturesSection($section)); ?>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="col-md-6 no-padding">
                                     <img src="img/gallery/am2.png"  class="img-responsive">
                                 </div>
-                               
                             </div>
-                            <div class="col-sm-6">
-                                <h2 class="section-title font-alt mb-40 mb-sm-40">Community Features</h2>
-                                <?php //TODO: re-use the community features cruft ?>
-                                <div class="col-md-6">
-                                    <div class="text">
-                                        <ul style="list-style-type:none; line-height: 30px;">
-                                            <li>- Soothing Spa/Hot Tub</li>
-                                            <li>- Washer Dryer in Unit</li>
-                                            <li>- Furnished Units Available</li>
-                                            <li>- Fitness Center</li>
-                                            <li>- Gated Acces</li>
-                                            <li>- And many more!</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 no-padding">
-                                    <img src="img/gallery/am1.png"  class="img-responsive">
-                                </div>
-                            </div>
+                        <?php
+                            endforeach;
+                        ?>
+
                         </div>
                     </div>
                 </div>
@@ -239,119 +225,7 @@
                         </div>
                     </div>
                     
-                    <!-- Gallery Filter -->                    
-                    <div class="works-filter font-alt align-center">
-                    <?php //TODO: grab gallery filters ?>
-                        <a href="#" class="filter active" data-filter="*">All</a>
-                        <a href="#exterior" class="filter" data-filter=".exterior">Community</a>
-                        <a href="#interior" class="filter" data-filter=".interior">Apartment</a>
-                    </div>                    
-                    <!-- End Works Filter -->
-                    
-                    <!-- Gallery Grid -->
-                    <ul class="works-grid work-grid-3 work-grid-gut clearfix font-alt hover-white hide-titles" id="work-grid">
-                        <?php //TODO: grab gallery items ?>
-                        <!-- Gallery Item (Lightbox) -->
-                        <li class="work-item mix exterior">
-                            <a href="img/gallery/ext1.jpg" class="work-lightbox-link mfp-image">
-                                <div class="work-img">
-                                    <img src="img/gallery/ext1.jpg" alt="Work" />
-                                </div>
-                                <div class="work-intro">
-                                    <h3 class="work-title">Exterior</h3>
-                                    <div class="work-descr">
-                                        Lorem ipsum dolor sit amet 
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <!-- End Gallery Item -->
-
-
-                        <!-- Gallery Item (Lightbox) -->
-                        <li class="work-item mix interior">
-                            <a href="img/gallery/int1.jpg" class="work-lightbox-link mfp-image">
-                                <div class="work-img">
-                                    <img src="img/gallery/int1.jpg" alt="Work" />
-                                </div>
-                                <div class="work-intro">
-                                    <h3 class="work-title">Interior</h3>
-                                    <div class="work-descr">
-                                        Lorem ipsum dolor sit amet 
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <!-- End Gallery Item -->
-
-
-                        <!-- Gallery Item (Lightbox) -->
-                        <li class="work-item mix exterior">
-                            <a href="img/gallery/ext2.jpg" class="work-lightbox-link mfp-image">
-                                <div class="work-img">
-                                    <img src="img/gallery/ext2.jpg" alt="Work" />
-                                </div>
-                                <div class="work-intro">
-                                    <h3 class="work-title">Exterior</h3>
-                                    <div class="work-descr">
-                                        Lorem ipsum dolor sit amet 
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <!-- End Gallery Item -->
-
-                         <!-- Gallery Item (Lightbox) -->
-                        <li class="work-item mix interior">
-                            <a href="img/gallery/int2.jpg" class="work-lightbox-link mfp-image">
-                                <div class="work-img">
-                                    <img src="img/gallery/int2.jpg" alt="Work" />
-                                </div>
-                                <div class="work-intro">
-                                    <h3 class="work-title">Interior</h3>
-                                    <div class="work-descr">
-                                        Lorem ipsum dolor sit amet 
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <!-- End Gallery Item -->
-
-
-                        <!-- Gallery Item (Lightbox) -->
-                        <li class="work-item mix exterior">
-                            <a href="img/gallery/ext3.jpg" class="work-lightbox-link mfp-image">
-                                <div class="work-img">
-                                    <img src="img/gallery/ext3.jpg" alt="Work" />
-                                </div>
-                                <div class="work-intro">
-                                    <h3 class="work-title">Exterior</h3>
-                                    <div class="work-descr">
-                                        Lorem ipsum dolor sit amet 
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <!-- End Gallery Item -->
-
-                        <!-- Gallery Item (Lightbox) -->
-                        <li class="work-item mix interior">
-                            <a href="img/gallery/int3.jpg" class="work-lightbox-link mfp-image">
-                                <div class="work-img">
-                                    <img src="img/gallery/int3.jpg" alt="Work" />
-                                </div>
-                                <div class="work-intro">
-                                    <h3 class="work-title">Interior</h3>
-                                    <div class="work-descr">
-                                        Lorem ipsum dolor sit amet 
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <!-- End Gallery Item -->
-                        
-                    </ul>
-                    <!-- End Gallery Grid -->
+                    @include('layouts/dinapoli/pages/inc/gallery')
                     
                 </div>
             </section>
@@ -386,29 +260,8 @@
                                 <div style="overflow:hidden;height:537px;max-width:100%;">
                                     <div id="map-canvas" style="max-width:100%;"></div>
                                 <div>
-                                
-                                <script type='text/javascript'>
-                                <?php //TODO: update this google maps information ?>
-                                    function init_map(){var myOptions = {zoom:17,center:new google.maps.LatLng(36.0670112,-115.0839982),scrollwheel:false,mapTypeId: google.maps.MapTypeId.ROADMAP};map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);iconBase='';marker = new google.maps.Marker({position: new google.maps.LatLng(36.0670112,-115.0839982),gestureHandling: 'cooperative',map: map,icon: iconBase + 'img/custom-marker.png'});infowindow = new google.maps.InfoWindow({content:'<strong>Martinique Bay</strong><br>3000 High View Drive Henderson, NV<br>'});google.maps.event.addListener(marker, 'click', function(){infowindow.open(map,marker);});infowindow.open(map,marker);}google.maps.event.addDomListener(window, 'load', init_map);</script>
-                            </div>
-                            <div class="container overlap-ds box-shadow--2dp hidden-sm hidden-xs">
-                                <div class="location">
-                                    <b><?php //TODO get property title ?>Martinique Bay</b>
-                                    <p>
-                                        <?php echo $entity->getStreet() . "<br>";
-                                        echo $entity->getCity() . ", " . $entity->getState() . " " ;
-                                        echo $entity->getZipCode() . "<br>";
-                                        echo $entity->getPhone();
-                                        ?>
-                                    </p>
-                                </div>
-                                <div class="hours">
-                                    <b>Office Hours</b>
-                                    <p>
-                                    <?php echo $entity->getHours(); ?>
-                                    </p>
-                                </div>
-                            </div>
+                            @include('layouts/dinapoli/pages/inc/google-maps-script')   
+                            @include('layouts/dinapoli/pages/inc/google-maps-apartment-feature')
                         </div>
                     </div>
            	 	</div>

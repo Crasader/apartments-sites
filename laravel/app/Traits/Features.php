@@ -29,8 +29,32 @@ trait Features {
 
     public function getFeaturesChunk(string $section,int $chunkOffset) : string{
         $chunkSize = (int)floor(count($this->_features[$section]) / $this->_featuresChunkCount);
-        $this->_featuresFormatter->setLineItems($this->_features[$section]);
-        return implode('', array_chunk($this->_featuresFormatter->getFormattedAsArray(),$chunkSize)[$chunkOffset]);
+        if($this->_featuresFormatter){
+            $this->_featuresFormatter->setLineItems($this->_features[$section]);
+            return implode('', array_chunk($this->_featuresFormatter->getFormattedAsArray(),$chunkSize)[$chunkOffset]);
+        }else{
+            return implode('',array_chunk($this->_features[$section],$chunkSite)[$chunkOffset]);
+        }
+    }
+
+    public function loadSelectedFeatures(array $sections){
+        $this->_features = [];
+        foreach($sections as $index => $value){
+            $this->_features[$value] = $this->_getFeaturesSection($value);
+        }
+        return $this;
+    }
+
+    public function getEntireFeaturesSection(string $section){
+        if(!isset($this->_features[$section])){
+            return null;
+        }
+        if($this->_featuresFormatter){
+            $this->_featuresFormatter->setLineItems($this->_features[$section]);
+            return $this->_featuresFormatter->getFormattedAsArray();
+        }else{
+            return $this->_features[$section];
+        }
     }
 
     public function loadAllFeatures(){

@@ -9,7 +9,6 @@ class Util
     }
 
     public static function isHome(){
-        var_dump($_SERVER['REQUEST_URI']);
         return (
             $_SERVER['REQUEST_URI'] == '/index' ||
             $_SERVER['REQUEST_URI'] == '/home' ||
