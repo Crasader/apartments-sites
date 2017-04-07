@@ -87,10 +87,6 @@
             @section('schedule-a-tour','')
             @section('action','')
             @section('page-specific-js')
-            <script type="text/javascript" src="js/jquery.validate.js"></script>
-            <script type="text/javascript" src="js/jquery.maskedinput.js"></script>
-            <script type="text/javascript" src="js/amc.validate.js"></script>
-            <script type="text/javascript" src="js/bootstrap-datepicker.js"></script>
             <script type="text/javascript">
             $(document).ready(function(){
 			    $("#datediv").datepicker({ format: "mm/dd/yyyy" });	

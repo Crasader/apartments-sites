@@ -156,12 +156,6 @@
             @stop
 
         @section('page-specific-js')
-        <?php //TODO: !optimization add version numbers to the end of .js files for caching validation/invalidation ?>
-        <?php //TODO: !optimization combine javascript into one giant file that is minified ?>
-        <script type="text/javascript" src="js/jquery.validate.js"></script>
-	    <script type="text/javascript" src="js/jquery.maskedinput.js"></script>
-        <script type="text/javascript" src="js/amc.validate.js"></script>
-        <script type="text/javascript" src="js/bootstrap-datepicker.js"></script>
 		<script type="text/javascript">
 		$(document).ready(function() {
 		    $("#visitdatediv").datepicker({format: 'mm/dd/yyyy'});

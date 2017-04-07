@@ -150,7 +150,6 @@ EOF;
             @include('layouts/dinapoli/pages/inc/epop')
         @stop
     @section('page-specific-js')
-    <script src="js/util.js" language="Javascript"></script>
     <script language="javascript">
         $(document).ready(function(){
             var json = <?php echo $js->dumpJSON(); ?>;

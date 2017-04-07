@@ -8,7 +8,30 @@ module.exports = function(grunt) {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
       build: {
-        src: 'public/js/*.js',
+        src: ['public/js/src/jquery-1.11.2.min.js',
+        'public/js/src/jquery.easing.1.3.js',
+        'public/js/src/bootstrap.min.js',
+        'public/js/src/SmoothScroll.js',
+        'public/js/src/jquery.scrollTo.min.js',
+        'public/js/src/jquery.localScroll.min.js',
+        'public/js/src/jquery.viewport.mini.js',
+        'public/js/src/jquery.countTo.js',
+        'public/js/src/jquery.appear.js',
+        'public/js/src/jquery.sticky.js',
+        'public/js/src/jquery.parallax-1.1.3.js',
+        'public/js/src/jquery.fitvids.js',
+        'public/js/src/owl.carousel.min.js',
+        'public/js/src/slippry.min.js',
+        'public/js/src/isotope.pkgd.min.js',
+        'public/js/src/imagesloaded.pkgd.min.js',
+        'public/js/src/jquery.magnific-popup.min.js',
+        'public/js/src/gmap3.min.js',
+        'public/js/src/wow.min.js',
+        'public/js/src/masonry.pkgd.min.js',
+        'public/js/src/jquery.simple-text-rotator.min.js',
+        'public/js/src/jquery.ajaxchimp.min.js',
+        'public/js/src/all.js'
+        ],
         dest: 'public/js/build/<%= pkg.name %>.ugly.js'
       }
     },
@@ -20,7 +43,7 @@ module.exports = function(grunt) {
         },
         dist: {
             src: ['public/js/build/<%= pkg.name %>.ugly.js'],
-            dest: 'public/js/build/build.min.js'
+            dest: 'public/js/build/marketapts.min.js'
         }
     }
   });

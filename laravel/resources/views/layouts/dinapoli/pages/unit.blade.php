@@ -143,7 +143,6 @@ $js->generateIDs();
             @stop
             @section('contact','')
             @section('page-specific-js')
-            <script src="js/util.js" language="Javascript"></script>
             <script language="Javascript">
             $(document).ready(function(){
                 var json = <?php echo $js->dumpJSON(); ?>;
