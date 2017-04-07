@@ -42,6 +42,7 @@
 			@include('layouts/dinapoli/pages/inc/nav')
             <!-- End Nav-->
 
+            <?php if(!App\Util\Util::isHome()): ?>
             <!-- Page Title Section -->
             <section class="page-section bg-dark-alfa-30" data-background="img/bg1.jpg">
                 <div class="relative container align-left">
@@ -50,13 +51,14 @@
 						@yield('page-title-row')
                         <div class="col-md-4 mt-30">
                             <div class="mod-breadcrumbs font-alt align-right">
-                                <a href="#">Home</a><?php if(!App\Util\Util::isHome()):?>&nbsp;/&nbsp;<span>@yield('page-title-span')</span>@yield('page-title-span-suffix') <?php endif; ?>
+                                <a href="#">Home</a>&nbsp;/&nbsp;<span>@yield('page-title-span')</span>@yield('page-title-span-suffix')
                             </div>
 
                         </div>
                     </div>
                 </div>
             </section>
+            <?php endif; ?>
             <!-- End Page Title Section -->
 
         	@yield('content')

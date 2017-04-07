@@ -188,6 +188,10 @@ return [
         */
        Barryvdh\Debugbar\ServiceProvider::class,
 
+       /*
+        * Minifier
+        */
+        'GrahamCampbell\HTMLMin\HTMLMinServiceProvider',
     ],
 
     /*
@@ -240,7 +244,8 @@ return [
         /* Debugbar */
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
-
+        /* HTML Minifier */
+        'HTMLMin' => 'GrahamCampbell\HTMLMin\Facades\HTMLMin',
     ],
 
 ];

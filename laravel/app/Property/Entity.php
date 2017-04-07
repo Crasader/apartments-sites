@@ -9,9 +9,13 @@ use App\Interfaces\IFormatter;
 use App\Property\Text as PropertyText;
 use App\Property\Text\Type as TextType;
 use App\Property\Site;
+use App\Traits\TextCache;
+use App\Property\Neighborhood;
 
 class Entity extends Model
 {
+
+    use TextCache;
     protected $table = 'property_entity';
     protected $_legacyProperty = null;
 
@@ -30,6 +34,12 @@ class Entity extends Model
             $this->fk_template_id = env('DEFAULT_TEMPLATE_ID');
         }
         self::save();
+        $this->loadLegacyProperty();
+        $this->createClientDir();
+    }
+
+    public function createClientDir(){
+        shell_exec("mkdir " . public_path() . "/clients/" . $this->getFileSystemId());
     }
 
     public function generateFileSystemId(LegacyProperty $legacy,$fileExistsCallback,$append=null){
@@ -94,27 +104,46 @@ class Entity extends Model
     }
 
     public function getPhone() : string{
-        return $this->_legacyProperty->phone;
+        $foo = $this;
+        return self::textCache('phone',function() use($foo) {
+            return $this->_legacyProperty->phone;
+        });
     }
 
     public function getStreet() : string{
-        return $this->_legacyProperty->address;
+        $foo = $this;
+        return self::textCache('address',function() use($foo) {
+            return $foo->_legacyProperty->address;
+        });
     }
 
     public function getCity() : string{
-        return $this->_legacyProperty->city;
+        $foo = $this;
+        return self::textCache('city',function() use($foo) {
+            return $foo->_legacyProperty->city;
+        });
     }
 
     public function getState() : string{
-        return $this->_legacyProperty->getState();
+        $foo = $this;
+        return self::textCache('state',function() use($foo) {
+            $state = $foo->_legacyProperty->getState();
+            return $state;
+        });
     }
 
     public function getZipCode() : string{
-        return $this->_legacyProperty->zip;
+        $foo = $this;
+        return self::textCache('zip',function() use($foo) {
+            return $foo->_legacyProperty->zip;
+        });
     }
 
     public function getHours() : string{
-        return $this->_legacyProperty->hours;
+        $foo = $this;
+        return self::textCache('hours',function() use($foo) {
+            return $foo->_legacyProperty->hours;
+        });
     }
 
     public function getWelcomeText(string $section) : string{
@@ -127,20 +156,36 @@ class Entity extends Model
     }
 
     public function getLatitude(){
-        return "36.0000";
+        $foo = $this;
+        return self::textCache('latitude',function() use($foo){
+            return "36.000";
+        });
     }
 
     public function getLongitude(){
-        return "500.0000";
+        $foo = $this;
+        return self::textCache('longitude',function() use($foo){
+            return "5000.000";
+        });
     }
 
-    public function getText(string $name,string $default = null) : string{
-        //TODO: !optimization Cache values in memory !cache
-        $textTypes = TextType::where('str_key',$name)->get();
-        if($textTypes->count()){
-            return $textTypes[0]->hasText[0]->string_value;
-        }
-        return $default;
+    public function getText(string $name,string $default = null){
+        $foo = $this;
+        return self::textCache('str_key_' . $name,function() use($foo,$name) {
+            $translatables = [
+                'apartment-title' => $foo->getLegacyProperty()->name,
+                'home-about' => $foo->getLegacyProperty()->description
+            ];
+            if(in_array($name,array_keys($translatables))){
+                return $translatables[$name];
+            }
+            $textTypes = TextType::select(['id'])->where('str_key',$name)->pluck('id')->toArray();
+            if(count($textTypes)){
+                $a = PropertyText::select('string_value')->where('property_text_type_id',$textTypes[0])->get()->pluck('string_value')->toArray();
+                \Debugbar::info("Fetched: $name: " . var_export($a,1));
+                return array_pop($a);
+            }
+        });
     }
 
     public function getFullAddress() : string {
@@ -169,7 +214,4 @@ class Entity extends Model
         return $this->hasMany('App\Property\Neighborhood','property_id','fk_legacy_property_id');
     }
 
-    //TODO: hasApartmentFeature
-    //TODO: hasCommunityFeature
-    //TODO: hasOtherFeature
 }

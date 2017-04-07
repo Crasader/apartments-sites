@@ -12,8 +12,7 @@
                     <div class="row">
                     	<div class="col-sm-12">
                     		<h2 class="section-title font-alt align-left mb-20 mb-sm-20">
-                            <?php //TODO: get slogan ?>
-                               <?php echo $entity->getText('slogan','More than just a place to sleep'); ?>
+                               <?php echo $entity->getText('slogan'); ?>
                             </h2>
                     	</div>
 
@@ -22,7 +21,7 @@
                     	<div class="col-sm-12 mb-60">
                     		
                     		<div class="text">
-                    		<?php echo $entity->getText('amenitiesi-welcome','Amenities welcome text'); ?>
+                    		<?php echo $entity->getText('amenities-welcome');?>
                     		</div>
                     	
                     	</div>
@@ -36,6 +35,10 @@
                         <?php 
                             $rows = 2;
                             $features = app()->make('App\Property\Feature');
+                            $features->setFeaturesLimit([
+                                'apartment' => 8,
+                                'community' => 24
+                            ]);
                             $features->setFeaturesFormatter(new App\Util\Formatter('li'));
                             $features->setFeaturesChunkCount($rows);
                             $features->loadAllFeatures();

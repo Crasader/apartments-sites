@@ -36,6 +36,6 @@ class Property extends Model
     protected $table = 'property';
 
     public function getState(){
-        return State::find($this->state_id)->first()->name;
+        return State::select('name')->where('id',$this->state_id)->get()->pluck('name')->toArray()[0];
     }
 }
