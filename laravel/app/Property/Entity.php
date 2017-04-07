@@ -9,14 +9,13 @@ use App\Interfaces\IFormatter;
 use App\Property\Text as PropertyText;
 use App\Property\Text\Type as TextType;
 use App\Property\Site;
+use App\Traits\Features as FeaturesTrait;
 
 class Entity extends Model
 {
+    use FeaturesTrait;
     protected $table = 'property_entity';
     protected $_legacyProperty = null;
-    protected $_featuresFormatter = null;
-    protected $_featuresSectionNames = ['apartment','community','other'];
-    protected $_features = [];
 
     //
     public function createNew(array $attributes,LegacyProperty $legacyProperty){
@@ -94,47 +93,6 @@ class Entity extends Model
 
     public function getLegacyProperty() : LegacyProperty {
         return $this->_legacyProperty;
-    }
-
-    public function setFeaturesFormatter(IFormatter $if){
-        $this->_featuresFormatter = $if;
-    }
-
-    public function setFeaturesChunkCount(int $count){
-        $this->_featuresChunkCount = $count;
-    }
-
-    public function getFeaturesChunk(string $section,int $chunkOffset) : string{
-        $chunkSize = (int)floor(count($this->_features[$section]) / $this->_featuresChunkCount);
-        $this->_featuresFormatter->setLineItems($this->_features[$section]);
-        return implode('', array_chunk($this->_featuresFormatter->getFormattedAsArray(),$chunkSize)[$chunkOffset]);
-    }
-
-    public function loadAllFeatures(){
-        $this->_features = [];
-        foreach($this->_featuresSectionNames as $index => $value){
-            $this->_features[$value] = $this->_getFeaturesSection($value);
-        }
-        return $this;
-    }
-
-    protected function _getFeaturesSection(string $section){
-        switch($section){
-            case 'community':
-                //TODO: grab community features
-                return range(0,20);
-                break;
-            case 'other':
-                //TODO: grab other features
-                return range(0,30);
-                break;
-            case 'apartment':
-                //TODO: grab apartment features
-                return range(0,10);
-                break;
-            default:
-                return null;
-        }
     }
 
     public function getPhone() : string{

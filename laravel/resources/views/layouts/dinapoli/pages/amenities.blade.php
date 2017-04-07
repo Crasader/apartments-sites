@@ -4,7 +4,6 @@
                             <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">AMENITIES</h1>
                         </div>
                         @stop
-                        
                         @section('page-title-span','AMENITIES')
             @section('content')
             <!-- Amenities Section -->
@@ -23,7 +22,7 @@
                     	<div class="col-sm-12 mb-60">
                     		
                     		<div class="text">
-                    		<?php echo $entity->getWelcomeText('amenities'); ?>
+                    		<?php echo $entity->getText('amenitiesi-welcome','Amenities welcome text'); ?>
                     		</div>
                     	
                     	</div>
@@ -36,15 +35,16 @@
                     	</div>
                         <?php 
                             $rows = 2;
-                            $entity->setFeaturesFormatter(new App\Util\Formatter('li'));
-                            $entity->setFeaturesChunkCount($rows);
-                            $entity->loadAllFeatures();
+                            $features = app()->make('App\Property\Feature');
+                            $features->setFeaturesFormatter(new App\Util\Formatter('li'));
+                            $features->setFeaturesChunkCount($rows);
+                            $features->loadAllFeatures();
                             for($i=0;$i < $rows;$i++){
                         ?>
                     	<div class="col-md-6 mb-40">
                     		<div class="text">
                     			<ul style="list-style-type:none; line-height: 30px;">
-                                    <?php echo $entity->getFeaturesChunk('apartment',$i); ?>
+                                    <?php echo $features->getFeaturesChunk('apartment',$i); ?>
                                 </ul>
                     		</div>
                     	</div>
@@ -59,14 +59,14 @@
                     	</div>
                         <?php
                             $rows = 3;
-                            $entity->setFeaturesChunkCount($rows);
+                            $features->setFeaturesChunkCount($rows);
                             for($i=0; $i < $rows;$i++){
                         ?>
                     	<div class="col-sm-4 mb-40">
                     		<div class="text">
                     			<ul style="list-style-type:none; line-height: 30px;">
                                     <?php 
-                                        echo $entity->getFeaturesChunk('community',$i);
+                                        echo $features->getFeaturesChunk('community',$i);
                                     ?>
                                 </ul>
                     		</div>
@@ -83,16 +83,16 @@
                     	</div>
                         <?php
                             $rows = 2;
-                            $entity->setFeaturesChunkCount($rows);
+                            $features->setFeaturesChunkCount($rows);
                             for($i=0;$i < $rows;$i++){
                         ?>
-                    	<div class="col-sm-4 mb-40">
-                    		<div class="text">
-                    			<ul style="list-style-type:none; line-height: 30px;">
-                                    <?php echo $entity->getFeaturesChunk('other',$i); ?>
-                                </ul>
-                    		</div>
-                    	</div>
+                                <div class="col-sm-4 mb-40">
+                                    <div class="text">
+                                        <ul style="list-style-type:none; line-height: 30px;">
+                                            <?php echo $features->getFeaturesChunk('other',$i); ?>
+                                        </ul>
+                                    </div>
+                                </div>
                         <?php
                             }   //End for
                         ?>
