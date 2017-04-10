@@ -98,8 +98,8 @@
                                             Address
                                         </div>
                                         <div class="ci-text">
-                                            <?php echo $entity->getStreet() . "<br>" . $entity->getCity() . ", " .
-                                                $entity->getState() . " " . $entity->getZipCode(); 
+                                            <?php echo strtoupper($entity->getStreet() . "<br>" . $entity->getCity() . ", " .
+                                                $entity->getState() . " " . $entity->getZipCode()); 
                                             ?>
                                         </div>
                                     </div>
@@ -131,7 +131,6 @@
             </section>
             @show
 
-            @yield('schedule-a-tour')
             @section('footer')
             	<!-- Footer -->
                 @include('layouts/dinapoli/pages/inc/footer')

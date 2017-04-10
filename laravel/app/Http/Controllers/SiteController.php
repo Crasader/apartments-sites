@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Property\Site;
 use App\Property\Entity as PropertyEntity;
-use App\Property\Template;
+use App\Template;
 use App\Exceptions\BaseException;
 
 class SiteController extends Controller

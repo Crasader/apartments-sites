@@ -9,8 +9,8 @@ class Feature extends Model
 {
     //
     use FeaturesTrait;
-    public function decorator(array $row){
-        $row['image'] = $this->getImagePath() . $row['image'];
+    public function decorator(array $row,$extra=null){
+        $row['image'] = $this->getImagePath() . $extra . $row['image'];
         return $row;
     }
 

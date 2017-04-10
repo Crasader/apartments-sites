@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Legacy\Property as LegacyProperty;
 use App\Property\Group as PropertyGroup;
 use App\Property\Entity as PropertyEntity;
-use App\Property\Template;
+use App\Template;
 
 class Site extends Model
 {

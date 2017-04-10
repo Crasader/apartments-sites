@@ -104,3 +104,37 @@
             </section>
             <!-- End Amenities Section -->
            @stop
+
+			@section('action')
+			<!-- Call Action Section -->
+            <section class="page-section pt-0 pb-0 banner-section bg-light" data-background="<?php echo $entity->getWebPublicDirectory() . "/";?>img/slides/home-top-slide2a.jpg">
+                <div class="container relative">
+
+                    <div class="row">
+
+                        <div class="col-sm-6">
+                            <div class="mt-70 mt-lg-70 mb-70 mb-lg-70 mb-sm-30">
+                                <div class="banner-content">
+                                    <h3 class="banner-heading font-alt text-shadow mt-120 mt-sm-70 mt-xs-70"><b>Join Our community</b></h3>
+									<div class="banner-decription">
+										<?php echo $entity->getText('join-community-description');?>
+									</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="mt-50 mt-lg50 mb-70 mb-lg-70 mb-sm-30">
+                                <div class="banner-content text-right">
+                                    <div class="local-scroll">
+                                        <p><a href="floorplans" class="btn btn-mod btn-brown btn-large btn-round">SEE FLOOR PLANS</a></p>
+                                        <p><a href="schedule-a-tour" class="btn btn-mod  btn-large btn-round">SCHEDULE A TOUR</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+            <!-- End Call Action Section -->
+			@stop

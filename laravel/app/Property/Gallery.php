@@ -47,7 +47,7 @@ class Gallery extends Model
     }
 
     public function getPathToImage(string $image) :string{
-        return Site::$instance->getEntity()->getWebPublicDirectory() . '/img/' . $image;
+        return Site::$instance->getEntity()->getWebPublicDirectory() . '/img/gallery/' . $image;
     }
 
     public function decorate(string $itemName,array $items) : array{
@@ -75,7 +75,7 @@ class Gallery extends Model
                 'property_id' => $legacyPropertyId,
                 'photo_type_id' => $this->getPhotoTypeId($type)
             ]
-        )->get()->toArray();
+        )->orderBy('display_order','desc')->get()->toArray();
     }
 
     public function fetchSortedItems(string $sortType) : array {

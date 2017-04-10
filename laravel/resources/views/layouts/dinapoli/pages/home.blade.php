@@ -26,8 +26,8 @@
                                     <a href="schedule-a-tour" class="btn btn-block btn-mod btn-brown btn-large btn-round">Schedule a Tour</a>
                                 </div>
                             </div>
-                            <img src="img/slides/home-top-slide1a.jpg" class="visible-md visible-lg">
-                            <img src="img/slides/home-top-slide1a-m.jpg" class="visible-xs visible-sm">
+                            <img src="<?php echo $entity->getWebPublicDirectory() . "/";?>img/slides/home-top-slide1a.jpg" class="visible-md visible-lg">
+                            <img src="<?php echo $entity->getWebPublicDirectory() . "/";?>img/slides/home-top-slide1a-m.jpg" class="visible-xs visible-sm">
                         </li>
                         <li>
                             <div class="container">
@@ -37,8 +37,8 @@
                                     <a href="schedule-a-tour" class="btn btn-block btn-mod btn-brown btn-large btn-round">Schedule a Tour</a>
                                 </div>
                             </div>
-                            <img src="img/slides/home-top-slide2a.jpg" class="visible-md visible-lg">
-                            <img src="img/slides/home-top-slide2a-m.jpg" class="visible-xs visible-sm">
+                            <img src="<?php echo $entity->getWebPublicDirectory() . "/";?>img/slides/home-top-slide2a.jpg" class="visible-md visible-lg">
+                            <img src="<?php echo $entity->getWebPublicDirectory() . "/";?>img/slides/home-top-slide2a-m.jpg" class="visible-xs visible-sm">
                         </li>
                         <li>
                             <div class="container">
@@ -48,8 +48,8 @@
                                     <a href="schedule-a-tour" class="btn btn-block btn-mod btn-brown btn-large btn-round">Schedule a Tour</a>
                                 </div>
                             </div>
-                            <img src="img/slides/home-top-slide3a.jpg" class="visible-md visible-lg">
-                            <img src="img/slides/home-top-slide3a-m.jpg" class="visible-xs visible-sm">
+                            <img src="<?php echo $entity->getWebPublicDirectory() . "/";?>img/slides/home-top-slide3a.jpg" class="visible-md visible-lg">
+                            <img src="<?php echo $entity->getWebPublicDirectory() . "/";?>img/slides/home-top-slide3a-m.jpg" class="visible-xs visible-sm">
                         </li>
                     </ul>
                 </div>
@@ -93,7 +93,7 @@
 
             
             <!-- Community Section -->
-            <section class="page-section pt-0 pb-30 banner-section bg-dark" data-background="img/slides/home-top-slide3.jpg" id="community">
+            <section class="page-section pt-0 pb-30 banner-section bg-dark" data-background="<?php echo $entity->getWebPublicDirectory() . "/";?>slides/home-top-slide3.jpg" id="community">
                 <div class="container relative">
                     
                     <div class="row">
@@ -107,9 +107,13 @@
                                         <?php echo $entity->getText('home-neighborhood-description','Immerse yourself in the culture of Downtown Henderson at Martinique Bay.<br>Located just seconds from all the fun, food, and entertainment, and near the freeway, our location is ideal for every lifestyle.');
                                         ?>
                                         <ul>
-                                            @foreach($entity->hasNeighborhood()->get()->toArray() as $index => $nFeature)
-                                                <li><a href="neighborhood">{{ $nFeature['name'] }}</a></li>
-                                            @endforeach
+                                        <?php
+                                            foreach($entity->hasNeighborhood()->get()->toArray() as $index => $nFeature):
+                                        ?>
+                                                <li><a href="neighborhood"><?php echo strtoupper($nFeature['name']); ?></a></li>
+                                        <?php
+                                            endforeach
+                                        ?>
                                         </ul>
                                     </div>
                                     <div class="local-scroll">
@@ -134,12 +138,12 @@
                         <div class="row">
                         <?php
                             $features = app()->make('App\Property\Feature');
+                            $features->setFeaturesLimit(['apartment' => 6,'community' => 6]);
                             $features->loadSelectedFeatures(['apartment','community']);
                             $features->setFeaturesFormatter(new App\Util\Formatter('li'));
                             foreach(['apartment' => 'Apartment Features',
                                 'community' => 'Community Features'
                                 ] as $section => $label):
-                                //TODO: Possibly add a "much more..." link?        
                         ?>
                             <div class="col-sm-6">
                                 <h2 class="section-title font-alt mb-40 mb-sm-40">{{ $label }}</h2>
@@ -151,7 +155,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6 no-padding">
-                                    <img src="img/gallery/am2.png"  class="img-responsive">
+                                    <img src="<?php echo $entity->getWebPublicDirectory() . "/";?>img/feature/<?php echo $section;?>.png"  class="img-responsive">
                                 </div>
                             </div>
                         <?php
@@ -166,7 +170,7 @@
 
             
             <!-- Call Action Section -->
-            <section class="page-section pt-0 pb-0 banner-section bg-light" data-background="img/slides/home-top-slide2a.jpg">
+            <section class="page-section pt-0 pb-0 banner-section bg-light" data-background="<?php echo $entity->getWebPublicDirectory() . "/";?>img/slides/home-top-slide2a.jpg">
                 <div class="container relative">
                     
                     <div class="row">
@@ -215,9 +219,7 @@
                             </div>
                         </div>
                     </div>
-                    
                     @include('layouts/dinapoli/pages/inc/gallery')
-                    
                 </div>
             </section>
             <!-- End Gallery Section -->
@@ -257,7 +259,9 @@
              </section>
             <!-- End Google Map -->
 			@stop
-
+            @section('schedule-a-tour')
+                @include('layouts/dinapoli/pages/inc/schedule-a-tour')
+            @stop
             @section('contact')
 			<section class="contact-padding page-section pb-0" id="contact">
                 <div class="container relative">
@@ -293,7 +297,7 @@
                                             Address
                                         </div>
                                         <div class="ci-text">
-                                            <?php echo $entity->getFullAddressBr(); ?>
+                                            <?php echo strtoupper($entity->getFullAddressBr()); ?>
                                         </div>
                                     </div>
                                 </div>

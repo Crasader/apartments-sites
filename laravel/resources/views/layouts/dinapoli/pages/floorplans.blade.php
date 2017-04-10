@@ -5,6 +5,8 @@ $fpData = $floorPlans->getFloorPlans();
 $sorted = [];
 $sortedIds = [];
 
+\Debugbar::info($fpData);
+$ctr = 0;
 foreach($fpData as $index => $object){
     $uniqueId = uniqid() . "_" . $object->BED;
     $object->uniqid = $uniqueId;
@@ -18,7 +20,7 @@ foreach($fpData as $index => $object){
         $object->TEXT = 'Units Available';
         $object->ACTION = 'unit';
     }
-    $sorted[$object->BED] = $object;
+    $sorted[$ctr++] = $object;
     $sortedIds[$uniqueId] = $object;
 }
 $js->setCollection($sorted);
@@ -46,10 +48,13 @@ $js->generateIDs();
                     <div class="works-filter font-alt align-center">
                         <a href="#" class="filter active" data-filter="*">All</a>
                         <?php 
+                            $printed = [];
                             foreach($sorted as $bedCount => $object):
+                                if(in_array($object->BED,$printed)){ continue; }
+                                $printed[] = $object->BED;
                         ?>
-                        <a href="#<?php echo $bedCount;?>bed" class="filter" data-filter=".<?php echo $bedCount;?>bed">
-                        <?php echo $bedCount; ?> Bedroom<?php if($bedCount > 1){ echo "s"; }?>
+                        <a href="#<?php echo $object->BED;?>bed" class="filter" data-filter=".<?php echo $object->BED;?>bed">
+                        <?php echo $object->BED; ?> Bedroom<?php if($object->BED > 1){ echo "s"; }?>
                         </a>
                         <?php
                             endforeach;
@@ -68,7 +73,9 @@ $js->generateIDs();
                                             
                                             <!-- Floor Plan Thumbnail -->
                                             <div class="floorplan-thumb">
-                                                <a href="img/floorplans/sands.jpg" class="lightbox-gallery-2 mfp-image"><img src="img/floorplans/sands.jpg"></a>
+                                                <?php //TODO: make a function to clean this cruft ?>
+                                                <a href="<?php echo $entity->getWebPublicDirectory() . "/";?>img/floorplans/<?php echo preg_replace("|[^a-z]+|","",strtolower($object->U_MARKETING_NAME));?>.jpg" class="lightbox-gallery-2 mfp-image">
+                                                <img src="<?php echo $entity->getWebPublicDirectory() . "/";?>img/floorplans/<?php echo preg_replace("|[^a-z]+|","",strtolower($object->U_MARKETING_NAME));?>.jpg"></a>
                                             </div>
 
                                              <!-- Unit Title -->
@@ -110,7 +117,7 @@ $js->generateIDs();
                                                         $text = 'Unit Available';
                                                         break;
                                                     default:
-                                                        $text = 'Units Available';
+                                                        $text = $object->AVAIL . ' Units Available';
                                                     }
                                                 ?>
                                                          <a style="cursor:pointer" id="<?php echo $js->getGenId($index); ?>" class="btn btn-brown btn-mod">
@@ -143,9 +150,6 @@ EOF;
         @stop
         @section('contact','')
 
-        @section('schedule-a-tour')
-            @include('layouts/dinapoli/pages/inc/schedule-a-tour')
-        @stop
         @section('epop')
             @include('layouts/dinapoli/pages/inc/epop')
         @stop

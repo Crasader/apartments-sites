@@ -36,7 +36,7 @@ trait Features {
 
     public function getFeaturesChunk(string $section,int $chunkOffset) : string{
         $foo = $this;
-        return self::textCache($section,function() use($foo) {
+        return self::textCache($section,function() use($foo,$section,$chunkOffset) {
             $chunkSize = (int)floor(count($this->_features[$section]) / $this->_featuresChunkCount);
             if($this->_featuresFormatter){
                 $this->_featuresFormatter->setLineItems($this->_features[$section]);
@@ -111,9 +111,9 @@ trait Features {
             case 'apartment':
                 $builder = ApartmentFeature::where('property_id',Site::$instance->getEntity()->fk_legacy_property_id)
                     ->orderBy('display_order','asc');
+                \Debugbar::info("Features limit: ");
                 \Debugbar::info($this->_featuresLimit);
                 if(isset($this->_featuresLimit['apartment'])){
-                    \Debugbar::info("LOL");
                     $builder->limit($this->_featuresLimit['apartment']);
                 }
                 $ids = [];

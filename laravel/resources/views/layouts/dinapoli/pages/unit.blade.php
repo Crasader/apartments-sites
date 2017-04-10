@@ -8,6 +8,8 @@ $js = app()->make('App\Javascript\ApplySubmitter');
 $js->setCollection($units);
 $js->generateIDs();
 
+$unitType = preg_replace("|[^a-z]+|","",strtolower($extras['unittype']));
+
 ?>
 @extends('layouts/dinapoli/main')
                         @section('page-title-row')
@@ -44,7 +46,8 @@ $js->generateIDs();
                             
                             <!-- Floor Plan Thumbnail -->
                             <div class="row unit-thumb">
-                                <a href="img/floorplans/sands.jpg" class="lightbox-gallery-2 mfp-image"><img src="img/floorplans/sands.jpg"></a>
+                                <a href="<?php echo $entity->getWebPublicDirectory() . "/";?>img/floorplans/<?php echo $unitType;?>.jpg" class="lightbox-gallery-2 mfp-image">
+                                <img src="<?php echo $entity->getWebPublicDirectory() . "/";?>img/floorplans/<?php echo $unitType;?>.jpg"></a>
                             </div>
                         </div>
                         

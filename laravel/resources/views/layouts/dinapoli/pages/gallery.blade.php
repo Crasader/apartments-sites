@@ -32,7 +32,7 @@
             <!-- End Gallery Section -->
 
             <!-- Call Action Section -->
-            <section class="page-section pt-0 pb-0 banner-section bg-dark" data-background="img/slides/home-top-slide2.jpg">
+            <section class="page-section pt-0 pb-0 banner-section bg-dark" data-background="<?php echo $entity->getWebPublicDirectory() . "/";?>img/slides/home-top-slide2.jpg">
                 <div class="container relative">
                     
                     <div class="row">
@@ -42,10 +42,7 @@
                                 <div class="banner-content text-shadow">
                                     <h3 class="banner-heading font-alt"><?php echo $entity->getPhone(); ?></h3>
                                     <div class="banner-decription">
-                                        <?php echo $entity->getText('gallery-action-banner-description','
-                                        Call or email us to schedule a tour today.<br>
-                                        Come see your new home and the community features in person.
-                                        ');
+                                        <?php echo $entity->getText('gallery-action-banner-description');
                                         ?>
                                     </div>
                                 </div>
@@ -68,8 +65,3 @@
 @stop
                  
             @section('contact','')           
-            @section('schedule-a-tour')
-            <!-- Schedule a Tour Section -->
-                @include('layouts/dinapoli/pages/inc/schedule-a-tour')
-            <!-- End Schedule a Tour Section -->
-            @stop

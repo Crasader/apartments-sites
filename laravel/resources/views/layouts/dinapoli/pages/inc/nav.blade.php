@@ -1,17 +1,23 @@
 <?php 
 use App\Util\Util;
 $specials = app()->make('App\Property\Specials');
-$data = $specials->fetchAllSpecials();
+
+$foo = $specials->traitGet('specials');
+$data = [];
+foreach($foo as $index => $object){
+    $data[$object->U_MARKETING_NAME] = $object->SPECIAL_TEXT;
+}
+
 ?>
 			<!-- Speacials Dropdown -->
-            <?php if($specials->traitHas('website')): ?>
-                <?php if(Utils::isHome()): ?>
+            <?php if(isset($data['SpecialWebsite'])): ?>
+                <?php if(Util::isHome()): ?>
                 <div id="banner-special">
                 	<div class="container relative">
                 		<div class="row">
             				<div class="col-md-12 text-center">
         						<div class="text">
-        							<b><?php echo $data['website']; ?></b><br>
+        							<b><?php echo $data['SpecialWebsite']; ?></b><br>
         							<a href="floorplans" class="btn btn-mod btn-border-w btn-round">
                                  	  FIND OUT MORE
                             		</a> 
@@ -30,7 +36,7 @@ $data = $specials->fetchAllSpecials();
                             <ul class="top-nav-left">
                                 <li class="hidden-sm hidden-xs"><i class="fa fa-phone"></i> <b>Call Today</b> : <?php echo $entity->getPhone(); ?></li>
                                 <li class="hidden-sm hidden-xs"><i class="fa fa-map-marker"></i> <b>Location</b> : <?php echo $entity->getFullAddress();?></li>
-                                <li class="hidden-md hidden-lg"><a href="tel:<?php //TODO: get entity->getPhoneHref(); ?>+7025666344" class="gray"><i class="fa fa-phone"></i> Call Us</a></li>
+                                <li class="hidden-md hidden-lg"><a href="tel:+<?php echo preg_replace("|[^0-9]+|","",$entity->getPhone());?>" class="gray"><i class="fa fa-phone"></i> Call Us</a></li>
                             </ul>
                         </div>
                         <div class="col-xs-6 text-right">
@@ -47,7 +53,7 @@ $data = $specials->fetchAllSpecials();
                 <div class="full-wrapper relative clearfix">
                     <div class="nav-logo-wrap local-scroll">
                         <a href="index" class="logo">
-                            <img src="img/logo.png" alt="" />
+                            <img src="<?php echo $entity->getWebPublicDirectory() . "/";?>img/logo.png" alt="" />
                         </a>
                     </div>
                     <div class="mobile-nav">

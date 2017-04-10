@@ -47,6 +47,7 @@ module.exports = function(grunt) {
             'public/js/src/jquery.validate.js',
             'public/js/src/jquery.maskedinput.js',
             'public/js/src/amc.validate.js',
+            'public/js/src/util.js',
             ],
             dest: 'public/js/build/marketapts.concat.js'
         }

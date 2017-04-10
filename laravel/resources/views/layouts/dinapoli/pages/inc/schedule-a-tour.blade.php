@@ -1,11 +1,11 @@
 <!-- Schedule a Tour Section -->
-<section class="page-section schedule-a-tour-section bg-dark" data-background="img/slides/home-top-slide1a.jpg">
+<section class="page-section schedule-a-tour-section bg-dark" data-background="<?php echo $entity->getWebPublicDirectory() . "/";?>img/slides/home-top-slide1a.jpg">
     <div class="container relative">
         <form class="form align-center" >
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
                     <div class="newsletter-label font-alt text-shadow">
-                       <?php echo $entity->getText('schedule-tour-newsletter','Reserve Your New Home Now - Ask Us A Question'); ?>
+                       <?php echo $entity->getText('schedule-tour-newsletter');?>
                     </div>
                     <div class="mb-20">
                         <form class="form contact-form" id="contact_form">

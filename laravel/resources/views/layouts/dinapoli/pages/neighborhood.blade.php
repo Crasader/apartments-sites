@@ -20,7 +20,7 @@
                     <div class="col-sm-4 mb-xs-50 wow fadeInUp">
                         <div class="team-item ">
                             <div class="team-item-image">
-                                <img src="<?php echo $feature->decorator($nFeature)['image'];?>" alt="" class="mb-40 mb-sm-20"/>
+                                <img src="<?php echo $feature->decorator($nFeature,'neighborhood/')['image'];?>" alt="" class="mb-40 mb-sm-20"/>
                                 <div class="team-item-detail">
                                     <h4 class="font-alt normal"><?php echo $nFeature['name'];?></h4>
                                     <p>
@@ -45,7 +45,7 @@
             <!-- End About Section -->
             
             <!-- Call Action Section -->
-            <section class="page-section pt-0 pb-0 banner-section bg-dark" data-background="img/slides/home-top-slide2a.jpg">
+            <section class="page-section pt-0 pb-0 banner-section bg-dark" data-background="<?php echo $entity->getWebPublicDirectory() . "/";?>img/slides/home-top-slide2a.jpg">
                 <div class="container relative">
                     
                     <div class="row">
@@ -87,9 +87,7 @@
                             <div class="col-md-12 col-sm-12 mb-70 mb-sm-40 align-center">
                             	<h2 class="section-title font-alt">An Easier Commute</h2>
                                 <div class="section-text">
-                                <?php echo $entity->getText('commute-text','Lorem ipsum dolor sit amet, consectetur adipiscing elit. In maximus ligula semper metus pellentesque mattis. Maecenas  volutpat, diam enim sagittis quam, id porta quam. Sed id dolor consectetur fermentum nibh volutpat, accumsan purus.'
-                                );
-                                ?>
+                                <?php echo $entity->getText('commute-text'); ?>
                                 </div>
                             </div>
                     
@@ -122,11 +120,6 @@
             
             @section('action','')
             @section('contact','')
-            @section('schedule-a-tour')
-            <!-- Schedule a Tour Section -->
-                @include('layouts/dinapoli/pages/inc/schedule-a-tour')
-            <!-- End Schedule a Tour Section -->
-            @stop
 
 
         @section('google-maps-js')

@@ -11,6 +11,7 @@ use App\Property\Text\Type as TextType;
 use App\Property\Site;
 use App\Traits\TextCache;
 use App\Property\Neighborhood;
+use App\Property\Template as PropertyTemplate;
 
 class Entity extends Model
 {
@@ -158,14 +159,16 @@ class Entity extends Model
     public function getLatitude(){
         $foo = $this;
         return self::textCache('latitude',function() use($foo){
-            return "36.000";
+            $t = PropertyTemplate::select('latitude')->where('property_id',$this->fk_legacy_property_id)->get()->toArray();
+            return $t[0]['latitude'];
         });
     }
 
     public function getLongitude(){
         $foo = $this;
         return self::textCache('longitude',function() use($foo){
-            return "5000.000";
+            $t = PropertyTemplate::select('longitude')->where('property_id',$this->fk_legacy_property_id)->get()->toArray();
+            return $t[0]['longitude'];
         });
     }
 
@@ -182,7 +185,6 @@ class Entity extends Model
             $textTypes = TextType::select(['id'])->where('str_key',$name)->pluck('id')->toArray();
             if(count($textTypes)){
                 $a = PropertyText::select('string_value')->where('property_text_type_id',$textTypes[0])->get()->pluck('string_value')->toArray();
-                \Debugbar::info("Fetched: $name: " . var_export($a,1));
                 return array_pop($a);
             }
         });

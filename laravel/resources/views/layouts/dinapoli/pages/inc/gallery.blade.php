@@ -2,9 +2,10 @@
                     <div class="works-filter font-alt align-center">
                         <a href="#" class="filter active" data-filter="*">All</a>
                         <?php 
+                        //TODO: load items and filters dynamically by entity
                             $gallery = app()->make('App\Property\Gallery');
-                            $gallery->setFilters(['main','feature','community']);
-                            foreach(['main' => 'Main','feature' => 'Featured','community' => 'Community'] as $type => $label):
+                            $gallery->setFilters(['community','main']);
+                            foreach(['community' => 'Community','main'=>'Apartment'] as $type => $label):
                         ?>
                         <a href="#<?php echo $type;?>" class="filter" data-filter=".<?php echo $type;?>"><?php echo $label;?></a>
                         <?php
@@ -16,7 +17,8 @@
                     <!-- Gallery Grid -->
                     <ul class="works-grid work-grid-3 work-grid-gut clearfix font-alt hover-white hide-titles" id="work-grid">
                         <?php 
-                            $gallery->loadItems(['main','feature','community']);
+                        //TODO: load items and filters dynamically by entity
+                            $gallery->loadItems(['community','main']);
                             foreach($gallery->fetchSortedItems($gallery::SORT_TYPE_SPARSE) as $index => $imageData):
                         ?>
                         <!-- Gallery Item (Lightbox) :) -->
