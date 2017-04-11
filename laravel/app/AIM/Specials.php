@@ -3,6 +3,7 @@
 namespace App\AIM;
 
 use Illuminate\Database\Eloquent\Model;
+use App\AIM\DatabaseChanger;
 
 class Specials extends Model
 {
@@ -13,7 +14,8 @@ class Specials extends Model
     ];
 
     public function __construct(){
-        $this->connection = env('AIM_CONNECTION');
+        DatabaseChanger::changeDb('database.connections.dynamic');        
+        $this->connection = 'dynamic';
     }
     public function getSpecials(){
         return \DB::connection($this->connection)->select($this->_procedures['specials']);
