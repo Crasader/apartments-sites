@@ -6,7 +6,7 @@
                         <div class="col-md-8">
                             <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Schedule a Tour</h1>
                             <div class="hs-line-4 font-alt">
-                                <?php echo $entity->getText('schedule-a-tour-title','Want to see our units? What time works best for you?'); ?>
+                                <?php echo $entity->getText('schedule-a-tour-title');?>
                             </div>
                         </div>
                         @stop

@@ -3,7 +3,7 @@
                     
                     <!-- Footer Logo -->
                     <div class="local-scroll mb-30 wow fadeIn" data-wow-duration="1.5s" style="visibility: visible; animation-duration: 1.5s; animation-name: fadeIn;">
-                        <a href="#top"><img src="<?php echo $entity->getWebPublicDirectory() . "/";?>img/logo.png" alt=""></a>
+                        <a href="#top"><img src="<?php echo $entity->getWebPublicDirectory('logo');?>/logo.png" alt=""></a>
                     </div>
                     <!-- End Footer Logo -->
                     
@@ -65,7 +65,7 @@
                         
                         <!-- Copyright -->
                         <div class="footer-copy font-alt">
-                            <img src="<?php echo $entity->getWebPublicDirectory() . "/";?>img/hudimg.png" width="30" height="20" alt="Equal Housing" title="Equal Housing" class="eq-house-img"> 
+                            <img src="<?php echo $entity->getWebPublicDirectory('logo');?>/hudimg.png" width="30" height="20" alt="Equal Housing" title="Equal Housing" class="eq-house-img"> 
                         </div>
                         <!-- End Copyright -->
                         

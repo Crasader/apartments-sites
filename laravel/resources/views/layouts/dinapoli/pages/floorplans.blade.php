@@ -74,8 +74,8 @@ $js->generateIDs();
                                             <!-- Floor Plan Thumbnail -->
                                             <div class="floorplan-thumb">
                                                 <?php //TODO: make a function to clean this cruft ?>
-                                                <a href="<?php echo $entity->getWebPublicDirectory() . "/";?>img/floorplans/<?php echo preg_replace("|[^a-z]+|","",strtolower($object->U_MARKETING_NAME));?>.jpg" class="lightbox-gallery-2 mfp-image">
-                                                <img src="<?php echo $entity->getWebPublicDirectory() . "/";?>img/floorplans/<?php echo preg_replace("|[^a-z]+|","",strtolower($object->U_MARKETING_NAME));?>.jpg"></a>
+                                                <a href="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo preg_replace("|[^a-z]+|","",strtolower($object->U_MARKETING_NAME));?>.png" class="lightbox-gallery-2 mfp-image">
+                                                <img src="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo preg_replace("|[^a-z]+|","",strtolower($object->U_MARKETING_NAME));?>.png"></a>
                                             </div>
 
                                              <!-- Unit Title -->

@@ -10,12 +10,12 @@ class Feature extends Model
     //
     use FeaturesTrait;
     public function decorator(array $row,$extra=null){
-        $row['image'] = $this->getImagePath() . $extra . $row['image'];
+        $row['image'] = $this->getImagePath() .'/'. $row['image'];
         return $row;
     }
 
     public function getImagePath(){
-        return Site::$instance->getEntity()->getWebPublicDirectory() . '/img/';
+        return Site::$instance->getEntity()->getWebPublicDirectory('neighborhood');
     }
 
 }

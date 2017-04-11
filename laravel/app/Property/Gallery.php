@@ -47,7 +47,7 @@ class Gallery extends Model
     }
 
     public function getPathToImage(string $image) :string{
-        return Site::$instance->getEntity()->getWebPublicDirectory() . '/img/gallery/' . $image;
+        return Site::$instance->getEntity()->getWebPublicDirectory('gallery') . '/' . $image;
     }
 
     public function decorate(string $itemName,array $items) : array{

@@ -12,6 +12,8 @@ use App\Property\Site;
 use App\Traits\TextCache;
 use App\Property\Neighborhood;
 use App\Property\Template as PropertyTemplate;
+use App\Template;
+
 
 class Entity extends Model
 {
@@ -36,7 +38,7 @@ class Entity extends Model
         }
         self::save();
         $this->loadLegacyProperty();
-        $this->createClientDir();
+        return $this;
     }
 
     public function createClientDir(){
@@ -69,8 +71,39 @@ class Entity extends Model
         return public_path() . '/clients/' . $this->getFileSystemId();
     }
 
-    public function getWebPublicDirectory(){
-        return url('/clients/' . $this->getFileSystemId());
+    public function getTemplateName() : string{
+        $id = $this->fk_template_id;
+        return self::textCache('template_name',function() use($id) {
+            return Template::select('name')->where('id',$id)->get()->toArray()[0]['name'];
+        });
+    }
+
+    public function getLegacyCode() : string {
+        return $this->_legacyProperty->code;
+    }
+
+    public function getWebPublicDirectory(string $type){
+        $base = env('WEB_PUBLIC_BASE');
+        switch($type){
+            case 'slides':
+                return $base . "images/{$this->getTemplateName()}/{$this->getLegacyCode()}";
+            case 'floorplans':
+                return $base . "images/{$this->getTemplateName()}/{$this->getLegacyCode()}/floorplans";
+            case 'features':
+                return $base . "images/{$this->getTemplateName()}/{$this->getLegacyCode()}/features";
+            case 'neighborhood':
+                return $base . "images/{$this->getTemplateName()}/{$this->getLegacyCode()}/neighborhood";
+            case 'popup':
+                return $base . "images/{$this->getTemplateName()}/{$this->getLegacyCode()}";
+            case 'logo':
+                return $base . "images/{$this->getTemplateName()}/{$this->getLegacyCode()}/logo";
+            case 'gallery':
+                return $base . "uploads/photos";
+            case 'img':
+                return $base . "images/{$this->getTemplateName()}/{$this->getLegacyCode()}";
+            default: 
+                return $base . "images/{$this->getTemplateName()}/{$this->getLegacyCode()}";
+        }
     }
 
     protected function _preprocessAttributes(&$attr){
@@ -147,6 +180,22 @@ class Entity extends Model
         });
     }
 
+    public function getEmail() : string{
+        $foo = $this;
+        return self::textCache('email',function() use($foo) {
+            return $foo->_legacyProperty->email;
+        });
+    
+    }
+
+    public function getTitle() : string{
+        $foo = $this;
+        return self::textCache('name',function() use($foo) {
+            return $foo->_legacyProperty->name;
+        });
+    }
+
+
     public function getWelcomeText(string $section) : string{
         switch($section){
             case 'amenities':
@@ -160,7 +209,11 @@ class Entity extends Model
         $foo = $this;
         return self::textCache('latitude',function() use($foo){
             $t = PropertyTemplate::select('latitude')->where('property_id',$this->fk_legacy_property_id)->get()->toArray();
-            return $t[0]['latitude'];
+            if(isset($t[0]) == false){
+                return "";
+            }else{
+                return $t[0]['latitude'];
+            }
         });
     }
 
@@ -168,8 +221,31 @@ class Entity extends Model
         $foo = $this;
         return self::textCache('longitude',function() use($foo){
             $t = PropertyTemplate::select('longitude')->where('property_id',$this->fk_legacy_property_id)->get()->toArray();
-            return $t[0]['longitude'];
+            if(isset($t[0]) == false){
+                return "";
+            }else{
+                return $t[0]['longitude'];
+            }
         });
+    }
+
+    protected $_decorateIgnoreText = [
+        'google-maps-title'
+    ];
+
+    public function decorateGetText($name,$text){
+        if(ENV('SHOW_DECORATE')){
+            if($text === null){ return "<b style='color:green'>{!}Empty value: $name{!}</b>"; }
+            if(in_array($name,$this->_decorateIgnoreText)){ 
+                if(strlen($text) == 0){
+                    return "<b style='color:green'>{!} Missing value: '$name'</b>";
+                }
+                return $text . "<b style='color:red'>{!}</b>"; 
+            }
+            return $text . "<b style='color:red;'>{!}</b>";
+        }else{
+            return $text;
+        }
     }
 
     public function getText(string $name,string $default = null){
@@ -185,7 +261,7 @@ class Entity extends Model
             $textTypes = TextType::select(['id'])->where('str_key',$name)->pluck('id')->toArray();
             if(count($textTypes)){
                 $a = PropertyText::select('string_value')->where('property_text_type_id',$textTypes[0])->get()->pluck('string_value')->toArray();
-                return array_pop($a);
+                return $this->decorateGetText($name,array_pop($a));
             }
         });
     }

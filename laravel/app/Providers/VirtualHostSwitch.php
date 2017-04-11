@@ -26,6 +26,28 @@ class VirtualHostSwitch extends ServiceProvider
                 return Site::$instance;
             }
             $entity = PropertyEntity::where('fk_legacy_property_id',$tempThis->_resolveSiteId())->get()->first();
+            if($entity === null){
+				$prop = new PropertyEntity;
+				$legacy = LegacyProperty::where('url','like','%' . $_SERVER['SERVER_NAME'] . '%')->get()->first();
+
+				$cbCounter = 5;
+				$fileSystemId = $prop->generateFilesystemId($legacy,function() use($cbCounter) {
+					if($cbCounter-- <= 0){
+						return null;
+					}
+					else{
+						return 'retry';
+					}
+				});
+				$entity = $prop->createNew([
+					'_property_group_name' => [
+						'name' => 'Dinali'
+					],
+					'property_group_id' => 0,
+					'property_name' => $legacy->name,
+					'filesystem_id' => $fileSystemId
+				],$legacy);
+            }
             return Site::$instance = new Site($entity);
         });
     }

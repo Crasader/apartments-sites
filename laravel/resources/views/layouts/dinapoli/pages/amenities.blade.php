@@ -107,7 +107,7 @@
 
 			@section('action')
 			<!-- Call Action Section -->
-            <section class="page-section pt-0 pb-0 banner-section bg-light" data-background="<?php echo $entity->getWebPublicDirectory() . "/";?>img/slides/home-top-slide2a.jpg">
+            <section class="page-section pt-0 pb-0 banner-section bg-light" data-background="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide2a.jpg">
                 <div class="container relative">
 
                     <div class="row">

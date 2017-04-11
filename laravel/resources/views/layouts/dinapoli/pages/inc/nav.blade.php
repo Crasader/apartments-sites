@@ -53,7 +53,7 @@ foreach($foo as $index => $object){
                 <div class="full-wrapper relative clearfix">
                     <div class="nav-logo-wrap local-scroll">
                         <a href="index" class="logo">
-                            <img src="<?php echo $entity->getWebPublicDirectory() . "/";?>img/logo.png" alt="" />
+                            <img src="<?php echo $entity->getWebPublicDirectory('logo');?>/logo.png" alt="" />
                         </a>
                     </div>
                     <div class="mobile-nav">

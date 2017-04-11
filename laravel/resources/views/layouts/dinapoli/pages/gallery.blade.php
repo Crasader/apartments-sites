@@ -15,12 +15,7 @@
                             <div class="col-md-8 col-md-offset-2">
                                 
                                 <div class="section-text align-center mb-70 mb-xs-40">
-                                    <?php echo $entity->getText('gallery-intro-text','
-                                    In&nbsp;auctor ex&nbsp;id&nbsp;urna faucibus porttitor. Lorem ipsum dolor sit amet, 
-                                    consectetur adipiscing elit. In&nbsp;maximus ligula semper metus pellentesque mattis.  
-                                    Maecenas volutpat, diam enim sagittis quam, id&nbsp;porta quam. Sed id&nbsp;dolor 
-                                    consectetur fermentum nibh volutpat, accumsan purus.
-                                    ');
+                                    <?php echo $entity->getText('gallery-intro-text');
                                     ?>
                                 </div>
                                 
@@ -32,7 +27,7 @@
             <!-- End Gallery Section -->
 
             <!-- Call Action Section -->
-            <section class="page-section pt-0 pb-0 banner-section bg-dark" data-background="<?php echo $entity->getWebPublicDirectory() . "/";?>img/slides/home-top-slide2.jpg">
+            <section class="page-section pt-0 pb-0 banner-section bg-dark" data-background="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide2a.jpg">
                 <div class="container relative">
                     
                     <div class="row">

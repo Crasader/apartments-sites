@@ -20,7 +20,7 @@
                     <div class="col-sm-4 mb-xs-50 wow fadeInUp">
                         <div class="team-item ">
                             <div class="team-item-image">
-                                <img src="<?php echo $feature->decorator($nFeature,'neighborhood/')['image'];?>" alt="" class="mb-40 mb-sm-20"/>
+                                <img src="<?php echo $feature->decorator($nFeature)['image'];?>" alt="" class="mb-40 mb-sm-20"/>
                                 <div class="team-item-detail">
                                     <h4 class="font-alt normal"><?php echo $nFeature['name'];?></h4>
                                     <p>
@@ -45,7 +45,7 @@
             <!-- End About Section -->
             
             <!-- Call Action Section -->
-            <section class="page-section pt-0 pb-0 banner-section bg-dark" data-background="<?php echo $entity->getWebPublicDirectory() . "/";?>img/slides/home-top-slide2a.jpg">
+            <section class="page-section pt-0 pb-0 banner-section bg-dark" data-background="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide2a.jpg">
                 <div class="container relative">
                     
                     <div class="row">

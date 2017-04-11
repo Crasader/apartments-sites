@@ -26,8 +26,8 @@
                                     <a href="schedule-a-tour" class="btn btn-block btn-mod btn-brown btn-large btn-round">Schedule a Tour</a>
                                 </div>
                             </div>
-                            <img src="<?php echo $entity->getWebPublicDirectory() . "/";?>img/slides/home-top-slide1a.jpg" class="visible-md visible-lg">
-                            <img src="<?php echo $entity->getWebPublicDirectory() . "/";?>img/slides/home-top-slide1a-m.jpg" class="visible-xs visible-sm">
+                            <img src="<?php echo $entity->getWebPublicDirectory('slides') ;?>/home-top-slide1a.jpg" class="visible-md visible-lg">
+                            <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide1a.jpg" class="visible-xs visible-sm">
                         </li>
                         <li>
                             <div class="container">
@@ -37,8 +37,8 @@
                                     <a href="schedule-a-tour" class="btn btn-block btn-mod btn-brown btn-large btn-round">Schedule a Tour</a>
                                 </div>
                             </div>
-                            <img src="<?php echo $entity->getWebPublicDirectory() . "/";?>img/slides/home-top-slide2a.jpg" class="visible-md visible-lg">
-                            <img src="<?php echo $entity->getWebPublicDirectory() . "/";?>img/slides/home-top-slide2a-m.jpg" class="visible-xs visible-sm">
+                            <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide2a.jpg" class="visible-md visible-lg">
+                            <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide2a.jpg" class="visible-xs visible-sm">
                         </li>
                         <li>
                             <div class="container">
@@ -48,8 +48,8 @@
                                     <a href="schedule-a-tour" class="btn btn-block btn-mod btn-brown btn-large btn-round">Schedule a Tour</a>
                                 </div>
                             </div>
-                            <img src="<?php echo $entity->getWebPublicDirectory() . "/";?>img/slides/home-top-slide3a.jpg" class="visible-md visible-lg">
-                            <img src="<?php echo $entity->getWebPublicDirectory() . "/";?>img/slides/home-top-slide3a-m.jpg" class="visible-xs visible-sm">
+                            <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide3a.jpg" class="visible-md visible-lg">
+                            <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide3a.jpg" class="visible-xs visible-sm">
                         </li>
                     </ul>
                 </div>
@@ -93,7 +93,7 @@
 
             
             <!-- Community Section -->
-            <section class="page-section pt-0 pb-30 banner-section bg-dark" data-background="<?php echo $entity->getWebPublicDirectory() . "/";?>slides/home-top-slide3.jpg" id="community">
+            <section class="page-section pt-0 pb-30 banner-section bg-dark" data-background="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide4.jpg" id="community">
                 <div class="container relative">
                     
                     <div class="row">
@@ -155,7 +155,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6 no-padding">
-                                    <img src="<?php echo $entity->getWebPublicDirectory() . "/";?>img/feature/<?php echo $section;?>.png"  class="img-responsive">
+                                    <img src="<?php echo $entity->getWebPublicDirectory('features');?>/<?php echo $section;?>.png"  class="img-responsive">
                                 </div>
                             </div>
                         <?php
@@ -170,7 +170,7 @@
 
             
             <!-- Call Action Section -->
-            <section class="page-section pt-0 pb-0 banner-section bg-light" data-background="<?php echo $entity->getWebPublicDirectory() . "/";?>img/slides/home-top-slide2a.jpg">
+            <section class="page-section pt-0 pb-0 banner-section bg-light" data-background="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide2a.jpg">
                 <div class="container relative">
                     
                     <div class="row">

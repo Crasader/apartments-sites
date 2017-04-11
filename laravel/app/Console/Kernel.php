@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
-        Commands\CreateAliases::class
+        Commands\CreateAliases::class,
+        Commands\CreateVhostConfigs::class,
     ];
 
     /**

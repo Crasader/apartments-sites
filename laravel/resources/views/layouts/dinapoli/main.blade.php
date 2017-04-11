@@ -13,11 +13,11 @@
 @section('css')
         <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="css/main.css">
-        <link rel="stylesheet" href="css/custom.css">
-        <link rel="stylesheet" href="css/animate.min.css">
-        <link rel="stylesheet" href="css/owl.carousel.css">
-        <link rel="stylesheet" href="css/magnific-popup.css">
+        <link rel="stylesheet" href="/dinapoli/css/main.css">
+        <link rel="stylesheet" href="/dinapoli/css/custom.css">
+        <link rel="stylesheet" href="/dinapoli/css/animate.min.css">
+        <link rel="stylesheet" href="/dinapoli/css/owl.carousel.css">
+        <link rel="stylesheet" href="/dinapoli/css/magnific-popup.css">
 @show
         @yield('extra-css')
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -44,7 +44,7 @@
 
             <?php if(!App\Util\Util::isHome()): ?>
             <!-- Page Title Section -->
-            <section class="page-section bg-dark-alfa-30" data-background="img/bg1.jpg">
+            <section class="page-section bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('img');?>/bg1.jpg">
                 <div class="relative container align-left">
 
                     <div class="row">

@@ -46,8 +46,8 @@ $unitType = preg_replace("|[^a-z]+|","",strtolower($extras['unittype']));
                             
                             <!-- Floor Plan Thumbnail -->
                             <div class="row unit-thumb">
-                                <a href="<?php echo $entity->getWebPublicDirectory() . "/";?>img/floorplans/<?php echo $unitType;?>.jpg" class="lightbox-gallery-2 mfp-image">
-                                <img src="<?php echo $entity->getWebPublicDirectory() . "/";?>img/floorplans/<?php echo $unitType;?>.jpg"></a>
+                                <a href="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $unitType;?>.jpg" class="lightbox-gallery-2 mfp-image">
+                                <img src="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $unitType;?>.jpg"></a>
                             </div>
                         </div>
                         

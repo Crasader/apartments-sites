@@ -21,7 +21,7 @@
                         <div class="row">
                             
                             <div class="col-md-7 col-sm-7 mb-sm-50 mb-xs-30">
-                                <form id="form1" method="post" action="/post">
+                                <form id="form1" method="post" action="/contact">
                                     <input type="hidden" name="form_id" value="contact"/>
                                     <div class="mb-20 mb-md-10 form-group">
                                         <label>First Name</label>
@@ -64,12 +64,8 @@
                                                         <div style="overflow:hidden;height:537px;max-width:100%;">
                                                             <div id="map-canvas" style="max-width:100%;"></div>
                                                         <div>
-
-                                                        <script type='text/javascript'>
-                                                            <?php //TODO: Grab latitude and longitude? Would that work here? Test it out. ?>
-                                                            function init_map(){var myOptions = {zoom:17,center:new google.maps.LatLng(36.0670112,-115.0839982),scrollwheel:false,mapTypeId: google.maps.MapTypeId.ROADMAP};map = new google.maps.Map(document.getElementById('map-canvas'), myOptions);iconBase='';marker = new google.maps.Marker({position: new google.maps.LatLng(36.0670112,-115.0839982),gestureHandling: 'cooperative',map: map,icon: iconBase + '<?php echo $entity->getWebPublicDirectory() . "/";?>custom-marker.png'});infowindow = new google.maps.InfoWindow({content:'<strong>Martinique Bay</strong><br>3000 High View Drive Henderson, NV<br>'});google.maps.event.addListener(marker, 'click', function(){infowindow.open(map,marker);});infowindow.open(map,marker);}google.maps.event.addDomListener(window, 'load', init_map);</script>
+                                                        @include('layouts/dinapoli/pages/inc/google-maps-script')
                                                     </div>
-                                                   
                                                 </div>
                                             </div>
                                         </div>

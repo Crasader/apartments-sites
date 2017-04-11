@@ -10,8 +10,8 @@ class Util
 
     public static function isHome(){
         return (
-            $_SERVER['REQUEST_URI'] == '/index' ||
-            $_SERVER['REQUEST_URI'] == '/home' ||
+            preg_match("|^/index|",$_SERVER['REQUEST_URI']) ||
+            preg_match("|^/home|",$_SERVER['REQUEST_URI']) ||
             $_SERVER['REQUEST_URI'] == '/' ||
             strlen($_SERVER['REQUEST_URI']) == 0
         );

@@ -3,6 +3,7 @@
 namespace App\AIM;
 
 use Illuminate\Database\Eloquent\Model;
+use App\AIM\DatabaseChanger;
 
 class FloorPlans extends Model
 {
@@ -12,8 +13,10 @@ class FloorPlans extends Model
         'floor-plans' => 'WS_SP_MAPTS_GET_UNIT_AVAILABILITY_NOXML',
     ];
 
+    //TODO: create a service provider that will give this object the correct connection type
     public function __construct(){
-        $this->connection = env('AIM_CONNECTION');
+        DatabaseChanger::changeDb('database.connections.dynamic');
+		$this->connection = 'dynamic';
     }
     public function getFloorPlans(){
         return \DB::connection($this->connection)->select($this->_procedures['floor-plans']);

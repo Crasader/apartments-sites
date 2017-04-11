@@ -1,6 +1,6 @@
 <div class="container overlap-ds box-shadow--2dp hidden-sm hidden-xs">
 	<div class="location">
-		<b><?php echo $entity->getText('apartment-title','Martinique Bay'); ?></b>
+		<b><?php echo $entity->getText('apartment-title'); ?></b>
 		<p>
 			<?php echo $entity->getStreet() . '<br>';
 			echo $entity->getCity() . ', ' . $entity->getState() . ' ';
