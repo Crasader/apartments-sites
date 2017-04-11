@@ -55,11 +55,7 @@
                                 <div class="banner-content text-shadow">
                                     <h3 class="banner-heading font-alt">Join Our community</h3>
                                     <div class="banner-decription">
-                                    <?php echo $entity->getText('neighborhood-community-banner','
-                                        Proin fringilla augue at maximus vestibulum. Nam pulvinar vitae neque et porttitor. 
-                                        Integer non dapibus diam, ac eleifend lectus.'
-                                        );
-                                    ?>
+                                    <?php echo $entity->getText('neighborhood-community-banner'); ?>
                                     </div>
                                 </div>
                             </div>

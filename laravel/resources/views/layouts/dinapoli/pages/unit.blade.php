@@ -69,7 +69,7 @@ $unitType = preg_replace("|[^a-z]+|","",strtolower($extras['unittype']));
                         	</div>
                         	<div class="text">		                            	
                                 <?php //TODO: grab apartment features ?>
-                                <?php echo $entity->getText('unity-apartment-features','Apartment features include gourmet kitchens, granite countertops, plank flooring (on select floors), nine-foot ceilings, washer and dryer, and a private balcony.');
+                                <?php echo $entity->getText('unity-apartment-features');//,'Apartment features include gourmet kitchens, granite countertops, plank flooring (on select floors), nine-foot ceilings, washer and dryer, and a private balcony.');
                                 ?>
                         	</div>   
                         </div>

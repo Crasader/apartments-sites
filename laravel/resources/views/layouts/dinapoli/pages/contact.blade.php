@@ -12,11 +12,14 @@
                         </div>
                         @stop
                         @section('page-title-span','CONTACT')
+                        @section('recaptcha-js')
+                        <script src="https://www.google.com/recaptcha/api.js"></script>
+                        @stop
             @section('content')        
             <!-- Contact Form Section -->
             <section class="page-section pb-0" id="contact-form">
                 <div class="container relative">
-                    
+                    <?php if(isset($sent)): ?><h1 class="notice">Your contact information has been submitted</h1><?php endif;?>
                     <div class="section-text mb-50 mb-sm-20">
                         <div class="row">
                             
@@ -47,6 +50,11 @@
                                         </div>
                                     </div>
                                     {{csrf_field()}}
+                                    <div class="mb-20 mb-md-10 form-group">
+                                        <div class="g-recaptcha" id='grecaptcha' data-sitekey="6LfamxwUAAAAAGFfyxU0wbGmPvOMKgXZCziZLxwl"></div>
+                                    </div>
+									
+                                    <input type="hidden" class="hiddenRecaptcha required" name="hiddenRecaptcha" id="hiddenRecaptcha">
                                     <div class="mb-20 mb-md-10">
                                         <button class="btn btn-mod btn-brown btn-large btn-round">Submit</button>
                                     </div>
@@ -101,6 +109,15 @@
 						'date': {
 							required: true,
 							'date': true
+						},
+						hiddenRecaptcha: {
+							required: function () {
+								if (grecaptcha.getResponse() == '') {
+									return true;
+								} else {
+									return false;
+								}
+							}
 						}
 					} /* End RULES */
            		});

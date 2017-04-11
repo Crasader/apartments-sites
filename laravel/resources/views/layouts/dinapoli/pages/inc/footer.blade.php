@@ -71,7 +71,7 @@
                         
                         <div class="footer-made">
                             Copyright © 2016<br>
-                            <?php echo $entity->getText('copyright','Martinique Bay Apartments. All rights reserved.');?>
+                            <?php echo $entity->getText('copyright');//,'Martinique Bay Apartments. All rights reserved.');?>
                         </div>
                         
                     </div>

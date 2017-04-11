@@ -134,6 +134,10 @@ class Entity extends Model
     }
 
     public function getLegacyProperty() : LegacyProperty {
+        if($this->_legacyProperty === null){
+            //Attempt to load the legacy property
+            $this->_legacyProperty = LegacyProperty::findOrFail($this->fk_legacy_property_id);
+        }
         return $this->_legacyProperty;
     }
 
@@ -233,24 +237,29 @@ class Entity extends Model
         'google-maps-title'
     ];
 
-    public function decorateGetText($name,$text){
+    public function decorateGetText($name,$text,$opts = []){
+        if(isset($opts['use_double'])){
+            $q = "\"";
+        }else{
+            $q = "'";
+        }
         if(ENV('SHOW_DECORATE')){
-            if($text === null){ return "<b style='color:green'>{!}Empty value: $name{!}</b>"; }
+            if($text === null){ return "<b style={$q}color:green{$q}>{!}Empty value: $name{!}</b>"; }
             if(in_array($name,$this->_decorateIgnoreText)){ 
                 if(strlen($text) == 0){
-                    return "<b style='color:green'>{!} Missing value: '$name'</b>";
+                    return "<b style={$q}color:green{$q}>{!} Missing value: {$q}$name{$q}</b>";
                 }
-                return $text . "<b style='color:red'>{!}</b>"; 
+                return $text . "<b style={$q}color:red{$q}>{!}</b>"; 
             }
-            return $text . "<b style='color:red;'>{!}</b>";
+            return $text . "<b style={$q}color:red;{$q}>{!}</b>";
         }else{
             return $text;
         }
     }
 
-    public function getText(string $name,string $default = null){
+    public function getText(string $name,array $opts = []){
         $foo = $this;
-        return self::textCache('str_key_' . $name,function() use($foo,$name) {
+        return self::textCache('str_key_' . $name,function() use($foo,$name,$opts) {
             $translatables = [
                 'apartment-title' => $foo->getLegacyProperty()->name,
                 'home-about' => $foo->getLegacyProperty()->description
@@ -261,7 +270,7 @@ class Entity extends Model
             $textTypes = TextType::select(['id'])->where('str_key',$name)->pluck('id')->toArray();
             if(count($textTypes)){
                 $a = PropertyText::select('string_value')->where('property_text_type_id',$textTypes[0])->get()->pluck('string_value')->toArray();
-                return $this->decorateGetText($name,array_pop($a));
+                return $this->decorateGetText($name,array_pop($a),$opts);
             }
         });
     }

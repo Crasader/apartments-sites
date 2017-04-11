@@ -143,15 +143,6 @@
         @yield('google-maps-js')
         <script type="text/javascript" src="js/build/marketapts.min.js"></script>
         <!--[if lt IE 10]><script type="text/javascript" src="js/placeholder.js"></script><![endif]-->
-        <script type="text/javascript">
-            $(function(){
-                $("#banner-special").slideDown(500);
-                $("#banner-special-close").click(function(e) {
-                    e.preventDefault();
-                    $("#banner-special").slideUp();
-                });
-            });
-        </script>
 		@yield('page-specific-js')
         @show
     </body>

@@ -60,6 +60,7 @@
                                     <div class="mb-20 mb-md-10">
                                         <button type="submit" class="btn btn-mod btn-brown btn-large btn-round submit-btn">Submit</button>
                                     </div>
+                                    <div class="g-recaptcha" data-sitekey="6LfamxwUAAAAAGFfyxU0wbGmPvOMKgXZCziZLxwl"></div>
                                 </form>
                             </div>
                             

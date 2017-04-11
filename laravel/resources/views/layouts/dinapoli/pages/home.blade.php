@@ -104,7 +104,7 @@
                                 <div class="banner-content text-shadow">
                                     <h3 class="banner-heading font-alt">Your New Neighborhood</h3>
                                     <div class="banner-decription">
-                                        <?php echo $entity->getText('home-neighborhood-description','Immerse yourself in the culture of Downtown Henderson at Martinique Bay.<br>Located just seconds from all the fun, food, and entertainment, and near the freeway, our location is ideal for every lifestyle.');
+                                        <?php echo $entity->getText('home-neighborhood-description');//,'Immerse yourself in the culture of Downtown Henderson at Martinique Bay.<br>Located just seconds from all the fun, food, and entertainment, and near the freeway, our location is ideal for every lifestyle.');
                                         ?>
                                         <ul>
                                         <?php
@@ -350,6 +350,27 @@
                     }
 
                     
+                });
+            });
+        </script>
+        @stop
+
+        @section('page-specific-js')
+	    <script type="text/javascript">
+            $(function(){
+                if(localStorage.getItem('#banner-special') != 'shown'){
+                    $("#banner-special").slideDown();
+                }
+
+                $("#banner-special-close").click(function(e) {
+                    e.preventDefault();
+
+                    if(localStorage.getItem('#banner-special') != 'shown'){
+                        $("#banner-special").slideUp();
+                        localStorage.setItem('#banner-special','shown')
+                    }
+
+
                 });
             });
         </script>

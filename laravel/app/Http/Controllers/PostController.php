@@ -50,7 +50,7 @@ class PostController extends Controller
         return $arr;
     }
 
-    protected function _getToEmail(){
+    protected function _getApartmentEmail(){
         //TODO: move this to a different place
         if(ENV('DEV')){
             return 'wmerfalen@gmail.com';
@@ -58,11 +58,39 @@ class PostController extends Controller
         return App\Property\Template::select('email')->where('property_id',Site::$instance->getEntity()->fk_legacy_property_id)
             ->get()->toArray()['email'];
     }
+    
+    public function validateCaptcha(string $captcha){
+        //TODO: create a class to do this
+		$postdata = http_build_query(
+			array(
+				'secret' => ENV('RECAPTCHA'),
+				'response' => $captcha,
+                'remoteIp' => $_SERVER['REMOTE_ADDR']
+			)
+		);
+
+		$opts = array('http' =>
+			array(
+				'method'  => 'POST',
+				'header'  => 'Content-type: application/x-www-form-urlencoded',
+				'content' => $postdata
+			)
+		);
+
+		$context  = stream_context_create($opts);
+		$result = file_get_contents('https://www.google.com/recaptcha/api/siteverify', false, $context);
+        if(json_decode($result)->success){
+            return true;
+        }
+        return false;
+    }
 
     public function handleContact(){
         $data = $_POST;
         Site::$instance = $site = app()->make('App\Property\Site');
-
+        if(!$this->validateCaptcha($data['g-recaptcha-response'])){
+            die("Invalid recaptcha");
+        }
         $cleaned = [
             'fname' => preg_replace("|[^a-zA-Z \.]+|","",$data['firstname']),
             'lname' => preg_replace("|[^a-zA-Z \.]+|","",$data['lastname']),
@@ -72,18 +100,38 @@ class PostController extends Controller
             'mode' => 'contact'
         ];  
 
+        $contact = app()->make('App\Contact');
+        $contact->first_name = $cleaned['fname'];
+        $contact->last_name = $cleaned['lname'];
+        $contact->email = $cleaned['email'];
+        $contact->notes = 'no notes';
+        $contact->property_id = Site::$instance->getEntity()->fk_legacy_property_id;
+        $contact->corporate_group_id = Site::$instance->getEntity()->getLegacyProperty()->corporate_group_id;
+        $contact->phone = $cleaned['phone'];
+        $contact->when = $cleaned['movein'];
+        $contact->save();
+
         $finalArray = $this->_prefillArray(['mode' => 'contact']);
         $finalArray['contact'] = $cleaned;
 
         $siteCon = new SiteController(Site::$instance);
         $siteData = $siteCon->resolvePageBySite('unit',$cleaned);
-        (new \App\Mailer())->send(['from' => $cleaned['email'],
-            'cc' => ['matt@marketapts.com','wmerfalen@gmail.com'],   //TODO Add apartment complex's email to this
-             'to' => $this->_getToEmail(),
-             'contact' => $cleaned,
-             'mode' => 'contact',
-             'data' => view('layouts/dinapoli/email/main',$finalArray)
+        (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
+            'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
+            'to' => $cleaned['email'],
+            'contact' => $cleaned,
+            'mode' => 'contact',
+            //TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
+            'data' => view('layouts/dinapoli/email/user-confirm',$finalArray)
             ]);
-        return 'lol';
+        if(ENV('DEV')){
+            $to = 'wmerfalen@gmail.com';
+        }else{
+            $to = $cleaned['email'];
+        }
+        $siteCon = new SiteController(Site::$instance);
+        $siteData = $siteCon->resolvePageBySite('contact',$cleaned);
+        $siteData['data']['sent'] = true;
+        return view($siteData['path'],$siteData['data']);
     }
 }

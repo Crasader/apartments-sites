@@ -140,7 +140,7 @@ $js->generateIDs();
                                     <?php $pricing = <<<EOF
                                     *Pricing and availability are subject to change. Valid for new residents only. Square footages displayed are approximate. Discounts will be calculated upon lease execution. Minimum lease terms and occupancy guidelines may apply. Deposits may fluctuate based on credit, rental history, income, and/or other qualifying standards. Additional taxes and fees may apply and will be disclosed as per governing laws and company policies.
 EOF;
-                                        echo $entity->getText('floor-plans-pricing',$pricing); ?>
+                                        echo $entity->getText('floor-plans-pricing');//,$pricing); ?>
                                 </p>
                             </div>
                         </div>
