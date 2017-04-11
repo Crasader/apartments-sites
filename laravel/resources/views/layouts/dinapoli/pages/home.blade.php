@@ -219,6 +219,7 @@
                             </div>
                         </div>
                     </div>
+                    <?php $galleryLimit = 6; ?>
                     @include('layouts/dinapoli/pages/inc/gallery')
                 </div>
             </section>

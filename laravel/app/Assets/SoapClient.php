@@ -30,6 +30,26 @@ class SoapClient extends Model implements IDataFetcher
         }
     }
 
+    public function residentPortal($email,$password){
+		$data_query = new \StdClass();
+		$data_query->sysPassword = 'g3tm3s0m3pr0ps';
+		$data_query->username = $email;
+		$data_query->password = $password;
+
+		$URL = "http://192.168.1.135:8088/mapts_com.asmx?WSDL";
+		try {
+			$client = new \SoapClient($URL,array('trace' => 1));
+			$soapResult = $client->ValidateUserLogin($data_query);
+			$arrResult = explode('|',$soapResult->ValidateUserLoginResult);
+		} catch(SoapFault $e){
+			var_dump($e);
+		}
+        \Debugbar::info($arrResult);
+		if($arrResult[0] == 'True'){
+			return true;
+		}
+    }
+
 }
 
 

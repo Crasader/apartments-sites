@@ -9,11 +9,10 @@
                     
                     <!-- Social Links -->
                     <div class="footer-social-links mb-30">
-                    <?php //TODO: grab social media links ?>
-                        <a href="#" title="Facebook" target="_blank"><i class="fa fa-facebook"></i></a>
-                        <a href="#" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a>
-                        <a href="#" title="Instagram" target="_blank"><i class="fa fa-instagram"></i></a>
-                        <a href="#" title="LinkedIn+" target="_blank"><i class="fa fa-linkedin"></i></a>
+                        <a href="<?php echo $entity->getSocialMedia('fb');?>" title="Facebook" target="_blank"><i class="fa fa-facebook"></i></a>
+                        <a href="<?php echo $entity->getSocialMedia('twitter');?>" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a>
+                        <a href="<?php echo $entity->getSocialMedia('insta');?>" title="Instagram" target="_blank"><i class="fa fa-instagram"></i></a>
+                        <a href="<?php echo $entity->getSocialMedia('li');?>" title="LinkedIn+" target="_blank"><i class="fa fa-linkedin"></i></a>
                     </div>
                     <!-- End Social Links -->
 

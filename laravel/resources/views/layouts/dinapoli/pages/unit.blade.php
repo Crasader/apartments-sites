@@ -46,8 +46,8 @@ $unitType = preg_replace("|[^a-z]+|","",strtolower($extras['unittype']));
                             
                             <!-- Floor Plan Thumbnail -->
                             <div class="row unit-thumb">
-                                <a href="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $unitType;?>.jpg" class="lightbox-gallery-2 mfp-image">
-                                <img src="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $unitType;?>.jpg"></a>
+                                <a href="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $unitType;?>.png" class="lightbox-gallery-2 mfp-image">
+                                <img src="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $unitType;?>.png"></a>
                             </div>
                         </div>
                         
@@ -69,8 +69,7 @@ $unitType = preg_replace("|[^a-z]+|","",strtolower($extras['unittype']));
                         	</div>
                         	<div class="text">		                            	
                                 <?php //TODO: grab apartment features ?>
-                                <?php echo $entity->getText('unity-apartment-features');//,'Apartment features include gourmet kitchens, granite countertops, plank flooring (on select floors), nine-foot ceilings, washer and dryer, and a private balcony.');
-                                ?>
+                                <?php echo $entity->getText('unity-apartment-features'); ?>
                         	</div>   
                         </div>
                         
@@ -125,8 +124,7 @@ $unitType = preg_replace("|[^a-z]+|","",strtolower($extras['unittype']));
                             <div classs="row">
                                 <div class="col-sm-12">
                                     <p>
-                                        <?php echo $entity->getText('unit-pricing','*Pricing and availability are subject to change. Valid for new residents only. Square footages displayed are approximate. Discounts will be calculated upon lease execution. Minimum lease terms and occupancy guidelines may apply. Deposits may fluctuate based on credit, rental history, income, and/or other qualifying standards. Additional taxes and fees may apply and will be disclosed as per governing laws and company policies.');
-                                        ?>
+                                        <?php echo $entity->getText('unit-pricing'); ?>
                                     </p>
                                 </div>
                             </div>

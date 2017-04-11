@@ -106,6 +106,43 @@ class Entity extends Model
         }
     }
 
+    public function getSocialMedia(string $type){
+        $temp = PropertyTemplate::select('facebook_url')
+            ->where('property_id',377)
+            ->get()->toArray();//TODO: put this back in place: $this->_legacyProperty->id)->get()->toArray();
+        $data = $temp[0]['facebook_url'];
+        if(strlen($data) == 0){
+            \Debugbar::info("Foobar");
+            return null;
+        }
+        if(preg_match("|<\-multi\->|",$data)){
+            $foo = preg_replace("|<\-multi\->|","",$data);
+            $parts = explode("\n",$foo);
+            for($i=0;$i < count($parts);$i++){
+                if(strpos($parts[$i],"~") === false){ continue; }
+                list($var,$value) = explode("~",$parts[$i]);
+                $$var = $value;
+            }
+
+        }
+        switch($type){
+            case 'fb';
+                return $facebook ?? null;
+            case 'twitter':
+                return $twitter ?? null;
+            case 'li':
+                return $linkedin ?? null;
+            case 'google':
+                return $google ?? null;
+            case 'yelp':
+                return $yelp ?? null;
+            case 'insta':
+                return $instagram ?? null;
+            default:
+            return null;
+        }
+    }
+
     protected function _preprocessAttributes(&$attr){
         if(isset($attr['_property_group_name'])){
             $group = PropertyGroup::where('group_name',$attr['_property_group_name']['name'])->get()->first();

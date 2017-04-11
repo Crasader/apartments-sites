@@ -97,6 +97,7 @@
 			    $("#datediv").datepicker({ format: "mm/dd/yyyy" });	
 				amcBindValidate({
 					'form': '#form1',
+                    'ignore': '.ignore',
 					'rules': {
 						firstname: "required",
 						lastname: "required",

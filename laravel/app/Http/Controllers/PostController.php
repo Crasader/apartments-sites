@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Property\Site;
 use App\Http\Controllers\SiteController;
+use App\Assets\SoapClient;
 
 class PostController extends Controller
 {
     protected $_allowed = [
         'unit' => 'handleUnit',
         'contact' => 'handleContact',
+        'resident' => 'handleResident'
     ];
     //
     public function handle(string $page){
@@ -133,5 +135,27 @@ class PostController extends Controller
         $siteData = $siteCon->resolvePageBySite('contact',$cleaned);
         $siteData['data']['sent'] = true;
         return view($siteData['path'],$siteData['data']);
+    }
+
+    public function handleResident(){
+        $data = $_POST;
+        Site::$instance = $site = app()->make('App\Property\Site');
+
+        if(env('DEV') == false && !$this->validateCaptcha($data['g-recaptcha-response'])){
+            die("Invalid recaptcha");
+        }
+        $user = $data['email'];
+        $pass = $data['pass'];
+        
+        $soap = app()->make('App\Assets\SoapClient');
+        $siteCon = new SiteController(Site::$instance);
+        if($soap->residentPortal($user,$pass)){
+            $siteData = $siteCon->resolvePageBySite('resident-home',[]);
+            return view($siteData['path'],$siteData['data']);
+        }else{
+            $siteData = $siteCon->resolvePageBySite('resident-portal');
+            $siteData['data']['residentfailed'] = true;
+            return view($siteData['path'],$siteData['data']);
+        }
     }
 }
