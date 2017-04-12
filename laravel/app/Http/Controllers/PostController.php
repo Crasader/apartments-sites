@@ -2,30 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use Illuminate\Http\Request;
 use App\Property\Site;
 use App\Http\Controllers\SiteController;
+use App\Traits\PageResolver;
+use App\Util\Util;
 use App\Assets\SoapClient;
+use App\Exceptions\BaseException;
 
 class PostController extends Controller
 {
+    use PageResolver;
+    //Declared by trait: protected $_site
     protected $_allowed = [
         'unit' => 'handleUnit',
         'contact' => 'handleContact',
-        'resident' => 'handleResident'
+        'schedule' => 'handleSchedule',
+        'portal-center' => 'handleResident',
+        'maintenance-request' => 'handleMaintenance',
     ];
     //
-    public function handle(string $page){
+    public function handle(Request $request,string $page){
         if(!in_array($page,array_keys($this->_allowed))){
             return null;
         }
-        return $this->{$this->_allowed[$page]}();
+        if($this->_site === null){
+            $this->_site = Site::$instance;
+        }
+        return $this->{$this->_allowed[$page]}($request);
     }
 
-    public function handleUnit(){
+    public function handleUnit(Request $req){
         $data = $_POST;
         Site::$instance = $site = app()->make('App\Property\Site');
-        //TODO: do this: $unitType = Util::cleanString($data['unittype']);
+        //TODO: do this: $unitType = Util::cleanString($data['unittype']); !organization
         $cleaned = [
             'unittype' => preg_replace('|[^a-zA-Z 0-9]{1,}|','',$data['unittype']),
             'bed' => intval($data['bed']),
@@ -33,13 +44,12 @@ class PostController extends Controller
             'sqft' => intval($data['sqft'])
         ];
 
-        $siteCon = new SiteController(Site::$instance);
-        $siteData = $siteCon->resolvePageBySite('unit',$cleaned);
+        $siteData = $this->resolvePageBySite('unit',$cleaned);
         return view($siteData['path'],$siteData['data']);
     }
 
     protected function _prefillArray(array $arr){
-
+        //TODO: replace these with the site's css !launch
         $arr['styleSheets'] = [
             'http://www.400rhett.com/css/jquery-ui.min.css',
             'http://www.400rhett.com/css/bootstrap-theme.min.css',
@@ -53,7 +63,7 @@ class PostController extends Controller
     }
 
     protected function _getApartmentEmail(){
-        //TODO: move this to a different place
+        //TODO: move this to a different place !organization
         if(ENV('DEV')){
             return 'wmerfalen@gmail.com';
         }
@@ -62,7 +72,7 @@ class PostController extends Controller
     }
     
     public function validateCaptcha(string $captcha){
-        //TODO: create a class to do this
+        //TODO: create a class to do this !organization
 		$postdata = http_build_query(
 			array(
 				'secret' => ENV('RECAPTCHA'),
@@ -87,11 +97,154 @@ class PostController extends Controller
         return false;
     }
 
+    public function decorateMaintenance($data){
+        $data['permissionToEnter'] = isset($data['perm2entercb']);
+        if($data['permissionToEnter'] === false){
+            $data['maintenance_name'] = 'none';
+            $data['PermissionToEnterDate'] = '0000/00/00';
+        }
+        
+        return $data;
+    }
+
+    public function handleMaintenance(Request $req){
+        $data = $_POST;
+        Site::$instance = $this->_site = app()->make('App\Property\Site');
+        if(session('user_id') === null){
+            die("Not logged in");
+        }
+        $validator = Validator::make($req->all(), [
+            'ResidentName' => 'required|max:64',
+            'maintenance_unit' => 'required|max:16',
+            'email' => 'required|max:128|email',
+            'maintenance_phone' => 'required|max:14|regex:~\([0-9]{3}\) [0-9]{3}\-[0-9]{4}~',
+            'maintenance_name' => 'nullable|max:64',
+            'PermissionToEnterDate' => 'nullable|date',
+            'maintenance_mrequest' => 'required'
+            ]);
+        
+        if($validator->fails()){
+            return redirect('/resident-portal/maintenance-request')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $soap = app()->make('App\Assets\SoapClient');
+        $data = $this->decorateMaintenance($data);
+        $data = $this->_prefillArray($data);
+        if(env('DEV')){
+            $workOrder['Status'] = 'SUCCESS';
+            $workOrder['WorkOrderNumber'] = '1234';
+        }else{
+            $workOrder = $soap->maintenanceRequest($data);
+        }
+        if($workOrder['Status'] === null){
+            $data['data']['error'] = 'Couldn\'t submit work order';
+        }else{
+            $data['data']['workOrder'] = $workOrder;
+            if(env('DEV') == true){
+                $to = 'wmerfalen@gmail.com';
+            }else{
+                $to = $data['email'];
+            }
+            (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
+                'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
+                'to' => $to,
+                'contact' => ['fullname' => $data['ResidentName'],
+                    'from' => $this->_getApartmentEmail()
+                ],
+                'mode' => 'maintenance-request',
+                //TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
+                'data' => view('layouts/resident-portal/email/user-confirm',$data)
+            ]);
+            $siteData['data']['sent'] = true;
+        }
+        $siteData = $this->resolvePageBySite('/resident-portal/maintenance-request',['resident-portal' => true]);
+        return view($siteData['path'],$siteData['data']);
+    }
+
+    public function handleSchedule(Request $req){
+        $data = $_POST;
+        Site::$instance = $this->_site = app()->make('App\Property\Site');
+        if(ENV('DEV') == false){
+            if(!$this->validateCaptcha($data['g-recaptcha-response'])){
+                //TODO: make a function that makes this user friendly !launch
+                die("Invalid recaptcha");
+            }
+        }
+        //TODO: sanitize the rest of these values
+        $validator = Validator::make($req->all(), [
+            'firstname' => 'required|max:64|alpha',
+            'lastname' => 'required|max:64|alpha',
+            'email' => 'required|max:128|email',
+            'phone' => 'required|max:14|regex:~\([0-9]{3}\) [0-9]{3}\-[0-9]{4}~',
+            'moveindate'=> 'required|date',
+            'visitdate' => 'required|date',
+            ]);
+        if($validator->fails()){
+            return redirect('schedule-a-tour')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $cleaned = [
+            'fname' => $data['firstname'],
+            'lname' => $data['lastname'],
+            'email' => $data['email'],
+            'phone' => $data['phone'],
+            'movein' => $data['moveindate'],
+            'visit' => $data['visitdate'],
+            'mode' => 'schedule-a-tour'
+        ];  
+
+        $contact = app()->make('App\Contact');
+        $contact->first_name = $cleaned['fname'];
+        $contact->last_name = $cleaned['lname'];
+        $contact->email = $cleaned['email'];
+        $contact->notes = 'contacted via schedule-a-tour';
+        $contact->property_id = Site::$instance->getEntity()->fk_legacy_property_id;
+        $contact->corporate_group_id = Site::$instance->getEntity()->getLegacyProperty()->corporate_group_id;
+        $contact->phone = $cleaned['phone'];
+        $contact->when = $cleaned['movein'];
+        $contact->save();
+
+        $finalArray = $this->_prefillArray(['mode' => 'schedule-a-tour']);
+        $finalArray['contact'] = $cleaned;
+
+        $siteData = $this->resolvePageBySite('unit',$cleaned);
+        if(ENV('DEV')){
+            $to = 'wmerfalen+1@gmail.com';
+        }else{
+            $to = $cleaned['email'];
+        }
+        (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
+            'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
+            'to' => $to,
+            'contact' => $cleaned,
+            'mode' => 'schedule-a-tour',
+            //TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
+            'data' => view('layouts/dinapoli/email/user-confirm',$finalArray)
+            ]);
+        $siteData = $this->resolvePageBySite('schedule-a-tour',$cleaned);
+        $siteData['data']['sent'] = true;
+        return view($siteData['path'],$siteData['data']);
+    }
+
     public function handleContact(){
         $data = $_POST;
         Site::$instance = $site = app()->make('App\Property\Site');
         if(!$this->validateCaptcha($data['g-recaptcha-response'])){
             die("Invalid recaptcha");
+        }
+        $validator = Validator::make($req->all(), [
+            'firstname' => 'required|max:64|alpha',
+            'lastname' => 'required|max:64|alpha',
+            'email' => 'required|max:128|email',
+            'phone' => 'required|max:14|regex:~\([0-9]{3}\) [0-9]{3}\-[0-9]{4}~',
+            'date'=> 'required|date',
+            ]);
+        if($validator->fails()){
+            return redirect('contact')
+                ->withErrors($validator)
+                ->withInput();
         }
         $cleaned = [
             'fname' => preg_replace("|[^a-zA-Z \.]+|","",$data['firstname']),
@@ -116,23 +269,21 @@ class PostController extends Controller
         $finalArray = $this->_prefillArray(['mode' => 'contact']);
         $finalArray['contact'] = $cleaned;
 
-        $siteCon = new SiteController(Site::$instance);
-        $siteData = $siteCon->resolvePageBySite('unit',$cleaned);
+        $siteData = $this->resolvePageBySite('unit',$cleaned);
+        if(ENV('DEV')){
+            $to = 'wmerfalen+1@gmail.com';
+        }else{
+            $to = $cleaned['email'];
+        }
         (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
             'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
-            'to' => $cleaned['email'],
+            'to' => $to,
             'contact' => $cleaned,
             'mode' => 'contact',
             //TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
             'data' => view('layouts/dinapoli/email/user-confirm',$finalArray)
             ]);
-        if(ENV('DEV')){
-            $to = 'wmerfalen@gmail.com';
-        }else{
-            $to = $cleaned['email'];
-        }
-        $siteCon = new SiteController(Site::$instance);
-        $siteData = $siteCon->resolvePageBySite('contact',$cleaned);
+        $siteData = $this->resolvePageBySite('contact',$cleaned);
         $siteData['data']['sent'] = true;
         return view($siteData['path'],$siteData['data']);
     }
@@ -142,20 +293,32 @@ class PostController extends Controller
         Site::$instance = $site = app()->make('App\Property\Site');
 
         if(env('DEV') == false && !$this->validateCaptcha($data['g-recaptcha-response'])){
+            //TODO make this user-friendly !launch
             die("Invalid recaptcha");
         }
-        $user = $data['email'];
-        $pass = $data['pass'];
+        $user = substr($data['email'],0,64);
+        $pass = substr($data['pass'],0,64);
         
         $soap = app()->make('App\Assets\SoapClient');
-        $siteCon = new SiteController(Site::$instance);
-        if($soap->residentPortal($user,$pass)){
-            $siteData = $siteCon->resolvePageBySite('resident-home',[]);
-            return view($siteData['path'],$siteData['data']);
+        $result = $soap->residentPortal($user,$pass);
+
+        if($result[0] === 'True'){
+            $page = 'resident-portal/portal-center';
+            session(['user_id' => $user]);
+            session(['user_info' => $result]);
+            $extra = ['resident-portal' => true];
+            $siteData['data']['residentInfo'] = $result;
         }else{
-            $siteData = $siteCon->resolvePageBySite('resident-portal');
             $siteData['data']['residentfailed'] = true;
-            return view($siteData['path'],$siteData['data']);
+            $page = 'resident-portal';
+            $extra = [];
         }
+        $siteData = $this->resolvePageBySite($page,$extra);
+        if(empty($siteData)){
+            $siteData['path'] = 'resident-portal';
+            $siteData['data'] = [];
+        }
+        \Debugbar::info($siteData);
+        return view($siteData['path'],$siteData['data']);
     }
 }

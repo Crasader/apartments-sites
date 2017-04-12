@@ -23,5 +23,8 @@ trait TextCache {
             return self::$_textCache[$item] = $callable();
         }
     }
+    public static function setTextCache(string $item,$value){
+        self::$_textCache[$item] = $value;
+    }
 }
 

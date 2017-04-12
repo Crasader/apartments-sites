@@ -41,9 +41,9 @@ foreach($foo as $index => $object){
                         </div>
                         <div class="col-xs-6 text-right">
                             <ul class="top-nav-right">
-                                <li class="hidden-sm hidden-xs"><a href="floorplans"><i class="fa fa-search"></i> Apartment Search</a></li>
-                                <li class="hidden-sm hidden-xs"><a href="resident-portal"><i class="fa fa-user"></i> Residents</a></li>
-                                <li><a href="floorplans" class="brown"><b>Apply Now <i class="fa fa-angle-right"></i></b></a></li>
+                                <li class="hidden-sm hidden-xs"><a href="/floorplans"><i class="fa fa-search"></i> Apartment Search</a></li>
+                                <li class="hidden-sm hidden-xs"><a href="/resident-portal"><i class="fa fa-user"></i> Residents</a></li>
+                                <li><a href="/floorplans" class="brown"><b>Apply Now <i class="fa fa-angle-right"></i></b></a></li>
                             </ul>
                         </div>
                     </div>
@@ -52,7 +52,7 @@ foreach($foo as $index => $object){
 			<nav id="nav" class="main-nav js-stick">
                 <div class="full-wrapper relative clearfix">
                     <div class="nav-logo-wrap local-scroll">
-                        <a href="index" class="logo">
+                        <a href="/index" class="logo">
                             <img src="<?php echo $entity->getWebPublicDirectory('logo');?>/logo.png" alt="" />
                         </a>
                     </div>
@@ -62,15 +62,15 @@ foreach($foo as $index => $object){
                     <!-- Main Menu -->
                     <div class="inner-nav desktop-nav">
                         <ul class="clearlist scroll-nav local-scroll">
-                            <li class="active hidden-md hidden-sm"><a href="index">Home</a></li>
-                            <li><a href="gallery">Gallery</a></li>
-                            <li><a href="amenities">Amenities</a></li>
-                            <li><a href="floorplans">Floor Plans</a></li>
-                            <li><a href="neighborhood">Neighborhood</a></li>
-                            <li class="hidden-md hidden-sm"><a href="contact">Contact</a></li>
-                            <li class="hidden-md hidden-lg"><a href="floorplans">Apartment Search</a></li>
-                            <li class="hidden-md hidden-lg"><a href="resident-portal">Residents</a></li> 
-                            <li><a href="schedule-a-tour" class="red"><b>Schedule a Tour <i class="fa fa-angle-right"></i></b></a></li>
+                            <li class="active hidden-md hidden-sm"><a href="/index">Home</a></li>
+                            <li><a href="/gallery">Gallery</a></li>
+                            <li><a href="/amenities">Amenities</a></li>
+                            <li><a href="/floorplans">Floor Plans</a></li>
+                            <li><a href="/neighborhood">Neighborhood</a></li>
+                            <li class="hidden-md hidden-sm"><a href="/contact">Contact</a></li>
+                            <li class="hidden-md hidden-lg"><a href="/floorplans">Apartment Search</a></li>
+                            <li class="hidden-md hidden-lg"><a href="/resident-portal">Residents</a></li> 
+                            <li><a href="/schedule-a-tour" class="red"><b>Schedule a Tour <i class="fa fa-angle-right"></i></b></a></li>
                         </ul>
                     </div>
                 </div>

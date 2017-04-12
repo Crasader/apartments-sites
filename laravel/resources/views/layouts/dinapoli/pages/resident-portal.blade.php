@@ -3,8 +3,7 @@
                         <div class="col-md-8">
                             <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Resident Portal</h1>
                             <div class="hs-line-4 font-alt">
-                                <?php echo $entity->getText('resident-portal-title');//,'With convenient 24/7 access, the resident portal makes it easy for you to request maintenance service and pay your rent online. Login to get started!');
-                                ?>
+                                With convenient 24/7 access, the resident portal makes it easy for you to request maintenance service and pay your rent online. Login to get started!
                             </div>
                         </div>
                         @stop
@@ -21,7 +20,7 @@
                     <div class="section-text mb-50 mb-sm-20">
                         <div class="row">
                             <div class="col-md-6 col-sm-6 col-md-offset-3 mb-sm-50 mb-xs-30">
-                                <form action="/resident" method="post" id='form1'>
+                                <form action="/resident-portal/portal-center" method="post" id='form1'>
                                     <div class="mb-20 mb-md-10">
                                         <label><i class="fa fa-user"></i> Username or Email</label>
                                         <input type="text" name="email" id="email" class="input-md form-control" maxlength="100">

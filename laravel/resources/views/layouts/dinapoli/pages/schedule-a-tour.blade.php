@@ -18,16 +18,21 @@
              <!-- Schedule Form Section -->
             <section class="page-section pb-0" id="contact-form">
                 <div class="container relative">
-                    
+                    <?php if(isset($sent)): ?><h1 class='notice'>Your email has been submitted</h1><?php endif;?>
+                    <?php if(isset($errors)){
+                        foreach($errors->all() as $message){
+                            echo "<div class='error'>$message</div>";
+                        }
+                    }
+                    ?>
                     <div class="section-text mb-50 mb-sm-20">
                         <div class="row">
                             
                             <div class="col-md-7 col-sm-7 mb-sm-50 mb-xs-30 form-container">
-                                <form role="form" id="form1" name="form1" method="post" class="validate" action="/post">
+                                <form role="form" id="form1" name="form1" method="post" class="validate" action="/schedule">
                                     <?php //TODO: Find a form helper for laravel that will do this for us ?>
                                     <div class="mb-20 mb-md-10 form-group">
                                         <label>First Name</label>
-                                        <input type="hidden" name="ActionRequested" id="ActionRequested" value="schedule-a-tour">
                                         <input type="text" name="firstname" id="firstname" data-validate="required" data-message-required="First name is a required field" class="input-md form-control" maxlength="100">
                                     </div>
                                     <div class="mb-20 mb-md-10 form-group">
@@ -57,10 +62,15 @@
                                         </div>
                                     </div>
                                     {{csrf_field()}}
+                                    <?php if(ENV('DEV') == false): ?>
+                                    <div class="mb-20 mb-md-10 form-group">
+                                        <div class="g-recaptcha" data-sitekey="6LfamxwUAAAAAGFfyxU0wbGmPvOMKgXZCziZLxwl"></div>
+                                    </div>
+                                    <input type='hidden' id='hiddenRecaptcha' name='hiddenRecaptcha' class='hiddenRecaptcha required'/>
+                                    <?php endif; ?>
                                     <div class="mb-20 mb-md-10">
                                         <button type="submit" class="btn btn-mod btn-brown btn-large btn-round submit-btn">Submit</button>
                                     </div>
-                                    <div class="g-recaptcha" data-sitekey="6LfamxwUAAAAAGFfyxU0wbGmPvOMKgXZCziZLxwl"></div>
                                 </form>
                             </div>
                             
@@ -163,6 +173,7 @@
             $("#moveindatediv").datepicker({format: 'mm/dd/yyyy'});	
             amcBindValidate({ 
                 'form': '#form1',
+                'ignore': '.ignore',
                 'rules': {
 					firstname: "required",
 					lastname: "required",
@@ -180,6 +191,13 @@
                         required: true,
                         'date': true
                     }
+                    <?php if(ENV('DEV') == false): ?>
+                    ,hiddenRecaptcha: {
+                        required: function(){
+                            return grecaptcha.getResponse() == "";
+                        }
+                    }
+                    <?php endif; ?>
                 } /* End RULES */
             });
             amcMaskPhone('#phone','(999) 999-9999');
