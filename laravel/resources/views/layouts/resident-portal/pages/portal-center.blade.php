@@ -1,4 +1,4 @@
-        @extends('layouts/dinapoli/main') <?php //TODO: extend dynamically ?>
+        @extends($extends)
         @section('page-title-span','resident portal')
         @section('content')
 		<section class="content">

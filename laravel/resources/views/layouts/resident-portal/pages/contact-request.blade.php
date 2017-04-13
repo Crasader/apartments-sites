@@ -2,7 +2,7 @@
             $residentName = "john doe"; //TODO
             $residentEmail = "foo@gmail.com"; //TODO
             ?>
-        @extends('layouts/dinapoli/main')<?php //TODO: dynamically extend from given property's template ?>
+        @extends($extends)
         @section('content')
 		<!-- Content -->
 		<section class="content">

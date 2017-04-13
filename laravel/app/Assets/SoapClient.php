@@ -31,16 +31,42 @@ class SoapClient implements IDataFetcher
             }
         }
     }
-    public function loadClient(){
+    public function loadClient($url = ''){
 		$data_query = new \StdClass();
 		$data_query->sysPassword = 'g3tm3s0m3pr0ps';
 
-		$URL = "http://192.168.1.135:8088/mapts_com.asmx?WSDL";
+        if($url === null){
+		    $URL = "http://192.168.1.135:8088/mapts_com.asmx?WSDL";
+        }else{
+            $URL = $url;
+        }
         $arrResult = [];
         return ['soap'=> new \SoapClient($URL,array('trace' => 1)),
             'obj' => $data_query
         ];
     }
+
+    public function resetPassword(array $postData,int $userId){
+        $res = $this->loadClient('https://amcrentpay.com/ws/mapts.asmx');
+        $data_query = $res['obj'];
+        $client = $res['soap'];
+		$data_query->PropertyCode = Site::$instance->getEntity()->getLegacyProperty()->code;
+        $data_query->userid = $userId;
+
+        dd(get_class_methods($client));
+        /*
+		try {
+			$soapResult = $client->InsertWorkOrder($data_query);
+			$arrResult = $soapResult->InsertWorkOrderResult;
+            if(preg_match("|<Error ErrorDescription=\"([^\"]+)\"|",$arrResult,$matches)){
+                throw new BaseException($matches);
+            }
+        }catch(Exception $e){
+            throw new BaseException($e);
+        }
+            */
+    }
+            
 
     public function maintenanceRequest(array $postData){
         $res = $this->loadClient();

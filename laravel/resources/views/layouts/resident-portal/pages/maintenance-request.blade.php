@@ -3,7 +3,7 @@
             $residentUnitNumber = $residentInfo[3];
             $residentEmail = $residentInfo[7];
         ?>
-        @extends('layouts/dinapoli/main') <?php //TODO: inherit dynamically ?>
+        @extends($extends)
         @section('page-title-span','Maintenance Request')
         @section('content')
 		<!-- Content -->
