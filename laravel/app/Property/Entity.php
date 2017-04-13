@@ -281,14 +281,14 @@ class Entity extends Model
             $q = "'";
         }
         if(ENV('SHOW_DECORATE')){
-            if($text === null){ return "<b style={$q}color:green{$q}>{!}Empty value: $name{!}</b>"; }
+            if($text === null){ return "<b style={$q}color:green{$q} onclick='edit_tag(\"$name\");'>{!}Empty value: $name{!}</b>"; }
             if(in_array($name,$this->_decorateIgnoreText)){ 
                 if(strlen($text) == 0){
-                    return "<b style={$q}color:green{$q}>{!} Missing value: {$q}$name{$q}</b>";
+                    return "<b style={$q}color:green{$q} onclick='edit_tag(\"$name\")'>{!} Missing value: {$q}$name{$q}</b>";
                 }
-                return $text . "<b style={$q}color:red{$q}>{!}</b>"; 
+                return $text . "<b style={$q}color:red{$q} onclick='edit_tag(\"$name\")'>{![$name]}</b>"; 
             }
-            return $text . "<b style={$q}color:red;{$q}>{!}</b>";
+            return $text . "<b style={$q}color:red;{$q} onclick='edit_tag(\"$name\")'>{![$name]}</b>";
         }else{
             return $text;
         }
@@ -299,7 +299,12 @@ class Entity extends Model
         return self::textCache('str_key_' . $name,function() use($foo,$name,$opts) {
             $translatables = [
                 'apartment-title' => $foo->getLegacyProperty()->name,
-                'home-about' => $foo->getLegacyProperty()->description
+                'home-about' => $foo->getLegacyProperty()->description,
+                'join-community-description' => PropertyTemplate::select('community_description')
+                    ->where('property_id',$this->fk_legacy_property_id)
+                    ->get()
+                    ->toArray()[0]['community_description'],
+                 'slogan' => 'More than just a place to sleep',     //TODO: dont hard code this
             ];
             if(in_array($name,array_keys($translatables))){
                 return $translatables[$name];

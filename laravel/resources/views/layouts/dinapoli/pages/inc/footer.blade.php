@@ -30,7 +30,7 @@
 
                         <div class="col-md-2">
                             <ul class="text-center">
-                                <li class="active"><a href="index">Home</a></li>
+                                <li class="active"><a href="/">Home</a></li>
                                 <li><a href="gallery">Gallery</a></li>
                                 <li><a href="amenities">Amenities</a></li>
                                 <li><a href="floorplans">Floor Plans</a></li>

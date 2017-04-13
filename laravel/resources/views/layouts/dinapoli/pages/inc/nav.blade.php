@@ -52,7 +52,7 @@ foreach($foo as $index => $object){
 			<nav id="nav" class="main-nav js-stick">
                 <div class="full-wrapper relative clearfix">
                     <div class="nav-logo-wrap local-scroll">
-                        <a href="/index" class="logo">
+                        <a href="/" class="logo">
                             <img src="<?php echo $entity->getWebPublicDirectory('logo');?>/logo.png" alt="" />
                         </a>
                     </div>
@@ -62,7 +62,7 @@ foreach($foo as $index => $object){
                     <!-- Main Menu -->
                     <div class="inner-nav desktop-nav">
                         <ul class="clearlist scroll-nav local-scroll">
-                            <li class="active hidden-md hidden-sm"><a href="/index">Home</a></li>
+                            <li class="active hidden-md hidden-sm"><a href="/">Home</a></li>
                             <li><a href="/gallery">Gallery</a></li>
                             <li><a href="/amenities">Amenities</a></li>
                             <li><a href="/floorplans">Floor Plans</a></li>

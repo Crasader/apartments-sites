@@ -9,10 +9,18 @@ use App\Http\Controllers\SiteController;
 use App\Traits\PageResolver;
 use App\Util\Util;
 use App\Assets\SoapClient;
+use Illuminate\Contracts\Validation\Validator as ValidatorContract;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use App\Traits\NoNo;
+use App\Property\Text\Type as TextType;
+use App\Property\Text as PropertyText;
 
 class PostController extends Controller
 {
     use PageResolver;
+    use ValidatesRequests;
+    use Nono;
+
     //Declared by trait: protected $_site
     protected $_allowed = [
         'unit' => 'handleUnit',
@@ -21,8 +29,13 @@ class PostController extends Controller
         'portal-center' => 'handleResident',
         'maintenance-request' => 'handleMaintenance',
         'reset-password' => 'handleResetPassword',
+        'find-userid' => 'handleFindUserId',
+        'text-tag' => 'handleTextTag',
+        'text-tag-get' => 'handleGetTextTag',
     ];
+    protected $_translations = [];
     //
+
     public function handle(Request $request,string $page){
         if(!in_array($page,array_keys($this->_allowed))){
             return null;
@@ -30,13 +43,86 @@ class PostController extends Controller
         if($this->_site === null){
             $this->_site = Site::$instance;
         }
+        $this->_request = $request;
+        $this->_page = $page;
         return $this->{$this->_allowed[$page]}($request);
+    }
+
+    public function handleGetTextTag(Request $req){
+        self::devDie();
+        $site = app()->make('App\Property\Site');
+        $tag = $req->input("tag");
+
+        $typeId = TextType::select('id')->where('str_key',$tag)->get()->toArray()[0]['id'];
+        $propertyText = PropertyText::where(
+            ['property_text_type_id' => $typeId],
+            ['entity_id' => $site->getEntity()->id]
+            )->get()->toArray();
+        if(empty($propertyText)){
+            die(json_encode(['success' => 'false',"error"=>'cannot find tag by that name']));
+        }
+        die(json_encode(['success' => 'true','body' => $propertyText[0]['string_value']]));
+    }
+
+    public function handleTextTag(Request $req){
+        self::devDie();
+        $site = app()->make('App\Property\Site');
+        $tag = $req->input("tag");
+        $body = $req->input("body");
+
+        $typeId = TextType::select('id')->where('str_key',$tag)->get()->toArray()[0]['id'];
+        $propertyText = PropertyText::where(
+            ['property_text_type_id' => $typeId],
+            ['entity_id' => $site->getEntity()->id]
+            )->get();
+        if(count($propertyText) == 0){
+            $propertyText = new PropertyText();
+            $propertyText->property_text_type_id = $typeId;
+            $propertyText->entity_id = $site->getEntity()->id;
+            $propertyText->string_value = $body;
+            $propertyText->save();
+        }else{
+            $propertyText = $propertyText->first();
+            $propertyText->string_value = $body;
+            $propertyText->save();
+        }
+        die(json_encode(['success' => 'true']));
+    }
+
+    protected function formatValidationErrors(ValidatorContract $validator){
+        $this->loadErrorTranslations(Site::$instance->getEntity()->fk_legacy_property_id);
+        $finalArray = [];
+        foreach($validator->errors()->all() as $i => $error){
+            $finalArray[$i] = $this->getErrorTranslation($error);
+        }
+        return $finalArray;
+    }
+
+    public function getErrorTranslation(string $error){
+        //TODO: !optimization use TextCache for this
+        foreach($this->_translations[$this->_page] as $index => $translation){
+            if(strcmp($translation['orig'],$error) == 0){
+                return $translation['replace'];
+            }
+        }
+        return $error;
+    }
+
+    public function loadErrorTranslations(int $legacyPropertyId){
+        //TODO: offload these strings to a file somewhere !organization
+        $this->_translations = [
+            'reset-password' => [
+                [
+                'orig' => 'The txt user id field is required.',
+                'replace' => 'User ID is a required field.'
+                ]
+            ],
+        ];
     }
 
     public function handleUnit(Request $req){
         $data = $_POST;
         Site::$instance = $site = app()->make('App\Property\Site');
-        //TODO: do this: $unitType = Util::cleanString($data['unittype']); !organization
         $cleaned = [
             'unittype' => preg_replace('|[^a-zA-Z 0-9]{1,}|','',$data['unittype']),
             'bed' => intval($data['bed']),
@@ -107,18 +193,35 @@ class PostController extends Controller
         return $data;
     }
 
+    public function handleFindUserId(Request $req){
+        $data = $_POST;
+        Site::$instance = $this->_site = app()->make('App\Property\Site');
+        $this->validate($req, [
+            'email' => 'required|email',
+            'unit' => 'required'
+        ]);
+
+        $soap = app()->make('App\Assets\SoapClient');
+        $data = $soap->findUser(Site::$instance->getEntity()->getLegacyProperty()->code,$data['email'],$data['unit']);
+        \Debugbar::info($data);
+        $siteData = $this->resolvePageBySite('/resident-portal/find-userid',['resident-portal' => true]);
+        if($data['status'] == 'error'){
+            dd("Not found!");
+            $siteData['data']['userIdNotFound'] = true;
+        }else{
+            $siteData['data']['userIdFound'] = true;
+        }
+        return view($siteData['path'],$siteData['data']);
+    }
+
+
     public function handleResetPassword(Request $req){
         $data = $_POST;
         Site::$instance = $this->_site = app()->make('App\Property\Site');
-        $validator = Validator::make($req->all(), [
+        $this->validate($req, [
             'txtUserId' => 'required'
         ]);
         
-        if($validator->fails()){
-            return redirect('/resident-portal/reset-password')
-                ->withErrors($validator)
-                ->withInput();
-        }
         $soap = app()->make('App\Assets\SoapClient');
         $data = $soap->resetPassword($data,$data['txtUserId']);
         \Debugbar::info($data);
@@ -131,13 +234,20 @@ class PostController extends Controller
         return view($siteData['path'],$siteData['data']);
     }
 
+    public function residentNotLoggedIn(){
+        $siteData = $this->resolvePageBySite('/resident-portal/' . $this->_page,['resident-portal' => true]);
+        $siteData['data']['userNotLoggedIn'] = true;
+        return view($siteData['path'],$siteData['data']);
+    }
+
+
     public function handleMaintenance(Request $req){
         $data = $_POST;
         Site::$instance = $this->_site = app()->make('App\Property\Site');
         if(session('user_id') === null){
-            die("Not logged in");
+            return $this->residentNotLoggedIn();
         }
-        $validator = Validator::make($req->all(), [
+        $this->validate($req, [
             'ResidentName' => 'required|max:64',
             'maintenance_unit' => 'required|max:16',
             'email' => 'required|max:128|email',
@@ -147,33 +257,40 @@ class PostController extends Controller
             'maintenance_mrequest' => 'required'
             ]);
         
-        if($validator->fails()){
-            return redirect('/resident-portal/maintenance-request')
-                ->withErrors($validator)
-                ->withInput();
-        }
         $soap = app()->make('App\Assets\SoapClient');
         $data = $this->decorateMaintenance($data);
-        //$soap->maintenanceRequest($data);
+
         $siteData = $this->resolvePageBySite('/resident-portal/maintenance-request',['resident-portal' => true]);
-        $siteData['data']['sent'] = true;
-        //Send email
-        if(Util::isDev() == true){
+        if(Util::isDev()){
             $to = 'wmerfalen@gmail.com';
         }else{
             $to = $data['email'];
+            $response = $soap->maintenanceRequest($data);
+            if($response['Status'] == 'error'){
+                $siteData['data']['maintenanceError'] = true;
+            }else{
+                //Send email
+                (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
+                    'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
+                    'to' => $to,
+                    'contact' => ['fname' => explode(" ",$data['ResidentName'])[0],
+                        'lname' => explode(" ",$data['ResidentName'])[0],
+                        'from' => $this->_getApartmentEmail(),
+                    ],
+                    'subject' => 'Resident Center Maintenance Request at ' . Site::$instance->getEntity()->getLegacyProperty()->name,
+                    'mode' => 'maint-request',
+                    //TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
+                    'data' => view('layouts/resident-portal/email/user-confirm',$data)
+                ]);
+                $siteData['data']['sent'] = true;
+            }
         }
-        (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
-            'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
-            'to' => $to,
-            'contact' => ['fname' => explode(" ",$data['ResidentName'])[0],
-                'lname' => explode(" ",$data['ResidentName'])[0],
-                'from' => $this->_getApartmentEmail(),
-            ],
-            'mode' => 'maint-request',
-            //TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
-            'data' => view('layouts/resident-portal/email/user-confirm',$data)
-        ]);
+        return view($siteData['path'],$siteData['data']);
+    }
+
+    public function invalidCaptcha($page){
+        $siteData = $this->resolvePageBySite($page,[]);
+        $siteData['data']['invalidRecaptcha'] = true;
         return view($siteData['path'],$siteData['data']);
     }
 
@@ -182,12 +299,10 @@ class PostController extends Controller
         Site::$instance = $this->_site = app()->make('App\Property\Site');
         if(Util::isDev() == false){
             if(!$this->validateCaptcha($data['g-recaptcha-response'])){
-                //TODO: make a function that makes this user friendly !launch
-                die("Invalid recaptcha");
+                return $this->invalidCaptcha('schedule-a-tour');
             }
         }
-        //TODO: sanitize the rest of these values
-        $validator = Validator::make($req->all(), [
+        $this->validate($req, [
             'firstname' => 'required|max:64|alpha',
             'lastname' => 'required|max:64|alpha',
             'email' => 'required|max:128|email',
@@ -195,11 +310,6 @@ class PostController extends Controller
             'moveindate'=> 'required|date',
             'visitdate' => 'required|date',
             ]);
-        if($validator->fails()){
-            return redirect('schedule-a-tour')
-                ->withErrors($validator)
-                ->withInput();
-        }
         $cleaned = [
             'fname' => $data['firstname'],
             'lname' => $data['lastname'],
@@ -224,7 +334,6 @@ class PostController extends Controller
         $finalArray = $this->_prefillArray(['mode' => 'schedule-a-tour']);
         $finalArray['contact'] = $cleaned;
 
-        $siteData = $this->resolvePageBySite('unit',$cleaned);
         if(Util::isDev()){
             $to = 'wmerfalen+1@gmail.com';
         }else{
@@ -235,6 +344,7 @@ class PostController extends Controller
             'to' => $to,
             'contact' => $cleaned,
             'mode' => 'schedule-a-tour',
+            'subject' => 'Resident Center Contact Request at ' . Site::$instance->getEntity()->getLegacyProperty()->name,
             //TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
             'data' => view('layouts/dinapoli/email/user-confirm',$finalArray)
             ]);
@@ -243,24 +353,19 @@ class PostController extends Controller
         return view($siteData['path'],$siteData['data']);
     }
 
-    public function handleContact(){
+    public function handleContact(Request $req){
         $data = $_POST;
         Site::$instance = $site = app()->make('App\Property\Site');
         if(!$this->validateCaptcha($data['g-recaptcha-response'])){
-            die("Invalid recaptcha");
+            return $this->invalidCaptcha($this->_page);
         }
-        $validator = Validator::make($req->all(), [
+        $this->validate($req, [
             'firstname' => 'required|max:64|alpha',
             'lastname' => 'required|max:64|alpha',
             'email' => 'required|max:128|email',
             'phone' => 'required|max:14|regex:~\([0-9]{3}\) [0-9]{3}\-[0-9]{4}~',
             'date'=> 'required|date',
             ]);
-        if($validator->fails()){
-            return redirect('contact')
-                ->withErrors($validator)
-                ->withInput();
-        }
         $cleaned = [
             'fname' => preg_replace("|[^a-zA-Z \.]+|","",$data['firstname']),
             'lname' => preg_replace("|[^a-zA-Z \.]+|","",$data['lastname']),
@@ -284,7 +389,7 @@ class PostController extends Controller
         $finalArray = $this->_prefillArray(['mode' => 'contact']);
         $finalArray['contact'] = $cleaned;
 
-        $siteData = $this->resolvePageBySite('unit',$cleaned);
+        $siteData = $this->resolvePageBySite('contact',$cleaned);
         if(Util::isDev()){
             $to = 'wmerfalen+1@gmail.com';
         }else{
@@ -295,10 +400,10 @@ class PostController extends Controller
             'to' => $to,
             'contact' => $cleaned,
             'mode' => 'contact',
+            'subject' => 'Contact Form Submission at ' . Site::$instance->getEntity()->getLegacyProperty()->name,
             //TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
             'data' => view('layouts/dinapoli/email/user-confirm',$finalArray)
-            ]);
-        $siteData = $this->resolvePageBySite('contact',$cleaned);
+        ]);
         $siteData['data']['sent'] = true;
         return view($siteData['path'],$siteData['data']);
     }
@@ -308,8 +413,7 @@ class PostController extends Controller
         Site::$instance = $site = app()->make('App\Property\Site');
 
         if(Util::isDev() == false && !$this->validateCaptcha($data['g-recaptcha-response'])){
-            //TODO make this user-friendly !launch
-            die("Invalid recaptcha");
+            return $this->invalidCaptcha($this->_page);
         }
         $user = substr($data['email'],0,64);
         $pass = substr($data['pass'],0,64);
@@ -319,12 +423,11 @@ class PostController extends Controller
 
         if($result[0] === 'True'){
             $page = 'resident-portal/portal-center';
+            //TODO: !refactor !organization make this a function to be called to login a user
             session(['user_id' => $user]);
             session(['user_info' => $result]);
             $extra = ['resident-portal' => true];
-            $siteData['data']['residentInfo'] = $result;
         }else{
-            $siteData['data']['residentfailed'] = true;
             $page = 'resident-portal';
             $extra = [];
         }
@@ -332,6 +435,11 @@ class PostController extends Controller
         if(empty($siteData)){
             $siteData['path'] = 'resident-portal';
             $siteData['data'] = [];
+        }
+        if($result[0] === 'True'){
+            $siteData['data']['residentInfo'] = $result;
+        }else{
+            $siteData['data']['residentfailed'] = true;
         }
         \Debugbar::info($siteData);
         return view($siteData['path'],$siteData['data']);

@@ -110,7 +110,7 @@ class SoapClient implements IDataFetcher
                 ];
             }else{
                 return [
-                    'Status' => null,
+                    'Status' => 'error',
                     'data' => $arrResult
                     ];
             }
@@ -135,6 +135,34 @@ class SoapClient implements IDataFetcher
 		}
         \Debugbar::info($arrResult);
 	    return $arrResult;
+    }
+
+    public function findUser($propertyCode,$email,$unit){
+        $res = $this->loadClient("https://amcrentpay.com/ws/mapts.asmx?WSDL");
+        $data_query = $res['obj'];
+        $client = $res['soap'];
+        $data_query->PropertyCode = '638ROF';//$propertyCode;
+        $data_query->EmailAddress = $email;
+        $data_query->UnitNumber = $unit;
+
+        try{
+            $soapResult = $client->FindUserID($data_query);
+            $arrResult = $soapResult->FindUserIDResult;
+            if(empty($arrResult)){
+                return [
+                    'status' => 'error',
+                    'data' => 'No response given'
+                ];
+            }else{
+                return [
+                    'status' => 'okay',
+                    'data' => $arrResult
+                ];
+            }
+        }catch(Exception $e){
+            throw new BaseException($e);
+        }
+        throw new LogicException("Code reached unexpected point (findUser)");
     }
 
 }

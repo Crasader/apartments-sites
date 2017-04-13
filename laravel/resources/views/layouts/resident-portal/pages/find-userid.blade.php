@@ -109,6 +109,7 @@ UnitNumber = request("UnitNumber")
 %>*/
 ?>
         @extends($extends)
+        @section('page-title-span','Find Your User ID')
         @section('content')
 		<!-- Content -->
 		<section class="content">
@@ -127,7 +128,7 @@ UnitNumber = request("UnitNumber")
 					<div class="col-md-6">
 						<p>An email has been sent to the email address you registered with at move-in. </p>
 						<br>
-						<a href="/apartments_greenville_sc/resident_portal/"></span> Resident Portal</a>
+						<a href="/resident_portal/"></span> Resident Portal</a>
 						<p>&nbsp;</p>
 						<br>
 						<br>
@@ -139,15 +140,18 @@ UnitNumber = request("UnitNumber")
 						<p>Please enter your email address you registered with at move-in. </p>
 						<div class="schedule-a-tour-form form-container">
 							<form role="form" id="form1" name="form1" method="post" class="validate" action="/resident-portal/find-userid">
-								<p><span class="colored-text"><b><%=message%></b></span></p>
+								<p><span class="colored-text"><b><?php if(isset($userIdNotFound)): ?>Email Address was not found<?php endif;?></b></span></p>
 								<div class="form-group">
 									<label class="control-label">Email *</label>
 									<input type="text" class="form-control" name="email" data-validate="required,email" data-message-required="Email Address is a required field."/>
-									<span class="required">*</span>
+								</div>
+								<div class="form-group">
+									<label class="control-label">Unit Number *</label>
+									<input type="text" class="form-control" name="unit" data-validate="required" data-message-required="Unit number is a required field."/>
 								</div>
                                 {{csrf_field()}}
 				                <div class="mb-20 mb-md-10">
-                                    <button type="submit" class="btn btn-mod btn-brown btn-large btn-round">Reset</button>
+                                    <button type="submit" class="btn btn-mod btn-brown btn-large btn-round">Find</button>
                                 </div>
 							</form>
 						</div>
@@ -161,11 +165,23 @@ UnitNumber = request("UnitNumber")
         @section('page-specific-js')
 		<script type='text/javascript'>
         $(document).ready(function() {
-        
             $(".nav-main-right a").on("click", function(){
-   $(".nav-main-right").find(".active").removeClass("active");
-   $(this).parent().addClass("active");
-});
+               $(".nav-main-right").find(".active").removeClass("active");
+               $(this).parent().addClass("active");
+            });
+            amcBindValidate({
+                'form': '#form1',
+                'rules': {
+                    'email': {
+                        required: true,
+                        'email': true
+                    },
+                    'unit':{
+                        required: true
+                    }
+                }
+            });
         
         });
         </script>
+        @stop

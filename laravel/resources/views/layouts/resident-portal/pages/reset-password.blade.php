@@ -120,7 +120,7 @@ if len(Request.Form("txtUserId"))>0 Then
 ?>
 
         @extends($extends)
-        @section('page-title','Reset Password')
+        @section('page-title-span','Reset Password')
         @section('content')
 		<!-- Content -->
 		<section class="content">
@@ -134,7 +134,6 @@ if len(Request.Form("txtUserId"))>0 Then
 						</div>
 					</div>
 				</div>
-				
                 <?php if(isset($userIdFound)):?>
 				<div class="row">
 					<div class="col-md-6">
@@ -159,7 +158,7 @@ if len(Request.Form("txtUserId"))>0 Then
                                    <p><span class="colored-text"><b>User ID was not found</b></span></p> 
                                 <?php endif;?>
 								<div class="form-group">
-									<label class="control-label">User Id</label>
+									<label class="control-label"><i class="fa fa-user"></i> User Id</label>
 									<input type="text" class="form-control" name="txtUserId" data-validate="required" data-message-required="User ID is a required field."/>
 								</div>
                                 {{csrf_field()}}

@@ -29,6 +29,31 @@
 		@yield('recaptcha-js')
     </head>
     <body class="appear-animate">
+<!-- Trigger the modal with a button -->
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" id="mmbutton" data-target="#myModal" style='display:none;'>Open Modal</button>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit that content</h4>
+        <div id='editMeStatus'>&nbsp;</div>
+      </div>
+      <div class="modal-body">
+		<textarea id="editMe" cols=50 rows=30></textarea>
+		<button type="button" class="btn btn-default" onclick="submitEditTag()">Save</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
         <!-- Page Loader -->
         <div class="page-loader">
             <div class="loader">Loading...</div>
@@ -142,6 +167,8 @@
         <!-- JS -->
         @yield('google-maps-js')
         <script type="text/javascript" src="/js/build/marketapts.min.js"></script>
+		<?php //TODO: integrate this bootstrap js into marketapts.min.js ?>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <!--[if lt IE 10]><script type="text/javascript" src="js/placeholder.js"></script><![endif]-->
 		@yield('page-specific-js')
         @show

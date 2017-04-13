@@ -32,7 +32,11 @@ class Mailer extends Model
                 }else{
                     $mail->setFrom($conf['from'], $conf['contact']['fname'] . " " . $conf['contact']['lname']);
                 }
-                $mail->Subject = "Contact form submitted [ " . $conf['mode'] . " ]";
+                if(isset($conf['subject'])){
+                    $mail->Subject = $conf['subject'];
+                }else{
+                    $mail->Subject = "Contact form submitted [ " . $conf['mode'] . " ]";
+                }
                 $mail->MsgHTML($conf['data']);		
                 foreach($conf['cc'] as $index => $emailAddress){
                     $mail->addAddress($emailAddress,$emailAddress);

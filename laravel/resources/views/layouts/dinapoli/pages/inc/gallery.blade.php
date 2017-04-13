@@ -37,7 +37,7 @@
                             </a>
                         </li>
                         <!-- End Gallery Item -->
-                        <?php if(--$galleryLimit == 0){ break; } ?>
+                        <?php if(isset($galleryLimit)){ if(--$galleryLimit == 0){ break; } }?>
                         <?php endforeach; ?>
                     </ul>
                     <!-- End Gallery Grid -->

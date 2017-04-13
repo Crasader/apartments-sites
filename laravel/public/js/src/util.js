@@ -70,3 +70,33 @@ function focusAlert(id,friendly_id,custom_msg){
 	event.preventDefault();
 	return false;
 }
+var editTagName = null;
+function submitEditTag(){
+    var html = $("#editMe").val();
+    $.ajax({
+        'url': '/text-tag',
+        'data': {
+            'tag': editTagName,
+            'body': html
+        },
+        'type': 'POST'
+    }).done(function(){
+        $("#editMeStatus").val("<h1>SAVED</h1>");
+        $("#mmbutton").trigger("click");
+        location.reload();
+    });
+}
+function edit_tag(name){
+    editTagName = name;
+    $.ajax({
+        'url': '/text-tag-get',
+        'data': {
+            'tag': editTagName
+        },
+        'type': 'POST'
+    }).done(function(response){
+        var json = $.parseJSON(response);
+        $("#editMe").val(json.body);
+        $("#mmbutton").trigger("click");
+    });
+}

@@ -27,7 +27,7 @@ Phone: <?php echo $contact['phone'];?> <br>
 
 Move-in date: <?php echo $contact['movein'];?> <br>
 
-Action Requested: CONTACT<br>
+Action Requested: Contact<br>
 <?php endif; ?>
 
 <?php if($mode == 'schedule-a-tour'): ?>

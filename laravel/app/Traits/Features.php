@@ -36,7 +36,7 @@ trait Features {
 
     public function getFeaturesChunk(string $section,int $chunkOffset) : string{
         $foo = $this;
-        return self::textCache($section,function() use($foo,$section,$chunkOffset) {
+        return self::textCache($section . '_' . $chunkOffset,function() use($foo,$section,$chunkOffset) {
             $chunkSize = (int)floor(count($this->_features[$section]) / $this->_featuresChunkCount);
             if($this->_featuresFormatter){
                 $this->_featuresFormatter->setLineItems($this->_features[$section]);
