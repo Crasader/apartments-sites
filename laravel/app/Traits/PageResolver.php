@@ -11,7 +11,7 @@ use App\ResidentPortal\Session;
 trait PageResolver {
     use TextCache;
     protected $_site = null;
-	public function resolve($page){
+	public function resolve($page = 'home'){
         try{
             $data = $this->resolvePageBySite($page);
             return view($data['path'],$data['data']);

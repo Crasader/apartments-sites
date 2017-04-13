@@ -26,11 +26,7 @@ if($security->allowed()){
     });
 }
 Route::get('/{page}','SiteController@resolve');
+Route::get('/','SiteController@resolve');
 Route::get('/resident-portal/{page}','SiteController@resolveResident');
-Route::get('/',function(){
-    //TODO: do this the right way (the laravel way)
-    header("Location: " . url('/home'));
-    die();
-});
 Route::post('/{page}','PostController@handle');
 Route::post('/resident-portal/{page}','PostController@handle');

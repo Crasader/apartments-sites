@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Util\Util;
+
 
 class Mailer extends Model
 {
@@ -17,7 +19,7 @@ class Mailer extends Model
                 $mail->SMTPSecure = "tls"; // or ssl
                 $mail->Host = "smtp.gmail.com";
                 $mail->Port =  587;
-                if(env('DEV')){
+                if(Util::isDev()){
                     $mail->Username = "wmerfalen@gmail.com";
                     $mail->Password = "qrklznccerdjjudl";
                 }else{

@@ -120,6 +120,7 @@ if len(Request.Form("txtUserId"))>0 Then
 ?>
 
         @extends($extends)
+        @section('page-title','Reset Password')
         @section('content')
 		<!-- Content -->
 		<section class="content">
@@ -134,38 +135,43 @@ if len(Request.Form("txtUserId"))>0 Then
 					</div>
 				</div>
 				
-				<%if strResultVerifyID = "TRUE" then%>
-				
+                <?php if(isset($userIdFound)):?>
 				<div class="row">
 					<div class="col-md-6">
 						<p>An email has been sent to the email address you registered with at move-in. </p>
 						<br>
-						<a href="/apartments_greenville_sc/resident_portal/"></span> Resident Portal</a>
+						<a href="/resident-portal/"></span> Resident Portal</a>
 						<p>&nbsp;</p>
 						<br>
 						<br>
 					</div>
 				</div>
-				<%else%>
+                <?php else: ?>
 				<div class="row">
 					<div class="col-md-6">
 						<p>Please enter your User ID and we will reset your account and email you a new password to the email address you registered with at move-in. </p>
 						<div class="schedule-a-tour-form form-container">
-							<form role="form" id="form1" name="form1" method="post" class="validate" action="resident-portal-reset-password.asp">
-								<%if strResultVerifyID = "FALSE" then%><p><span class="colored-text"><b>User ID was not found</b></span></p><%end if%>
+							<form role="form" id="form1" name="form1" method="post" class="validate" action="/resident-portal/reset-password">
+								<?php foreach($errors->all() as $i => $errorMessage): ?>
+                                    <p><span class="colored-text"><b><?php echo $errorMessage; ?></b></span></p>
+                                <?php endforeach; ?>
+                                <?php if(isset($userIdNotFound)): ?>
+                                   <p><span class="colored-text"><b>User ID was not found</b></span></p> 
+                                <?php endif;?>
 								<div class="form-group">
-									<label class="control-label">User Id *</label>
+									<label class="control-label">User Id</label>
 									<input type="text" class="form-control" name="txtUserId" data-validate="required" data-message-required="User ID is a required field."/>
-									<span class="required">*</span>
 								</div>
-								<!--<p><a href="resetPassword.asp">Forgot your password? </a><a href="findUserId.asp">Need User Id?</a></p>-->
-								
-								<button type="submit" class="btn btn-success">Submit</button>
+                                {{csrf_field()}}
+                                <div class="mb-20 mb-md-10">
+                                    <button type="submit" class="btn btn-mod btn-brown btn-large btn-round">Reset</button>
+                                </div>
+                                                         
 							</form>
 						</div>
 					</div>
 				</div>
-				<%end if%>
+                <?php endif; ?>
 			</div>
 		</section>
         @stop

@@ -1,3 +1,4 @@
+<?php use App\Util\Util; ?>
 @extends('layouts/dinapoli/main')
             @section('extra-css')
             <link rel="stylesheet" href="css/bootstrap-datepicker3.min.css"/>
@@ -62,7 +63,7 @@
                                         </div>
                                     </div>
                                     {{csrf_field()}}
-                                    <?php if(ENV('DEV') == false): ?>
+                                    <?php if(Util::isDev() == false): ?>
                                     <div class="mb-20 mb-md-10 form-group">
                                         <div class="g-recaptcha" data-sitekey="6LfamxwUAAAAAGFfyxU0wbGmPvOMKgXZCziZLxwl"></div>
                                     </div>
@@ -191,7 +192,7 @@
                         required: true,
                         'date': true
                     }
-                    <?php if(ENV('DEV') == false): ?>
+                    <?php if(Util::isDev() == false): ?>
                     ,hiddenRecaptcha: {
                         required: function(){
                             return grecaptcha.getResponse() == "";

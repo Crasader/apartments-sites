@@ -9,7 +9,6 @@ use App\Http\Controllers\SiteController;
 use App\Traits\PageResolver;
 use App\Util\Util;
 use App\Assets\SoapClient;
-use App\Exceptions\BaseException;
 
 class PostController extends Controller
 {
@@ -21,6 +20,7 @@ class PostController extends Controller
         'schedule' => 'handleSchedule',
         'portal-center' => 'handleResident',
         'maintenance-request' => 'handleMaintenance',
+        'reset-password' => 'handleResetPassword',
     ];
     //
     public function handle(Request $request,string $page){
@@ -64,7 +64,7 @@ class PostController extends Controller
 
     protected function _getApartmentEmail(){
         //TODO: move this to a different place !organization
-        if(ENV('DEV')){
+        if(Util::isDev()){
             return 'wmerfalen@gmail.com';
         }
         return App\Property\Template::select('email')->where('property_id',Site::$instance->getEntity()->fk_legacy_property_id)
@@ -107,6 +107,30 @@ class PostController extends Controller
         return $data;
     }
 
+    public function handleResetPassword(Request $req){
+        $data = $_POST;
+        Site::$instance = $this->_site = app()->make('App\Property\Site');
+        $validator = Validator::make($req->all(), [
+            'txtUserId' => 'required'
+        ]);
+        
+        if($validator->fails()){
+            return redirect('/resident-portal/reset-password')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $soap = app()->make('App\Assets\SoapClient');
+        $data = $soap->resetPassword($data,$data['txtUserId']);
+        \Debugbar::info($data);
+        $siteData = $this->resolvePageBySite('/resident-portal/reset-password',['resident-portal' => true]);
+        if($data['status'] == 'error'){
+            $siteData['data']['userIdNotFound'] = true;
+        }else{
+            $siteData['data']['userIdFound'] = true;
+        }
+        return view($siteData['path'],$siteData['data']);
+    }
+
     public function handleMaintenance(Request $req){
         $data = $_POST;
         Site::$instance = $this->_site = app()->make('App\Property\Site');
@@ -118,8 +142,8 @@ class PostController extends Controller
             'maintenance_unit' => 'required|max:16',
             'email' => 'required|max:128|email',
             'maintenance_phone' => 'required|max:14|regex:~\([0-9]{3}\) [0-9]{3}\-[0-9]{4}~',
-            'maintenance_name' => 'nullable|max:64',
-            'PermissionToEnterDate' => 'nullable|date',
+            'maintenance_name' => 'max:64',
+            'PermissionToEnterDate' => 'date',
             'maintenance_mrequest' => 'required'
             ]);
         
@@ -130,42 +154,33 @@ class PostController extends Controller
         }
         $soap = app()->make('App\Assets\SoapClient');
         $data = $this->decorateMaintenance($data);
-        $data = $this->_prefillArray($data);
-        if(env('DEV')){
-            $workOrder['Status'] = 'SUCCESS';
-            $workOrder['WorkOrderNumber'] = '1234';
-        }else{
-            $workOrder = $soap->maintenanceRequest($data);
-        }
-        if($workOrder['Status'] === null){
-            $data['data']['error'] = 'Couldn\'t submit work order';
-        }else{
-            $data['data']['workOrder'] = $workOrder;
-            if(env('DEV') == true){
-                $to = 'wmerfalen@gmail.com';
-            }else{
-                $to = $data['email'];
-            }
-            (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
-                'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
-                'to' => $to,
-                'contact' => ['fullname' => $data['ResidentName'],
-                    'from' => $this->_getApartmentEmail()
-                ],
-                'mode' => 'maintenance-request',
-                //TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
-                'data' => view('layouts/resident-portal/email/user-confirm',$data)
-            ]);
-            $siteData['data']['sent'] = true;
-        }
+        //$soap->maintenanceRequest($data);
         $siteData = $this->resolvePageBySite('/resident-portal/maintenance-request',['resident-portal' => true]);
+        $siteData['data']['sent'] = true;
+        //Send email
+        if(Util::isDev() == true){
+            $to = 'wmerfalen@gmail.com';
+        }else{
+            $to = $data['email'];
+        }
+        (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
+            'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
+            'to' => $to,
+            'contact' => ['fname' => explode(" ",$data['ResidentName'])[0],
+                'lname' => explode(" ",$data['ResidentName'])[0],
+                'from' => $this->_getApartmentEmail(),
+            ],
+            'mode' => 'maint-request',
+            //TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
+            'data' => view('layouts/resident-portal/email/user-confirm',$data)
+        ]);
         return view($siteData['path'],$siteData['data']);
     }
 
     public function handleSchedule(Request $req){
         $data = $_POST;
         Site::$instance = $this->_site = app()->make('App\Property\Site');
-        if(ENV('DEV') == false){
+        if(Util::isDev() == false){
             if(!$this->validateCaptcha($data['g-recaptcha-response'])){
                 //TODO: make a function that makes this user friendly !launch
                 die("Invalid recaptcha");
@@ -210,7 +225,7 @@ class PostController extends Controller
         $finalArray['contact'] = $cleaned;
 
         $siteData = $this->resolvePageBySite('unit',$cleaned);
-        if(ENV('DEV')){
+        if(Util::isDev()){
             $to = 'wmerfalen+1@gmail.com';
         }else{
             $to = $cleaned['email'];
@@ -270,7 +285,7 @@ class PostController extends Controller
         $finalArray['contact'] = $cleaned;
 
         $siteData = $this->resolvePageBySite('unit',$cleaned);
-        if(ENV('DEV')){
+        if(Util::isDev()){
             $to = 'wmerfalen+1@gmail.com';
         }else{
             $to = $cleaned['email'];
@@ -292,7 +307,7 @@ class PostController extends Controller
         $data = $_POST;
         Site::$instance = $site = app()->make('App\Property\Site');
 
-        if(env('DEV') == false && !$this->validateCaptcha($data['g-recaptcha-response'])){
+        if(Util::isDev() == false && !$this->validateCaptcha($data['g-recaptcha-response'])){
             //TODO make this user-friendly !launch
             die("Invalid recaptcha");
         }

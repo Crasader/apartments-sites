@@ -1,3 +1,4 @@
+<?php use App\Util\Util; ?>
 @extends('layouts/dinapoli/main')            
                         @section('page-title-row') 
                         <div class="col-md-8">
@@ -30,12 +31,16 @@
                                         <input type="password" name="pass" id="pass" class="input-md form-control" maxlength="100">
                                     </div>
                                     {{csrf_field()}}
-                                    <?php if(ENV('DEV') == false): ?>
+                                    <?php if(Util::isDev() == false): ?>
 									<div class="mb-20 mb-md-10 form-group">
                                         <div class="g-recaptcha" id='grecaptcha' data-sitekey="6LfamxwUAAAAAGFfyxU0wbGmPvOMKgXZCziZLxwl"></div>
                                     </div>
 									<input class="hiddenRecaptcha required" name="hiddenRecaptcha" id="hiddenRecaptcha" aria-required="true" type="hidden">
                                     <?php endif; ?>
+                                    <p>
+                                        <a href="/resident-portal/reset-password">Reset password</a><br>
+                                        <a href="/resident-portal/find-userid">Need a User ID?</a>
+                                    </p>
                                     <div class="mb-20 mb-md-10">
                                         <button type="submit" class="btn btn-mod btn-brown btn-large btn-round">Login</button>
                                     </div>
@@ -71,7 +76,7 @@
                         pass: {
                             required: true
                         }
-                        <?php if(ENV('DEV') == false): ?>
+                        <?php if(Util::isDev() == false): ?>
                         ,hiddenRecaptcha: {
                             required: function () {
                                 if (grecaptcha.getResponse() == '') {

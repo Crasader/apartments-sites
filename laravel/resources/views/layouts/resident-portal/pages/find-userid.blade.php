@@ -1,3 +1,5 @@
+<?php
+/*
 <%
 
 dim EmailAddress
@@ -104,31 +106,10 @@ UnitNumber = request("UnitNumber")
 	end if 
 
 
-%>
-<!DOCTYPE html>
-<html lang="">
-	<head>
-		<title>400 Rhett - Resident Portal - Find User ID</title>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<LINK REL="SHORTCUT ICON" HREF="/img/400.ico">
-		<!-- CSS -->
-		<link href="/css/jquery-ui.min.css" rel="stylesheet">
-		<link href="/css/bootstrap-theme.min.css" rel="stylesheet">
-		<link href="/css/bootstrap.min.css" rel="stylesheet">
-		<link href="/css/animations.css" rel="stylesheet">
-		<link href="/css/main.css" rel="stylesheet">
-		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-		<!--[if lt IE 9]>
-			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-		<![endif]-->
-		<!--#include virtual="/analytics.asp" -->
-	</head>
-	<body id="resident-portal">
-		<!--#include virtual="/header.asp" -->
+%>*/
+?>
+        @extends($extends)
+        @section('content')
 		<!-- Content -->
 		<section class="content">
 			<!-- Content Blocks -->
@@ -141,8 +122,7 @@ UnitNumber = request("UnitNumber")
 						</div>
 					</div>
 				</div>				
-				<%if strResultVerify = "TRUE" then%>
-				
+				<?php if(isset($userIdFound)): ?>
 				<div class="row">
 					<div class="col-md-6">
 						<p>An email has been sent to the email address you registered with at move-in. </p>
@@ -153,49 +133,32 @@ UnitNumber = request("UnitNumber")
 						<br>
 					</div>
 				</div>
-				<%else%>
+                <?php else: ?>
 				<div class="row">	
 					<div class="col-md-6">
-
 						<p>Please enter your email address you registered with at move-in. </p>
 						<div class="schedule-a-tour-form form-container">
-							<form role="form" id="form1" name="form1" method="post" class="validate" action="resident-portal-find-userid.asp">
+							<form role="form" id="form1" name="form1" method="post" class="validate" action="/resident-portal/find-userid">
 								<p><span class="colored-text"><b><%=message%></b></span></p>
 								<div class="form-group">
 									<label class="control-label">Email *</label>
 									<input type="text" class="form-control" name="email" data-validate="required,email" data-message-required="Email Address is a required field."/>
 									<span class="required">*</span>
 								</div>
-								<!--<p><a href="resetPassword.asp">Forgot your password? </a><a href="findUserId.asp">Need User Id?</a></p>-->
-								<button type="submit" class="btn btn-success">Submit</button>
+                                {{csrf_field()}}
+				                <div class="mb-20 mb-md-10">
+                                    <button type="submit" class="btn btn-mod btn-brown btn-large btn-round">Reset</button>
+                                </div>
 							</form>
 						</div>
 					</div>
 				</div>
-				<%end if%>
+				<?php endif; ?>
 			</div>
 		</section>
-		<!-- Footer -->
-		<!--#include virtual="/footer.asp" -->
-		<!-- Scripts -->
-		<script src="/js/jquery-1.12.0.min.js"></script>
-		<script src="/js/jquery-ui.min.js"></script>
-		<script src="/js/bootstrap.min.js"></script>
-		<script src="/js/responsive-tabs.js"></script>
-		<script src="/js/animate.js"></script>
-		<script src="/js/slippry.min.js"></script>
-		<script src="/js/jquery.fancybox.js"></script>
-		<script src="/js/bootstrap-datepicker.js"></script>
-		<script src="/js/custom.js"></script>
-		        
-        <!-- Form Validation scripts (common) -->
-		<script src="/js/TweenMax.min.js"></script>
-		<script src="/js/resizeable.js"></script>
-		<script src="/js/neon-api.js"></script>
-		<script src="/js/jquery.validate.min.js"></script>
-		<script src="/js/neon-custom.js"></script>
-		<script src="/js/neon-demo.js"></script>
+        @stop
 
+        @section('page-specific-js')
 		<script type='text/javascript'>
         $(document).ready(function() {
         
@@ -205,11 +168,4 @@ UnitNumber = request("UnitNumber")
 });
         
         });
-        
         </script>
-		</div>
-		</div>
-	</body>
-</html>
-
-

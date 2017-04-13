@@ -8,6 +8,10 @@ class Util
         return strcmp(php_sapi_name(),env('FPM_NAME')) == 0;
     }
 
+    public static function isDev(){
+        return strcmp(ENV('DEV'),'1') == 0;
+    }
+
     public static function isHome(){
         return (
             preg_match("|^/index|",$_SERVER['REQUEST_URI']) ||

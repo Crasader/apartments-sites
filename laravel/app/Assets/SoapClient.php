@@ -7,6 +7,8 @@ use App\Interfaces\IDataFetcher;
 use App\Traits\HasData;
 use App\Exceptions\BaseException;
 use App\Property\Site;
+use App\Exceptions\LogicException;
+use App\Util\Util as Utility;
 
 class SoapClient implements IDataFetcher
 {
@@ -31,7 +33,7 @@ class SoapClient implements IDataFetcher
             }
         }
     }
-    public function loadClient($url = ''){
+    public function loadClient($url = null){
 		$data_query = new \StdClass();
 		$data_query->sysPassword = 'g3tm3s0m3pr0ps';
 
@@ -46,25 +48,35 @@ class SoapClient implements IDataFetcher
         ];
     }
 
-    public function resetPassword(array $postData,int $userId){
-        $res = $this->loadClient('https://amcrentpay.com/ws/mapts.asmx');
+    public function resetPassword(array $postData,string $userId){
+        $res = $this->loadClient('https://amcrentpay.com/ws/mapts.asmx?WSDL');
         $data_query = $res['obj'];
         $client = $res['soap'];
 		$data_query->PropertyCode = Site::$instance->getEntity()->getLegacyProperty()->code;
-        $data_query->userid = $userId;
+        $data_query->sPayUserID = $userId;
 
-        dd(get_class_methods($client));
-        /*
+        if(Utility::isDev()){
+            return [ 'status' => 'okay', 'userId' => $userId, 'newPass' => 'password1234' ];
+        }
 		try {
-			$soapResult = $client->InsertWorkOrder($data_query);
-			$arrResult = $soapResult->InsertWorkOrderResult;
-            if(preg_match("|<Error ErrorDescription=\"([^\"]+)\"|",$arrResult,$matches)){
-                throw new BaseException($matches);
+			$soapResult = $client->ResetUser($data_query);
+			$arrResult = $soapResult->ResetUserResult;
+            if($soapResult->ResetUserResult == "Error User Not Found"){
+                return ['status' => 'error',
+                    'msg' => 'User not found',
+                ];
             }
+            $parts = explode("|",$arrResult);
+            //TODO: Make these return values consistent
+            return [
+                'status' => 'okay',
+                'userId' => $parts[0],
+                'newPass' => $parts[2]
+            ];
         }catch(Exception $e){
             throw new BaseException($e);
         }
-            */
+        throw new LogicException("Code reached unexpected point (resetPassword)");
     }
             
 
@@ -79,6 +91,10 @@ class SoapClient implements IDataFetcher
         $data_query->Phone = $postData['maintenance_phone'];
         $data_query->PermissionToEnterGivenBy = $postData['maintenance_name'];
         $data_query->PermissionToEnterData = $postData['PermissionToEnterDate'];
+
+        if(Utility::isDev()){
+            return [ 'Status' => 'SUCCESS', 'WorkOrderNumber' => '1234TEST4321' ];
+        }
 
 		try {
 			$soapResult = $client->InsertWorkOrder($data_query);
