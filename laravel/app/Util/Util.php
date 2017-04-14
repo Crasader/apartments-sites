@@ -12,6 +12,10 @@ class Util
         return strcmp(ENV('DEV'),'1') == 0;
     }
 
+    public static function depluralize(string $s){
+        return preg_replace("|[sS]{1}$|","",$s);
+    }
+
     public static function isHome(){
         return (
             preg_match("|^/index|",$_SERVER['REQUEST_URI']) ||

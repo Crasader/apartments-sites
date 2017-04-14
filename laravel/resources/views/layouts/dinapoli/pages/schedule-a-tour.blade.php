@@ -49,18 +49,24 @@
                                         <input type="tel" name="phone" id="phone" data-validate="required" data-message-required="Phone number is a required field" data-mask="phone" class="input-md form-control" maxlength="100">
                                     </div>
                                     <label>Approximate Move-in Date</label>
-									<div class="mb-20 mb-md-10 input-group date" data-provide="datepicker" id="moveindatediv" >
-                                        <input type="text" class="form-control" id="moveindate" name="moveindate" readonly="true" placeholder="Approximate Move-In Date" />
+									<div class="mb-20 mb-md-10 input-group date" data-provide="datepicker" id="moveindatediv" style="margin-bottom: 0px;">
+                                        <input type="text" class="form-control" id="moveindate" name="moveindate" readonly="true" placeholder="Approximate Move-In Date" autocomplete="off" onchange='$("#moveindateErrorDiv").css("margin-bottom","20px");$("#moveindate\-error").remove();$(this).removeClass("error");'/>
                                         <div class="input-group-addon">
                                             <span class="glyphicon glyphicon-th"></span>
                                         </div>
                                     </div>
+                                    <div id='moveindateErrorDiv'>
+                                        <label id="moveindate-error" class="error" for="moveindate" style='margin-bottom: 20px;'></label>
+                                    </div>
                                     <label for="visitdate">When would you like to visit us?</label>
-									<div class="mb-20 mb-md-10 input-group date" data-provide="datepicker" id="visitdatediv" >
-                                        <input type="text" class="form-control" id="visitdate" name="visitdate" readonly="true" placeholder="When would you like to visit us?" />
+									<div class="mb-20 mb-md-10 input-group date" data-provide="datepicker" id="visitdatediv" style="margin-bottom: 0px;">
+                                        <input type="text" class="form-control" id="visitdate" name="visitdate" readonly="true" placeholder="When would you like to visit us?" autocomplete="off" onchange='$("#visitdateErrorDiv").css("margin-bottom","20px");$("#visitdate\-error").remove();$(this).removeClass("error");'/>
                                         <div class="input-group-addon">
                                             <span class="glyphicon glyphicon-th"></span>
                                         </div>
+                                    </div>
+                                    <div style='margin-bottom:0px;' id='visitdateErrorDiv'>
+                                        <label id="visitdate-error" class="error" for="visitdate" style='margin-bottom:30px;'></label>
                                     </div>
                                     {{csrf_field()}}
                                     <?php if(Util::isDev() == false): ?>
@@ -70,7 +76,7 @@
                                     <input type='hidden' id='hiddenRecaptcha' name='hiddenRecaptcha' class='hiddenRecaptcha required'/>
                                     <?php endif; ?>
                                     <div class="mb-20 mb-md-10">
-                                        <button type="submit" class="btn btn-mod btn-brown btn-large btn-round submit-btn">Submit</button>
+                                        <button type="submit" style='margin-top: 5px;' class="btn btn-mod btn-brown btn-large btn-round submit-btn">Submit</button>
                                     </div>
                                 </form>
                             </div>

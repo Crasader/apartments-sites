@@ -13,7 +13,8 @@ use App\Traits\TextCache;
 use App\Property\Neighborhood;
 use App\Property\Template as PropertyTemplate;
 use App\Template;
-
+use App\State;
+use App\Util\Util;
 
 class Entity extends Model
 {
@@ -39,6 +40,10 @@ class Entity extends Model
         self::save();
         $this->loadLegacyProperty();
         return $this;
+    }
+
+    public function getAssetsVersion(string $path){
+        return date("Y-m-d-H-i_s", fileatime(public_path() . "/" . $path));
     }
 
     public function createClientDir(){
@@ -82,6 +87,56 @@ class Entity extends Model
         return $this->_legacyProperty->code;
     }
 
+    public function getMeta(string $type,$page){
+        //TODO: grab specific meta tags for specific pages
+        $foo = $this;
+        $legacy = $this->getLegacyProperty();
+        switch($type){
+            case 'description':
+                return self::textCache('meta_description',function() use($foo,$legacy,$page){
+                    if(strlen($legacy->unit_type) == 0){
+                        $unitType = "";
+                    }else{
+                        $unitType = " " . Util::depluralize($legacy->unit_type) . " ";
+                    }
+                    return $foo->getLegacyProperty()->name ." Apartments offers" . $unitType .
+                    "apartments in ".$legacy->city .", ". $foo->getAbbreviatedState() . "." . 
+                    " View floor plans and ".$legacy->city ." apartment information.";
+                });
+                break;
+            case 'keywords':
+                return self::textCache('meta_keywords',function() use($foo,$legacy,$page){
+                    $keywords = $legacy->city." Apartment Floor Plans, ".$legacy->city." ".$legacy->unit_type.
+                        " Apartment, ".$legacy->unit_type." ".$legacy->city.", ". $foo->getState() .
+                        " Apartment Floor Plans, ".$legacy->name." Apartments Floor Plans";
+                    if(strlen(PropertyTemplate::select('src_3dtour')->where('property_id',$legacy->id)
+                        ->get()->first()->toArray()['src_3dtour']) > 0){
+                        $keywords .= ", 3D Floor Plans";
+                    }
+                    return $keywords;
+                });
+                break;
+            default: return null;
+        }
+    }
+
+    public function getCustomStyleSheets($page){
+        //TODO: grab style sheets
+        return [];
+    }
+
+    public function getGoogleAnalytics(){
+        $foo = $this;
+        $legacyId = Site::$instance->getEntity()->fk_legacy_property_id;
+        return self::textCache('google_analytics',function() use($foo,$legacyId){
+            return PropertyTemplate::select('tracking_code')
+                ->where('property_id',$legacyId)
+                ->get()
+                ->first()
+                ->toArray()['tracking_code'];
+        });
+    }
+
     public function getWebPublicDirectory(string $type){
         $base = env('WEB_PUBLIC_BASE');
         switch($type){
@@ -108,8 +163,8 @@ class Entity extends Model
 
     public function getSocialMedia(string $type){
         $temp = PropertyTemplate::select('facebook_url')
-            ->where('property_id',377)
-            ->get()->toArray();//TODO: put this back in place: $this->_legacyProperty->id)->get()->toArray();
+            ->where('property_id',$this->_legacyProperty->id)
+            ->get()->toArray();
         $data = $temp[0]['facebook_url'];
         if(strlen($data) == 0){
             \Debugbar::info("Foobar");
@@ -204,6 +259,19 @@ class Entity extends Model
         return self::textCache('state',function() use($foo) {
             $state = $foo->_legacyProperty->getState();
             return $state;
+        });
+    }
+
+    public function getAbbreviatedState() : string{
+        $foo = $this;
+        return self::textCache('abbreviated_state',function() use($foo) {
+            $state = $foo->getState();
+            $code = State::select('code')->where('name',$state)->get()->first()->toArray();
+            if(empty($code)){
+                return $state;
+            }else{
+                return $code['code'];
+            }
         });
     }
 

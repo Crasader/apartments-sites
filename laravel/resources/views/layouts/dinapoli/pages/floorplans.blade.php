@@ -63,10 +63,16 @@ $js->generateIDs();
                     <!-- End Floorplans Filter -->
                     
                     <!-- Floor Plans Row -->
-                        <div class="row multi-columns-row works-grid work-grid-3" id="work-grid">
+                    <?php 
+                        $grid = 3; 
+                        $col = 4;
+                    ?>
+                        <?php if(count($sorted) == 2){ $grid = 2; $col = 4; } ?>
+                        <?php if(count($sorted) == 1){ $grid = 12; } ?>
+                        <div class="row multi-columns-row works-grid work-grid-<?php echo $grid;?>" id="work-grid">
                             <?php foreach($sorted as $index => $object): ?>
                             <!-- Individual Unit -->
-                            <div class="col-sm-6 col-md-4 col-lg-4 work-item mix <?php echo $object->BED;?>bed">
+                            <div class="col-sm-6 col-md-<?php echo $col;?> col-lg-<?php echo $col;?> work-item mix <?php echo $object->BED;?>bed">
                                 <div class="floorplan-item">
                                     <div class="floorplan-item-inner">
                                         <div class="floorplan-wrap">
@@ -114,7 +120,7 @@ $js->generateIDs();
                                                         $text = 'Limited | MORE INFO';
                                                         break;
                                                     case '1':
-                                                        $text = 'Unit Available';
+                                                        $text = '1 Unit Available';
                                                         break;
                                                     default:
                                                         $text = $object->AVAIL . ' Units Available';

@@ -44,6 +44,7 @@ module.exports = function(grunt) {
             'public/js/src/jquery.ajaxchimp.min.js',
             'public/js/src/all.js',
             'public/js/src/bootstrap-datepicker.js',
+            'public/js/src/bootstrap-timepicker.js',
             'public/js/src/jquery.validate.js',
             'public/js/src/jquery.maskedinput.js',
             'public/js/src/amc.validate.js',

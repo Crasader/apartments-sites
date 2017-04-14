@@ -43,11 +43,14 @@
                                         <input type="text" name="phone" id="phone" class="input-md form-control" maxlength="100">
                                     </div>
                                     <label for="date">Approximate Move-In Date</label>
-                                    <div class="mb-20 mb-md-10 input-group date" data-provide="datepicker" id="datediv" >
-                                        <input type="text" class="form-control" id="date" name="date" readonly="true" placeholder="Approximate Move-In Date" />
+                                    <div class="mb-20 mb-md-10 input-group date" data-provide="datepicker" id="datediv" style='margin-bottom: 0px;'>
+                                        <input type="text" class="form-control" id="date" name="date" value="" readonly="true" placeholder="Approximate Move-In Date" autocomplete="off" onchange='$("#dateErrorDiv").css("margin-bottom","40px");$("#date\-error").css("display","none");$(this).removeClass("error");'/>
                                         <div class="input-group-addon">
                                             <span class="glyphicon glyphicon-th"></span>
                                         </div>
+                                    </div>
+                                    <div style='margin-bottom:0px;' id='dateErrorDiv'>
+                                         <label id="date-error" class="error" for="date" style='margin-bottom:20px;'></label>
                                     </div>
                                     {{csrf_field()}}
                                     <div class="mb-20 mb-md-10 form-group">
@@ -56,7 +59,7 @@
 									
                                     <input type="hidden" class="hiddenRecaptcha required" name="hiddenRecaptcha" id="hiddenRecaptcha">
                                     <div class="mb-20 mb-md-10">
-                                        <button class="btn btn-mod btn-brown btn-large btn-round">Submit</button>
+                                        <button class="btn btn-mod btn-brown btn-large btn-round" onclick="if($('#datediv').val().length){console.log(1);$('#datediv').css('margin-bottom','40px');}">Submit</button>
                                     </div>
                                 </form>
                             </div>

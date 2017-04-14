@@ -9,17 +9,25 @@
                     
                     <!-- Social Links -->
                     <div class="footer-social-links mb-30">
-                        <a href="<?php echo $entity->getSocialMedia('fb');?>" title="Facebook" target="_blank"><i class="fa fa-facebook"></i></a>
-                        <a href="<?php echo $entity->getSocialMedia('twitter');?>" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a>
-                        <a href="<?php echo $entity->getSocialMedia('insta');?>" title="Instagram" target="_blank"><i class="fa fa-instagram"></i></a>
-                        <a href="<?php echo $entity->getSocialMedia('li');?>" title="LinkedIn+" target="_blank"><i class="fa fa-linkedin"></i></a>
+                    <?php $fb = $entity->getSocialMedia('fb');
+                        $twitter = $entity->getSocialMedia('twitter');
+                        $insta = $entity->getSocialMedia('insta');
+                        $li = $entity->getSocialMedia('li');
+                    ?>
+                        <?php if(strlen($fb)): ?> <a href="<?php echo $fb?>" title="Facebook" target="_blank"><i class="fa fa-facebook"></i></a> <?php endif; ?>
+                        <?php if(strlen($twitter)): ?> <a href="<?php echo $twitter?>" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a> <?php endif; ?>
+                        <?php if(strlen($insta)): ?> <a href="<?php echo $insta?>" title="Instagram" target="_blank"><i class="fa fa-instagram"></i></a> <?php endif; ?>
+                        <?php if(strlen($li)): ?> <a href="<?php echo $li?>" title="LinkedIn+" target="_blank"><i class="fa fa-linkedin"></i></a> <?php endif; ?>
                     </div>
                     <!-- End Social Links -->
 
                     <div class="row mb-30">
                         <div class="col-md-12">
                             <h2 class="section-title font-alt">
-                                <?php echo $entity->getFullAddress(); ?>
+                                <?php echo $entity->getStreet() . " " . 
+                                $entity->getCity() . ", " . 
+                                $entity->getAbbreviatedState() . " " . 
+                                $entity->getZipCode(); ?>
                             </h2>
                         </div>
                     </div>
@@ -42,7 +50,7 @@
                                 <li><a href="neighborhood">Neighborhood</a></li>
                                 <li><a href="schedule-a-tour">Schedule a Tour</a></li>
                                 <li><a href="floorplans">View Available Units</a></li>
-                                <li><a href="app-online">Apply Online</a></li>
+                                <li><a href="apply-online">Apply Online</a></li>
                             </ul>
                         </div>
 
@@ -69,8 +77,8 @@
                         <!-- End Copyright -->
                         
                         <div class="footer-made">
-                            Copyright © 2016<br>
-                            <?php echo $entity->getText('copyright');//,'Martinique Bay Apartments. All rights reserved.');?>
+                            Copyright © <?php echo date("Y");?><br>
+                            <?php echo $entity->getLegacyProperty()->name;?> Apartments. All rights reserved.
                         </div>
                         
                     </div>

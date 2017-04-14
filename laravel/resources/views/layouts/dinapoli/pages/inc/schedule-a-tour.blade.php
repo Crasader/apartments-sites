@@ -1,5 +1,5 @@
 <!-- Schedule a Tour Section -->
-<section class="page-section schedule-a-tour-section bg-dark" data-background="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide1a.jpg">
+<section class="page-section schedule-a-tour-section bg-dark-alfa-70" data-background="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide1a.jpg">
     <div class="container relative">
         <form class="form align-center" >
             <div class="row">

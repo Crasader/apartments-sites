@@ -107,7 +107,7 @@
 
 			@section('action')
 			<!-- Call Action Section -->
-            <section class="page-section pt-0 pb-0 banner-section bg-light" data-background="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide2a.jpg">
+            <section class="page-section pt-0 pb-0 banner-section bg-dark-alfa-70" data-background="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide2a.jpg">
                 <div class="container relative">
 
                     <div class="row">
@@ -115,7 +115,7 @@
                         <div class="col-sm-6">
                             <div class="mt-70 mt-lg-70 mb-70 mb-lg-70 mb-sm-30">
                                 <div class="banner-content">
-                                    <h3 class="banner-heading font-alt text-shadow mt-120 mt-sm-70 mt-xs-70"><b>Join Our community</b></h3>
+                                    <h3 class="banner-heading font-alt text-shadow mt-sm-70 mt-xs-70"><b>Join Our community</b></h3>
 									<div class="banner-decription">
 										<?php echo $entity->getText('join-community-description');?>
 									</div>

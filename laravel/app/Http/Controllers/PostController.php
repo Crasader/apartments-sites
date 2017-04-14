@@ -14,6 +14,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Traits\NoNo;
 use App\Property\Text\Type as TextType;
 use App\Property\Text as PropertyText;
+use App\Property\Template as PropertyTemplate;
 
 class PostController extends Controller
 {
@@ -22,6 +23,7 @@ class PostController extends Controller
     use Nono;
 
     //Declared by trait: protected $_site
+    //TODO: Create a loading mechanism so we can dynamically load and unload allowed handlers
     protected $_allowed = [
         'unit' => 'handleUnit',
         'contact' => 'handleContact',
@@ -32,6 +34,7 @@ class PostController extends Controller
         'find-userid' => 'handleFindUserId',
         'text-tag' => 'handleTextTag',
         'text-tag-get' => 'handleGetTextTag',
+        'apply-online' => 'handleApplyOnline',
     ];
     protected $_translations = [];
     //
@@ -100,6 +103,9 @@ class PostController extends Controller
 
     public function getErrorTranslation(string $error){
         //TODO: !optimization use TextCache for this
+        if(!isset($this->_translations[$this->_page])){
+            return $error;
+        }
         foreach($this->_translations[$this->_page] as $index => $translation){
             if(strcmp($translation['orig'],$error) == 0){
                 return $translation['replace'];
@@ -119,6 +125,65 @@ class PostController extends Controller
             ],
         ];
     }
+
+    public function handleApplyOnline(Request $req){
+        $data = $_POST;
+        Site::$instance = $site = app()->make('App\Property\Site');
+        if(!Util::isDev()){
+            if(!$this->validateCaptch($data['g-recaptcha-response'])){
+                return $this->invalidCaptcha('apply-online');
+            }
+        }
+
+        $this->validate($req, [
+            'fname' => 'required|max:64',
+            'lname' => 'required|max:64',
+            'email' => 'required|email',
+            'phone' => 'required|max:14|regex:~\([0-9]{3}\) [0-9]{3}\-[0-9]{4}~',
+        ]);
+        //
+        $siteData = $this->resolvePageBySite('apply-online',[]);
+        if(Util::isDev()){
+            $to = 'wmerfalen@gmail.com';
+        }else{
+            $to = $data['email'];
+        }
+        $data['mode'] = 'apply-online';
+        $finalArray = $this->_prefillArray($data);
+        $finalArray['contact'] = $data;
+        /*
+        //TODO: !launch uncomment this
+        (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
+            'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
+            'to' => $to,
+            'contact' => $data,
+            'mode' => 'apply-online',
+            'subject' => 'A Customer Applied online for property: ' . Site::$instance->getEntity()->getLegacyProperty()->name,
+            //TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
+            'data' => view('layouts/dinapoli/email/user-confirm',$finalArray)
+            ]);
+        */
+        $siteData = $this->resolvePageBySite('apply-online',[]);
+        $siteData['data']['sent'] = true;
+
+        $siteData['data']['redirectConfig'] = $this->_fillApplyOnlineRedirectData();
+        return view($siteData['path'],$siteData['data']);
+    }
+
+    protected function _fillApplyOnlineRedirectData() : array{
+        $arr = PropertyTemplate::select('online_application_url')
+            ->where('property_id',Site::$instance->getEntity()->fk_legacy_property_id)
+            ->get()
+            ->first();
+        if($arr === null){
+            return [];
+        }
+        if(strlen($arr->toArray()['online_application_url']) == 0){
+            return [];
+        }
+        return ['redirect' => true, 'url' => $arr->toArray()['online_application_url']];
+    }
+
 
     public function handleUnit(Request $req){
         $data = $_POST;

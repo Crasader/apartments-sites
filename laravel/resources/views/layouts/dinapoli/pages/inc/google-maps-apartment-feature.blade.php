@@ -3,7 +3,7 @@
 		<b><?php echo $entity->getText('apartment-title'); ?></b>
 		<p>
 			<?php echo $entity->getStreet() . '<br>';
-			echo $entity->getCity() . ', ' . $entity->getState() . ' ';
+			echo $entity->getCity() . ', ' . $entity->getAbbreviatedState() . ' ';
 			echo $entity->getZipCode() . '<br>';
 			echo $entity->getPhone();
 			?>

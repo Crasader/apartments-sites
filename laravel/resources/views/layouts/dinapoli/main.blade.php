@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="">
     <head>
-        <title>@yield('title')</title>
+        <title><?php echo $entity->getLegacyProperty()->name;?> - Apartment Homes in <?php echo $entity->getCity() . ", " . $entity->getAbbreviatedState();?></title>
 @section('meta')
-        <meta name="description" content="">
-        <meta name="keywords" content="">
+        <meta name="description" content="<?php echo $entity->getMeta('description',$page);?>">
+        <meta name="keywords" content="<?php echo $entity->getMeta('keywords',$page);?>">
         <meta charset="utf-8">
         <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -13,12 +13,15 @@
 @section('css')
         <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="/dinapoli/css/main.css">
-        <link rel="stylesheet" href="/dinapoli/css/custom.css">
-        <link rel="stylesheet" href="/dinapoli/css/animate.min.css">
-        <link rel="stylesheet" href="/dinapoli/css/owl.carousel.css">
-        <link rel="stylesheet" href="/dinapoli/css/magnific-popup.css">
+        <?php foreach(['main','custom','animate.min','owl.carousel','magnific-popup'] as $i => $sheet){
+            echo "<link rel='stylesheet' href='" . $fsid . "/css/{$sheet}.css?v={$entity->getAssetsVersion($fsid . '/css/' . $sheet . '.css')}'>";
+        }?>
+        <?php $extraSheets = $entity->getCustomStyleSheets($page);
+            foreach($extraSheets as $i => $sheet): ?>
+            <link rel="stylesheet" href="<?php echo $sheet;?>">
+       <?php endforeach; ?>
 @show
+        <?php echo $entity->getGoogleAnalytics(); ?>
         @yield('extra-css')
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -155,7 +158,7 @@
                 </div>
             </section>
             @show
-
+            @yield('schedule-a-tour')
             @section('footer')
             	<!-- Footer -->
                 @include('layouts/dinapoli/pages/inc/footer')

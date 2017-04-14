@@ -56,11 +56,11 @@ trait PageResolver {
             }
 
             //TODO: add custom resolvers that we can add dynamically. i.e. for resident portal !organization !refactor
+            $data['fsid'] = $templateDir;
+            $data['aliased'] = $aliased;
+            $data['orig'] = $origPage;
             return [
                 'path' => $this->resolveTemplatePath($templateDir,$page,$inData),
-                'fsid' => $templateDir,
-                'aliased' =>$aliased,
-                'orig' => $origPage,
                 'data' => $this->resolveTemplateData($templateDir,$page,$inData,$data),
             ];
         }

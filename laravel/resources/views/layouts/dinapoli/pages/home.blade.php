@@ -93,7 +93,7 @@
 
             
             <!-- Community Section -->
-            <section class="page-section pt-0 pb-30 banner-section bg-dark" data-background="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide4.jpg" id="community">
+            <section class="page-section pt-0 pb-30 banner-section bg-dark-alfa-70" data-background="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide4.jpg" id="community">
                 <div class="container relative">
                     
                     <div class="row">
@@ -174,7 +174,6 @@
                 <div class="container relative">
                     
                     <div class="row">
-                        
                         <div class="col-sm-6">
                             <div class="mt-70 mt-lg-70 mb-70 mb-lg-70 mb-sm-30">
                                 <div class="banner-content">

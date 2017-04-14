@@ -191,7 +191,7 @@ return [
        /*
         * Minifier
         */
-        'GrahamCampbell\HTMLMin\HTMLMinServiceProvider',
+        //'GrahamCampbell\HTMLMin\HTMLMinServiceProvider',
     ],
 
     /*
@@ -245,7 +245,7 @@ return [
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
         /* HTML Minifier */
-        'HTMLMin' => 'GrahamCampbell\HTMLMin\Facades\HTMLMin',
+        //'HTMLMin' => 'GrahamCampbell\HTMLMin\Facades\HTMLMin',
     ],
 
 ];
