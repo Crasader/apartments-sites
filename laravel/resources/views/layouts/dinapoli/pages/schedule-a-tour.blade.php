@@ -3,18 +3,18 @@
             @section('extra-css')
             <link rel="stylesheet" href="css/bootstrap-datepicker3.min.css"/>
             @stop
-                        @section('page-title-row')
-                        <div class="col-md-8">
-                            <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Schedule a Tour</h1>
-                            <div class="hs-line-4 font-alt">
-                                <?php echo $entity->getText('schedule-a-tour-title');?>
-                            </div>
-                        </div>
-                        @stop
-                        @section('page-title-span','SCHEDULE A TOUR')
-                        @section('recaptcha-js')
-                        <script src="https://www.google.com/recaptcha/api.js"></script>
-                        @stop
+            @section('page-title-row')
+            <div class="col-md-8">
+                <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Schedule a Tour</h1>
+                <div class="hs-line-4 font-alt">
+                    <?php echo $entity->getText('schedule-a-tour-title');?>
+                </div>
+            </div>
+            @stop
+            @section('page-title-span','SCHEDULE A TOUR')
+            @section('recaptcha-js')
+            <script src="https://www.google.com/recaptcha/api.js"></script>
+            @stop
             @section('content')
              <!-- Schedule Form Section -->
             <section class="page-section pb-0" id="contact-form">

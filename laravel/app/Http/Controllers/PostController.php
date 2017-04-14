@@ -151,8 +151,6 @@ class PostController extends Controller
         $data['mode'] = 'apply-online';
         $finalArray = $this->_prefillArray($data);
         $finalArray['contact'] = $data;
-        /*
-        //TODO: !launch uncomment this
         (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
             'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
             'to' => $to,
@@ -162,7 +160,6 @@ class PostController extends Controller
             //TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
             'data' => view('layouts/dinapoli/email/user-confirm',$finalArray)
             ]);
-        */
         $siteData = $this->resolvePageBySite('apply-online',[]);
         $siteData['data']['sent'] = true;
 

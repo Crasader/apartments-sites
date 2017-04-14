@@ -15,6 +15,7 @@ use App\Property\Template as PropertyTemplate;
 use App\Template;
 use App\State;
 use App\Util\Util;
+use App\Property\Clientside\Assets as ClientsideAssets;
 
 class Entity extends Model
 {
@@ -121,8 +122,7 @@ class Entity extends Model
     }
 
     public function getCustomStyleSheets($page){
-        //TODO: grab style sheets
-        return [];
+        return app()->make('App\Property\Clientside\Assets')->getStyleSheets(Site::$instance);
     }
 
     public function getGoogleAnalytics(){
