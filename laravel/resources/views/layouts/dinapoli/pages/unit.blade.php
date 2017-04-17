@@ -100,7 +100,13 @@ $unitType = preg_replace("|[^a-z]+|","",strtolower($extras['unittype']));
                                 foreach($units as $index => $object):
                             ?>
                         	<div class="row unit-table-row">
+                                                                                                        
 								<div class="col-md-2">
+                                    <?php if($object->RENOVATED == "RENOVATED"): ?>
+                                        <div style="position:absolute; top:-25px; margin:0px auto; left:0px; right:0px;">
+                                            <span class="label label-success">RENOVATED</span>
+                                        </div>
+                                    <?php endif; ?>
 									<span class="visible-xs visible-sm"><b>Unit: </b></span><?php echo $object->UnitNumber; ?>
 								</div>
 								<div class="col-md-2">

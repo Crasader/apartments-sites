@@ -43,6 +43,8 @@ Move-in date: <?php echo $contact['movein'];?> <br>
 
 Visit date: <?php echo $contact['visit'];?> <br>
 
+Visit time: <?php echo $contact['visittime'];?><br>
+
 Action Requested: SCHEDULE A TOUR<br>
 <?php endif; ?>
 

@@ -1,5 +1,5 @@
 function amcBindValidate(obj){
-    $(obj.form).validate({ 'rules': obj.rules, 'ignore': obj.ignore });
+    $(obj.form).validate(obj);
 }
 function amcMaskPhone(id,format){
     $(id).mask(format);

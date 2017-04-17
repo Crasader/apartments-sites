@@ -2,6 +2,7 @@
 @extends('layouts/dinapoli/main')
             @section('extra-css')
             <link rel="stylesheet" href="css/bootstrap-datepicker3.min.css"/>
+            <link rel="stylesheet" href="/css/neon-forms.css"/>
             @stop
             @section('page-title-row')
             <div class="col-md-8">
@@ -58,16 +59,15 @@
                                     <div id='moveindateErrorDiv'>
                                         <label id="moveindate-error" class="error" for="moveindate" style='margin-bottom: 20px;'></label>
                                     </div>
-                                    <label for="visitdate">When would you like to visit us?</label>
-									<div class="mb-20 mb-md-10 input-group date" data-provide="datepicker" id="visitdatediv" style="margin-bottom: 0px;">
-                                        <input type="text" class="form-control" id="visitdate" name="visitdate" readonly="true" placeholder="When would you like to visit us?" autocomplete="off" onchange='$("#visitdateErrorDiv").css("margin-bottom","20px");$("#visitdate\-error").remove();$(this).removeClass("error");'/>
-                                        <div class="input-group-addon">
-                                            <span class="glyphicon glyphicon-th"></span>
-                                        </div>
-                                    </div>
-                                    <div style='margin-bottom:0px;' id='visitdateErrorDiv'>
-                                        <label id="visitdate-error" class="error" for="visitdate" style='margin-bottom:30px;'></label>
-                                    </div>
+									<div class="form-group">
+                                    	<label for="visitdate">When would you like to visit us?</label>
+										<div class="date-and-time">
+											<input type="text" class="form-control datepicker" id='datepicker' name='visitdate' data-format="D, dd MM yyyy" placeholder="Select a date">
+											<input type="text" class="form-control timepicker" id='timepicker' name='visittime' data-template="dropdown" data-default-time="10:00 AM"  data-show-seconds="false" data-show-meridian="true" data-minute-step="30" data-second-step="0" />
+										</div>
+									</div>
+                                    <label id="datepicker-error" class="error" for="datepicker" style='margin-bottom: 20px;'></label>
+                                    <label id="timepicker-error" class="error" for="timepicker" style='margin-bottom: 20px;'></label>
                                     {{csrf_field()}}
                                     <?php if(Util::isDev() == false): ?>
                                     <div class="mb-20 mb-md-10 form-group">
@@ -163,12 +163,9 @@
                                     </div>
                                 </div>
                                 <!-- End Office Hours-->
-                                
                             </div>
                         </div>
-                        
                     </div>
-            	
             	</div>        
             </section>
             @stop
@@ -176,7 +173,14 @@
         @section('page-specific-js')
 		<script type="text/javascript">
 		$(document).ready(function() {
-		    $("#visitdatediv").datepicker({format: 'mm/dd/yyyy'});
+            <?php
+                /* TODO: Add custom messages for each field 
+                 * TODO: Create validation that doesn't let the user enter a time before or after the valid hours of the office
+                 * TODO: Create a "slot" or something that we can utilize so that we don't have to duplicate this form code everywhere
+                 */
+            ?>
+            $("#timepicker").timepicker({});
+            $("#datepicker").datepicker({format: 'mm/dd/yyyy'});	
             $("#moveindatediv").datepicker({format: 'mm/dd/yyyy'});	
             amcBindValidate({ 
                 'form': '#form1',
@@ -205,7 +209,15 @@
                         }
                     }
                     <?php endif; ?>
-                } /* End RULES */
+                },
+                'messages': {
+                    visitdate: {
+                        required: 'Please enter a valid visit date'
+                    },
+                    visittime: {
+                        required: 'Please enter a valid visit time'
+                    }
+                }
             });
             amcMaskPhone('#phone','(999) 999-9999');
 		});	//End document.ready

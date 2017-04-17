@@ -371,6 +371,7 @@ class PostController extends Controller
             'phone' => 'required|max:14|regex:~\([0-9]{3}\) [0-9]{3}\-[0-9]{4}~',
             'moveindate'=> 'required|date',
             'visitdate' => 'required|date',
+            'visittime' => 'required',
             ]);
         $cleaned = [
             'fname' => $data['firstname'],
@@ -379,6 +380,7 @@ class PostController extends Controller
             'phone' => $data['phone'],
             'movein' => $data['moveindate'],
             'visit' => $data['visitdate'],
+            'visittime' => $data['visittime'],
             'mode' => 'schedule-a-tour'
         ];  
 
