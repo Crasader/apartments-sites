@@ -14,7 +14,7 @@
         <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
         <?php foreach(['main','custom','animate.min','owl.carousel','magnific-popup'] as $i => $sheet){
-            echo "<link rel='stylesheet' href='" . $fsid . "/css/{$sheet}.css?v={$entity->getAssetsVersion($fsid . '/css/' . $sheet . '.css')}'>";
+            echo "<link rel='stylesheet' href='/" . $fsid . "/css/{$sheet}.css?v={$entity->getAssetsVersion($fsid . '/css/' . $sheet . '.css')}'>";
         }?>
         <?php $extraSheets = $entity->getCustomStyleSheets($page);
             foreach($extraSheets as $i => $sheet): ?>
