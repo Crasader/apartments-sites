@@ -1,10 +1,13 @@
 <?php 
+use App\Util\Util;
+
 $floorPlans = app()->make('App\AIM\FloorPlans');
 $js = app()->make('App\Javascript\ApplySubmitter');
 $fpData = $floorPlans->getFloorPlans();
 $sorted = [];
 $sortedIds = [];
 
+$fpImage = app()->make('App\Assets\FloorPlanImage');
 \Debugbar::info($fpData);
 $ctr = 0;
 foreach($fpData as $index => $object){
@@ -20,8 +23,12 @@ foreach($fpData as $index => $object){
         $object->TEXT = 'Units Available';
         $object->ACTION = 'unit';
     }
-    $sorted[$ctr++] = $object;
+    $uName = Util::transformFloorplanName($object->U_MARKETING_NAME);
+    $fpImageData = $fpImage->probeImageFiles($uName);
+    $sorted[$ctr] = $object;
+    $sorted[$ctr++]->image_data = $fpImageData;
     $sortedIds[$uniqueId] = $object;
+    $sortedIds[$uniqueId]->image_data = $fpImageData;
 }
 $js->setCollection($sorted);
 $js->generateIDs();
@@ -76,12 +83,12 @@ $js->generateIDs();
                                 <div class="floorplan-item">
                                     <div class="floorplan-item-inner">
                                         <div class="floorplan-wrap">
-                                            
                                             <!-- Floor Plan Thumbnail -->
                                             <div class="floorplan-thumb">
                                                 <?php //TODO: make a function to clean this cruft ?>
-                                                <a href="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo preg_replace("|[^a-z]+|","",strtolower($object->U_MARKETING_NAME));?>.png" class="lightbox-gallery-2 mfp-image">
-                                                <img src="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo preg_replace("|[^a-z]+|","",strtolower($object->U_MARKETING_NAME));?>.png"></a>
+                                                <?php $uName = Util::transformFloorplanName($object->U_MARKETING_NAME);?>
+                                                <a href="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $uName;?>.<?php echo $object->image_data[$uName];?>" class="lightbox-gallery-2 mfp-image">
+                                                <img src="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $uName;?>.<?php echo $object->image_data[$uName];?>"></a>
                                             </div>
 
                                              <!-- Unit Title -->

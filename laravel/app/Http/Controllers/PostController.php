@@ -15,6 +15,7 @@ use App\Traits\NoNo;
 use App\Property\Text\Type as TextType;
 use App\Property\Text as PropertyText;
 use App\Property\Template as PropertyTemplate;
+use Redis;
 
 class PostController extends Controller
 {
@@ -56,7 +57,11 @@ class PostController extends Controller
         $site = app()->make('App\Property\Site');
         $tag = $req->input("tag");
 
-        $typeId = TextType::select('id')->where('str_key',$tag)->get()->toArray()[0]['id'];
+        $arr = TextType::select('id')->where('str_key',$tag)->get()->toArray();
+        if(empty($arr)){
+            die(json_encode(['success' => 'true','body' => '']));
+        }
+        $typeId = $arr[0]['id'];
         $propertyText = PropertyText::where(
             ['property_text_type_id' => $typeId],
             ['entity_id' => $site->getEntity()->id]
@@ -73,7 +78,16 @@ class PostController extends Controller
         $tag = $req->input("tag");
         $body = $req->input("body");
 
-        $typeId = TextType::select('id')->where('str_key',$tag)->get()->toArray()[0]['id'];
+        $arr = TextType::select('id')->where('str_key',$tag)->get()->toArray();
+        if(count($arr) == 0){
+            //Create text type
+            $ttype = new TextType();
+            $ttype->str_key = $tag;
+            $ttype->save();
+            $typeId = $ttype->id;
+        }else{
+            $typeId = $arr[0]['id'];
+        }
         $propertyText = PropertyText::where(
             ['property_text_type_id' => $typeId],
             ['entity_id' => $site->getEntity()->id]
@@ -89,6 +103,7 @@ class PostController extends Controller
             $propertyText->string_value = $body;
             $propertyText->save();
         }
+        Util::redisUpdate('textcache_str_key_' . $tag,$body);
         die(json_encode(['success' => 'true']));
     }
 

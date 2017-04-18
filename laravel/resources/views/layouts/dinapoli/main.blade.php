@@ -21,6 +21,11 @@
             <link rel="stylesheet" href="<?php echo $sheet;?>">
        <?php endforeach; ?>
 @show
+        <style type='text/css'>
+            .exitpop-inner {
+                background: url(<?php echo $entity->getWebPublicDirectory('popup');?>/popup.jpg);
+            }
+        </style>
         <?php echo $entity->getGoogleAnalytics(); ?>
         @yield('extra-css')
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -70,33 +75,30 @@
 			@include('layouts/dinapoli/pages/inc/nav')
             <!-- End Nav-->
 
-            <?php if(!App\Util\Util::isHome()): ?>
+            @section('title-section')
             <!-- Page Title Section -->
             <section class="page-section bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('img');?>/bg1.jpg">
                 <div class="relative container align-left">
-
                     <div class="row">
 						@yield('page-title-row')
+                        @section('home-title')
                         <div class="col-md-4 mt-30">
                             <div class="mod-breadcrumbs font-alt align-right">
                                 <a href="#">Home</a>&nbsp;/&nbsp;<span>@yield('page-title-span')</span>@yield('page-title-span-suffix')
                             </div>
-
                         </div>
+                        @show
                     </div>
                 </div>
             </section>
-            <?php endif; ?>
+            @show
             <!-- End Page Title Section -->
-
         	@yield('content')
             @yield('action')
             @section('contact')
             <section class="contact-padding page-section" id="contact">
                 <div class="container relative">
-
                     <div class="row">
-
                         <div class="col-md-10 col-md-offset-1">
                             <div class="row">
 

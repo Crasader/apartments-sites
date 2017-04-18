@@ -1,9 +1,11 @@
 <?php
+    use App\Util\Util;
     $specials = app()->make('App\Property\Specials');
     $spec = $specials->fetchAllSpecials();
     
 ?>
 @extends('layouts/dinapoli/main')
+        @section('title-section','')
         @section('content')
         <!-- Page Wrap -->
         <div class="page" id="top">
@@ -21,8 +23,8 @@
                             <?php //TODO: Loop through and dump slideshow ?>
                             <div class="container">
                                 <div class="slide-title text-shadow">
-                                    <h1>The Gateway to Henderson Nevada</h1>
-                                    <h2>Live seconds from shopping, dining, arts & culture.</h2>
+                                    <h1><?php echo $entity->getText('home-slideshow-1',['oneshot' => 'The Gateway to Henderson Nevada']);?></h1>
+                                    <h2><?php echo $entity->getText('home-slideshow-1a',['oneshot' => 'Live seconds from shopping, dining, arts & culture.']);?></h2>
                                     <a href="schedule-a-tour" class="btn btn-block btn-mod btn-brown btn-large btn-round">Schedule a Tour</a>
                                 </div>
                             </div>
@@ -32,8 +34,8 @@
                         <li>
                             <div class="container">
                                 <div class="slide-title text-shadow">
-                                    <h1>Modern Living in the Heart of the Green Valley</h1>
-                                    <h2>One- and two-bedroom apartment <br>homes in a tree-lined community.</h2>
+                                    <h1><?php echo $entity->getText('home-slideshow-2',['oneshot'=>'Modern Living in the Heart of the Green Valley']);?></h1>
+                                    <h2><?php echo $entity->getText('home-slideshow-2a',['oneshot' => 'One- and two-bedroom apartment <br>homes in a tree-lined community.']);?></h2>
                                     <a href="schedule-a-tour" class="btn btn-block btn-mod btn-brown btn-large btn-round">Schedule a Tour</a>
                                 </div>
                             </div>
@@ -43,8 +45,8 @@
                         <li>
                             <div class="container">
                                 <div class="slide-title text-shadow">
-                                    <h1>Comfort and Luxuries</h1>
-                                    <h2>24 hour town, scenic pool area, <br>and outdoor lounges. </h2>
+                                    <h1><?php echo $entity->getText('home-slideshow-3',['oneshot' => 'Comfort and Luxuries']);?></h1>
+                                    <h2><?php echo $entity->getText('home-slideshow-3a',['oneshot' => '24 hour town, scenic pool area, <br>and outdoor lounges.']);?></h2>
                                     <a href="schedule-a-tour" class="btn btn-block btn-mod btn-brown btn-large btn-round">Schedule a Tour</a>
                                 </div>
                             </div>
@@ -93,7 +95,7 @@
 
             
             <!-- Community Section -->
-            <section class="page-section pt-0 pb-30 banner-section bg-dark-alfa-70" data-background="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide4.jpg" id="community">
+            <section class="page-section pt-0 pb-30 banner-section" data-background="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide4.jpg" id="community">
                 <div class="container relative">
                     
                     <div class="row">
@@ -104,11 +106,13 @@
                                 <div class="banner-content text-shadow">
                                     <h3 class="banner-heading font-alt">Your New Neighborhood</h3>
                                     <div class="banner-decription">
-                                        <?php echo $entity->getText('home-neighborhood-description');//,'Immerse yourself in the culture of Downtown Henderson at Martinique Bay.<br>Located just seconds from all the fun, food, and entertainment, and near the freeway, our location is ideal for every lifestyle.');
-                                        ?>
+                                        <?php echo $entity->getText('home-neighborhood-description'); ?>
                                         <ul>
                                         <?php
-                                            foreach($entity->hasNeighborhood()->get()->toArray() as $index => $nFeature):
+                                            $features = Util::redisFetchOrUpdate('neighborhood_features',function() use($entity){
+                                                return $entity->hasNeighborhood()->get()->toArray();
+                                            },true);
+                                            foreach($features as $index => $nFeature):
                                         ?>
                                                 <li><a href="neighborhood"><?php echo strtoupper($nFeature['name']); ?></a></li>
                                         <?php
@@ -150,7 +154,10 @@
                                 <div class="col-md-6">
                                      <div class="text">
                                         <ul style="list-style-type:none; line-height: 30px;">
-                                            <?php echo implode('',$features->getEntireFeaturesSection($section)); ?>
+                                            <?php echo Util::redisFetchOrUpdate('home_features_section_' . $section,function() use($features,$section){
+                                                return implode('',$features->getEntireFeaturesSection($section)); 
+                                            },false);
+                                            ?>
                                         </ul>
                                     </div>
                                 </div>
@@ -340,16 +347,12 @@
                 if(localStorage.getItem('#banner-special') != 'shown'){
                     $("#banner-special").slideDown();
                 }
-
                 $("#banner-special-close").click(function(e) {
                     e.preventDefault();
-
                     if(localStorage.getItem('#banner-special') != 'shown'){
                         $("#banner-special").slideUp();
                         localStorage.setItem('#banner-special','shown')
                     }
-
-                    
                 });
             });
         </script>

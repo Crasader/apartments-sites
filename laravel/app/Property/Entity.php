@@ -80,7 +80,14 @@ class Entity extends Model
     public function getTemplateName() : string{
         $id = $this->fk_template_id;
         return self::textCache('template_name',function() use($id) {
-            return Template::select('name')->where('id',$id)->get()->toArray()[0]['name'];
+            if(Util::redisIsNew('template_name')){
+                $name = Template::select('name')->where('id',$id)->get()->toArray()[0]['name'];
+                Util::redisUpdate('template_name',$name);
+                return $name;
+            }
+            if($tname = Util::redisGet('template_name')){
+                return $tname;
+            }
         });
     }
 
@@ -162,23 +169,29 @@ class Entity extends Model
     }
 
     public function getSocialMedia(string $type){
-        $temp = PropertyTemplate::select('facebook_url')
-            ->where('property_id',$this->_legacyProperty->id)
-            ->get()->toArray();
-        $data = $temp[0]['facebook_url'];
-        if(strlen($data) == 0){
-            \Debugbar::info("Foobar");
-            return null;
-        }
-        if(preg_match("|<\-multi\->|",$data)){
-            $foo = preg_replace("|<\-multi\->|","",$data);
+        $foo = $this;
+        $fbUri = self::textCache('facebook_uri',function() use($foo,$type){
+            $temp = PropertyTemplate::select('facebook_url')
+                ->where('property_id',$foo->_legacyProperty->id)
+                ->get()->toArray();
+            if(count($temp) == 0){
+                return null;
+            }
+            $data = $temp[0]['facebook_url'];
+            if(strlen($data) == 0){
+                \Debugbar::info("Foobar");
+                return null;
+            }
+            return $data;
+        });
+        if(preg_match("|<\-multi\->|",$fbUri)){
+            $foo = preg_replace("|<\-multi\->|","",$fbUri);
             $parts = explode("\n",$foo);
             for($i=0;$i < count($parts);$i++){
                 if(strpos($parts[$i],"~") === false){ continue; }
                 list($var,$value) = explode("~",$parts[$i]);
                 $$var = $value;
             }
-
         }
         switch($type){
             case 'fb';
@@ -348,7 +361,13 @@ class Entity extends Model
         }else{
             $q = "'";
         }
-        if(ENV('SHOW_DECORATE')){
+        if(isset($_GET['tags']) && $_GET['tags'] == '1'){
+            session(['edit_tags' => '1']);
+        }
+        if(isset($_GET['tags']) && $_GET['tags'] == '0'){
+            session(['edit_tags' => '0']);
+        }
+        if(session('edit_tags') == '1'){
             if($text === null){ return "<b style={$q}color:green{$q} onclick='edit_tag(\"$name\");'>{!}Empty value: $name{!}</b>"; }
             if(in_array($name,$this->_decorateIgnoreText)){ 
                 if(strlen($text) == 0){
@@ -364,25 +383,53 @@ class Entity extends Model
 
     public function getText(string $name,array $opts = []){
         $foo = $this;
-        return self::textCache('str_key_' . $name,function() use($foo,$name,$opts) {
+        self::$_objectInstance = $this;
+        if(!Util::redisIsNew('textcache_str_key_' . $name)){
+            \Debugbar::info("Returning cached: textcache_str_key_{$name}");
+            return $this->decorateGetText($name,Util::redisGet('textcache_str_key_' . $name),$opts);
+        }
+        $returnValue = self::textCache('str_key_' . $name,function() use($foo,$name,$opts) {
             $translatables = [
                 'apartment-title' => $foo->getLegacyProperty()->name,
                 'home-about' => $foo->getLegacyProperty()->description,
-                'join-community-description' => PropertyTemplate::select('community_description')
+                'join-community-description' => self::textCache('community_description',function() use($foo){
+                    return PropertyTemplate::select('community_description')
                     ->where('property_id',$this->fk_legacy_property_id)
                     ->get()
-                    ->toArray()[0]['community_description'],
+                    ->toArray()[0]['community_description'];
+                 }),
                  'slogan' => 'More than just a place to sleep',     //TODO: dont hard code this
             ];
             if(in_array($name,array_keys($translatables))){
                 return $translatables[$name];
             }
+            $text = null;
             $textTypes = TextType::select(['id'])->where('str_key',$name)->pluck('id')->toArray();
             if(count($textTypes)){
                 $a = PropertyText::select('string_value')->where('property_text_type_id',$textTypes[0])->get()->pluck('string_value')->toArray();
-                return $this->decorateGetText($name,array_pop($a),$opts);
+                $text = array_pop($a);
             }
+            if(strlen($text) == 0 && isset($opts['oneshot'])){
+                $prop = new PropertyText();
+                $prop->string_value = $opts['oneshot'];
+                if(empty($textTypes)){
+                    $textType = new TextType();
+                    $textType->str_key = $name;
+                    $textType->save();
+                    $textTypeId = $textType->id;
+                }else{
+                    $textTypeId = $textTypes[0];
+                }
+                $prop->property_text_type_id = $textTypeId;
+                $prop->entity_id = $foo->id;
+                $prop->save();
+
+            }
+            return $this->decorateGetText($name,$text,$opts);
         });
+        \Debugbar::info("Updating textcahce: $name");
+        Util::redisUpdate('textcache_str_key_' . $name,$returnValue);
+        return $this->decorateGetText($name,$returnValue,$opts);
     }
 
     public function getFullAddress() : string {

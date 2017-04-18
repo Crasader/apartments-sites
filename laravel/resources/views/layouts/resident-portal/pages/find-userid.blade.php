@@ -1,131 +1,22 @@
-<?php
-/*
-<%
-
-dim EmailAddress
-dim UnitNumber
-
-Dim strRequestVerify, strResultVerify
-
-EmailAddress = request("Email")
-UnitNumber = request("UnitNumber")
-
-
-    if len(Request.Form("Email"))>0 Then
-    'Response.Write "<br>START<hr>"
-
-    Set oXmlHTTP = CreateObject("Msxml2.ServerXMLHTTP")
-    oXmlHTTP.Open "POST", "https://amcrentpay.com/ws/mapts.asmx", False 
-
-   
-
-    oXmlHTTP.setRequestHeader "Content-Type", "text/xml; charset=utf-8" 
-    oXmlHTTP.setRequestHeader "SOAPAction", "http://www.AMCRentPay.com/MAPTS_ws/validEmail"
-
-	strRequestVerify ="<?xml version=""1.0"" encoding=""utf-8""?>" _
-	& "<soap:Envelope xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:soap=""http://schemas.xmlsoap.org/soap/envelope/"">" _
-	& "  <soap:Body>" _
-	& "    <validEmail xmlns=""http://www.AMCRentPay.com/MAPTS_ws/"">" _
-	& "      <PropertyCode>638ROF</PropertyCode>" _
-	& "      <sEmail>" & EmailAddress & "</sEmail>" _
-	& "      <sysPassword>g3tm3s0m3pr0ps</sysPassword>" _
-	& "    </validEmail>" _
-	& "  </soap:Body>" _
-	& "</soap:Envelope>" 
-
-
-    oXmlHTTP.setOption 2, 13056
-    oXmlHTTP.send strRequestVerify    
-
-        'Response.Write oXmlHTTP.responseText
-
-    strResultVerify=oXmlHTTP.responseText
-
-
-    'get rid of double quote
-    strResultVerify=Replace(strResultVerify, """","")
-
-    'get rid of xml on the front
-    strResultVerify=Replace(strResultVerify,"<?xml version=1.0 encoding=utf-8?><soap:Envelope xmlns:soap=http://schemas.xmlsoap.org/soap/envelope/ xmlns:xsi=http://www.w3.org/2001/XMLSchema-instance xmlns:xsd=http://www.w3.org/2001/XMLSchema><soap:Body><validEmailResponse xmlns=http://www.AMCRentPay.com/MAPTS_ws/><validEmailResult>","")
-
-    'get rid of xml on the back
-    strResultVerify=Replace(strResultVerify, "</validEmailResult></validEmailResponse></soap:Body></soap:Envelope>","")
-
-
-    'test/view response.
-	'Response.Write strResultVerify
-	'Response.Write EmailAddress
-	
-	end if
-
-	if strResultVerify = "FALSE" Then
-    	message = "Email Address was not found"
-
-	else 
-
-    	Dim strRequest, strResult
-
-	    Set oXmlHTTP2 = CreateObject("Msxml2.ServerXMLHTTP")
-	    oXmlHTTP2.Open "POST", "https://amcrentpay.com/ws/mapts.asmx", False 
-
-    	oXmlHTTP2.setRequestHeader "Content-Type", "text/xml; charset=utf-8" 
-	    oXmlHTTP2.setRequestHeader "SOAPAction", "http://www.AMCRentPay.com/MAPTS_ws/FindUserID"
-
-
-		strRequest ="<?xml version=""1.0"" encoding=""utf-8""?>" _
-		& "<soap:Envelope xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:soap=""http://schemas.xmlsoap.org/soap/envelope/"">" _
-		& "  <soap:Body>" _
-		& "    <FindUserID xmlns=""http://www.AMCRentPay.com/MAPTS_ws/"">" _
-		& "      <PropertyCode>638ROF</PropertyCode>" _
-		& "      <EmailAddress>" & EmailAddress & "</EmailAddress>" _
-		& "      <UnitNumber>1" & UnitNumber & "</UnitNumber>" _
-		& "      <sysPassword>g3tm3s0m3pr0ps</sysPassword>" _
-		& "    </FindUserID>" _
-		& "  </soap:Body>" _
-		& "</soap:Envelope>" 
-
-		oXmlHTTP2.setOption 2, 13056
-	    oXmlHTTP2.send strRequest    
-
-	    strResult=oXmlHTTP2.responseText
-
-	    'get rid of double quote
-	    strResult=Replace(strResult, """","")
-
-	    'get rid of xml on the front
-	    strResult=Replace(strResult,"<?xml version=1.0 encoding=utf-8?><soap:Envelope xmlns:soap=http://schemas.xmlsoap.org/soap/envelope/ xmlns:xsi=http://www.w3.org/2001/XMLSchema-instance xmlns:xsd=http://www.w3.org/2001/XMLSchema><soap:Body><FindUserIDResponse xmlns=http://www.AMCRentPay.com/MAPTS_ws/><FindUserIDResult>","")
-
-	    'get rid of xml on the back
-	    strResult=Replace(strResult, "</FindUserIDResult></FindUserIDResponse></soap:Body></soap:Envelope>","")
-
-	    'test/view response.
-		'Response.Write strResult
-		'response.end
-	    
-    
-	end if 
-
-
-%>*/
-?>
         @extends($extends)
-        @section('page-title-span','Find Your User ID')
+        @section('page-title-row')
+		<div class="row">
+			 <div class="col-md-8"> <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Resident Portal</h1> <div class="hs-line-4 font-alt"> With convenient 24/7 access, the resident portal makes it easy for you to request maintenance service and pay your rent online. Login to get started! </div> </div>                         <div class="col-md-4 mt-30">
+				<div class="mod-breadcrumbs font-alt align-right">
+					<a href="#">Home</a>&nbsp;/&nbsp;<span>RESIDENT / FIND USER ID</span></div>
+			</div>
+		</div>
+        @stop
+        @section('home-title','')
         @section('content')
 		<!-- Content -->
 		<section class="content">
 			<!-- Content Blocks -->
 			<div class="container">
-				<div class="row">
-					<div class="col-md-12">
-						<div class="page-title">
-							<h1>Find User ID</h1>
-							<div class="divder-teal"></div>
-						</div>
-					</div>
-				</div>				
+                <br><br>
 				<?php if(isset($userIdFound)): ?>
 				<div class="row">
-					<div class="col-md-6">
+                    <div class="col-md-6 col-sm-6 col-md-offset-3 mb-sm-50 mb-xs-30">
 						<p>An email has been sent to the email address you registered with at move-in. </p>
 						<br>
 						<a href="/resident_portal/"></span> Resident Portal</a>
@@ -136,9 +27,9 @@ UnitNumber = request("UnitNumber")
 				</div>
                 <?php else: ?>
 				<div class="row">	
-					<div class="col-md-6">
+                    <div class="col-md-6 col-sm-6 col-md-offset-3 mb-sm-50 mb-xs-30">
 						<p>Please enter your email address you registered with at move-in. </p>
-						<div class="schedule-a-tour-form form-container">
+						<div class="section-text schedule-a-tour-form form-container">
 							<form role="form" id="form1" name="form1" method="post" class="validate" action="/resident-portal/find-userid">
 								<p><span class="colored-text"><b><?php if(isset($userIdNotFound)): ?>Email Address was not found<?php endif;?></b></span></p>
 								<div class="form-group">

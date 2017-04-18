@@ -25,7 +25,7 @@ ul.top-nav-right li a i {margin: 0px 5px;}
 .main-slider img {width: 100%;}
 .slide-title {position: absolute; top: 160px; color: #fff; width: 400px;}
 .slide-title h1 {font-family: 'ProximaNova-Bold', sans-serif; font-size: 40px;}
-.slide-title h2 {font-size: 20px; margin-bottom: 20px;} 
+.slide-title h2 {font-size: 20px; margin-bottom: 20px;}
 .slippry {list-style-type: none; margin: 0px; padding: 0px;}
 .slippry li {margin: 0px; padding: 0px;}
 .sy-slide {min-height: 0px;}
@@ -150,12 +150,12 @@ text-align: center;}
   .slide-title h2 {font-size: 16px;}
 	.unit-table-btn {width: 100%; float: none; display: block; text-align: center; margin-top: 20px;}
 	.unit-table-row span {display: inline-block!important;margin-right: 5px;margin-bottom: 10px;}
-    
+
     .btn-mod.btn-large {font-size: 14px!important; font-weight: 700!important; text-shadow: none;}
 
 }
 
-/* Extra Small Devices, Phones */ 
+/* Extra Small Devices, Phones */
 @media only screen and (max-width : 480px) {
 
 	.unit-table-btn {width: 100%; float: none; display: block; text-align: center;  margin-top: 20px;}
@@ -163,7 +163,16 @@ text-align: center;}
 
 }
 
-/* Custom, iPhone Retina */ 
+/* Custom, iPhone Retina */
 @media only screen and (max-width : 320px) {
-    
+
 }
+
+
+.exitpop-inner { display: block; margin: 0 auto; position: relative; text-align: center; background:url('../img/epop-bg2.jpg') top center; background-size:cover;}
+.exitpop-inner .epop-title {background:#85cebc; color:#fff; padding:15px; font-size:40px;}
+.exitpop-inner .epop-message {color:#f48466;}
+.exitpop-inner .epop-message h1 {font-size:80px; margin:80px 0px 0px 0px; padding:0px; line-height: 30px; font-weight:800; letter-spacing:-1px; text-transform:uppercase;}
+.exitpop-inner .epop-message h3 {font-size:30px; letter-spacing:-1px; text-transform:uppercase;}
+.exitpop-inner .epop-button {padding:30px;}
+.exitpop-inner .epop-button .btn {padding:15px; font-size:40px; font-weight:bold;}

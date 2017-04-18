@@ -38,8 +38,8 @@
 									<input class="hiddenRecaptcha required" name="hiddenRecaptcha" id="hiddenRecaptcha" aria-required="true" type="hidden">
                                     <?php endif; ?>
                                     <p>
-                                        <a href="/resident-portal/reset-password">Forgot your password?</a><br>
-                                        <a href="/resident-portal/find-userid">Need User Id?</a>
+                                        <a class='section-text-nullify resident-links' href="/resident-portal/reset-password">Forgot your password?</a><br>
+                                        <a class='section-text-nullify resident-links' href="/resident-portal/find-userid">Need User Id?</a>
                                     </p>
                                     <div class="mb-20 mb-md-10">
                                         <button type="submit" class="btn btn-mod btn-brown btn-large btn-round">Login</button>

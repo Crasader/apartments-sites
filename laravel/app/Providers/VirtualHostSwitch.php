@@ -7,6 +7,7 @@ use App\Property\Entity as PropertyEntity;
 use App\Legacy\Property as LegacyProperty;
 use App\Property\Site as Site;
 use App\Util\Util;
+use Redis;
 
 class VirtualHostSwitch extends ServiceProvider
 {
@@ -25,7 +26,12 @@ class VirtualHostSwitch extends ServiceProvider
             if(Site::$instance){
                 return Site::$instance;
             }
-            $entity = PropertyEntity::where('fk_legacy_property_id',$tempThis->_resolveSiteId())->get()->first();
+            if(!Util::redisIsNew('entity')){
+                $entity = Util::redisDecode(Util::redisGet('entity'));
+            }else{
+                $entity = PropertyEntity::where('fk_legacy_property_id',$tempThis->_resolveSiteId())->get()->first();   
+                Util::redisUpdate('entity',Util::redisEncode($entity,false));
+            }
             if($entity === null){
 				$prop = new PropertyEntity;
 				$legacy = LegacyProperty::where('url','like','%' . $_SERVER['SERVER_NAME'] . '%')->get()->first();
@@ -54,14 +60,24 @@ class VirtualHostSwitch extends ServiceProvider
 
     private function _resolveSiteId(){
         if(!Util::isFpm()){ return 0; }
-        if(preg_match('|^www\.|',$_SERVER['SERVER_NAME'])){
+        \Debugbar::info("Redis site id: " . var_export(Redis::get($_SERVER['SERVER_NAME']),1));
+        if(!empty(Redis::get($_SERVER['SERVER_NAME']))){
+            Site::$site_id_set = true;
+            Site::$site_id = Redis::get($_SERVER['SERVER_NAME']);
+            \Debugbar::info("Site id is cached");
+            return Site::$site_id;
+        }
+        if(preg_match('|^www\.|',$_SERVER['SERVER_NAME'])){ 
             $site = LegacyProperty::where('url','like','http://' . $_SERVER['SERVER_NAME'] . '%')->get();
         }else{
             $site = LegacyProperty::where('url','like','http://www.' . $_SERVER['SERVER_NAME'] . '%')->get();
         }
         if(count($site)){
             Site::$site_id_set = true;
-            return Site::$site_id = $site->first()->id;
+            \Debugbar::info($_SERVER['SERVER_NAME']);
+            Site::$site_id = $site->first()->id;
+            Redis::set($_SERVER['SERVER_NAME'],(string)Site::$site_id);
+            return Site::$site_id;
         }
     }
 

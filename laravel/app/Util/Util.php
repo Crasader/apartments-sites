@@ -1,15 +1,91 @@
 <?php
 
 namespace App\Util;
+use Redis;
 
 class Util 
 {
     public static function isFpm(){
         return strcmp(php_sapi_name(),env('FPM_NAME')) == 0;
     }
+    public static function redisIsNew(string $section){
+        if(empty($time = Redis::get(self::redisKey($section) . "_updated"))){
+            return true;
+        }
+        $bool =  $time > Redis::get(self::redisKey($section) . "_created");
+        return $bool;
+    }
+
+    public static function redisUpdate(string $foo,$bar){
+        self::redisSetCreated($foo,time());
+        self::redisSetUpdated($foo,time());
+        self::redisSet($foo,$bar);
+    }
+
+    public static function redisSet(string $foo,$bar){
+        if(is_array($bar)){
+            Redis:;set(self::redisKey($foo) . ':array:','1');
+            Redis::set(self::redisKey($foo),self::redisEncode($bar));
+            return;
+        }
+        Redis::set(self::redisKey($foo),$bar);
+    }
+
+    public static function redisFetchOrUpdate(string $key,$callable,$arrayType=false){
+        if(!self::redisIsNew($key)){
+            if($arrayType){
+                return self::redisDecode(self::redisGet($key));
+            }else{
+                return self::redisGet($key);
+            }
+        }else{
+            $foo = $callable();
+            self::redisUpdate($key,is_array($foo) ? self::redisEncode($foo) : $foo);
+            return $foo;
+        }
+    }
+
+    public static function redisGet(string $foo){
+        if(Redis::get(self::redisKey($foo) . ':array:') == '1'){
+            return self::redisDecode(Redis::get(self::redisKey($foo)));
+        }
+        return Redis::get(self::redisKey($foo));
+    }
+
+    public static function redisSetCreated(string $foo,$time){
+        Redis::set(self::redisKey($foo) . "_created",$time);
+    }
+
+    public static function redisSetUpdated(string $section){
+        Redis::set(self::redisKey($section) . "_updated",time());
+    }
+
+    public static function redisKey(string $foo){
+        return $_SERVER['SERVER_NAME'] . ":$foo";
+    }
+
+    public static function redisEncode($object){
+        return json_encode($object);
+    }
+
+    public static function redisDecode($str,$opts=true){
+        return json_decode($str,$opts);
+    }
+
+    public static function redisGlobalKey(string $key){
+        return "global_$key";
+    }
 
     public static function isDev(){
         return strcmp(ENV('DEV'),'1') == 0;
+    }
+
+    public static function transformFloorplanName(string $name){
+        return preg_replace("|[^a-z]+|","",strtolower($name));
+    }
+
+    public static function isResidentPortal(){
+        return preg_match("|^/resident\-portal/,*|",$_SERVER['REQUEST_URI']);
     }
 
     public static function depluralize(string $s){

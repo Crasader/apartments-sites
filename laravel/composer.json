@@ -11,7 +11,8 @@
         "graham-campbell/htmlmin": "^4.5",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
-        "phpmailer/phpmailer": "^5.2"
+        "phpmailer/phpmailer": "^5.2",
+        "predis/predis": "^1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

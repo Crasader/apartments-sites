@@ -43,7 +43,7 @@ foreach($foo as $index => $object){
                             <ul class="top-nav-right">
                                 <li class="hidden-sm hidden-xs"><a href="/floorplans"><i class="fa fa-search"></i> Apartment Search</a></li>
                                 <li class="hidden-sm hidden-xs"><a href="/resident-portal"><i class="fa fa-user"></i> Residents</a></li>
-                                <li><a href="/floorplans" class="brown"><b>Apply Now <i class="fa fa-angle-right"></i></b></a></li>
+                                <li><a href="/apply-online" class="brown"><b>Apply Now <i class="fa fa-angle-right"></i></b></a></li>
                             </ul>
                         </div>
                     </div>
