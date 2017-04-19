@@ -13,11 +13,13 @@ class PropertyTextType extends Migration
      */
     public function up()
     {
+	if(!Schema::hasTable('property_text_type')){
         Schema::create('property_text_type', function (Blueprint $table) {
             $table->increments('id');
             $table->string('str_key');
             $table->timestamps();
         });
+	}
     }
 
     /**

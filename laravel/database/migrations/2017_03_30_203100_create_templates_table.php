@@ -13,6 +13,7 @@ class CreateTemplatesTable extends Migration
      */
     public function up()
     {
+	if(!Schema::hasTable('templates')){
         Schema::create('templates', function (Blueprint $table) {
             $table->increments('id');
             $table->string('filesystem_id',256);
@@ -20,6 +21,7 @@ class CreateTemplatesTable extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
+	}
     }
 
     /**

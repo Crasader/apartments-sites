@@ -13,6 +13,7 @@ class CreatePropertyGroup extends Migration
      */
     public function up()
     {
+	if(!Schema::hasTable('property_group')){
         Schema::create('property_group', function (Blueprint $table) {
             $table->increments('id');
             $table->string('str_identifier',16);
@@ -21,6 +22,7 @@ class CreatePropertyGroup extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+	}
     }
 
     /**

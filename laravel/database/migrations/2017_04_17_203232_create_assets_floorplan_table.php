@@ -13,6 +13,7 @@ class CreateAssetsFloorplanTable extends Migration
      */
     public function up()
     {
+	if(!Schema::hasTable('assets_floorplan')){
         Schema::create('assets_floorplan', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('fk_legacy_property_id');
@@ -20,6 +21,7 @@ class CreateAssetsFloorplanTable extends Migration
             $table->enum('extension',['jpg','png','gif','jpeg']);
             $table->timestamps();
         });
+	}
     }
 
     /**

@@ -14,9 +14,11 @@ class AddShortDescriptionToNeighborhood extends Migration
     public function up()
     {
         //
+	if(!Schema::hasColumn('property_neighborhood','short_description')){
         Schema::table('property_neighborhood',function(Blueprint $table){
             $table->string('short_description');
         });
+	}
     }
 
     /**
