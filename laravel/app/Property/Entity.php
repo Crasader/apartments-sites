@@ -45,6 +45,8 @@ class Entity extends Model
                 $t->name= 'dinapoli';
                 $t->save();
                 $this->fk_template_id = $t->id;
+            }else{
+                $this->fk_template_id = $this->fk_template_id[0]->id;
             }
         }
         self::save();

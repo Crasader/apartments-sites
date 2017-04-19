@@ -38,7 +38,9 @@ class VirtualHostSwitch extends ServiceProvider
             if($entity === null){
 				$prop = new PropertyEntity;
 				$legacy = LegacyProperty::where('url','like','%' . $_SERVER['SERVER_NAME'] . '%')->get()->first();
-
+                if($legacy === null){
+				    $legacy = LegacyProperty::where('devurl','like','%' . $_SERVER['SERVER_NAME'] . '%')->get()->first();
+                }
 				$cbCounter = 5;
 				$fileSystemId = $prop->generateFilesystemId($legacy,function() use($cbCounter) {
 					if($cbCounter-- <= 0){
