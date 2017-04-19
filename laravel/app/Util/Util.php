@@ -14,6 +14,11 @@ class Util
     public static function isPage(string $p){
         return preg_match("|^/$p|",$_SERVER["REQUEST_URI"]);
     }
+
+    public static function isJson(string $s){
+        json_decode($s);
+        return (json_last_error() == JSON_ERROR_NONE);
+    }
     public static function redisIsNew(string $section){
         if(empty($time = Redis::get(self::redisKey($section) . "_updated"))){
             return true;
@@ -21,9 +26,14 @@ class Util
         $bool =  $time > Redis::get(self::redisKey($section) . "_created");
         return $bool;
     }
+    public static function redisRefresh(){
+        foreach(Redis::keys(self::redisKey("*")) as $i => $key){
+            Redis::del($key);
+        }
+    }
 
     public static function redisUpdate(string $foo,$bar){
-        self::redisSetCreated($foo,time());
+        self::redisSetCreated($foo,time() - 10);
         self::redisSetUpdated($foo,time());
         self::redisSet($foo,$bar);
     }
@@ -51,11 +61,18 @@ class Util
         }
     }
 
-    public static function redisGet(string $foo){
-        if(Redis::get(self::redisKey($foo) . ':array:') == '1'){
-            return self::redisDecode(Redis::get(self::redisKey($foo)));
+    public static function redisGet(string $foo,$decorate = true){
+        \Debugbar::info("REDIS_GET: $foo");
+        if(Redis::get(self::redisKey($foo,$decorate) . ':array:') == '1'){
+            return self::redisDecode(Redis::get(self::redisKey($foo,$decorate)));
         }
-        return Redis::get(self::redisKey($foo));
+        return Redis::get(self::redisKey($foo,$decorate));
+    }
+
+    public static function redisDeleteRawKey(string $key){
+        Redis::del($key);
+        Redis::del($key . "_updated");
+        Redis::del($key . "_created");
     }
 
     public static function redisSetCreated(string $foo,$time){
@@ -66,16 +83,20 @@ class Util
         Redis::set(self::redisKey($section) . "_updated",time());
     }
 
-    public static function redisKey(string $foo){
+    public static function redisKey(string $foo,$decorate=true){
         if(Site::$instance === null){
             $site = app()->make("App\Property\Site");
         }else{
             $site = Site::$instance;
         }
-        if($site->redis_alias !== null){
-            return Site::$instance->redis_alias . ':' . $foo;
+        if($decorate){
+            if($site->redis_alias !== null){
+                return Site::$instance->redis_alias . ':' . $foo;
+            }
+            return $_SERVER['SERVER_NAME'] . ":$foo";
+        }else{
+            return $foo;
         }
-        return $_SERVER['SERVER_NAME'] . ":$foo";
     }
 
     public static function redisEncode($object){

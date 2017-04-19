@@ -13,6 +13,6 @@ class VerifyCsrfToken extends BaseVerifier
      */
     protected $except = [
         //
-        'text-tag','text-tag-get','unit',
+        'text-tag','text-tag-get','unit','redis'
     ];
 }
