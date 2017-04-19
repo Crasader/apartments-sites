@@ -28,10 +28,11 @@
                                     <?php //TODO: create migration to add 'alt' 'description' 'title' fields to property_photo ?>
                                     <img src="<?php echo $imageData['image'] ?? "";?>" alt="<?php echo $imageData['alt'] ?? "Work" ;?>" />
                                 </div>
+                                <?php \Debugbar::info($imageData);?>
                                 <div class="work-intro">
-                                    <h3 class="work-title"><?php echo $imageData['title'] ?? $imageData['_itemName_'];?></h3>
+                                    <h3 class="work-title"><?php echo $imageData['_itemName_'] == "main" ? "Apartment" : "Community";?></h3>
                                     <div class="work-descr">
-                                        <?php echo $imageData['desc'] ?? "Lorem ipsum dolor sit amet";?>
+                                        <?php echo $imageData['name'] ?? "Lorem ipsum dolor sit amet";?>
                                     </div>
                                 </div>
                             </a>

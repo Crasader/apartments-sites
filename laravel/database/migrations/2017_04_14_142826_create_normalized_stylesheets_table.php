@@ -19,7 +19,6 @@ class CreateNormalizedStylesheetsTable extends Migration
                 $table->integer('fk_property_id');
                 $table->string('uri',1024);
                 $table->enum('uri_type',['js','css','img']);
-                $table->foreign('fk_property_id')->references('id')->on('property');
                 $table->timestamps();
             });
         }

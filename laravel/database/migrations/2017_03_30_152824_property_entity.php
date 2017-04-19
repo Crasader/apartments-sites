@@ -20,10 +20,6 @@ class PropertyEntity extends Migration
             $table->string('property_name',16);
             $table->string('filesystem_id');
             $table->timestamps();
-            $table->foreign('property_group_id')->references('id')
-                ->on('property_group')
-                ->onDelete('cascade')
-                ;
         });
 	}
     }

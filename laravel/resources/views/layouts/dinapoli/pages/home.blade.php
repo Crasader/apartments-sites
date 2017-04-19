@@ -1,5 +1,7 @@
 <?php
     use App\Util\Util;
+    use App\Property\Template as PropertyTemplate;
+    use App\Property\Site;
     $specials = app()->make('App\Property\Specials');
     $spec = $specials->fetchAllSpecials();
     
@@ -253,7 +255,16 @@
                     <div class="map-block">
                         <div class="map">
                             <div class="map-container">
-                                <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+                                <script type="text/javascript" src="<?php echo Util::redisFetchOrUpdate('google-maps-src-api',function() {
+                                    $url = PropertyTemplate::select('map_frame_src')->where('property_id',Site::$instance->getEntity()->fk_legacy_property_id)->get();
+                                    if(count($url)){
+                                        if(strlen($url[0]['map_frame_src'])){
+                                            return $url[0]['map_frame_src'];
+                                        }
+                                    }
+                                    return "https://maps.googleapis.com/maps/api/js?key=AIzaSyBKPvpp1b3YxfaEfOZQ6ySdzcpkDSfwqs8";
+                                    });
+                                ?>"></script>
                                 <div style="overflow:hidden;height:537px;max-width:100%;">
                                     <div id="map-canvas" style="max-width:100%;"></div>
                                 <div>
@@ -337,9 +348,6 @@
             @stop
             
         @section('google-map-js')
-        <!-- Replace test API Key "AIzaSyAZsDkJFLS0b59q7cmW0EprwfcfUA8d9dg" with your own one below 
-        **** You can get API Key here - https://developers.google.com/maps/documentation/javascript/get-api-key -->
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKPvpp1b3YxfaEfOZQ6ySdzcpkDSfwqs8"></script>
         @stop
         @section('page-specific-js')
         <script type="text/javascript">

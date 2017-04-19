@@ -19,9 +19,6 @@ class AddTemplateIdToPropertyEntity extends Migration
                 return;
             }
             $table->integer('fk_template_id');
-            $table->foreign('fk_template_id')
-                ->references('id')
-                ->on('templates');
         });
     }
 

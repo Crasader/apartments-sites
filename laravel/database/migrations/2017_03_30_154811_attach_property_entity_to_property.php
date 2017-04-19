@@ -19,9 +19,6 @@ class AttachPropertyEntityToProperty extends Migration
                 return;
             }
             $table->integer('fk_legacy_property_id');
-            $table->foreign('fk_legacy_property_id')
-                ->references('id')->on('property')
-                ->onDelete('cascade');
         });
     }
 

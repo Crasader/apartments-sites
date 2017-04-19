@@ -38,7 +38,14 @@ class Entity extends Model
         if(isset($attributes['fk_template_id'])){
             $this->fk_template_id = $attributes['fk_template_id'];
         }else{
-            $this->fk_template_id = \DB::connection('mysql')->select('select * from templates where name="dinapoli"')[0]->id;
+            $this->fk_template_id = \DB::connection('mysql')->select('select * from templates where name="dinapoli"');
+            if(count($this->fk_template_id) == 0){
+                $t = new Template();
+                $t->filesystem_id = 'dinapoli';
+                $t->name= 'dinapoli';
+                $t->save();
+                $this->fk_template_id = $t->id;
+            }
         }
         self::save();
         $this->loadLegacyProperty();
@@ -406,14 +413,14 @@ class Entity extends Model
             session(['edit_tags' => '0']);
         }
         if(session('edit_tags') == '1'){
-            if($text === null){ return "<b style={$q}color:green{$q} onclick='edit_tag(\"$name\");'>{!}Empty value: $name{!}</b>"; }
+            if($text === null){ return "<b style={$q}color:green{$q} class={$q}edit-tag{$q} onclick='edit_tag(\"$name\");'>{!}</b>"; }
             if(in_array($name,$this->_decorateIgnoreText)){ 
                 if(strlen($text) == 0){
-                    return "<b style={$q}color:green{$q} onclick='edit_tag(\"$name\")'>{!} Missing value: {$q}$name{$q}</b>";
+                    return "<b style={$q}color:green{$q} class={$q}edit-tag{$q} onclick='edit_tag(\"$name\")'>{!}</b>";
                 }
-                return $text . "<b style={$q}color:red{$q} onclick='edit_tag(\"$name\")'>{![$name]}</b>"; 
+                return $text . "<b style={$q}color:red{$q} class={$q}edit-tag{$q} onclick='edit_tag(\"$name\")'>{!}</b>"; 
             }
-            return $text . "<b style={$q}color:red;{$q} onclick='edit_tag(\"$name\")'>{![$name]}</b>";
+            return $text . "<b style={$q}color:red;{$q} class={$q}edit-tag{$q} onclick='edit_tag(\"$name\")'>{!}</b>";
         }else{
             return $text;
         }

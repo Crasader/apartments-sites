@@ -179,7 +179,6 @@ use App\Util\Util;
         <!-- JS -->
         @yield('google-maps-js')
         <script type="text/javascript" src="/js/build/marketapts.min.js"></script>
-		<?php //TODO: integrate this bootstrap js into marketapts.min.js ?>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <!--[if lt IE 10]><script type="text/javascript" src="js/placeholder.js"></script><![endif]-->
 		@yield('page-specific-js')
