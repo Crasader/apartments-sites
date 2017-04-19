@@ -36,7 +36,7 @@ class Entity extends Model
         if(isset($attributes['fk_template_id'])){
             $this->fk_template_id = $attributes['fk_template_id'];
         }else{
-            $this->fk_template_id = env('DEFAULT_TEMPLATE_ID');
+            $this->fk_template_id = \DB::connection('mysql')->select('select * from templates where name="dinapoli"')[0]->id;
         }
         self::save();
         $this->loadLegacyProperty();

@@ -2,6 +2,8 @@
 
 namespace App\Util;
 use Redis;
+use App\Property\Entity;
+use App\Property\Site;
 
 class Util 
 {
@@ -61,6 +63,14 @@ class Util
     }
 
     public static function redisKey(string $foo){
+        if(Site::$instance === null){
+            $site = app()->make("App\Property\Site");
+        }else{
+            $site = Site::$instance;
+        }
+        if($site->redis_alias !== null){
+            return Site::$instance->redis_alias . ':' . $foo;
+        }
         return $_SERVER['SERVER_NAME'] . ":$foo";
     }
 
