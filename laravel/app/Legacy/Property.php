@@ -4,9 +4,12 @@ namespace App\Legacy;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Legacy\State;
+use App\Util\Util;
+use App\Traits\LoadableByArray;
 
 class Property extends Model
 {
+    use LoadableByArray;
     //
     protected $fillable = [
  		'code',			//code               | varchar(50)      | NO   |     | NULL    |                |
@@ -36,6 +39,9 @@ class Property extends Model
     protected $table = 'property';
 
     public function getState(){
-        return State::select('name')->where('id',$this->state_id)->get()->pluck('name')->toArray()[0];
+        $foo = $this;
+        return Util::redisFetchOrUpdate('property_state',function() use($foo){
+            return State::select('name')->where('id',$foo->state_id)->get()->pluck('name')->toArray()[0];
+        });
     }
 }

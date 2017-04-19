@@ -11,7 +11,7 @@
             <br><br>
                 <?php if(isset($userIdFound)):?>
 				<div class="row">
-                    <div class="col-md-6 col-sm-6 col-md-offset-3 mb-sm-50 mb-xs-30">
+                    <div class="col-md-6 col-sm-6 col-md-offset-3 mb-sm-50 mb-xs-30 section-text">
 						<p>An email has been sent to the email address you registered with at move-in. </p>
 						<br>
 						<a href="/resident-portal/"></span> Resident Portal</a>
@@ -22,7 +22,7 @@
 				</div>
                 <?php else: ?>
 				<div class="row">
-					<div class="col-md-6 col-sm-6 col-md-offset-3 mb-sm-50 mb-xs-30">
+					<div class="col-md-6 col-sm-6 col-md-offset-3 mb-sm-50 mb-xs-30 section-text">
 						<p>Please enter your User ID and we will reset your account and email you a new password to the email address you registered with at move-in. </p>
 						<div class="mb-20 mb-md-10 schedule-a-tour-form form-container section-text">
 							<form role="form" id="form1" name="form1" method="post" class="validate" action="/resident-portal/reset-password">

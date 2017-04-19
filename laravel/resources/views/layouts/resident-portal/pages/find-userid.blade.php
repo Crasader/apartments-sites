@@ -1,6 +1,4 @@
-        @extends($extends)
-        @section('page-title-row')
-		<div class="row">
+        @extends($extends) @section('page-title-row') <div class="row">
 			 <div class="col-md-8"> <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Resident Portal</h1> <div class="hs-line-4 font-alt"> With convenient 24/7 access, the resident portal makes it easy for you to request maintenance service and pay your rent online. Login to get started! </div> </div>                         <div class="col-md-4 mt-30">
 				<div class="mod-breadcrumbs font-alt align-right">
 					<a href="#">Home</a>&nbsp;/&nbsp;<span>RESIDENT / FIND USER ID</span></div>
@@ -16,7 +14,7 @@
                 <br><br>
 				<?php if(isset($userIdFound)): ?>
 				<div class="row">
-                    <div class="col-md-6 col-sm-6 col-md-offset-3 mb-sm-50 mb-xs-30">
+                    <div class="col-md-6 col-sm-6 col-md-offset-3 mb-sm-50 mb-xs-30 section-text">
 						<p>An email has been sent to the email address you registered with at move-in. </p>
 						<br>
 						<a href="/resident_portal/"></span> Resident Portal</a>
@@ -27,7 +25,7 @@
 				</div>
                 <?php else: ?>
 				<div class="row">	
-                    <div class="col-md-6 col-sm-6 col-md-offset-3 mb-sm-50 mb-xs-30">
+                    <div class="col-md-6 col-sm-6 col-md-offset-3 mb-sm-50 mb-xs-30 section-text">
 						<p>Please enter your email address you registered with at move-in. </p>
 						<div class="section-text schedule-a-tour-form form-container">
 							<form role="form" id="form1" name="form1" method="post" class="validate" action="/resident-portal/find-userid">

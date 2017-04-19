@@ -1,7 +1,10 @@
+<?php
+use App\Util\Util;
+?>
 <!DOCTYPE html>
 <html lang="">
     <head>
-        <title><?php echo $entity->getLegacyProperty()->name;?> - Apartment Homes in <?php echo $entity->getCity() . ", " . $entity->getAbbreviatedState();?></title>
+        <title><?php echo $entity->getCity();?> <?php echo $entity->getAbbreviatedState();?> Apartments | Luxury Apartments For Rent | <?php echo $entity->getLegacyProperty()->name;?>></title>
 @section('meta')
         <meta name="description" content="<?php echo $entity->getMeta('description',$page);?>">
         <meta name="keywords" content="<?php echo $entity->getMeta('keywords',$page);?>">
@@ -77,7 +80,11 @@
 
             @section('title-section')
             <!-- Page Title Section -->
+            <?php if(Util::isPage('unit')): ?>
+            <section class="page-section bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('img');?>/bgunit.jpg">
+            <?php else: ?>
             <section class="page-section bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('img');?>/bg1.jpg">
+            <?php endif; ?>
                 <div class="relative container align-left">
                     <div class="row">
 						@yield('page-title-row')

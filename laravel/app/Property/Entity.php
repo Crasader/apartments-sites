@@ -16,11 +16,13 @@ use App\Template;
 use App\State;
 use App\Util\Util;
 use App\Property\Clientside\Assets as ClientsideAssets;
+use App\Traits\LoadableByArray;
 
 class Entity extends Model
 {
 
     use TextCache;
+    use LoadableByArray;
     protected $table = 'property_entity';
     protected $_legacyProperty = null;
 
@@ -101,27 +103,56 @@ class Entity extends Model
         $legacy = $this->getLegacyProperty();
         switch($type){
             case 'description':
-                return self::textCache('meta_description',function() use($foo,$legacy,$page){
+                return Util::redisFetchOrUpdate('meta_description_' . $page,function() use($foo,$legacy,$page){
                     if(strlen($legacy->unit_type) == 0){
                         $unitType = "";
                     }else{
                         $unitType = " " . Util::depluralize($legacy->unit_type) . " ";
                     }
-                    return $foo->getLegacyProperty()->name ." Apartments offers" . $unitType .
-                    "apartments in ".$legacy->city .", ". $foo->getAbbreviatedState() . "." . 
-                    " View floor plans and ".$legacy->city ." apartment information.";
-                });
+                    switch($page){
+                        case 'home': 
+                            return "Welcome home to " . $foo->getLegacyProperty()->name . " apartments in " . 
+                        $foo->getCity() . ", " . $foo->getState() . ". " . 
+                        "We are a unique garden styled community that offers you many of the luxuries to meet your needs. ";
+                        case 'gallery': 
+                            return 'Take an online virtual tour of our Photos for ' . $foo->getLegacyProperty()->name . ' apartments in ' . 
+                            $foo->getCity() . ' ' . $foo->getAbbreviatedState() . '. Newly renovated units and classic styles to choose from. Schedule your tour today.';
+                        case 'floorplans':
+                            return 'Choose from our newly renovated 2 & 3 bedroom apartments in ' . $foo->getCity() . ', ' . $foo->getAbbreviatedState() . '. ' . 
+                            'Luxury and comfort awaits you in our spacious floorplans. ';
+                        case 'neighborhood':
+                            return $foo->getLegacyProperty()->name . ' is a commuters dream and our residents can enjoy all the shopping, dining and entertainment, choices the ' . 
+                            $foo->getCity() . ' ' . $foo->getAbbreviatedState() . ' metro area has to offer.';
+                        case 'amenities':
+                            return $foo->getLegacyProperty()->name . ' offers luxury amenities and deluxe features designed for you. Pet-friendly, resort-style pool, spa, cabana, fitness center, private garages, and more . ';
+                        case 'contact':
+                            return 'Contact our professional team and learn more about what ' . $foo->getLegacyProperty()->name . ' apartments has to offer. Schedule a visit today. ';
+                        case 'schedule-a-tour':
+                            return 'Schedule a tour at ' . $foo->getLegacyProperty()->name . ' & reserve your new dream apartment.';
+                        case 'terms':
+                            return 'Terms of use for ' . $foo->getLegacyProperty()->name . ' apartment homes in ' . $foo->getCity() . ', ' . $foo->getAbbreviatedState(). '.';
+                        case 'resident-center':
+                            return $foo->getLegacyProperty()->name . ' apartments offers a Resident Portal for your convenience. Pay rent online, submit maintenance request or contact the property staff!';
+                    }
+                },false);
                 break;
             case 'keywords':
-                return self::textCache('meta_keywords',function() use($foo,$legacy,$page){
-                    $keywords = $legacy->city." Apartment Floor Plans, ".$legacy->city." ".$legacy->unit_type.
-                        " Apartment, ".$legacy->unit_type." ".$legacy->city.", ". $foo->getState() .
-                        " Apartment Floor Plans, ".$legacy->name." Apartments Floor Plans";
-                    if(strlen(PropertyTemplate::select('src_3dtour')->where('property_id',$legacy->id)
-                        ->get()->first()->toArray()['src_3dtour']) > 0){
-                        $keywords .= ", 3D Floor Plans";
+                return Util::redisFetchOrUpdate('meta_keywords_' . $page,function() use($foo,$legacy,$page){
+                    switch($page){
+                        case 'home':
+                            return $foo->getCity() . ' ' . $foo->getAbbreviatedState() . ' Apartments, Apartments in ' . 
+                            $foo->getCity() . ', ' . $foo->getCity()  . ' Apartments for Rent';
+                        case 'gallery':
+                            return $foo->getCity() . ' ' . $foo->getAbbreviatedState() . ' Apartment Photos, Gallery of Apartments in ' . $foo->getCity() . ', Virtual Tour';
+                        case 'floorplans':
+                            return $foo->getCity() .  ' Apartment Floor Plans, ' . $foo->getCity() . ' 2 & 3 Bedrooms Apartment, 2 & 3 Bedrooms ' . $foo->getCity() . ', ' . $foo->getState() . ' Apartment Floor Plans,' .
+                            ' ' . $foo->getLegacyProperty()->name . 'Apartments Floor Plans, 3D Floor Plans';
+                        case 'neighborhood':
+                            return $foo->getCity() . ' Apartments, Apartments ' . $foo->getCity() . ', ' . $foo->getLegacyProperty()->name . ', ' . $foo->getCity() . ' Rental Apartments, ' . 
+                            $foo->getCity() . ' Apts, Apartment Community ' . $foo->getCity() . ', ' . $foo->getCity() . ' Apartment Complex, Apts ' . $foo->getCity() . ' ' .  $foo->getAbbreviatedState();
+                        case 'amenities':
+                            return 'luxury amenities, deluxe features, all electric kitchen, cable ready, wood burning fireplaces, sparkling pool';
                     }
-                    return $keywords;
                 });
                 break;
             default: return null;
@@ -129,7 +160,10 @@ class Entity extends Model
     }
 
     public function getCustomStyleSheets($page){
-        return app()->make('App\Property\Clientside\Assets')->getStyleSheets(Site::$instance);
+        return Util::redisFetchOrUpdate('clientside_assets_' . $page, function(){ 
+            $foo =  app()->make('App\Property\Clientside\Assets')->getStyleSheets(Site::$instance); 
+            return $foo;
+            },true);
     }
 
     public function getGoogleAnalytics(){
@@ -227,14 +261,18 @@ class Entity extends Model
     }
 
     public function loadLegacyProperty(int $legacyPropertyId = -1){
-        if($legacyPropertyId > -1){
-            $this->_legacyProperty = LegacyProperty::findOrFail($legacyPropertyId);
-            return $this;
-        }
-        if($this->fk_legacy_property_id){
-            $this->_legacyProperty = LegacyProperty::findOrFail($this->fk_legacy_property_id);
-            return $this;
-        }
+
+        $foo = $this;
+        $data  = Util::redisFetchOrUpdate('legacy_property',function() use($legacyPropertyId,$foo) {
+            if($legacyPropertyId > -1){
+                return LegacyProperty::where(['id' => $legacyPropertyId])->get()->toArray()[0];
+            }
+            if($foo->fk_legacy_property_id){
+                return LegacyProperty::where(['id' => $foo->fk_legacy_property_id])->get()->toArray()[0];
+            }
+        },true);
+        $this->_legacyProperty = app()->make("App\Legacy\Property");
+        $this->_legacyProperty->loadByArray($data);
         return $this;
     }
 

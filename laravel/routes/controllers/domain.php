@@ -25,6 +25,11 @@ if($security->allowed()){
         return $prop->register(Group::findOrFail($groupId),LegacyProperty::findOrFail($legacyId));
     });
 }
+
+Route::get('/unit',function(){
+    header("Location: /floorplans");
+    die();
+});
 Route::get('/{page}','SiteController@resolve');
 Route::get('/','SiteController@resolve');
 Route::get('/resident-portal/{page}','SiteController@resolveResident');

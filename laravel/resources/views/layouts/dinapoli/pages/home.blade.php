@@ -114,7 +114,7 @@
                                             },true);
                                             foreach($features as $index => $nFeature):
                                         ?>
-                                                <li><a href="neighborhood"><?php echo strtoupper($nFeature['name']); ?></a></li>
+                                                <li><a class='bg-dark' href="neighborhood"><?php echo strtoupper($nFeature['name']); ?></a></li>
                                         <?php
                                             endforeach
                                         ?>

@@ -10,6 +10,10 @@ class Util
     public static function isFpm(){
         return strcmp(php_sapi_name(),env('FPM_NAME')) == 0;
     }
+
+    public static function isPage(string $p){
+        return preg_match("|^/$p|",$_SERVER["REQUEST_URI"]);
+    }
     public static function redisIsNew(string $section){
         if(empty($time = Redis::get(self::redisKey($section) . "_updated"))){
             return true;

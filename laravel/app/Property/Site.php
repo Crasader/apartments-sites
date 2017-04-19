@@ -36,6 +36,13 @@ class Site extends Model
             }
             $this->id = $entity['id'];
         }
+        if(is_array($entity)){
+            $e = new Entity();
+            $e->loadByArray($entity);
+            $this->_entity = $e;
+            \Debugbar::info("Loaded site::entity by array");
+            return;
+        }
         $this->_entity = Entity::find($entity['id']);
     }
 

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Exceptions\BaseException; 
 use App\Property\Photo;
 use App\Property\Photo\Type as PhotoType;
+use App\Util\Util;
 
 class Gallery extends Model
 {
@@ -68,14 +69,17 @@ class Gallery extends Model
     }
 
     public function fetchItems(string $type){
-        //TODO: !optimization cache fetched items
         $legacyPropertyId = Site::$instance->getEntity()->getLegacyProperty()->id;
-        return Photo::where(
+        $foo = $this;
+        $foo = Util::redisFetchOrUpdate('gallery_items_' . $type,function() use($legacyPropertyId,$foo,$type) { 
+            return Photo::where(
             [
                 'property_id' => $legacyPropertyId,
-                'photo_type_id' => $this->getPhotoTypeId($type)
+                'photo_type_id' => $foo->getPhotoTypeId($type)
             ]
-        )->orderBy('display_order','desc')->get()->toArray();
+            )->orderBy('display_order','desc')->get()->toArray();
+        },true);
+        return $foo;
     }
 
     public function fetchSortedItems(string $sortType) : array {

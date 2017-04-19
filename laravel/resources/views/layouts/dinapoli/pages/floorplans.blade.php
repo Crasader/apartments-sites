@@ -46,7 +46,6 @@ $js->generateIDs();
       <input type="hidden" name="bed" id="bed" value="X">
       <input type="hidden" name="bath" id="bath" value="X">
       <input type="hidden" name="sqft" id="sqft" value="X">
-        {{ csrf_field() }}
     </form>
             <section class="page-section">
                 <div class="container relative">
