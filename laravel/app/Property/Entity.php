@@ -17,6 +17,7 @@ use App\State;
 use App\Util\Util;
 use App\Property\Clientside\Assets as ClientsideAssets;
 use App\Traits\LoadableByArray;
+use App\Exceptions\BaseException;
 
 class Entity extends Model
 {
@@ -28,6 +29,13 @@ class Entity extends Model
 
     //
     public function createNew(array $attributes,LegacyProperty $legacyProperty){
+        $foo = $this->where('fk_legacy_property_id',$legacyProperty->id)->get();
+        if(count($foo)){
+            foreach($foo[0]->attributes as $i => $value){
+                $this->$i = $value;
+            }
+            return $this;
+        }
         $this->_preprocessAttributes($attributes);
 
         foreach($attributes as $key => $value){
@@ -35,23 +43,31 @@ class Entity extends Model
         }
         
         $this->fk_legacy_property_id = $legacyProperty->id;
-        if(isset($attributes['fk_template_id'])){
-            $this->fk_template_id = $attributes['fk_template_id'];
-        }else{
-            $this->fk_template_id = \DB::connection('mysql')->select('select * from templates where name="dinapoli"');
-            if(count($this->fk_template_id) == 0){
-                $t = new Template();
-                $t->filesystem_id = 'dinapoli';
-                $t->name= 'dinapoli';
-                $t->save();
-                $this->fk_template_id = $t->id;
-            }else{
-                $this->fk_template_id = $this->fk_template_id[0]->id;
-            }
+        $templateName = $this->grabTemplateId($_SERVER['SERVER_NAME']);
+        if($templateName === null){
+            //TODO: instead of storing this stuff in a file, store it elsewhere in a db or something
+            die("Server is not in server template file");
         }
+
+        $temp = Template::where('name',$templateName)->get();
+        if(count($temp) == 0){
+            die("There is no template in the db named $templateName");
+        }
+        $this->fk_template_id = $temp[0]->id;
         self::save();
         $this->loadLegacyProperty();
         return $this;
+    }
+
+    public function grabTemplateId(string $serv){
+        if(strlen(ENV("SERVER_TEMPLATE_FILE")) == 0){
+            throw new BaseException("File does not exist: server template file");
+        }
+        $guts = json_decode(file_get_contents(ENV("SERVER_TEMPLATE_FILE")),1);
+        if(in_array($serv,array_keys($guts))){
+            return $guts[$serv];
+        }
+        return null;
     }
 
     public function getAssetsVersion(string $path){
@@ -90,7 +106,7 @@ class Entity extends Model
 
     public function getTemplateName() : string{
         $id = $this->fk_template_id;
-        return self::textCache('template_name',function() use($id) {
+        return Util::redisFetchOrUpdate('template_name',function() use($id) {
             if(Util::redisIsNew('template_name')){
                 $name = Template::select('name')->where('id',$id)->get()->toArray()[0]['name'];
                 Util::redisUpdate('template_name',$name);
@@ -178,7 +194,7 @@ class Entity extends Model
     public function getGoogleAnalytics(){
         $foo = $this;
         $legacyId = Site::$instance->getEntity()->fk_legacy_property_id;
-        return self::textCache('google_analytics',function() use($foo,$legacyId){
+        return Util::redisFetchOrUpdate('google_analytics',function() use($foo,$legacyId){
             return PropertyTemplate::select('tracking_code')
                 ->where('property_id',$legacyId)
                 ->get()
@@ -213,7 +229,7 @@ class Entity extends Model
 
     public function getSocialMedia(string $type){
         $foo = $this;
-        $fbUri = self::textCache('facebook_uri',function() use($foo,$type){
+        $fbUri = Util::redisFetchOrUpdate('facebook_uri',function() use($foo,$type){
             $temp = PropertyTemplate::select('facebook_url')
                 ->where('property_id',$foo->_legacyProperty->id)
                 ->get()->toArray();
@@ -295,28 +311,28 @@ class Entity extends Model
 
     public function getPhone() : string{
         $foo = $this;
-        return self::textCache('phone',function() use($foo) {
+        return Util::redisFetchOrUpdate('phone',function() use($foo) {
             return $this->_legacyProperty->phone;
         });
     }
 
     public function getStreet() : string{
         $foo = $this;
-        return self::textCache('address',function() use($foo) {
+        return Util::redisFetchOrUpdate('address',function() use($foo) {
             return $foo->_legacyProperty->address;
         });
     }
 
     public function getCity() : string{
         $foo = $this;
-        return self::textCache('city',function() use($foo) {
+        return Util::redisFetchOrUpdate('city',function() use($foo) {
             return $foo->_legacyProperty->city;
         });
     }
 
     public function getState() : string{
         $foo = $this;
-        return self::textCache('state',function() use($foo) {
+        return Util::redisFetchOrUpdate('state',function() use($foo) {
             $state = $foo->_legacyProperty->getState();
             return $state;
         });
@@ -324,7 +340,7 @@ class Entity extends Model
 
     public function getAbbreviatedState() : string{
         $foo = $this;
-        return self::textCache('abbreviated_state',function() use($foo) {
+        return Util::redisFetchOrUpdate('abbreviated_state',function() use($foo) {
             $state = $foo->getState();
             $code = State::select('code')->where('name',$state)->get()->first()->toArray();
             if(empty($code)){
@@ -337,21 +353,21 @@ class Entity extends Model
 
     public function getZipCode() : string{
         $foo = $this;
-        return self::textCache('zip',function() use($foo) {
+        return Util::redisFetchOrUpdate('zip',function() use($foo) {
             return $foo->_legacyProperty->zip;
         });
     }
 
     public function getHours() : string{
         $foo = $this;
-        return self::textCache('hours',function() use($foo) {
+        return Util::redisFetchOrUpdate('hours',function() use($foo) {
             return $foo->_legacyProperty->hours;
         });
     }
 
     public function getEmail() : string{
         $foo = $this;
-        return self::textCache('email',function() use($foo) {
+        return Util::redisFetchOrUpdate('email',function() use($foo) {
             return $foo->_legacyProperty->email;
         });
     
@@ -359,7 +375,7 @@ class Entity extends Model
 
     public function getTitle() : string{
         $foo = $this;
-        return self::textCache('name',function() use($foo) {
+        return Util::redisFetchOrUpdate('name',function() use($foo) {
             return $foo->_legacyProperty->name;
         });
     }
@@ -376,7 +392,7 @@ class Entity extends Model
 
     public function getLatitude(){
         $foo = $this;
-        return self::textCache('latitude',function() use($foo){
+        return Util::redisFetchOrUpdate('latitude',function() use($foo){
             $t = PropertyTemplate::select('latitude')->where('property_id',$this->fk_legacy_property_id)->get()->toArray();
             if(isset($t[0]) == false){
                 return "";
@@ -388,7 +404,7 @@ class Entity extends Model
 
     public function getLongitude(){
         $foo = $this;
-        return self::textCache('longitude',function() use($foo){
+        return Util::redisFetchOrUpdate('longitude',function() use($foo){
             $t = PropertyTemplate::select('longitude')->where('property_id',$this->fk_legacy_property_id)->get()->toArray();
             if(isset($t[0]) == false){
                 return "";
@@ -435,11 +451,11 @@ class Entity extends Model
             \Debugbar::info("Returning cached: textcache_str_key_{$name}");
             return $this->decorateGetText($name,Util::redisGet('textcache_str_key_' . $name),$opts);
         }
-        $returnValue = self::textCache('str_key_' . $name,function() use($foo,$name,$opts) {
+        $returnValue = Util::redisFetchOrUpdate('textcache_str_key_' . $name,function() use($foo,$name,$opts) {
             $translatables = [
                 'apartment-title' => $foo->getLegacyProperty()->name,
                 'home-about' => $foo->getLegacyProperty()->description,
-                'join-community-description' => self::textCache('community_description',function() use($foo){
+                'join-community-description' => Util::redisFetchOrUpdate('community_description',function() use($foo){
                     return PropertyTemplate::select('community_description')
                     ->where('property_id',$this->fk_legacy_property_id)
                     ->get()
@@ -475,7 +491,6 @@ class Entity extends Model
             return $this->decorateGetText($name,$text,$opts);
         });
         \Debugbar::info("Updating textcahce: $name");
-        Util::redisUpdate('textcache_str_key_' . $name,$returnValue);
         return $this->decorateGetText($name,$returnValue,$opts);
     }
 
