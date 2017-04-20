@@ -12,7 +12,7 @@
 	<div class="hours">
 		<b>Office Hours</b>
 		<p>
-			<?php echo $entity->getHours();?>
+			<?php echo $entity->getText('google-script-hours');?>
 		</p>
 	</div>
 </div>

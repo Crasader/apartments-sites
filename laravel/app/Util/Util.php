@@ -33,7 +33,7 @@ class Util
     }
 
     public static function redisUpdate(string $foo,$bar){
-        self::redisSetCreated($foo,time() - 10);
+        self::redisSetCreated($foo,time());
         self::redisSetUpdated($foo,time());
         self::redisSet($foo,$bar);
     }
@@ -48,6 +48,7 @@ class Util
     }
 
     public static function redisFetchOrUpdate(string $key,$callable,$arrayType=false){
+        \Debugbar::info("Redis fetch or update: $key");
         if(!self::redisIsNew($key)){
             if($arrayType){
                 return self::redisDecode(self::redisGet($key));

@@ -22,14 +22,14 @@
                             <div class="team-item-image">
                                 <img src="<?php echo $feature->decorator($nFeature)['image'];?>" alt="" class="mb-40 mb-sm-20"/>
                                 <div class="team-item-detail">
-                                    <h4 class="font-alt normal"><?php echo $entity->getText("neighborhood-" . str_replace(" ","-",$nFeature['name']) . "-title");?></h4>
+                                    <h4 class="font-alt normal"><?php echo $nFeature['name'];?></h4>
                                     <p>
-                                        <?php echo $entity->getText("neighborhood-" . str_replace(" ","-",$nFeature['name']) . "-shortdesc");?>
+                                        <?php echo $nFeature['short_description']; ?>
                                     </p>
                                 </div>
                             </div>
                             <div class="text">
-                                    <?php echo $entity->getText("neighborhood-" . str_replace(" ","-",$nFeature['name']) . "-longdesc");?>
+                                <?php echo $nFeature['description'];?>
                             </div>
                         </div>
                     </div>

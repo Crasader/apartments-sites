@@ -25,7 +25,7 @@ trait PageResolver {
             $this->_site = Site::$instance;
         }
         if(!$this->_site->id){
-            throw new BaseException('No site ID set!');
+            $this->_site = app()->make("App\Property\Site");
         }else{
             if(Site::$template_dir){
                 $templateDir = Site::$template_dir;

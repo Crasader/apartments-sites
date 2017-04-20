@@ -30,6 +30,9 @@ Route::get('/unit',function(){
     header("Location: /floorplans");
     die();
 });
+Route::get('/admin','SiteController@tagsAdmin');
+Route::post('/admin','SiteController@tagsLogin');
+Route::post('/tags-logout','SiteController@tagsLogout');
 Route::get('/{page}','SiteController@resolve');
 Route::get('/','SiteController@resolve');
 Route::get('/resident-portal/{page}','SiteController@resolveResident');

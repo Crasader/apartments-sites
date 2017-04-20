@@ -27,13 +27,8 @@ class VirtualHostSwitch extends ServiceProvider
                 return Site::$instance;
             }
             $entity = null;
-            /*
-            if(!Util::redisIsNew('entity')){
-                $entity = Util::redisDecode(Util::redisGet('entity'));
-            }*/
             if($entity === null){
                 $entity = PropertyEntity::where('fk_legacy_property_id',$tempThis->_resolveSiteId())->get()->first();   
-                //Util::redisUpdate('entity',Util::redisEncode($entity,false));
             }
             if($entity === null){
 				$prop = new PropertyEntity;

@@ -71,6 +71,15 @@ function focusAlert(id,friendly_id,custom_msg){
 	return false;
 }
 var editTagName = null;
+function logoutEditTag(){
+    $.ajax({
+        'url': '/tags-logout',
+        'type': 'POST'
+    }).done(function(){
+        location.reload();
+    });
+
+}   
 function submitEditTag(){
     var html = $("#editMe").val();
     $.ajax({
