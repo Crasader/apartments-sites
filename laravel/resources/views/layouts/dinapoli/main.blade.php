@@ -43,10 +43,10 @@ use App\Util\Util;
 <!-- Trigger the modal with a button -->
 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" id="mmbutton" data-target="#myModal" style='display:none;'>Open Modal</button>
 
+<?php //TODO: make this a slot or include it from a file ?>
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
-
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
@@ -55,10 +55,11 @@ use App\Util\Util;
         <div id='editMeStatus'>&nbsp;</div>
       </div>
       <div class="modal-body">
-		<textarea id="editMe" cols=50 rows=30></textarea>
+		<textarea id="editMe" cols=50 rows=15></textarea>
 		<button type="button" class="btn btn-default" onclick="submitEditTag()">Save</button>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-default" onclick="logoutEditTag()">Logout</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>

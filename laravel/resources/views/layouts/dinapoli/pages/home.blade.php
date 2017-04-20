@@ -31,7 +31,7 @@
                                 </div>
                             </div>
                             <img src="<?php echo $entity->getWebPublicDirectory('slides') ;?>/home-top-slide1a.jpg" class="visible-md visible-lg">
-                            <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide1a.jpg" class="visible-xs visible-sm">
+                            <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide1a-m.jpg" class="visible-xs visible-sm">
                         </li>
                         <li>
                             <div class="container">
@@ -42,7 +42,7 @@
                                 </div>
                             </div>
                             <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide2a.jpg" class="visible-md visible-lg">
-                            <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide2a.jpg" class="visible-xs visible-sm">
+                            <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide2a-m.jpg" class="visible-xs visible-sm">
                         </li>
                         <li>
                             <div class="container">
@@ -53,7 +53,7 @@
                                 </div>
                             </div>
                             <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide3a.jpg" class="visible-md visible-lg">
-                            <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide3a.jpg" class="visible-xs visible-sm">
+                            <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide3a-m.jpg" class="visible-xs visible-sm">
                         </li>
                     </ul>
                 </div>
@@ -97,7 +97,7 @@
 
             
             <!-- Community Section -->
-            <section class="page-section pt-0 pb-30 banner-section" data-background="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide4.jpg" id="community">
+            <section class="page-section pt-0 pb-30 banner-section bg-dark" data-background="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide4.jpg" id="community">
                 <div class="container relative">
                     
                     <div class="row">

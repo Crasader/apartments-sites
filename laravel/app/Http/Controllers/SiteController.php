@@ -23,4 +23,33 @@ class SiteController extends Controller
             return view('404',['exception' => $e]);
         }
     }
+
+    public function tagsAdmin(Request $req){
+        return view('layouts/tags-admin');
+    }
+
+    public function tagsLogin(Request $req){
+        //TODO: keep this authentication crap in the db
+        if($this->validateUser($req)){
+            session(['tags-admin-userid' => '1']);
+            return redirect('/');
+        }else{
+            return view('layouts/tags-admin',['error' => 1]);
+        }
+    }
+    
+    public function tagsLogout(){
+        session()->forget('tags-admin-userid');
+    }
+
+    public function validateUser(Request $req){
+        $user = $req->input('user');
+        $pass = $req->input('password');
+
+        $results = \DB::connection('mysql')->table('user')->where(['username' => $user,'password' => $pass])->get();
+        if(count($results)){
+            return true;
+        }
+        return false;
+    }
 }

@@ -238,7 +238,7 @@ class Entity extends Model
             }
             $data = $temp[0]['facebook_url'];
             if(strlen($data) == 0){
-                \Debugbar::info("Foobar");
+                \Debugbar::info("facebookrul is Foobar");
                 return null;
             }
             return $data;
@@ -246,28 +246,37 @@ class Entity extends Model
         if(preg_match("|<\-multi\->|",$fbUri)){
             $foo = preg_replace("|<\-multi\->|","",$fbUri);
             $parts = explode("\n",$foo);
-            for($i=0;$i < count($parts);$i++){
-                if(strpos($parts[$i],"~") === false){ continue; }
-                list($var,$value) = explode("~",$parts[$i]);
-                $$var = $value;
+            foreach($parts as $i => $p){
+                if(strpos($p,"~") === false){ 
+                    continue; 
+                }
+                \Debugbar::info("Parts: " . var_export($p,1));
+                list($var,$value) = explode("~",$p);
+                \Debugbar::info("$var == $value");
+                if($var == 'facebook' && $type == 'fb'){
+                    return $value;
+                }
+                if($var == 'twitter' && $type == 'twitter'){
+                    return $value;
+                }
+                if($var == 'linkedin' && $type == 'li'){
+                    return $value;
+                }
+                if($var == 'google' && $type == 'google'){
+                    return $value;
+                }
+                if($var == 'yelp' && $type == 'yelp'){
+                    return $value;
+                }
+                if($var == 'instagram' && $type == 'insta'){
+                    return $value;
+                }
+                if($var == 'pinterest' && $type == 'pinterest'){
+                    return $value;
+                }
             }
         }
-        switch($type){
-            case 'fb';
-                return $facebook ?? null;
-            case 'twitter':
-                return $twitter ?? null;
-            case 'li':
-                return $linkedin ?? null;
-            case 'google':
-                return $google ?? null;
-            case 'yelp':
-                return $yelp ?? null;
-            case 'insta':
-                return $instagram ?? null;
-            default:
-            return null;
-        }
+        \Debugbar::info("Type: " . var_export($type,1));
     }
 
     protected function _preprocessAttributes(&$attr){
@@ -418,27 +427,34 @@ class Entity extends Model
         'google-maps-title'
     ];
 
+    public function conditionalDecorateTags($name,$text,$opts){
+        if(preg_match("|class=['\"]{1}edit\-tag|",$text)){
+            return $text;
+        }else{
+            if(isset($opts['use_double'])){
+                $q = "\"";
+            }else{
+                $q = "'";
+            }
+            return "$text<b style={$q}color:red{$q} class={$q}edit-tag{$q} onclick='edit_tag(\"$name\")'>{!}</b>";
+        }
+    }
+
     public function decorateGetText($name,$text,$opts = []){
         if(isset($opts['use_double'])){
             $q = "\"";
         }else{
             $q = "'";
         }
-        if(isset($_GET['tags']) && $_GET['tags'] == '1'){
-            session(['edit_tags' => '1']);
-        }
-        if(isset($_GET['tags']) && $_GET['tags'] == '0'){
-            session(['edit_tags' => '0']);
-        }
-        if(session('edit_tags') == '1'){
+        if(session('tags-admin-userid') == '1'){
             if($text === null){ return "<b style={$q}color:green{$q} class={$q}edit-tag{$q} onclick='edit_tag(\"$name\");'>{!}</b>"; }
             if(in_array($name,$this->_decorateIgnoreText)){ 
                 if(strlen($text) == 0){
                     return "<b style={$q}color:green{$q} class={$q}edit-tag{$q} onclick='edit_tag(\"$name\")'>{!}</b>";
                 }
-                return $text . "<b style={$q}color:red{$q} class={$q}edit-tag{$q} onclick='edit_tag(\"$name\")'>{!}</b>"; 
+                return $this->conditionalDecorateTags($name,$text,$opts);// . "<b style={$q}color:red{$q} class={$q}edit-tag{$q} onclick='edit_tag(\"$name\")'>{!}</b>"; 
             }
-            return $text . "<b style={$q}color:red;{$q} class={$q}edit-tag{$q} onclick='edit_tag(\"$name\")'>{!}</b>";
+            return $this->conditionalDecorateTags($name,$text,$opts);// . "<b style={$q}color:red;{$q} class={$q}edit-tag{$q} onclick='edit_tag(\"$name\")'>{!}</b>";
         }else{
             return $text;
         }
