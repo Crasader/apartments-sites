@@ -69,17 +69,20 @@
      ExitPop
      --------------------------------------------- */
     $(document).one("mouseleave" , function() {
-        
         // Show the exit popup
-        $('#exitpopup-overlay').fadeIn();
-        $('#exit_pop').fadeIn();
-
+		if(localStorage.getItem('#floorplan-popup') != 'shown'){
+			$('#exitpopup-overlay').fadeIn();
+			$('#exit_pop').fadeIn();
+        }
     });
     
-    $('#epop-close').click(function(){
-        $('#exitpopup-overlay').fadeOut();
-        $('#exit_pop').slideUp();
-        ePop().stop();
+    $('#epop-close').click(function(e){
+		e.preventDefault();
+		if(localStorage.getItem('#floorplan-popup') != 'shown'){
+			localStorage.setItem('#floorplan-popup','shown')
+		}
+		$('#exitpopup-overlay').fadeOut();
+		$('#exit_pop').slideUp();
     });
 
     $('.close').click(function () {

@@ -3,8 +3,8 @@
 @charset "utf-8";
 @import url(font-awesome.min.css);
 @import url(et-line.css);
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,300,700);
-@import url(http://fonts.googleapis.com/css?family=Dosis:300,400,700);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,300,700);
+@import url(https://fonts.googleapis.com/css?family=Dosis:300,400,700);
 .btn-icon,
 .relative {
     position: relative
@@ -3991,7 +3991,7 @@ a.link-to-top {
 }
 
 /** Google Block **/
-a[href^="http://maps.google.com/maps"]{display:none !important}
+a[href^="https://maps.google.com/maps"]{display:none !important}
 a[href^="https://maps.google.com/maps"]{display:none !important}
 .gm-style img{max-width:none}
 .gmnoprint a, .gmnoprint span, .gm-style-cc {

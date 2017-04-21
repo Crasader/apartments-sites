@@ -9,7 +9,7 @@
             <h3 id="epop-message-h3"><?php echo $entity->getText('epopup-message-2');?></h3>
             </div>
             <div class="epop-button">
-                <a href="/apply-online" class="btn btn-brown btn-mod btn-block"><?php echo $entity->getText('epopup-button-1');?></a>
+                <a href="/apply-online" class="btn btn-brown btn-mod btn-block">Apply Now</a>
             </div>
         </div>
         <a href="#" class="fa fa-times-circle" id="epop-close"></a>

@@ -120,7 +120,7 @@ $unitType = preg_replace("|[^a-z]+|","",strtolower($extras['unittype']));
 								</div>
 								<div class="col-md-3 unit-table-btn">
                                 <?php //TODO: do this javascript mess ?>
-                                    <a style="cursor:pointer" id="<?php echo $js->getGenId($index);?>" class="btn btn-mod btn-brown btn-medium btn-round">Apply Now</a>
+                                    <a style="cursor:pointer" href='/apply-online' id="<?php echo $js->getGenId($index);?>" class="btn btn-mod btn-brown btn-medium btn-round">Apply Now</a>
 
                                    
 								</div>
@@ -153,6 +153,7 @@ $unitType = preg_replace("|[^a-z]+|","",strtolower($extras['unittype']));
             <script language="Javascript">
             $(document).ready(function(){
                 var json = <?php echo $js->dumpJSON(); ?>;
+                /*
                 utilBindSubmitterVars(json,{
                     'unittype': 'UnitType',
                     'bed': {
@@ -166,9 +167,10 @@ $unitType = preg_replace("|[^a-z]+|","",strtolower($extras['unittype']));
                     },
                     'unitnumber': 'UnitNumber'
                 },{
-                    'action': "<?php echo '/apartments_greenville_sc/online_application_applynow/'; //TODO: Get this value?>",
+                    'action': "<?php echo '/apply-online';?>",
                     'form': 'submitUnit'
                 });
+                */
             });
             </script>
 

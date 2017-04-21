@@ -44,6 +44,12 @@ class Util
     }
 
     public static function redisSet(string $foo,$bar){
+        \Debugbar::info("Setting $foo to " . var_export($bar,1));
+        if(preg_match("|commute\-text|",$foo)){
+            $e = new \Exception;
+            file_put_contents(storage_path() . "/logs/redisSet.log",date("Y-m-d H:i:s") . "::{$foo} being set to " . \
+                var_export($bar,1) . " BT: " . var_export($e->getTraceAsString(),1) . "\n", FILE_APPEND);
+        }
         if(is_array($bar)){
             Redis:;set(self::redisKey($foo) . ':array:','1');
             Redis::set(self::redisKey($foo),self::redisEncode($bar));

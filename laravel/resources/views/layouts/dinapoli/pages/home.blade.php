@@ -116,7 +116,7 @@
                                             },true);
                                             foreach($features as $index => $nFeature):
                                         ?>
-                                                <li><a class='bg-dark' href="neighborhood"><?php echo strtoupper($nFeature['name']); ?></a></li>
+                                                <li><a href="neighborhood"><?php echo strtoupper($nFeature['name']); ?></a></li>
                                         <?php
                                             endforeach
                                         ?>
@@ -348,22 +348,6 @@
             @stop
             
         @section('google-map-js')
-        @stop
-        @section('page-specific-js')
-        <script type="text/javascript">
-            $(function(){
-                if(localStorage.getItem('#banner-special') != 'shown'){
-                    $("#banner-special").slideDown();
-                }
-                $("#banner-special-close").click(function(e) {
-                    e.preventDefault();
-                    if(localStorage.getItem('#banner-special') != 'shown'){
-                        $("#banner-special").slideUp();
-                        localStorage.setItem('#banner-special','shown')
-                    }
-                });
-            });
-        </script>
         @stop
 
         @section('page-specific-js')
