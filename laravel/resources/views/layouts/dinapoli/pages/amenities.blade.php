@@ -35,10 +35,6 @@
                         <?php 
                             $rows = 2;
                             $features = app()->make('App\Property\Feature');
-                            $features->setFeaturesLimit([
-                                'apartment' => 8,
-                                'community' => 24
-                            ]);
                             $features->setFeaturesFormatter(new App\Util\Formatter('li'));
                             $features->setFeaturesChunkCount($rows);
                             $features->loadAllFeatures();
@@ -47,7 +43,7 @@
                     	<div class="col-md-6 mb-40">
                     		<div class="text">
                     			<ul style="list-style-type:none; line-height: 30px;">
-                                    <?php echo $features->getFeaturesChunk('apartment',$i); ?>
+                                    <?php echo $features->getFeaturesChunk('apartment',$i,'amenities'); ?>
                                 </ul>
                     		</div>
                     	</div>
@@ -69,7 +65,7 @@
                     		<div class="text">
                     			<ul style="list-style-type:none; line-height: 30px;">
                                     <?php 
-                                        echo $features->getFeaturesChunk('community',$i);
+                                        echo $features->getFeaturesChunk('community',$i,'amenities');
                                     ?>
                                 </ul>
                     		</div>

@@ -53,7 +53,6 @@ class PostController extends Controller
     }
 
     public function handleGetTextTag(Request $req){
-        self::devDie();
         $site = app()->make('App\Property\Site');
         $tag = $req->input("tag");
 
@@ -73,7 +72,6 @@ class PostController extends Controller
     }
 
     public function handleTextTag(Request $req){
-        self::devDie();
         $site = app()->make('App\Property\Site');
         $tag = $req->input("tag");
         $body = $req->input("body");
