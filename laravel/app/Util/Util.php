@@ -4,9 +4,14 @@ namespace App\Util;
 use Redis;
 use App\Property\Entity;
 use App\Property\Site;
+use Illuminate\Http\Request;
 
 class Util 
 {
+    public static function isHttp(){
+        return strcmp("http",$_SERVER['REQUEST_SCHEME']) == 0;
+    }
+
     public static function isFpm(){
         return strcmp(php_sapi_name(),env('FPM_NAME')) == 0;
     }

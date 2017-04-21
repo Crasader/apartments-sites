@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Property\Site;
 use App\Traits\PageResolver;
+use App\Util\Util;
 
 class SiteController extends Controller
 {
