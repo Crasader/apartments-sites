@@ -219,7 +219,7 @@ class Entity extends Model
             case 'logo':
                 return $base . "images/{$this->getTemplateName()}/{$this->getLegacyCode()}/logo";
             case 'gallery':
-                return $base . "uploads/photos";
+                return $base . "images/{$this->getTemplateName()}/{$this->getLegacyCode()}/gallery";
             case 'img':
                 return $base . "images/{$this->getTemplateName()}/{$this->getLegacyCode()}";
             default: 

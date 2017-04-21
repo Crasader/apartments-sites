@@ -31,11 +31,11 @@ Route::get('/unit',function(){
     die();
 });
 
-Route::get('/admin','SiteController@tagsAdmin');
-Route::post('/admin','SiteController@tagsLogin');
-Route::post('/tags-logout','SiteController@tagsLogout');
-Route::get('/{page}','SiteController@resolve');
-Route::get('/','SiteController@resolve');
-Route::get('/resident-portal/{page}','SiteController@resolveResident');
-Route::post('/{page}','PostController@handle');
-Route::post('/resident-portal/{page}','PostController@handle');
+Route::get('/admin','SiteController@tagsAdmin')->middleware('https');
+Route::post('/admin','SiteController@tagsLogin')->middleware('https');
+Route::post('/tags-logout','SiteController@tagsLogout')->middleware('https');
+Route::get('/{page}','SiteController@resolve')->middleware('https');
+Route::get('/','SiteController@resolve')->middleware('https');
+Route::get('/resident-portal/{page}','SiteController@resolveResident')->middleware('https');
+Route::post('/{page}','PostController@handle')->middleware('https');
+Route::post('/resident-portal/{page}','PostController@handle')->middleware('https');
