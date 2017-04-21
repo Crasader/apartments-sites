@@ -30,7 +30,7 @@
                     <div class="section-text mb-50 mb-sm-20">
                         <div class="row">
                             
-                            <div class="col-md-7 col-sm-7 mb-sm-50 mb-xs-30 form-container">
+                            <div class="col-md-7 col-sm-7 mb-sm-50 mb-xs-30">
                                 <form role="form" id="form1" name="form1" method="post" class="validate" action="/schedule">
                                     <?php //TODO: Find a form helper for laravel that will do this for us ?>
                                     <div class="mb-20 mb-md-10 form-group">
@@ -89,7 +89,7 @@
                                                 <div class="map">
                                                     <div class="map-container">
                                                         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script> 
-                                                        <div style="overflow:hidden;height:537px;max-width:100%;">
+                                                        <div style="height:537px;overflow:hidden;max-width:100%;">
                                                             <div id="map-canvas" style="max-width:100%;"></div>
                                                         <div>
                                                     @include('layouts/dinapoli/pages/inc/google-maps-script')

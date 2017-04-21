@@ -13,6 +13,9 @@ class SiteController extends Controller
     //Declared by trait: protected $_site;
     public function __construct(Site $site){
         $this->_site = $site;   //Declared by trait
+        if(ENV("SHOW_DEBUG_BAR") == "0"){
+            \Debugbar::disable();
+        }
     }
 
     public function resolveResident(Request $req){

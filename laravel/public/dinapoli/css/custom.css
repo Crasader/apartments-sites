@@ -35,8 +35,8 @@ ul.top-nav-right li a i {margin: 0px 5px;}
 .specials-gallery {position: relative; background: #85cebc; color: #fff; padding: 20px 0; font-size: 20px;}
 /***.specials-gallery {position: relative; display: none !important; background: #85cebc; color: #fff; padding: 20px 0; font-size: 20px;}***/
 
-.map-block{height: 537px;}
-.map-container{ position:relative; width: 100%; min-height: 537px;}
+.map-block{/*height: 537px;*/}
+.map-container{ position:relative; width: 100%; /*min-height: 537px;*/ }
 #map-canvas {position:relative; z-index:1; width: 100%; height: 100%;}
 .overlap-ds{position: absolute;top:100px;right:60px;z-index:2;background: white;width: 265px;padding: 40px;border: 1px solid #d5d5d5;text-align: center;}
 .mobile-block {display: none; padding: 20px 0; text-align: center;}

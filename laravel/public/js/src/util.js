@@ -76,7 +76,7 @@ function logoutEditTag(){
         'url': '/tags-logout',
         'type': 'POST'
     }).done(function(){
-        location.reload();
+        location.href = "/";
     });
 
 }   

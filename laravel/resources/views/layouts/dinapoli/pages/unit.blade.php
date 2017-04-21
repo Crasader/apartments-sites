@@ -79,17 +79,14 @@ $unitType = preg_replace("|[^a-z]+|","",strtolower($extras['unittype']));
                         	
                         	<div class="row unit-table-header visible-md visible-lg">
 								
-								<div class="col-md-2">
+								<div class="col-md-3">
 									Unit
 								</div>
-								<div class="col-md-2">
+								<div class="col-md-3">
 									Rent
 								</div>
-								<div class="col-md-2">
-									Available
-								</div>
 								<div class="col-md-3">
-									Special
+									Available
 								</div>
 								<div class="col-md-3">
 								</div>
@@ -101,7 +98,7 @@ $unitType = preg_replace("|[^a-z]+|","",strtolower($extras['unittype']));
                             ?>
                         	<div class="row unit-table-row">
                                                                                                         
-								<div class="col-md-2">
+								<div class="col-md-3">
                                     <?php if($object->RENOVATED == "RENOVATED"): ?>
                                         <div style="position:absolute; top:-25px; margin:0px auto; left:0px; right:0px;">
                                             <span class="label label-success">RENOVATED</span>
@@ -109,14 +106,11 @@ $unitType = preg_replace("|[^a-z]+|","",strtolower($extras['unittype']));
                                     <?php endif; ?>
 									<span class="visible-xs visible-sm"><b>Unit: </b></span><?php echo $object->UnitNumber; ?>
 								</div>
-								<div class="col-md-2">
+								<div class="col-md-3">
 									<span class="visible-xs visible-sm"><b>Rent: </b></span>$<?php echo Util::formatRentPrice($object->AskingRent);?>
 								</div>
-								<div class="col-md-2">
-									<span class="visible-xs visible-sm"><b>Available: </b></span><?php echo $object->UnitAvailableDate;?>
-								</div>
 								<div class="col-md-3">
-                                    <?php echo $object->SPECIAL_TEXT; ?>
+									<span class="visible-xs visible-sm"><b>Available: </b></span><?php echo $object->UnitAvailableDate;?>
 								</div>
 								<div class="col-md-3 unit-table-btn">
                                 <?php //TODO: do this javascript mess ?>
