@@ -38,7 +38,7 @@ trait Features {
     public function getFeaturesChunk(string $section,int $chunkOffset,string $page='home') : string{
         $foo = $this;
         return Util::redisFetchOrUpdate($page . '_' . $section . '_' . $chunkOffset,function() use($foo,$section,$chunkOffset) {
-            $chunkSize = (int)floor(count($this->_features[$section]) / $this->_featuresChunkCount);
+            $chunkSize = (int)ceil(count($this->_features[$section]) / $this->_featuresChunkCount);
             if($this->_featuresFormatter){
                 $this->_featuresFormatter->setLineItems($this->_features[$section]);
                 $arr = $this->_featuresFormatter->getFormattedAsArray();
@@ -68,7 +68,6 @@ trait Features {
         if(!isset($this->_features[$section])){
             return null;
         }
-        //LEFT OFF HERE
         if($this->_featuresFormatter){
             $this->_featuresFormatter->setLineItems($this->_features[$section]);
             return $this->_featuresFormatter->getFormattedAsArray();
