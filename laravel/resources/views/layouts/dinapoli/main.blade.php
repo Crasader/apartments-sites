@@ -6,8 +6,8 @@ use App\Util\Util;
     <head>
         <title><?php echo $entity->getCity();?> <?php echo $entity->getAbbreviatedState();?> Apartments | Luxury Apartments For Rent | <?php echo $entity->getLegacyProperty()->name;?>></title>
 @section('meta')
-        <meta name="description" content="<?php echo $entity->getMeta('description',$page);?>">
-        <meta name="keywords" content="<?php echo $entity->getMeta('keywords',$page);?>">
+        <meta name="description" content="<?php echo $entity->getMeta('description',$_SERVER['REQUEST_URI']);?>">
+        <meta name="keywords" content="<?php echo $entity->getMeta('keywords',$_SERVER['REQUEST_URI']);?>">
         <meta charset="utf-8">
         <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -42,7 +42,6 @@ use App\Util\Util;
     <body class="appear-animate">
 <!-- Trigger the modal with a button -->
 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" id="mmbutton" data-target="#myModal" style='display:none;'>Open Modal</button>
-
 <?php //TODO: make this a slot or include it from a file ?>
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">

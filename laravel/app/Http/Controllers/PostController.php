@@ -40,6 +40,12 @@ class PostController extends Controller
     protected $_translations = [];
     //
 
+    public function __construct(){
+        if(ENV("SHOW_DEBUG_BAR") == "0"){
+            \Debugbar::disable();
+        }
+    }
+
     public function handle(Request $request,string $page){
         if(!in_array($page,array_keys($this->_allowed))){
             return null;

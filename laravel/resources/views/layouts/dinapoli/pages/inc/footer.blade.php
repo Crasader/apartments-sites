@@ -23,7 +23,7 @@
                     ?>
                         <?php if(strlen($fb)): ?> <a href="<?php echo $fb?>" title="Facebook" target="_blank"><i class="fa fa-facebook"></i></a> <?php endif; ?>
                         <?php if(strlen($google)): ?> <a href="<?php echo $google?>" title="Google" target="_blank"><i class="fa fa-google"></i></a> <?php endif; ?>
-                        <?php if(strlen($yelp)): ?> <a href="<?php echo $google?>" title="Yelp" target="_blank"><i class="fa fa-yelp"></i></a> <?php endif; ?>
+                        <?php if(strlen($yelp)): ?> <a href="<?php echo $yelp?>" title="Yelp" target="_blank"><i class="fa fa-yelp"></i></a> <?php endif; ?>
                         <?php if(strlen($twitter)): ?> <a href="<?php echo $twitter?>" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a> <?php endif; ?>
                         <?php if(strlen($insta)): ?> <a href="<?php echo $insta?>" title="Instagram" target="_blank"><i class="fa fa-instagram"></i></a> <?php endif; ?>
                         <?php if(strlen($li)): ?> <a href="<?php echo $li?>" title="LinkedIn+" target="_blank"><i class="fa fa-linkedin"></i></a> <?php endif; ?>
@@ -83,8 +83,9 @@
                         <!-- Copyright -->
                         <div class="footer-copy font-alt">
                             <img src="<?php echo $entity->getWebPublicDirectory('logo');?>/hudimg.png" width="30" height="20" alt="Equal Housing" title="Equal Housing" class="eq-house-img"> 
+                            <img src="<?php echo $entity->getWebPublicDirectory('logo');?>/pet.png" width="30" height="20" alt="Pet Friendly" title="Pet Friendly" class="eq-house-img"> 
+                            <img src="<?php echo $entity->getWebPublicDirectory('logo');?>/disabled.png" width="30" height="20" alt="Disability Access" title="Disability Access" class="eq-house-img"> 
                         </div>
-                        <!-- End Copyright -->
                         
                         <div class="footer-made">
                             Copyright © <?php echo date("Y");?><br>
@@ -102,5 +103,5 @@
                      <a href="#top" class="link-to-top"><i class="fa fa-caret-up"></i></a>
                  </div>
                  <!-- End Top Link -->
-                 
+                 <div class="marketapts"><a href="https://www.marketapts.com/" style='font-size: 10px;' target="_blank" title="Powered by MarketApts.com&reg;">Powered by MarketApts.com&reg;</a></div> 
             </footer>

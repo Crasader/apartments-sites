@@ -129,12 +129,16 @@ class Entity extends Model
         switch($type){
             case 'description':
                 return Util::redisFetchOrUpdate('meta_description_' . $page,function() use($foo,$legacy,$page){
+                    $page = preg_replace("|^/|","",$page);
+                    $page = preg_replace("|\?.*|","",$page);
                     if(strlen($legacy->unit_type) == 0){
                         $unitType = "";
                     }else{
                         $unitType = " " . Util::depluralize($legacy->unit_type) . " ";
                     }
                     switch($page){
+                        case '':
+                        case '/':
                         case 'home': 
                             return "Welcome home to " . $foo->getLegacyProperty()->name . " apartments in " . 
                         $foo->getCity() . ", " . $foo->getState() . ". " . 
@@ -163,7 +167,11 @@ class Entity extends Model
                 break;
             case 'keywords':
                 return Util::redisFetchOrUpdate('meta_keywords_' . $page,function() use($foo,$legacy,$page){
+                    $page = preg_replace("|^/|","",$page);
+                    $page = preg_replace("|\?.*|","",$page);
                     switch($page){
+                        case '':
+                        case '/':
                         case 'home':
                             return $foo->getCity() . ' ' . $foo->getAbbreviatedState() . ' Apartments, Apartments in ' . 
                             $foo->getCity() . ', ' . $foo->getCity()  . ' Apartments for Rent';
