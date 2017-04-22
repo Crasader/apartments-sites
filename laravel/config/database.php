@@ -38,6 +38,16 @@ return [
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
             'prefix' => '',
         ],
+        
+        'rentegi' => [
+            'driver' => 'sqlsrv',
+            'host' => '192.168.1.139',
+            'port' => '1433',
+            'database' => 'marketapts',
+            'username' => 'sa',
+            'password' => "mdb121bdm((",
+            'prefix' => '',
+        ],
 
         'mysql' => [
             'driver' => 'mysql',
