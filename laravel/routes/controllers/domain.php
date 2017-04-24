@@ -33,6 +33,11 @@ Route::get('/unit',function(){
 
 Route::get('/admin','SiteController@tagsAdmin')->middleware('https');
 Route::post('/admin','SiteController@tagsLogin')->middleware('https');
+Route::get('/redis',function(){
+    $serv = preg_replace("|^www\.|","",$_SERVER['SERVER_NAME']);
+    $cmd = "/usr/local/bin/redis-cli --raw keys '*$serv*' | xargs /usr/local/bin/redis-cli del";
+    die("Redis flushed for $serv");
+});
 Route::post('/tags-logout','SiteController@tagsLogout')->middleware('https');
 Route::get('/{page}','SiteController@resolve')->middleware('https');
 Route::get('/','SiteController@resolve')->middleware('https');
