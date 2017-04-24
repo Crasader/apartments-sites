@@ -44,6 +44,7 @@ class Entity extends Model
         
         $this->fk_legacy_property_id = $legacyProperty->id;
         $templateName = $this->grabTemplateId($_SERVER['SERVER_NAME']);
+        Util::log($templateName);
         if($templateName === null){
             //TODO: instead of storing this stuff in a file, store it elsewhere in a db or something
             die("Server is not in server template file");
@@ -468,6 +469,38 @@ class Entity extends Model
         }
     }
 
+    public function getPageTitle($pageMatch){
+        switch($pageMatch){
+            case '/':
+            case 'home':
+                return $this->getCity() . " " . $this->getAbbreviatedState() . " Apartments | Luxury Apartments For Rent | {$this->getLegacyProperty()->name}";
+            case 'amenities':
+                return "Amenities of {$this->getLegacyProperty()->name} | Apartment & Community Features";
+            case 'contact':
+                return 'Contact Us | Schedule a Tour | Maps & Directions';
+            case 'floorplans':
+                //TODO: Get number of bedrooms per property
+                return "2 & 3 Bedroom Floor Plans | Apartments in {$this->getCity()},{$this->getAbbreviatedState()}";
+            case 'gallery':
+                return "Photo Tour | Apartments in {$this->getCity()} {$this->getAbbreviatedState()} | {$this->getLegacyProperty()->name}";
+            case 'neighborhood':
+                return "Neighborhood of {$this->getLegacyProperty()->name} Apartments in {$this->getCity()}, {$this->getAbbreviatedState()}";
+            case 'privacy':
+                return "Privacy Policy | {$this->getLegacyProperty()->name}";
+            case 'resident-portal':
+                return "Resident Center | {$this->getLegacyProperty()->name}";
+            case 'schedule-a-tour':
+                return "Schedule a Tour | {$this->getLegacyProperty()->name} Apartments in {$this->getCity()}, {$this->getAbbreviatedState()}";
+            case 'terms':
+                return "Terms of Use | {$this->getLegacyProperty()->name}";
+            case 'apply-online':
+            case 'unit':
+            default:
+                return $this->getCity() . " " . $this->getAbbreviatedState() . " Apartments | Luxury Apartments For Rent | {$this->getLegacyProperty()->name}";
+        }
+
+    }
+
     public function getText(string $name,array $opts = []){
         $foo = $this;
         self::$_objectInstance = $this;
@@ -479,18 +512,13 @@ class Entity extends Model
             $translatables = [
                 'apartment-title' => $foo->getLegacyProperty()->name,
                 'home-about' => $foo->getLegacyProperty()->description,
-                /*
-                'join-community-description' => Util::redisFetchOrUpdate('community_description',function() use($foo){
-                    return PropertyTemplate::select('community_description')
-                    ->where('property_id',$this->fk_legacy_property_id)
-                    ->get()
-                    ->toArray()[0]['community_description'];
-                 }),
-                 */
-                 'slogan' => 'More than just a place to sleep',     //TODO: dont hard code this
+                'slogan' => 'More than just a place to sleep',     //TODO: dont hard code this
             ];
             if(in_array($name,array_keys($translatables))){
                 return $translatables[$name];
+            }
+            if(preg_match("|title_(.*)|",$name,$matches)){
+                return $foo->getPageTitle($matches[1]);
             }
             $text = null;
             $textTypes = TextType::select(['id'])->where('str_key',$name)->pluck('id')->toArray();

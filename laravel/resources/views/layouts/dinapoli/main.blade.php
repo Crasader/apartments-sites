@@ -4,7 +4,7 @@ use App\Util\Util;
 <!DOCTYPE html>
 <html lang="">
     <head>
-        <title><?php echo $entity->getCity();?> <?php echo $entity->getAbbreviatedState();?> Apartments | Luxury Apartments For Rent | <?php echo $entity->getLegacyProperty()->name;?>></title>
+        <title><?php echo $entity->getText('title_' . Util::baseUri(Request::getRequestUri(),'home'));?><?php //$entity->getCity(); echo $entity->getAbbreviatedState(); Apartments | Luxury Apartments For Rent | <?php echo $entity->getLegacyProperty()->name;?></title>
 @section('meta')
         <meta name="description" content="<?php echo $entity->getMeta('description',$_SERVER['REQUEST_URI']);?>">
         <meta name="keywords" content="<?php echo $entity->getMeta('keywords',$_SERVER['REQUEST_URI']);?>">
