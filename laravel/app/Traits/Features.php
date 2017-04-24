@@ -85,7 +85,6 @@ trait Features {
     }
 
     protected function _getFeaturesSection(string $section){
-        return Util::redisFetchOrUpdate('loaded_features_section_' . $section,function() use($section) {
         switch($section){
             case 'community':
                 $builder = CommunityFeature::where('property_id',Site::$instance->getEntity()->fk_legacy_property_id)
@@ -126,6 +125,5 @@ trait Features {
             default:
                 return null;
         }
-        },true);
     }
 }

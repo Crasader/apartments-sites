@@ -479,12 +479,14 @@ class Entity extends Model
             $translatables = [
                 'apartment-title' => $foo->getLegacyProperty()->name,
                 'home-about' => $foo->getLegacyProperty()->description,
+                /*
                 'join-community-description' => Util::redisFetchOrUpdate('community_description',function() use($foo){
                     return PropertyTemplate::select('community_description')
                     ->where('property_id',$this->fk_legacy_property_id)
                     ->get()
                     ->toArray()[0]['community_description'];
                  }),
+                 */
                  'slogan' => 'More than just a place to sleep',     //TODO: dont hard code this
             ];
             if(in_array($name,array_keys($translatables))){

@@ -111,7 +111,7 @@ class Util
             if($site->redis_alias !== null){
                 return Site::$instance->redis_alias . ':' . $foo;
             }
-            return $_SERVER['SERVER_NAME'] . ":$foo";
+            return preg_replace("|^www\.|","",$_SERVER['SERVER_NAME']) . ":$foo";
         }else{
             return $foo;
         }
