@@ -20,6 +20,20 @@ class Util
         return preg_match("|^/$p|",$_SERVER["REQUEST_URI"]);
     }
 
+    public static function baseUri($inReq,$default=null) : string{
+        if($inReq instanceof Request){
+            $req = $inReq->getRequestUri();
+        }else{
+            $req = $inReq;
+        }
+        if(preg_match("|^/([a-zA-Z0-9\-\.]+)|",$req,$matches)){
+            return $matches[1];
+        }else if($default){
+            return $default;
+        }else{
+            return $req;
+        }
+    }
     public static function isJson(string $s){
         json_decode($s);
         return (json_last_error() == JSON_ERROR_NONE);
@@ -56,6 +70,10 @@ class Util
             return;
         }
         Redis::set(self::redisKey($foo),$bar);
+    }
+
+    public static function log(string $foo){
+        file_put_contents(storage_path() . '/logs/log.log',date("Y-m-d H:i:s") . "::{$foo}\n",FILE_APPEND);
     }
 
     public static function redisFetchOrUpdate(string $key,$callable,$arrayType=false){
@@ -111,7 +129,7 @@ class Util
             if($site->redis_alias !== null){
                 return Site::$instance->redis_alias . ':' . $foo;
             }
-            return $_SERVER['SERVER_NAME'] . ":$foo";
+            return preg_replace("|^www\.|","",$_SERVER['SERVER_NAME']) . ":$foo";
         }else{
             return $foo;
         }
