@@ -17,6 +17,7 @@ use App\Legacy\Property as LegacyProperty;
 use App\Property\Template as Template;
 use App\Property\Site;
 use App\Property\Site\Aliases;
+use App\Util\S3Util;
 
 $security = app()->make('App\Property\Crud\SecurityCheck');
 if($security->allowed()){
@@ -37,6 +38,9 @@ Route::get('/redis',function(){
     $serv = preg_replace("|^www\.|","",$_SERVER['SERVER_NAME']);
     $cmd = "/usr/local/bin/redis-cli --raw keys '*$serv*' | xargs /usr/local/bin/redis-cli del";
     die("Redis flushed for $serv");
+});
+Route::get('/s3',function(){
+    S3Util::updatePhotos();
 });
 Route::post('/tags-logout','SiteController@tagsLogout')->middleware('https');
 Route::get('/{page}','SiteController@resolve')->middleware('https');
