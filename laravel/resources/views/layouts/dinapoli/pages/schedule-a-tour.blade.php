@@ -71,7 +71,7 @@
                                     {{csrf_field()}}
                                     <?php if(Util::isDev() == false): ?>
                                     <div class="mb-20 mb-md-10 form-group">
-                                        <div class="g-recaptcha" data-sitekey="6LfamxwUAAAAAGFfyxU0wbGmPvOMKgXZCziZLxwl"></div>
+                                        <div class="g-recaptcha" data-sitekey="<?php echo $entity->getRecaptchaKey();?>"></div>
                                     </div>
                                     <input type='hidden' id='hiddenRecaptcha' name='hiddenRecaptcha' class='hiddenRecaptcha required'/>
                                     <?php endif; ?>
