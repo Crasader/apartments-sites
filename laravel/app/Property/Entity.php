@@ -60,6 +60,10 @@ class Entity extends Model
         return $this;
     }
 
+    public function getRecaptchaKey(){
+        return ENV("RECAPTCHA_KEY");
+    }
+
     public function grabTemplateId(string $serv){
         if(strlen(ENV("SERVER_TEMPLATE_FILE")) == 0){
             throw new BaseException("File does not exist: server template file");

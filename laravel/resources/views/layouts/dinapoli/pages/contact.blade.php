@@ -54,7 +54,7 @@
                                     </div>
                                     {{csrf_field()}}
                                     <div class="mb-20 mb-md-10 form-group">
-                                        <div class="g-recaptcha" id='grecaptcha' data-sitekey="6LfamxwUAAAAAGFfyxU0wbGmPvOMKgXZCziZLxwl"></div>
+                                        <div class="g-recaptcha" id='grecaptcha' data-sitekey="<?php echo $entity->getRecaptchaKey();?>"></div>
                                     </div>
 									
                                     <input type="hidden" class="hiddenRecaptcha required" name="hiddenRecaptcha" id="hiddenRecaptcha">
