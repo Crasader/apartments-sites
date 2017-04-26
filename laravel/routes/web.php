@@ -18,3 +18,7 @@ if(env('DEV')){
 }
 
 include('controllers/domain.php');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');

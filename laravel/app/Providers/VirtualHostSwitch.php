@@ -23,9 +23,10 @@ class VirtualHostSwitch extends ServiceProvider
     {
         $tempThis = $this;
         $this->app->bind(Site::class,function() use($tempThis) {
+            /*
             if(Site::$instance){
                 return Site::$instance;
-            }
+            }*/
             $entity = null;
             if($entity === null){
                 $entity = PropertyEntity::where('fk_legacy_property_id',$tempThis->_resolveSiteId())->get()->first();   
@@ -60,13 +61,6 @@ class VirtualHostSwitch extends ServiceProvider
 
     private function _resolveSiteId(){
         if(!Util::isFpm()){ return 0; }
-        \Debugbar::info("Redis site id: " . var_export(Redis::get($_SERVER['SERVER_NAME']),1));
-        if(!empty(Redis::get($_SERVER['SERVER_NAME']))){
-            Site::$site_id_set = true;
-            Site::$site_id = Redis::get($_SERVER['SERVER_NAME']);
-            \Debugbar::info("Site id is cached");
-            return Site::$site_id;
-        }
         if(preg_match('|^www\.|',$_SERVER['SERVER_NAME'])){ 
             $site = LegacyProperty::where('url','like','http://' . $_SERVER['SERVER_NAME'] . '%')->get();
         }else{
@@ -76,7 +70,6 @@ class VirtualHostSwitch extends ServiceProvider
             Site::$site_id_set = true;
             \Debugbar::info($_SERVER['SERVER_NAME']);
             Site::$site_id = $site->first()->id;
-            Redis::set($_SERVER['SERVER_NAME'],(string)Site::$site_id);
             return Site::$site_id;
         }
     }

@@ -78,8 +78,8 @@ class Util
 
     public static function redisFetchOrUpdate(string $key,$callable,$arrayType=false){
         if(env("REDIS_ALWAYS_FETCH") === '1'){
-            \Debugbar::info("REDIS ALWAYS FETCH");
             $foo = $callable();
+            \Debugbar::info("Always fetched: " . var_export($foo,1));
             self::redisUpdate($key,is_array($foo) ? self::redisEncode($foo) : $foo);
             return $foo;
         }

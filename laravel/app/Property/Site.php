@@ -25,15 +25,10 @@ class Site extends Model
             self::$instance = $this;
             self::$site_id = $entity['id'];
             self::$site_id_set = true;
-            if(!Util::redisIsNew('template_dir')){
-                self::$template_dir = Util::redisGet('template_dir');
-            }else{
-                self::$template_dir = Template::find($entity['fk_template_id'])
-                ->get()->first()
-                ->filesystem_id
-                ;
-                Util::redisUpdate('template_dir',self::$template_dir);
-            }
+            self::$template_dir = Template::where('id',$entity->fk_template_id)
+            ->get()->first()
+            ->filesystem_id
+            ;
             $this->id = $entity['id'];
         }
         if(is_array($entity)){
