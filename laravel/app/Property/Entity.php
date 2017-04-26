@@ -197,10 +197,10 @@ class Entity extends Model
     }
 
     public function getCustomStyleSheets($page){
-        return Util::redisFetchOrUpdate('clientside_assets_' . $page, function(){ 
+        //return Util::redisFetchOrUpdate('clientside_assets_' . $page, function(){ 
             $foo =  app()->make('App\Property\Clientside\Assets')->getStyleSheets(Site::$instance); 
             return $foo;
-            },true);
+        //    },true);
     }
 
     public function getGoogleAnalytics(){

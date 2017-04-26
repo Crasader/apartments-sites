@@ -255,14 +255,14 @@
                     <div class="map-block">
                         <div class="map">
                             <div class="map-container">
-                                <script type="text/javascript" src="<?php echo Util::redisFetchOrUpdate('google-maps-src-api',function() {
-                                    $url = PropertyTemplate::select('map_frame_src')->where('property_id',Site::$instance->getEntity()->fk_legacy_property_id)->get();
+                                <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo Util::redisFetchOrUpdate('google-maps-src-api',function() {
+                                    $url = PropertyTemplate::select('gmap_key')->where('property_id',Site::$instance->getEntity()->fk_legacy_property_id)->get();
                                     if(count($url)){
-                                        if(strlen($url[0]['map_frame_src'])){
-                                            return $url[0]['map_frame_src'];
+                                        if(strlen($url[0]['gmap_key'])){
+                                            return $url[0]['gmapy_key'];
                                         }
                                     }
-                                    return "https://maps.googleapis.com/maps/api/js?key=AIzaSyBKPvpp1b3YxfaEfOZQ6ySdzcpkDSfwqs8";
+                                    return "AIzaSyBKPvpp1b3YxfaEfOZQ6ySdzcpkDSfwqs8";
                                     });
                                 ?>"></script>
                                 <div style="overflow:hidden;height:537px;max-width:100%;">
@@ -347,9 +347,6 @@
                       
             @stop
             
-        @section('google-map-js')
-        @stop
-
         @section('page-specific-js')
 	    <script type="text/javascript">
             $(function(){
