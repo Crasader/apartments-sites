@@ -52,7 +52,7 @@ $displayOptions['dont-show-contact-details'] = 1;
                 
                 <div class="col-md-4 mt-30">
                     <div class="mod-breadcrumbs font-alt align-right">
-                        <a href="#">Home</a>&nbsp;/&nbsp;<span>Floor Plans & Availablity</span>
+                        <a href="/">Home</a>&nbsp;/&nbsp;<span>Floor Plans & Availablity</span>
                     </div>
                     
                 </div>
