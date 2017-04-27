@@ -207,11 +207,16 @@ class Entity extends Model
         $foo = $this;
         $legacyId = Site::$instance->getEntity()->fk_legacy_property_id;
         return Util::redisFetchOrUpdate('google_analytics',function() use($foo,$legacyId){
-            return PropertyTemplate::select('tracking_code')
+            $temp = PropertyTemplate::select('tracking_code')
                 ->where('property_id',$legacyId)
                 ->get()
-                ->first()
+            ;
+            if(count($temp)){
+                return $temp->first()
                 ->toArray()['tracking_code'];
+            }else{
+                return null;
+            }
         });
     }
 

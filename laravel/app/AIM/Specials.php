@@ -18,7 +18,11 @@ class Specials extends Model
         $this->connection = 'dynamic';
     }
     public function getSpecials(){
-        return \DB::connection($this->connection)->select($this->_procedures['specials']);
+        try{
+            return \DB::connection($this->connection)->select($this->_procedures['specials']);
+        }catch(Exception $e){
+            return [];
+        }
     }
 
 }

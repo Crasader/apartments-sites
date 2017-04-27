@@ -8,6 +8,37 @@ use Illuminate\Http\Request;
 
 class Util 
 {
+
+    public static function die404($req=null,$exception=null){
+        if($req){
+            //TODO: if preferences to log 404s...
+        }
+        if($exception){
+            //TODO: if preferences to log exceptions
+        }
+        $site = app()->make('App\Property\Site');
+        //TODO: route this stuff through site controller's population methods
+        echo view('layouts/' . $site->getEntity()->getTemplateName() . '/404',[
+            'entity'=> $site->getEntity(),
+            'fsid' => $site->getEntity()->getTemplateName(),
+            'page' => '404'
+            ]);
+        die();
+    }
+
+    public static function dieGeneric($req=null,$exception=null){
+        $site = app()->make('App\Property\Site');
+        //TODO: route this stuff through site controller's population methods
+        echo view('layouts/' . $site->getEntity()->getTemplateName() . '/404',[
+            'errorGeneric' => 1,
+            'entity'=> $site->getEntity(),
+            'fsid' => $site->getEntity()->getTemplateName(),
+            'page' => '404'
+            ]);
+        die();
+    }
+
+
     public static function isHttp(){
         return strcmp("http",$_SERVER['REQUEST_SCHEME']) == 0;
     }

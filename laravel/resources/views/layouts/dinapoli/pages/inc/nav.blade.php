@@ -1,13 +1,16 @@
 <?php 
 use App\Util\Util;
-$specials = app()->make('App\Property\Specials');
 
-$foo = $specials->traitGet('specials');
-$data = [];
-foreach($foo as $index => $object){
-    $data[$object->U_MARKETING_NAME] = $object->SPECIAL_TEXT;
+try{
+    $specials = app()->make('App\Property\Specials');
+    $foo = $specials->traitGet('specials');
+    $data = [];
+    foreach($foo as $index => $object){
+        $data[$object->U_MARKETING_NAME] = $object->SPECIAL_TEXT;
+    }
+}catch(\Exception $e){
+    $data = [];
 }
-
 ?>
 			<!-- Speacials Dropdown -->
             <?php if(isset($data['SpecialWebsite'])): ?>

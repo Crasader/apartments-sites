@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use App\Util\Util;
 
 class Handler extends ExceptionHandler
 {
@@ -44,6 +45,14 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if(env("DEV") !== "1"){
+            if(preg_match("|View \[[^\]]+\] not found|",$exception->getMessage())){
+                Util::die404($request,$exception);
+            }else{
+                Util::dieGeneric($request,$exception);
+            }
+            return;
+        }
         return parent::render($request, $exception);
     }
 

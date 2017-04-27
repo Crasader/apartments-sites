@@ -2,8 +2,13 @@
     use App\Util\Util;
     use App\Property\Template as PropertyTemplate;
     use App\Property\Site;
-    $specials = app()->make('App\Property\Specials');
-    $spec = $specials->fetchAllSpecials();
+    try{
+        $specials = app()->make('App\Property\Specials');
+        $spec = $specials->fetchAllSpecials();
+    }catch(\Exception $e){
+        $spec = null;
+    }
+
     
 ?>
 @extends('layouts/dinapoli/main')
@@ -44,6 +49,15 @@
                             <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide2a.jpg" class="visible-md visible-lg">
                             <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide2a-m.jpg" class="visible-xs visible-sm">
                         </li>
+                        <li>
+                            <div class="container">
+                                <div class="slide-title text-shadow">
+                                    <h1><?php echo $entity->getText('home-slideshow-3',['oneshot' => 'Comfort and Luxuries']);?></h1>
+                                    <h2><?php echo $entity->getText('home-slideshow-3a',['oneshot' => '24 hour town, scenic pool area, <br>and outdoor lounges.']);?></h2>
+                                    <a href="schedule-a-tour" class="btn btn-block btn-mod btn-brown btn-large btn-round">Schedule a Tour</a>
+                                </div>
+                            </div>
+                            <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide3a.jpg" class="visible-md visible-lg">
                         <li>
                             <div class="container">
                                 <div class="slide-title text-shadow">
@@ -342,12 +356,6 @@
                         
                     </div>
             	
-            	</div>        
-            </section>
-                      
-            @stop
-            
-        @section('page-specific-js')
 	    <script type="text/javascript">
             $(function(){
                 if(localStorage.getItem('#banner-special') != 'shown'){

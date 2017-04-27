@@ -2,8 +2,12 @@
 use App\Util\Util;
 use App\Property\Template as PropertyTemplate;
 use App\Property\Site;
-$specials = app()->make('App\Property\Specials');
-$spec = $specials->fetchAllSpecials();
+try{
+    $specials = app()->make('App\Property\Specials');
+    $spec = $specials->fetchAllSpecials();
+}catch(\Exception $e){
+    $specials = $spec = null;
+}
 
 ?>
     @extends('layouts/bascom/main')
