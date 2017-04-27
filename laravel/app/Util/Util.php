@@ -16,6 +16,7 @@ class Util
         if($exception){
             //TODO: if preferences to log exceptions
         }
+        //self::log("404: " . var_export($req,1) . " EXCEPTION: " . var_export($exception,1));
         $site = app()->make('App\Property\Site');
         //TODO: route this stuff through site controller's population methods
         $site->getEntity()->loadLegacyProperty();
@@ -29,6 +30,7 @@ class Util
 
     public static function dieGeneric($req=null,$exception=null){
         $site = app()->make('App\Property\Site');
+        self::log("Generic error: " . $exception->getMessage() . "::" .  $exception->getCode() . ": " . $exception->getFile() . "::" . $exception->getLine() . "::" .  var_export($exception->getTraceAsString(),1));
         //TODO: route this stuff through site controller's population methods
         $site->getEntity()->loadLegacyProperty();
         echo view('layouts/' . $site->getEntity()->getTemplateName() . '/404',[

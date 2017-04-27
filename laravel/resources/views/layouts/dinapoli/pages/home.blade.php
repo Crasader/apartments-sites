@@ -27,7 +27,6 @@
                 <div class="main-slider">
                     <ul class="slippry">
                         <li>
-                            <?php //TODO: Loop through and dump slideshow ?>
                             <div class="container">
                                 <div class="slide-title text-shadow">
                                     <h1><?php echo $entity->getText('home-slideshow-1',['oneshot' => 'The Gateway to Henderson Nevada']);?></h1>
@@ -58,6 +57,9 @@
                                 </div>
                             </div>
                             <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide3a.jpg" class="visible-md visible-lg">
+                            <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide3a-m.jpg" class="visible-xs visible-sm">
+                        </li>
+                        <?php /*
                         <li>
                             <div class="container">
                                 <div class="slide-title text-shadow">
@@ -66,9 +68,10 @@
                                     <a href="schedule-a-tour" class="btn btn-block btn-mod btn-brown btn-large btn-round">Schedule a Tour</a>
                                 </div>
                             </div>
-                            <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide3a.jpg" class="visible-md visible-lg">
-                            <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide3a-m.jpg" class="visible-xs visible-sm">
+                            <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide4a.jpg" class="visible-md visible-lg">
+                            <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide4a-m.jpg" class="visible-xs visible-sm">
                         </li>
+                        */?>
                     </ul>
                 </div>
                 <?php if(isset($spec['website'])): ?>

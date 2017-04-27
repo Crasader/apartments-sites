@@ -19,14 +19,15 @@ class Mailer extends Model
                 $mail->SMTPSecure = "tls"; // or ssl
                 $mail->Host = "smtp.gmail.com";
                 $mail->Port =  587;
-                if(Util::isDev()){
+                //jif(Util::isDev()){
                     $mail->Username = "wmerfalen@gmail.com";
                     $mail->Password = "qrklznccerdjjudl";
+                    /*
                 }else{
                     //TODO: !launch get this stuff filled out in the .env
                     $mail->Username = env('MAILER_EMAIL');
                     $mail->Password = env('MAILER_PASSWORD');
-                }
+                }*/
                 if(isset($conf['contact']['fullname'])){
                     $mail->setFrom($conf['from'], $conf['contact']['fullname']);
                 }else{

@@ -36,6 +36,7 @@ class PostController extends Controller
         'text-tag' => 'handleTextTag',
         'text-tag-get' => 'handleGetTextTag',
         'apply-online' => 'handleApplyOnline',
+        'resident-contact-mailer' => 'handleResidentContact',
     ];
     protected $_translations = [];
     //
@@ -145,6 +146,42 @@ class PostController extends Controller
         ];
     }
 
+    public function handleResidentContact(Request $req){
+        $data = $_POST;
+        Site::$instance = $site = app()->make('App\Property\Site');
+
+        /*
+        TODO
+        $this->validate($req, [
+            'ResidentName' => 'required|max:64',
+            'email' => 'required|email',
+        ]);*/
+        //
+        $siteData = $this->resolvePageBySite('/resident-portal/contact-request',['resident-portal' => true]);
+        $to = $data['email'];
+        $data['mode'] = 'resident-contact';
+        $data['fname'] = explode(" ",$data['name'])[0];
+        $data['lname'] = explode(" ",$data['name'])[1];
+        $finalArray = $this->_prefillArray($data);
+        $finalArray['contact'] = $data;
+        (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
+            'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
+            'to' => $to,
+            'contact' => $data,
+            'mode' => 'contact-request',
+            'subject' => 'Resident Portal Contact Request for property: ' . Site::$instance->getEntity()->getLegacyProperty()->name,
+            //TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
+            'data' => view('layouts/resident-portal/email/contact',$finalArray)
+            ]);
+        $siteData['data']['sent'] = true;
+        $siteData['data']['name'] = $req->input('name');
+        $siteData['data']['email'] = $req->input('email');
+        $siteData['data']['phone'] =  (isset($_POST['phone']) && strlen($_POST['phone'])) ? $_POST['phone'] : "No phone number supplied";
+        $siteData['data']['memo'] = (isset($_POST['memo']) && strlen($_POST['memo'])) ? $_POST['memo'] : "no memo supplied";
+        
+            return view($siteData['path'],$siteData['data']);
+    }
+
     public function handleApplyOnline(Request $req){
         $data = $_POST;
         Site::$instance = $site = app()->make('App\Property\Site');
@@ -234,8 +271,11 @@ class PostController extends Controller
         if(Util::isDev()){
             return 'wmerfalen@gmail.com';
         }
-        return \App\Property\Template::select('email')->where('property_id',Site::$instance->getEntity()->fk_legacy_property_id)
-            ->get()->toArray()['email'];
+        $email = \App\Property\Template::select('email')->where('property_id',Site::$instance->getEntity()->fk_legacy_property_id)
+            ->get();
+        if(count($email)){
+            return $email[0]['email'];
+        }
     }
     
     public function validateCaptcha(string $captcha){
