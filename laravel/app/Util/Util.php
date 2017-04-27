@@ -78,8 +78,8 @@ class Util
 
     public static function redisFetchOrUpdate(string $key,$callable,$arrayType=false){
         if(env("REDIS_ALWAYS_FETCH") === '1'){
+            \Debugbar::info("REDIS ALWAYS FETCH");
             $foo = $callable();
-            \Debugbar::info("Always fetched: " . var_export($foo,1));
             self::redisUpdate($key,is_array($foo) ? self::redisEncode($foo) : $foo);
             return $foo;
         }
@@ -129,7 +129,7 @@ class Util
             if($site->redis_alias !== null){
                 return Site::$instance->redis_alias . ':' . $foo;
             }
-            return preg_replace("|^www\.|","",$_SERVER['SERVER_NAME']) . ":$foo";
+            return str_replace("www.","",$_SERVER['SERVER_NAME']) . ":$foo";
         }else{
             return $foo;
         }

@@ -149,7 +149,7 @@ class PostController extends Controller
         $data = $_POST;
         Site::$instance = $site = app()->make('App\Property\Site');
         if(!Util::isDev()){
-            if(!$this->validateCaptch($data['g-recaptcha-response'])){
+            if(!$this->validateCaptcha($data['g-recaptcha-response'])){
                 return $this->invalidCaptcha('apply-online');
             }
         }
@@ -234,7 +234,7 @@ class PostController extends Controller
         if(Util::isDev()){
             return 'wmerfalen@gmail.com';
         }
-        return App\Property\Template::select('email')->where('property_id',Site::$instance->getEntity()->fk_legacy_property_id)
+        return \App\Property\Template::select('email')->where('property_id',Site::$instance->getEntity()->fk_legacy_property_id)
             ->get()->toArray()['email'];
     }
     

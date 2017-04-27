@@ -25,8 +25,10 @@ class FloorPlanImage extends Model
                 ['floorplan_name' =>  $floorplan]
                 )->get();
             if(count($rows) == 0){
+                Util::log("Fetching floorplans... ");
                 return $foo->fetchAll();
             }else{
+                Util::log("Returning formatted db result: " . var_export($rows,1));
                 return $foo->formatDbResult($rows);
             }
         },true);
@@ -80,12 +82,15 @@ class FloorPlanImage extends Model
         \curl_exec($ch);
         $retcode = \curl_getinfo($ch, CURLINFO_HTTP_CODE);
         \curl_close($ch);
+        Util::log("File exists: $url: retcode: " . var_export($retcode,1));
         if($retcode >= 400){ 
             \Debugbar::info("NOT FOUND: $url");
             return FloorPlanImage::NOT_FOUND;
         }else if($retcode == 200){
             \Debugbar::info("FOUND: $url");
             return FloorPlanImage::FOUND;
+        }else{
+
         }
     }
 }
