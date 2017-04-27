@@ -258,7 +258,7 @@
                                 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo Util::redisFetchOrUpdate('google-maps-src-api',function() {
                                     $url = PropertyTemplate::select('gmap_key')->where('property_id',Site::$instance->getEntity()->fk_legacy_property_id)->get();
                                     if(count($url)){
-                                        if(strlen($url[0]['gmap_key'])){
+                                        if(strlen(trim($url[0]['gmap_key']))){
                                             return $url[0]['gmapy_key'];
                                         }
                                     }

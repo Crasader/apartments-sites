@@ -459,7 +459,7 @@ class Entity extends Model
         }else{
             $q = "'";
         }
-        if(session('tags-admin-userid') == '1'){
+        if($_SERVER['REMOTE_ADDR'] == env('TAGS_ADMIN_IP') && session('tags-admin-userid') == '1'){
             if($text === null){ return "<b style={$q}color:green{$q} class={$q}edit-tag{$q} onclick='edit_tag(\"$name\");'>{!}</b>"; }
             if(in_array($name,$this->_decorateIgnoreText)){ 
                 if(strlen($text) == 0){
@@ -469,7 +469,7 @@ class Entity extends Model
             }
             return $this->conditionalDecorateTags($name,$text,$opts);// . "<b style={$q}color:red;{$q} class={$q}edit-tag{$q} onclick='edit_tag(\"$name\")'>{!}</b>";
         }else{
-            return $text;
+            return preg_replace("|<b style=['\"]color:[^>]*>\{!\}</b>|","",$text);
         }
     }
 
@@ -548,6 +548,7 @@ class Entity extends Model
             }
             return $this->decorateGetText($name,$text,$opts);
         });
+
         \Debugbar::info("Updating textcahce: $name");
         return $this->decorateGetText($name,$returnValue,$opts);
     }
