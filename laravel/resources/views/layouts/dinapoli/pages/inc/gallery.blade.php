@@ -3,9 +3,16 @@
                         <a href="#" class="filter active" data-filter="*">All</a>
                         <?php 
                         //TODO: load items and filters dynamically by entity
+                            if(isset($galleryOptions)){
+                                $sections = $galleryOptions['sections'];
+                                $filters = $galleryOptions['filters'];
+                            }else{
+                                $sections = ['community' => 'Community','main' => 'Apartment'];
+                                $filters = ['community','main'];
+                            }
                             $gallery = app()->make('App\Property\Gallery');
-                            $gallery->setFilters(['community','main']);
-                            foreach(['community' => 'Community','main'=>'Apartment'] as $type => $label):
+                            $gallery->setFilters($filters);
+                            foreach($sections as $type => $label):
                         ?>
                         <a href="#<?php echo $type;?>" class="filter" data-filter=".<?php echo $type;?>"><?php echo $label;?></a>
                         <?php

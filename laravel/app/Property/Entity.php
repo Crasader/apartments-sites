@@ -44,6 +44,9 @@ class Entity extends Model
         
         $this->fk_legacy_property_id = $legacyProperty->id;
         $templateName = $this->grabTemplateId($_SERVER['SERVER_NAME']);
+        if($templateName === null){
+            throw new BaseException("Unable to find template for property");
+        }
         Util::log($templateName);
         if($templateName === null){
             //TODO: instead of storing this stuff in a file, store it elsewhere in a db or something
@@ -76,7 +79,9 @@ class Entity extends Model
     }
 
     public function getAssetsVersion(string $path){
-        return date("Y-m-d-H-i_s", fileatime(public_path() . "/" . $path));
+        if(file_exists(public_path() ."/{$path}")){
+            return date("Y-m-d-H-i_s", fileatime(public_path() . "/" . $path));
+        }
     }
 
     public function createClientDir(){
@@ -112,14 +117,8 @@ class Entity extends Model
     public function getTemplateName() : string{
         $id = $this->fk_template_id;
         return Util::redisFetchOrUpdate('template_name',function() use($id) {
-            if(Util::redisIsNew('template_name')){
-                $name = Template::select('name')->where('id',$id)->get()->toArray()[0]['name'];
-                Util::redisUpdate('template_name',$name);
-                return $name;
-            }
-            if($tname = Util::redisGet('template_name')){
-                return $tname;
-            }
+            $name = Template::select('name')->where('id',$id)->get()->toArray()[0]['name'];
+            return $name;
         });
     }
 
@@ -508,10 +507,6 @@ class Entity extends Model
     public function getText(string $name,array $opts = []){
         $foo = $this;
         self::$_objectInstance = $this;
-        if(!Util::redisIsNew('textcache_str_key_' . $name)){
-            \Debugbar::info("Returning cached: textcache_str_key_{$name}");
-            return $this->decorateGetText($name,Util::redisGet('textcache_str_key_' . $name),$opts);
-        }
         $returnValue = Util::redisFetchOrUpdate('textcache_str_key_' . $name,function() use($foo,$name,$opts) {
             $translatables = [
                 'apartment-title' => $foo->getLegacyProperty()->name,
@@ -544,9 +539,10 @@ class Entity extends Model
                 $prop->property_text_type_id = $textTypeId;
                 $prop->entity_id = $foo->id;
                 $prop->save();
-
+                $text = $opts['oneshot'];
+                \Debugbar::info("Name; $name text: $text");
             }
-            return $this->decorateGetText($name,$text,$opts);
+            return $foo->decorateGetText($name,$text,$opts);
         });
 
         \Debugbar::info("Updating textcahce: $name");
