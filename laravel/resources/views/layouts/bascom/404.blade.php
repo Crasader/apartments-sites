@@ -6,8 +6,6 @@ use App\Util\Util;
     <head>
         <title><?php echo $entity->getCity();?> <?php echo $entity->getAbbreviatedState();?> Apartments | Luxury Apartments For Rent | <?php echo $entity->getLegacyProperty()->name;?>></title>
 @section('meta')
-        <meta name="description" content="<?php echo $entity->getMeta('description',$_SERVER['REQUEST_URI']);?>">
-        <meta name="keywords" content="<?php echo $entity->getMeta('keywords',$_SERVER['REQUEST_URI']);?>">
         <meta charset="utf-8">
         <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -26,25 +24,16 @@ use App\Util\Util;
             <link rel="stylesheet" href="<?php echo $sheet;?>">
        <?php endforeach; ?>
 @show
-        <style type='text/css'>
-            .exitpop-inner {
-                background: url(<?php echo $entity->getWebPublicDirectory('popup');?>/popup.jpg);
-            }
-        </style>
-        <?php echo $entity->getGoogleAnalytics(); ?>
-        @yield('extra-css')
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 		<!--[if lt IE 9]>
 			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 		<![endif]-->
-		@yield('recaptcha-js')
     </head>
     <body class="appear-animate">
       <!-- Page Wrap -->
                  <div class="page" id="top">
-          
         <!-- End Page Loader -->
         @include('layouts/bascom/pages/inc/nav')
             <div class="row text-center">
@@ -54,7 +43,6 @@ use App\Util\Util;
                     <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Page not found</h1>
                 <?php endif; ?>
             </div>
-            @yield('schedule-a-tour')
             @section('footer')
             	<!-- Footer -->
                 @include('layouts/bascom/pages/inc/footer')
@@ -63,9 +51,6 @@ use App\Util\Util;
             @yield('epop')
 
     </div><!-- end page wrap -->
-
-        
-
 
        @section('js')
         <!-- JS -->

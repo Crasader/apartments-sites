@@ -18,6 +18,7 @@ class Util
         }
         $site = app()->make('App\Property\Site');
         //TODO: route this stuff through site controller's population methods
+        $site->getEntity()->loadLegacyProperty();
         echo view('layouts/' . $site->getEntity()->getTemplateName() . '/404',[
             'entity'=> $site->getEntity(),
             'fsid' => $site->getEntity()->getTemplateName(),
@@ -29,6 +30,7 @@ class Util
     public static function dieGeneric($req=null,$exception=null){
         $site = app()->make('App\Property\Site');
         //TODO: route this stuff through site controller's population methods
+        $site->getEntity()->loadLegacyProperty();
         echo view('layouts/' . $site->getEntity()->getTemplateName() . '/404',[
             'errorGeneric' => 1,
             'entity'=> $site->getEntity(),
