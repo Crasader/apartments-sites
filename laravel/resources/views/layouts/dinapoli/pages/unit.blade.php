@@ -8,7 +8,7 @@ $js = app()->make('App\Javascript\ApplySubmitter');
 $js->setCollection($units);
 $js->generateIDs();
 
-$unitType = preg_replace("|[^a-z]+|","",strtolower($extras['unittype']));
+$unitType = $extras['unittype'];
 
 ?>
 @extends('layouts/dinapoli/main')
@@ -46,8 +46,8 @@ $unitType = preg_replace("|[^a-z]+|","",strtolower($extras['unittype']));
                             
                             <!-- Floor Plan Thumbnail -->
                             <div class="row unit-thumb">
-                                <a href="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $unitType;?>.png" class="lightbox-gallery-2 mfp-image">
-                                <img src="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $unitType;?>.png"></a>
+                                <a href="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $unitType;?>.jpg" class="lightbox-gallery-2 mfp-image">
+                                <img src="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $unitType;?>.jpg"></a>
                             </div>
                         </div>
                         
@@ -99,7 +99,7 @@ $unitType = preg_replace("|[^a-z]+|","",strtolower($extras['unittype']));
                         	<div class="row unit-table-row">
                                                                                                         
 								<div class="col-md-3">
-                                    <?php if($object->RENOVATED == "RENOVATED"): ?>
+                                    <?php if(isset($object->RENOVATED) && $object->RENOVATED == "RENOVATED"): ?>
                                         <div style="position:absolute; top:-25px; margin:0px auto; left:0px; right:0px;">
                                             <span class="label label-success">RENOVATED</span>
                                         </div>

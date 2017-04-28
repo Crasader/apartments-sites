@@ -187,7 +187,7 @@ class Util
     }
 
     public static function transformFloorplanName(string $name){
-        return preg_replace("|[^a-z]+|","",strtolower($name));
+        return preg_replace("|[^a-z0-9]+|","",strtolower($name));
     }
 
     public static function isResidentPortal(){

@@ -242,7 +242,7 @@ class PostController extends Controller
         $data = $_POST;
         Site::$instance = $site = app()->make('App\Property\Site');
         $cleaned = [
-            'unittype' => preg_replace('|[^a-zA-Z 0-9]{1,}|','',$data['unittype']),
+            'unittype' => Util::transformFloorplanName($data['unittype']),
             'bed' => intval($data['bed']),
             'bath' => floatval($data['bath']),
             'sqft' => intval($data['sqft'])

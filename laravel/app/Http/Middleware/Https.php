@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as BaseVerifier;
+use App\Util\Util;
 
 class Https extends BaseVerifier
 {
@@ -18,9 +19,24 @@ class Https extends BaseVerifier
     ];
 
     public function handle($request, Closure $next) {
+        if($this->hostIsException()){
+            return $next($request);
+        }
+        
 		if (!$request->secure()){// && env('APP_ENV') === 'prod') {
 			return redirect()->secure($request->getRequestUri());
 		}
 		return $next($request); 
+    }
+
+    public function hostIsException(){
+        if(file_exists(config_path() . "/https-exceptions.json") == false){
+            return false;
+        }
+        $foo = json_decode(file_get_contents(config_path() . "/https-exceptions.json"),true);
+        $keys = array_keys($foo);
+        $serv = str_replace("www.","",$_SERVER['SERVER_NAME']);
+        Util::log(var_export($keys,1));
+        return in_array($serv,$keys);
     }
 }
