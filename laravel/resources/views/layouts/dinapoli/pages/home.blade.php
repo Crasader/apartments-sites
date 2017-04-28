@@ -358,7 +358,9 @@
                         </div>
                         
                     </div>
-            	
+            </section>
+        @stop
+        @section('page-specific-js')
 	    <script type="text/javascript">
             $(function(){
                 if(localStorage.getItem('#banner-special') != 'shown'){
