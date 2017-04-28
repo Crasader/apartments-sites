@@ -36,7 +36,6 @@ class Https extends BaseVerifier
         $foo = json_decode(file_get_contents(config_path() . "/https-exceptions.json"),true);
         $keys = array_keys($foo);
         $serv = str_replace("www.","",$_SERVER['SERVER_NAME']);
-        Util::log(var_export($keys,1));
         return in_array($serv,$keys);
     }
 }
