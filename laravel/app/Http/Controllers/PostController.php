@@ -27,17 +27,30 @@ class PostController extends Controller
     //Declared by trait: protected $_site
     //TODO: Create a loading mechanism so we can dynamically load and unload allowed handlers
     protected $_allowed = [
-        'unit' => 'handleUnit',
-        'contact' => 'handleContact',
-        'schedule' => 'handleSchedule',
+        /**********************************************************/
+        /* Routes that process non-authenticated form submissions */
+        /**********************************************************/
+        'unit'          => 'handleUnit',
+        'contact'       => 'handleContact',
+        'schedule'      => 'handleSchedule',
+        'apply-online'  => 'handleApplyOnline',
+
+        /* Administrative/CMS routes */
+        'text-tag'      => 'handleTextTag',
+        'text-tag-get'  => 'handleGetTextTag',
+
+        /******************************/
+        /* Routes for resident portal */
+        /******************************/
         'portal-center' => 'handleResident',
-        'maintenance-request' => 'handleMaintenance',
-        'reset-password' => 'handleResetPassword',
-        'find-userid' => 'handleFindUserId',
-        'text-tag' => 'handleTextTag',
-        'text-tag-get' => 'handleGetTextTag',
-        'apply-online' => 'handleApplyOnline',
-        'resident-contact-mailer' => 'handleResidentContact',
+        'find-userid'   => 'handleFindUserId',
+        'reset-password'=> 'handleResetPassword',
+
+        /*==========================================================*/
+        /* Routes that require authentication (done via middleware) */
+        /*==========================================================*/
+        'resident-contact-mailer'   => 'handleResidentContact',
+        'maintenance-request'       => 'handleMaintenance',
     ];
     protected $_translations = [];
     //
@@ -156,7 +169,9 @@ class PostController extends Controller
     public function handleResidentContact(Request $req){
         $data = $_POST;
         Site::$instance = $site = app()->make('App\Property\Site');
-
+        if(Session::residentUserLoggedIn() === false){
+            return $this->residentNotLoggedIn();
+        }
         /*
         TODO
         $this->validate($req, [
@@ -252,8 +267,7 @@ class PostController extends Controller
             'unittype' => Util::transformFloorplanName($data['unittype']),
             'bed' => intval($data['bed']),
             'bath' => floatval($data['bath']),
-            'sqft' => intval($data['sqft']),
-            'orig_unittype' => $data['unittype']
+            'sqft' => intval($data['sqft'])
         ];
 
         $siteData = $this->resolvePageBySite('unit',$cleaned);
@@ -373,7 +387,7 @@ class PostController extends Controller
     public function handleMaintenance(Request $req){
         $data = $_POST;
         Site::$instance = $this->_site = app()->make('App\Property\Site');
-        if(session('user_id') === null){
+        if(Session::residentUserLoggedIn() === false){
             return $this->residentNotLoggedIn();
         }
         $this->validate($req, [
@@ -556,11 +570,10 @@ class PostController extends Controller
             $page = 'resident-portal/portal-center';
             //TODO: !refactor !organization make this a function to be called to login a user
             Session::start();
-            Session::key(Session::USER_LOGIN_KEY,$user . ':' . md5($pass));
+            Session::residentUserSet($user . ':' . md5($pass));
             $extra = ['resident-portal' => true];
-            die("LMAO");
         }else{
-            Session::unsetKey(Session::USER_LOGIN_KEY);
+            Session::residentUserUnset();
             $page = 'resident-portal';
             $extra = [];
         }
