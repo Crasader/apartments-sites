@@ -467,7 +467,7 @@ class PostController extends Controller
             'to' => $to,
             'contact' => $cleaned,
             'mode' => 'schedule-a-tour',
-            'subject' => 'Resident Center Contact Request at ' . Site::$instance->getEntity()->getLegacyProperty()->name,
+            'subject' => 'Schedule a tour request at ' . Site::$instance->getEntity()->getLegacyProperty()->name,
             //TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
             'data' => view('layouts/dinapoli/email/user-confirm',$finalArray)
             ]);
