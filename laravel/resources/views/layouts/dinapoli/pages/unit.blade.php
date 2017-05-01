@@ -3,7 +3,8 @@ use App\Util\Util;
 use App\Javascript\ApplySubmitter;
 
 $unit = app()->make('App\AIM\Unit');
-$units = $unit->getAllByType($extras['unittype']);
+Util::log(var_export($extras,1));
+$units = $unit->getAllByType($extras['orig_unittype']);
 $js = app()->make('App\Javascript\ApplySubmitter');
 $js->setCollection($units);
 $js->generateIDs();
@@ -94,6 +95,7 @@ $unitType = $extras['unittype'];
                             <?php //TODO: replace this with php. do unit, rent, available ?>
                             <?php
                                 $unit = app()->make('App\AIM\Unit');
+                                \App\Util\Util::log(var_export($units,1));
                                 foreach($units as $index => $object):
                             ?>
                         	<div class="row unit-table-row">
