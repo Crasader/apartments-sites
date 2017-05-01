@@ -252,7 +252,8 @@ class PostController extends Controller
             'unittype' => Util::transformFloorplanName($data['unittype']),
             'bed' => intval($data['bed']),
             'bath' => floatval($data['bath']),
-            'sqft' => intval($data['sqft'])
+            'sqft' => intval($data['sqft']),
+            'orig_unittype' => $data['unittype']
         ];
 
         $siteData = $this->resolvePageBySite('unit',$cleaned);
