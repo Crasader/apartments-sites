@@ -60,7 +60,10 @@ $js->generateIDs();
                                 $printed[] = $object->BED;
                         ?>
                         <a href="#<?php echo $object->BED;?>bed" class="filter" data-filter=".<?php echo $object->BED;?>bed">
-                        <?php echo $object->BED; ?> Bedroom<?php if($object->BED > 1){ echo "s"; }?>
+                        <?php if(strtolower($object->BED) == "studio"){ echo "studio"; }else{
+                            echo $object->BED . " Bedroom"; 
+                            if($object->BED > 1){ echo "s"; }
+                        }?>
                         </a>
                         <?php
                             endforeach;
@@ -86,8 +89,8 @@ $js->generateIDs();
                                             <div class="floorplan-thumb">
                                                 <?php //TODO: make a function to clean this cruft ?>
                                                 <?php $uName = Util::transformFloorplanName($object->U_MARKETING_NAME);?>
-                                                <a href="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $uName;?>.<?php echo $object->image_data[$uName];?>" class="lightbox-gallery-2 mfp-image">
-                                                <img src="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $uName;?>.<?php echo $object->image_data[$uName];?>"></a>
+                                                <a href="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $uName;?>.jpg" class="lightbox-gallery-2 mfp-image">
+                                                <img src="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $uName;?>.jpg"></a>
                                             </div>
 
                                              <!-- Unit Title -->
@@ -121,9 +124,13 @@ $js->generateIDs();
                                             <div class="pr-button">
                                                 <?php 
                                                     $text = '';
+                                                    $id = $js->getGenId($index);
+                                                    $href = null;
                                                     switch($object->AVAIL){
                                                     case '0':
                                                         $text = 'Limited | MORE INFO';
+                                                        $id = "foo_" . uniqid();
+                                                        $href = "href='/contact'";
                                                         break;
                                                     case '1':
                                                         $text = '1 Unit Available';
@@ -132,7 +139,7 @@ $js->generateIDs();
                                                         $text = $object->AVAIL . ' Units Available';
                                                     }
                                                 ?>
-                                                         <a style="cursor:pointer" id="<?php echo $js->getGenId($index); ?>" class="btn btn-brown btn-mod">
+                                                         <a <?php echo $href;?> style="cursor:pointer" id="<?php echo $id; ?>" class="btn btn-brown btn-mod">
                                                          <?php echo $text;?>
                                                 </a>
                                             </div>

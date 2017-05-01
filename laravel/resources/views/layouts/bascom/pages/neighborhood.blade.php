@@ -32,6 +32,12 @@
                 <div class="container relative">
                     <?php
                         $feature  = app()->make('App\Property\Feature');
+                        $ctr = 0;
+                        $headers = [
+                        0 => '<div class="align-center"><h2 class="section-title font-alt"><span class="icon-basket"></span>&nbsp;&nbsp;Dining & Shopping</h2></div>',
+                        1 => '<div class="align-center"><h2 class="section-title font-alt"><span class="icon-bike"></span>&nbsp;&nbsp;Recreation</h2></div>',
+                        2 => '<div class="align-center"><h2 class="section-title font-alt"><span class="icon-calendar"></span>&nbsp;&nbsp;Events</h2></div>'
+                        ];
                         foreach(array_chunk($entity->hasNeighborhood()->get()->toArray(),3) as $chunkIndex => $chunkArray):
                             echo '<div class="section-text mb-80 mb-sm-20">';
                             echo '<div class="row">';
@@ -40,6 +46,7 @@
                     <!-- Team item -->
                     <div class="col-sm-4 mb-xs-50 wow fadeInUp">
                         <div class="team-item ">
+                            <?php echo $headers[$ctr++];?>
                             <div class="team-item-image">
                                 <img src="<?php echo $feature->decorator($nFeature)['image'];?>" alt="" class="mb-40 mb-sm-20"/>
                                 <div class="team-item-detail">
@@ -65,6 +72,40 @@
             </section>
             <!-- End About Section -->
             
+
+                       <!-- Call Action Section -->
+            <section class="page-section pt-0 pb-0 banner-section bg-dark" data-background="<?php echo $entity->getWebPublicDirectory('');?>/bg1.jpg">
+                <div class="container relative">
+
+                    <div class="row">
+
+                        <div class="col-sm-6">
+
+                            <div class="mt-140 mt-lg-80 mb-140 mb-lg-80">
+                                <div class="banner-content">
+                                    <h3 class="banner-heading font-alt">Schedule A Tour Today!</h3>
+                                    <div class="banner-decription">
+                                        <?php echo $entity->getText('schedule-a-tour-description',['oneshot' =>'Proin fringilla augue at maximus vestibulum. Nam pulvinar vitae neque et porttitor.
+                                        Integer non dapibus diam, ac eleifend lectus.']);?>
+                                    </div>
+                                    <div class="local-scroll">
+                                        <a href="#" class="btn btn-mod btn-brown btn-medium btn-round">SCHEDULE A TOUR</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-6 banner-image wow fadeInUp">
+                            <img src="<?php echo $entity->getWebPublicDirectory('');?>/blue-print.png" alt="" />
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+            <!-- End Call Action Section -->
+
             <section class="page-section pb-0">
             	<div class="container relative">
             		<div class="section-text mb-60 mb-sm-20">
@@ -80,7 +121,7 @@
 	                </div>
             	</div>
             </section>
-            
+ 
             
             <!-- Google Map -->
             <section class="page-section pb-0">
@@ -95,17 +136,79 @@
                                 <div>
                                 @include('layouts/dinapoli/pages/inc/google-maps-script')
                             </div>
-                            @include('layouts/dinapoli/pages/inc/google-maps-apartment-feature')
+                            <?Php //@include('layouts/dinapoli/pages/inc/google-maps-apartment-feature') ?>
                         </div>
                     </div>
                 </div>
              </section>
             <!-- End Google Map -->
+         <!-- <section class="contact-padding page-section" id="contact"> -->
+                <div class="container relative">
+
+                    <div class="row">
+
+                        <div class="col-md-10 col-md-offset-1">
+                            <div class="row">
+
+                                <!-- Phone -->
+                                <div class="col-sm-6 col-lg-4 pt-20 pb-20 pb-xs-20">
+                                    <div class="contact-item">
+                                        <div class="ci-icon">
+                                            <i class="fa fa-phone"></i>
+                                        </div>
+                                        <div class="ci-title font-alt">
+                                            Call Us
+                                        </div>
+                                        <div class="ci-text">
+                                            <?php echo $entity->getPhone();?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Phone -->
+
+                                <!-- Address -->
+                                <div class="col-sm-6 col-lg-4 pt-20 pb-20 pb-xs-20">
+                                    <div class="contact-item">
+                                        <div class="ci-icon">
+                                            <i class="fa fa-map-marker"></i>
+                                        </div>
+                                        <div class="ci-title font-alt">
+                                            Address
+                                        </div>
+                                        <div class="ci-text">
+                                           <?php echo $entity->getFullAddress();?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Address -->
+
+                                <!-- Office Hours -->
+                                <div class="col-sm-6 col-lg-4 pt-20 pb-20 pb-xs-20">
+                                    <div class="contact-item">
+                                        <div class="ci-icon">
+                                            <i class="fa fa-info-circle"></i>
+                                        </div>
+                                        <div class="ci-title font-alt">
+                                            Office Hours
+                                        </div>
+                                        <div class="ci-text">
+                                            <?php echo $entity->getHours();?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Office Hours-->
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            <!-- </section> -->
+ 
              @stop
             
-            @section('action','')
-            @section('contact','')
-
+        <?php $displayOptions['dont-show-contact-details'] = true; ?>
 
         @section('google-maps-js')
         <!-- Replace test API Key "AIzaSyAZsDkJFLS0b59q7cmW0EprwfcfUA8d9dg" with your own one below 

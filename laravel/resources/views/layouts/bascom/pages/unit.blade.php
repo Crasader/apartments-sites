@@ -8,10 +8,10 @@ $js = app()->make('App\Javascript\ApplySubmitter');
 $js->setCollection($units);
 $js->generateIDs();
 
-$unitType = $extras['unittype'];
+$unitType = preg_replace("|[^a-z]+|","",strtolower($extras['unittype']));
 
 ?>
-@extends('layouts/dinapoli/main')
+@extends('layouts/bascom/main')
                         @section('page-title-row')
                         <div class="col-md-8">
                             <h1 class="hs-line-11 font-alt mb-20 mb-xs-0"><?php echo $extras['unittype'];?></h1>
@@ -46,8 +46,8 @@ $unitType = $extras['unittype'];
                             
                             <!-- Floor Plan Thumbnail -->
                             <div class="row unit-thumb">
-                                <a href="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $unitType;?>.jpg" class="lightbox-gallery-2 mfp-image">
-                                <img src="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $unitType;?>.jpg"></a>
+                                <a href="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $unitType;?>.png" class="lightbox-gallery-2 mfp-image">
+                                <img src="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $unitType;?>.png"></a>
                             </div>
                         </div>
                         

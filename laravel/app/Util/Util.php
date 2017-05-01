@@ -16,6 +16,7 @@ class Util
         if($exception){
             //TODO: if preferences to log exceptions
         }
+        //self::log("404: " . var_export($req,1) . " EXCEPTION: " . var_export($exception,1));
         $site = app()->make('App\Property\Site');
         //TODO: route this stuff through site controller's population methods
         $site->getEntity()->loadLegacyProperty();
@@ -29,6 +30,12 @@ class Util
 
     public static function dieGeneric($req=null,$exception=null){
         $site = app()->make('App\Property\Site');
+        $path = "";
+        if($req){
+            $path = $req->path();
+        }
+        self::log("Generic error: Site:" . $site->getEntity()->property_name . ": Page: {$path}" . 
+            " Message:" . $exception->getMessage() . "::Code:" .  $exception->getCode() . ":File:" . $exception->getFile() . "::Line:" . $exception->getLine() . "::TraceAsString" .  var_export($exception->getTraceAsString(),1));
         //TODO: route this stuff through site controller's population methods
         $site->getEntity()->loadLegacyProperty();
         echo view('layouts/' . $site->getEntity()->getTemplateName() . '/404',[
@@ -185,7 +192,7 @@ class Util
     }
 
     public static function transformFloorplanName(string $name){
-        return preg_replace("|[^a-z]+|","",strtolower($name));
+        return preg_replace("|[^a-z0-9]+|","",strtolower($name));
     }
 
     public static function isResidentPortal(){

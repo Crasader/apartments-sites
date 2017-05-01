@@ -1,17 +1,35 @@
 <?php use App\Util\Util; ?>
 @extends('layouts/bascom/main')            
-                        @section('page-title-row') 
+           	@section('after-nav')
+
+            <!-- Page Title Section -->
+            <section class="page-section bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('');?>/page-title-bg5.jpg">
+                <div class="relative container align-left">
+
+                    <div class="row">
+
                         <div class="col-md-8">
                             <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Resident Portal</h1>
                             <div class="hs-line-4 font-alt">
-                                With convenient 24/7 access, the resident portal makes it easy for you to request maintenance service and pay your rent online. Login to get started!
+								<?php echo $entity->getText('resident-portal',['oneshot' =>'With convenient 24/7 access, the resident portal makes it easy for you to request maintenance service and pay your rent online. Login to get started!']);?>
                             </div>
                         </div>
-                        @stop
-                        @section('page-title-span','RESIDENT PORTAL')
 
+                        <div class="col-md-4 mt-30">
+                            <div class="mod-breadcrumbs font-alt align-right">
+                                <a href="/">Home</a>&nbsp;/&nbsp;<span>Resident Portal</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- End Page Title Section -->
+
+
+
+			@stop 
             @section('content')
-            <script src="https://www.google.com/recaptcha/api.js"></script>
+                        <script src="https://www.google.com/recaptcha/api.js"></script>
             <!-- Resident Login Form Section -->
             <section class="page-section" id="resident-login-form">
                 <div class="container relative">
