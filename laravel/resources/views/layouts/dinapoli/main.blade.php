@@ -16,7 +16,7 @@ use App\Util\Util;
 @section('css')
         <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
-        <?php foreach(['main','animate.min','owl.carousel','magnific-popup'] as $i => $sheet){
+        <?php foreach(['main','animate.min','owl.carousel','magnific-popup','custom'] as $i => $sheet){
             echo "<link rel='stylesheet' href='/" . $fsid . "/css/{$sheet}.css?v={$entity->getAssetsVersion($fsid . '/css/' . $sheet . '.css')}'>";
         }?>
         <?php $extraSheets = $entity->getCustomStyleSheets($page);
@@ -183,7 +183,6 @@ use App\Util\Util;
         <!--[if lt IE 10]><script type="text/javascript" src="js/placeholder.js"></script><![endif]-->
 		@yield('page-specific-js')
         @show
-        <?php echo "<link rel='stylesheet' href='/" . $fsid . "/css/custom.css?v={$entity->getAssetsVersion($fsid . '/css/custom.css')}'>"; ?>
 
     </body>
 </html>
