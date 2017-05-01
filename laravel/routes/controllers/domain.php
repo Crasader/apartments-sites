@@ -43,9 +43,14 @@ Route::get('/redis',function(){
 Route::get('/s3',function(){
     S3Util::updatePhotos();
 });
-Route::post('/tags-logout','SiteController@tagsLogout')->middleware('https');
+
 Route::get('/{page}','SiteController@resolve')->middleware('https');
 Route::get('/','SiteController@resolve')->middleware('https');
-Route::get('/resident-portal/{page}','SiteController@resolveResident')->middleware('https');
+Route::get('/resident-portal/{page}','SiteController@resolveResident')->middleware(['https','residentauth']);
+
+/* 
+ * POST CONTROLLERS 
+ */
+Route::post('/tags-logout','SiteController@tagsLogout')->middleware('https');
 Route::post('/{page}','PostController@handle')->middleware('https');
-Route::post('/resident-portal/{page}','PostController@handle')->middleware('https');
+Route::post('/resident-portal/{page}','PostController@handle')->middleware(['https','residentauth']);

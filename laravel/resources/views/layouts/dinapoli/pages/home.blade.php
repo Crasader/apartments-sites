@@ -94,13 +94,12 @@
                 <div class="container relative">
                     
                     <h2 class="section-title font-alt mb-40 mb-sm-40">
-                        About <?php echo $entity->getText('apartment-title');?>
+                        <?php echo $entity->getText('about-apartment-title',['oneshot' => "About " . $entity->getLegacyProperty()->name]);?>
                     </h2>
                     
                     <div class="container">
                         <div class="row">
                             <div class="col-md-8 col-md-offset-2">
-                                
                                 <div class="section-text align-center mb-40 mb-xs-40">
                                     <?php echo $entity->getText('home-about'); ?>
                                 </div>

@@ -97,6 +97,12 @@ class Util
         self::redisSet($foo,$bar);
     }
 
+    public static function redisUpdateKeys(array $config){
+            //TODO !security this is potentially dangerous. Do this the right way
+        $keys = shell_exec("redis-cli --raw keys '" . preg_replace("|[']*|","",$config['like']) . "'");
+        self::log($keys);
+    }
+
     public static function redisSet(string $foo,$bar){
         \Debugbar::info("Setting $foo to " . var_export($bar,1));
         if(preg_match("|commute\-text|",$foo)){

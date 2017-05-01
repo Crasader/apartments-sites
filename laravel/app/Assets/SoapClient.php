@@ -38,7 +38,7 @@ class SoapClient implements IDataFetcher
 		$data_query->sysPassword = 'g3tm3s0m3pr0ps';
 
         if($url === null){
-		    $URL = "http://192.168.1.135:8088/mapts_com.asmx?WSDL";
+		    $URL = "http://" . ENV("SOAP_CLIENT_HOST") . ":" . ENV("SOAP_CLIENT_PORT") . "/mapts_com.asmx?WSDL";
         }else{
             $URL = $url;
         }

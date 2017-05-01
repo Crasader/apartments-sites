@@ -81,4 +81,5 @@ trait PageResolver {
         }
         return $data;
     }
+    
 }

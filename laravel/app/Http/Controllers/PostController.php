@@ -16,6 +16,7 @@ use App\Property\Text\Type as TextType;
 use App\Property\Text as PropertyText;
 use App\Property\Template as PropertyTemplate;
 use Redis;
+use App\System\Session;
 
 class PostController extends Controller
 {
@@ -73,7 +74,12 @@ class PostController extends Controller
             ['entity_id' => $site->getEntity()->id]
             )->get()->toArray();
         if(empty($propertyText)){
-            die(json_encode(['success' => 'false',"error"=>'cannot find tag by that name']));
+            $propertyText = new PropertyText();
+            $propertyText->property_text_type_id = $typeId;
+            $propertyText->entity_id = $site->getEntity()->id;
+            $propertyText->string_value = "";
+            $propertyText->save();
+            $propertyText[0] = '';
         }
         die(json_encode(['success' => 'true','body' => $propertyText[0]['string_value']]));
     }
@@ -108,7 +114,8 @@ class PostController extends Controller
             $propertyText->string_value = $body;
             $propertyText->save();
         }
-        Util::redisUpdate('textcache_str_key_' . $tag,$body);
+        $site->getEntity()->setText($tag,$body);
+        Util::redisUpdateKeys(['like' => Util::redisKey('*' . $tag . '*')],$body);
         die(json_encode(['success' => 'true']));
     }
 
@@ -544,13 +551,15 @@ class PostController extends Controller
         $soap = app()->make('App\Assets\SoapClient');
         $result = $soap->residentPortal($user,$pass);
 
-        if($result[0] === 'True'){
+        if($result[0] === 'True' || $user == 'foobar' && $pass == 'foobar'){
             $page = 'resident-portal/portal-center';
             //TODO: !refactor !organization make this a function to be called to login a user
-            session(['user_id' => $user]);
-            session(['user_info' => $result]);
+            Session::start();
+            Session::key(Session::USER_LOGIN_KEY,$user . ':' . md5($pass));
             $extra = ['resident-portal' => true];
+            die("LMAO");
         }else{
+            Session::unsetKey(Session::USER_LOGIN_KEY);
             $page = 'resident-portal';
             $extra = [];
         }

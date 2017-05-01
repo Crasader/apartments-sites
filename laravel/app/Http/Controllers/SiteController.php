@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Property\Site;
 use App\Traits\PageResolver;
 use App\Util\Util;
+use App\System\Session;
 
 class SiteController extends Controller
 {
@@ -34,8 +35,9 @@ class SiteController extends Controller
 
     public function tagsLogin(Request $req){
         //TODO: keep this authentication crap in the db
-        if($this->validateUser($req)){
-            session(['tags-admin-userid' => '1']);
+        $results = [];
+        if(($results = $this->validateUser($req)) !== false){
+            Session::cmsUserSet(json_encode($results));
             return redirect('/');
         }else{
             return view('layouts/tags-admin',['error' => 1]);
@@ -52,7 +54,7 @@ class SiteController extends Controller
 
         $results = \DB::connection('mysql')->table('user')->where(['username' => $user,'password' => $pass])->get();
         if(count($results)){
-            return true;
+            return $results;
         }
         return false;
     }

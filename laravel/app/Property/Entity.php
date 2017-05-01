@@ -18,6 +18,7 @@ use App\Util\Util;
 use App\Property\Clientside\Assets as ClientsideAssets;
 use App\Traits\LoadableByArray;
 use App\Exceptions\BaseException;
+use App\System\Session;
 
 class Entity extends Model
 {
@@ -463,7 +464,7 @@ class Entity extends Model
         }else{
             $q = "'";
         }
-        if($_SERVER['REMOTE_ADDR'] == env('TAGS_ADMIN_IP') && session('tags-admin-userid') == '1'){
+        if(Session::isCmsUser()){
             if($text === null){ return "<b style={$q}color:green{$q} class={$q}edit-tag{$q} onclick='edit_tag(\"$name\");'>{!}</b>"; }
             if(in_array($name,$this->_decorateIgnoreText)){ 
                 if(strlen($text) == 0){
@@ -509,17 +510,39 @@ class Entity extends Model
 
     }
 
+    public function getTextTranslatables(){
+        $foo = $this;
+        return $translatables = [
+            'apartment-title' => [ 
+                'schema' => 'property.name',
+                'fetch' => function() use($foo) { return $foo->getLegacyProperty()->name; },
+                'set' => function($val) use($foo){ $leg = $foo->getLegacyProperty(); $leg->name = $val; $leg->save(); },
+                ],
+            'home-about' => [
+                'schema' => 'property.description',
+                'fetch' => function() use($foo) { return $foo->getLegacyProperty()->description; },
+                'set' => function($val) use($foo){ $leg = $foo->getLegacyProperty(); $leg->description = $val; $leg->save(); },
+                ],
+            'slogan' => ['static' => 'More than just a place to sleep'],     //TODO: dont hard code this
+            
+        ];
+    }
+
+    public function setText(string $key,string $body){
+        $translations = $this->getTextTranslatables();
+        if(in_array($key,array_keys($translations))){
+            $translations[$key]['set']($body);
+        }
+    }
+
+
     public function getText(string $name,array $opts = []){
         $foo = $this;
         self::$_objectInstance = $this;
         $returnValue = Util::redisFetchOrUpdate('textcache_str_key_' . $name,function() use($foo,$name,$opts) {
-            $translatables = [
-                'apartment-title' => $foo->getLegacyProperty()->name,
-                'home-about' => $foo->getLegacyProperty()->description,
-                'slogan' => 'More than just a place to sleep',     //TODO: dont hard code this
-            ];
+            $translatables = $foo->getTextTranslatables();
             if(in_array($name,array_keys($translatables))){
-                return $translatables[$name];
+                return $translatables[$name]['fetch']();
             }
             if(preg_match("|title_(.*)|",$name,$matches)){
                 return $foo->getPageTitle($matches[1]);
