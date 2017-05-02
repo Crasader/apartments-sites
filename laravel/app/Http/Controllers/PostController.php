@@ -233,6 +233,10 @@ class PostController extends Controller
             'to' => $to,
             'contact' => $data,
             'mode' => 'apply-online',
+            'cb' => function($mailer) use($data){
+                $mailer->SetFrom($data['email'], $data['fname'] . " " . $data['lname']);
+                $mailer->AddReplyTo($data['email'],$data['fname'] . " " . $data['lname']);
+            },
             'subject' => 'A Customer Applied online for property: ' . Site::$instance->getEntity()->getLegacyProperty()->name,
             //TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
             'data' => view('layouts/dinapoli/email/user-confirm',$finalArray)
@@ -421,6 +425,10 @@ class PostController extends Controller
                         'lname' => explode(" ",$data['ResidentName'])[0],
                         'from' => $this->_getApartmentEmail(),
                     ],
+                    'cb' => function($mailer) use($data){
+                        $mailer->SetFrom($data['email'], $data['ResidentName']);
+                        $mailer->AddReplyTo($data['email'],$data['ResidentName']);
+                    },
                     'subject' => 'Resident Center Maintenance Request at ' . Site::$instance->getEntity()->getLegacyProperty()->name,
                     'mode' => 'maint-request',
                     //TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
@@ -485,15 +493,21 @@ class PostController extends Controller
         }else{
             $to = $cleaned['email'];
         }
+        
         (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
             'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
             'to' => $to,
             'contact' => $cleaned,
             'mode' => 'schedule-a-tour',
             'subject' => 'Schedule a tour request at ' . Site::$instance->getEntity()->getLegacyProperty()->name,
+                    'cb' => function($mailer) use($data){
+                        $mailer->SetFrom($data['email'], $data['firstname'] . " " . $data['lastname']);
+                        $mailer->AddReplyTo($data['email'],$data['firstname'] . " " . $data['lastname']);
+                    },
             //TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
             'data' => view('layouts/dinapoli/email/user-confirm',$finalArray)
             ]);
+        Util::log('Apparently the email has been sent: schedule-a-tour',['log'=>'mailer']);
         $siteData = $this->resolvePageBySite('schedule-a-tour',$cleaned);
         $siteData['data']['sent'] = true;
         return view($siteData['path'],$siteData['data']);
@@ -547,6 +561,10 @@ class PostController extends Controller
             'contact' => $cleaned,
             'mode' => 'contact',
             'subject' => 'Contact Form Submission at ' . Site::$instance->getEntity()->getLegacyProperty()->name,
+                    'cb' => function($mailer) use($data){
+                        $mailer->SetFrom($data['email'], $data['firstname'] . " " . $data['lastname']);
+                        $mailer->AddReplyTo($data['email'],$data['firstname'] . " " . $data['lastname']);
+                    },
             //TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
             'data' => view('layouts/dinapoli/email/user-confirm',$finalArray)
         ]);
