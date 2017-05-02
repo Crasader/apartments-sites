@@ -57,11 +57,10 @@ Route::get('/places/{page}',function($page){
             dd($rev);
             break;
         case 'set-place-id':
-            $p = Place::where('fk_legacy_property_id',app()->make('App\Property\Site')->getEntity()->fk_legacy_property_id)->get();
-            if(count($p))
-                return view('layouts/admin/places/placeid',['placeId' => $p->first()->place_id]);
-            else
-                return view('layouts/admin/places/placeid');
+            $p = Place::where(
+                ['fk_legacy_property_id' => app()->make('App\Property\Site')->getEntity()->fk_legacy_property_id]
+                )->get();
+            return view('layouts/admin/places/placeid',['places' => $p->toArray()]);
         default:
             return view('layouts/admin/places');
             break;

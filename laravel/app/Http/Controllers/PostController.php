@@ -63,15 +63,22 @@ class PostController extends Controller
 
     public function handle(Request $request,string $page){
         Util::log(var_export($request,1));
-        if(!in_array($page,array_keys($this->_allowed))){
-            return null;
+
+        $inPage = in_array($page,array_keys($this->_allowed));
+        $inPath = in_array($request->getPathInfo(),array_keys($this->_allowed));
+        if(!$inPage && !$inPath){
+            Util::log("Not in page or path: " . $request->getPathInfo());
+            throw new \App\Exceptions\BaseException("Invalid path : " . $request->getPathInfo());
         }
         if($this->_site === null){
             $this->_site = Site::$instance;
         }
         $this->_request = $request;
         $this->_page = $page;
-        return $this->{$this->_allowed[$page]}($request);
+        if($inPage)
+            return $this->{$this->_allowed[$page]}($request);
+        else
+            return $this->{$this->_allowed[$request->getPathInfo()]}($request);
     }
 
     public function handleGetTextTag(Request $req){

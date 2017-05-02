@@ -15,6 +15,7 @@ class Util
         $row = $foo->where($where)->get();
         if(count($row)){
             $key = array_keys($setToValue);
+            $row = $row->first();
             foreach($setToValue as $key => $value){
                 $row->$key = $value;
             }

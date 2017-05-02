@@ -31,7 +31,7 @@ class AdminPostController extends PostController
         /******************************/
         /* Routes that process places */
         /******************************/
-        'places/placeid'    => 'handlePlaceId',
+        '/admin/places/placeid'    => 'handlePlaceId',
     ];
     protected $_translations = [];
     //
@@ -60,24 +60,24 @@ class AdminPostController extends PostController
     public function handlePlaceId(Request $req){
         $data = $_POST;
         Site::$instance = $site = app()->make('App\Property\Site');
-        if(!Util::isDev()){
-            if(!$this->validateCaptcha($data['g-recaptcha-response'])){
-                return $this->invalidCaptcha('apply-online');
-            }
-        }
 
         $this->validate($req, [
             'placeid' => 'required|max:64',
+            'type' => 'required|max:1',
         ]);
         //
-        $updated = Util::updateIfExists(Place::class,['fk_legacy_property_id' => Site::$instance->getEntity()->fk_legacy_property_id],['place_id' => $data['placeid']);
+        $updated = Util::updateIfExists(Place::class,['fk_legacy_property_id' => Site::$instance->getEntity()->fk_legacy_property_id],[
+            'place_id' => $data['placeid'],
+            'place_type' => $data['type'],
+            ]);
         if(!$updated){
             $p = app()->make('App\Reviews\Place');
             $p->fk_legacy_property_id = Site::$instance->getEntity()->fk_legacy_property_id;
             $p->place_id = $data['placeid'];
+            $p->place_type = $data['type'];
             $p->save();
         }
-        return view('layouts/admin/places',['status' => 'Place id successfully saved.');
+        return view('layouts/admin/places',['status' => 'Place id successfully saved.']);
     }
 
 }
