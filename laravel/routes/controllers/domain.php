@@ -45,7 +45,7 @@ Route::get('/places/{page}',function($page){
             $rev = app()->make('App\Reviews');
             $rev->setApiKey('AIzaSyARVRzwAbu2dsR7Cw08JiAanKFfhIQnmUQ');
             $deets = $rev->fetchDetails(app()->make('App\Property\Site'));
-            echo count($deets) . " records have been inserted into the db for this property<br>";
+            echo "<h1>" . count($deets) . " records have been inserted into the db for this property</h1><a href='/places/index'>Go back</a><br>";
             break;
         case 'view-reviews':
             $rev = Reviews::where('fk_legacy_property_id',app()->make('App\Property\Site')->getEntity()->fk_legacy_property_id)->get();
@@ -54,7 +54,7 @@ Route::get('/places/{page}',function($page){
         case 'set-place-id':
             $p = Place::where('fk_legacy_property_id',app()->make('App\Property\Site')->getEntity()->fk_legacy_property_id)->get();
             if(count($p))
-                return view('layouts/admin/places/placeid',['placeid' => $p->first()->place_id]);
+                return view('layouts/admin/places/placeid',['placeId' => $p->first()->place_id]);
             else
                 return view('layouts/admin/places/placeid');
         default:
@@ -63,6 +63,7 @@ Route::get('/places/{page}',function($page){
     }
 
 })->middleware(['https']);
+Route::post('/admin/{page}/{subpage}','AdminPostController@handle');
 
 Route::get('/admin','SiteController@tagsAdmin')->middleware('https');
 Route::post('/admin','SiteController@tagsLogin')->middleware('https');
@@ -83,7 +84,6 @@ Route::get('/resident-portal/{page}','SiteController@resolveResident')->middlewa
 /* 
  * POST CONTROLLERS 
  */
-
 Route::post('/tags-logout','SiteController@tagsLogout')->middleware('https');
 Route::post('/{page}','PostController@handle')->middleware('https');
 Route::post('/resident-portal/{page}','PostController@handle')->middleware(['https','residentauth']);

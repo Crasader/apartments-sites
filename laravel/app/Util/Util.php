@@ -10,6 +10,20 @@ use App\Mailer;
 class Util 
 {
 
+    public static function updateIfExists(string $model,array $where,array $setToValue){
+        $foo = app()->make($model);
+        $row = $foo->where($where)->get();
+        if(count($row)){
+            $key = array_keys($setToValue);
+            foreach($setToValue as $key => $value){
+                $row->$key = $value;
+            }
+            $row->save();
+            return true;
+        }
+        return false;    
+    }
+
     public static function die404($req=null,$exception=null){
         if($req){
             //TODO: if preferences to log 404s...

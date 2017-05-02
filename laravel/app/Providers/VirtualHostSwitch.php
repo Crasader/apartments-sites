@@ -23,10 +23,6 @@ class VirtualHostSwitch extends ServiceProvider
     {
         $tempThis = $this;
         $this->app->bind(Site::class,function() use($tempThis) {
-            /*
-            if(Site::$instance){
-                return Site::$instance;
-            }*/
             $entity = null;
             if($entity === null){
                 $entity = PropertyEntity::where('fk_legacy_property_id',$tempThis->_resolveSiteId())->get()->first();   
