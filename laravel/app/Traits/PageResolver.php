@@ -20,7 +20,6 @@ trait PageResolver {
         }
     }
     public function resolvePageBySite(string $page,$inData = null) : array{
-        //TODO: implement TextCache wrapper here. not crazy important though
         if(!$this->_site){
             $this->_site = Site::$instance;
         }

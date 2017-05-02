@@ -18,6 +18,9 @@ use App\Property\Template as Template;
 use App\Property\Site;
 use App\Property\Site\Aliases;
 use App\Util\S3Util;
+use App\System\Session;
+use App\Reviews;
+use App\Reviews\Place;
 
 $security = app()->make('App\Property\Crud\SecurityCheck');
 if($security->allowed()){
@@ -31,6 +34,35 @@ Route::get('/unit',function(){
     header("Location: /floorplans");
     die();
 });
+Route::get('/places',function(){ return redirect('/places/index'); });
+Route::get('/places/{page}',function($page){
+    if(!Session::isCmsUser()){
+        return redirect('/admin?redirect=places');
+    }
+
+    switch($page){
+        case 'refresh-reviews':
+            $rev = app()->make('App\Reviews');
+            $rev->setApiKey('AIzaSyARVRzwAbu2dsR7Cw08JiAanKFfhIQnmUQ');
+            $deets = $rev->fetchDetails(app()->make('App\Property\Site'));
+            echo count($deets) . " records have been inserted into the db for this property<br>";
+            break;
+        case 'view-reviews':
+            $rev = Reviews::where('fk_legacy_property_id',app()->make('App\Property\Site')->getEntity()->fk_legacy_property_id)->get();
+            dd($rev);
+            break;
+        case 'set-place-id':
+            $p = Place::where('fk_legacy_property_id',app()->make('App\Property\Site')->getEntity()->fk_legacy_property_id)->get();
+            if(count($p))
+                return view('layouts/admin/places/placeid',['placeid' => $p->first()->place_id]);
+            else
+                return view('layouts/admin/places/placeid');
+        default:
+            return view('layouts/admin/places');
+            break;
+    }
+
+})->middleware(['https']);
 
 Route::get('/admin','SiteController@tagsAdmin')->middleware('https');
 Route::post('/admin','SiteController@tagsLogin')->middleware('https');
@@ -55,3 +87,4 @@ Route::get('/resident-portal/{page}','SiteController@resolveResident')->middlewa
 Route::post('/tags-logout','SiteController@tagsLogout')->middleware('https');
 Route::post('/{page}','PostController@handle')->middleware('https');
 Route::post('/resident-portal/{page}','PostController@handle')->middleware(['https','residentauth']);
+

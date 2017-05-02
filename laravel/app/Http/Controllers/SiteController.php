@@ -38,6 +38,9 @@ class SiteController extends Controller
         $results = [];
         if(($results = $this->validateUser($req)) !== false){
             Session::cmsUserSet(json_encode($results));
+            if(preg_match("|\?redirect=([a-z0-9]+)|",$_SERVER['HTTP_REFERER'],$matches)){
+                return redirect('/' . $matches[1]);
+            }
             return redirect('/');
         }else{
             return view('layouts/tags-admin',['error' => 1]);
@@ -45,7 +48,7 @@ class SiteController extends Controller
     }
     
     public function tagsLogout(){
-        session()->forget('tags-admin-userid');
+        //TODO: session logout
     }
 
     public function validateUser(Request $req){

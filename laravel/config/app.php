@@ -192,6 +192,11 @@ return [
         * Minifier
         */
         //'GrahamCampbell\HTMLMin\HTMLMinServiceProvider',
+
+       /*
+        * Google places API
+        */
+       SKAgarwal\GoogleApi\ServiceProvider::class,
     ],
 
     /*
@@ -246,6 +251,9 @@ return [
 
         /* HTML Minifier */
         //'HTMLMin' => 'GrahamCampbell\HTMLMin\Facades\HTMLMin',
+
+        /* Google places API */
+        'GooglePlaces' => SKAgarwal\GoogleApi\ServiceProvider::class,
     ],
 
 ];
