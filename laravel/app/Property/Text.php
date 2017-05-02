@@ -11,8 +11,10 @@ class Text extends Model
     protected $table = 'property_text';
 
     protected static function boot(){
-        parent::boot();
-        static::addGlobalScope(new TextScope());
+        if(!\App::runningInConsole()){
+            parent::boot();
+            static::addGlobalScope(new TextScope());
+        }
     }
 
     public function belongsToType(){

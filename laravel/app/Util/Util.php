@@ -120,8 +120,17 @@ class Util
         Redis::set(self::redisKey($foo),$bar);
     }
 
-    public static function log(string $foo){
-        file_put_contents(storage_path() . '/logs/log.log',date("Y-m-d H:i:s") . "::{$foo}\n",FILE_APPEND);
+    public static function log(string $foo,$opts = null){
+        if(isset($opts['log'])){
+            $file = storage_path() . "/logs/log-" . $opts['log'] . ".log";
+            if(!file_exists($file)){
+                shell_exec("touch $file");
+                shell_exec("chmod 755 $file");
+            }
+        }else{
+            $file = storage_path() . "/logs/log.log";
+        }
+        file_put_contents($file,date("Y-m-d H:i:s") . "::{$foo}\n",FILE_APPEND);
     }
 
     public static function redisFetchOrUpdate(string $key,$callable,$arrayType=false){

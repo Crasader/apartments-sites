@@ -62,6 +62,7 @@ class PostController extends Controller
     }
 
     public function handle(Request $request,string $page){
+        Util::log(var_export($request,1));
         if(!in_array($page,array_keys($this->_allowed))){
             return null;
         }
@@ -79,7 +80,8 @@ class PostController extends Controller
 
         $arr = TextType::select('id')->where('str_key',$tag)->get()->toArray();
         if(empty($arr)){
-            die(json_encode(['success' => 'true','body' => '']));
+            $text = $site->getEntity()->getText($tag);
+            die(json_encode(['success' => 'true','body' => $text]));
         }
         $typeId = $arr[0]['id'];
         $propertyText = PropertyText::where(
@@ -87,13 +89,9 @@ class PostController extends Controller
             ['entity_id' => $site->getEntity()->id]
             )->get()->toArray();
         if(empty($propertyText)){
-            $propertyText = new PropertyText();
-            $propertyText->property_text_type_id = $typeId;
-            $propertyText->entity_id = $site->getEntity()->id;
-            $propertyText->string_value = "";
-            $propertyText->save();
-            $propertyText[0] = '';
+            die(json_encode(['success' => 'true','body' => '']));
         }
+        Util::log(var_export($propertyText,1),['log' => 'propertyText']);
         die(json_encode(['success' => 'true','body' => $propertyText[0]['string_value']]));
     }
 
@@ -103,6 +101,7 @@ class PostController extends Controller
         $body = $req->input("body");
 
         $arr = TextType::select('id')->where('str_key',$tag)->get()->toArray();
+        
         if(count($arr) == 0){
             //Create text type
             $ttype = new TextType();
@@ -267,8 +266,10 @@ class PostController extends Controller
             'unittype' => Util::transformFloorplanName($data['unittype']),
             'bed' => intval($data['bed']),
             'bath' => floatval($data['bath']),
-            'sqft' => intval($data['sqft'])
+            'sqft' => intval($data['sqft']),
+            'orig_unittype' => $data['unittype'],
         ];
+
 
         $siteData = $this->resolvePageBySite('unit',$cleaned);
         return view($siteData['path'],$siteData['data']);

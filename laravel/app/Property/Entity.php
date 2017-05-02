@@ -523,8 +523,11 @@ class Entity extends Model
                 'fetch' => function() use($foo) { return $foo->getLegacyProperty()->description; },
                 'set' => function($val) use($foo){ $leg = $foo->getLegacyProperty(); $leg->description = $val; $leg->save(); },
                 ],
-            'slogan' => ['static' => 'More than just a place to sleep'],     //TODO: dont hard code this
-            
+            'slogan' => [
+                'fetch' => function(){ return 'More than just a place to sleep';}, 
+                'set' => function($val) use($foo) { /* Temporarily ignored; */ },
+                'schema' => 'property.foo',
+                ], 
         ];
     }
 
@@ -539,11 +542,12 @@ class Entity extends Model
     public function getText(string $name,array $opts = []){
         $foo = $this;
         self::$_objectInstance = $this;
+        $translatables = $foo->getTextTranslatables();
+        if(in_array($name,array_keys($translatables))){
+            Util::log('translatable: ' . var_export($name,1),['log' => 'translatable']);
+            return $translatables[$name]['fetch']();
+        }
         $returnValue = Util::redisFetchOrUpdate('textcache_str_key_' . $name,function() use($foo,$name,$opts) {
-            $translatables = $foo->getTextTranslatables();
-            if(in_array($name,array_keys($translatables))){
-                return $translatables[$name]['fetch']();
-            }
             if(preg_match("|title_(.*)|",$name,$matches)){
                 return $foo->getPageTitle($matches[1]);
             }
