@@ -48,7 +48,7 @@ Route::get('/places/{page}',function($page){
             try{
                 $deets = $rev->fetchDetails(app()->make('App\Property\Site'));
             }catch(\Exception $e){
-                die("Cannot refresh reviews.. it is possible that the PLACE ID has not been setup yet: " . var_export($e,1));
+                die("Cannot refresh reviews.. it is possible that the PLACE ID has not been setup yet: " . var_export($e->getMessage(),1));
             }
             echo "<h1>" . count($deets) . " records have been inserted into the db for this property</h1><a href='/places/index'>Go back</a><br>";
             break;
