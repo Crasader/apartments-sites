@@ -43,8 +43,13 @@ Route::get('/places/{page}',function($page){
     switch($page){
         case 'refresh-reviews':
             $rev = app()->make('App\Reviews');
+            //TODO: Save this in .env
             $rev->setApiKey('AIzaSyARVRzwAbu2dsR7Cw08JiAanKFfhIQnmUQ');
-            $deets = $rev->fetchDetails(app()->make('App\Property\Site'));
+            try{
+                $deets = $rev->fetchDetails(app()->make('App\Property\Site'));
+            }catch(\Exception $e){
+                die("Cannot refresh reviews.. it is possible that the PLACE ID has not been setup yet: " . var_export($e,1));
+            }
             echo "<h1>" . count($deets) . " records have been inserted into the db for this property</h1><a href='/places/index'>Go back</a><br>";
             break;
         case 'view-reviews':
