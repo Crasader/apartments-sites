@@ -51,6 +51,7 @@ Route::get('/resident-portal/{page}','SiteController@resolveResident')->middlewa
 /* 
  * POST CONTROLLERS 
  */
+
 Route::post('/tags-logout','SiteController@tagsLogout')->middleware('https');
 Route::post('/{page}','PostController@handle')->middleware('https');
 Route::post('/resident-portal/{page}','PostController@handle')->middleware(['https','residentauth']);

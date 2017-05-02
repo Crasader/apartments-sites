@@ -5,6 +5,7 @@ use Redis;
 use App\Property\Entity;
 use App\Property\Site;
 use Illuminate\Http\Request;
+use App\Mailer;
 
 class Util 
 {
@@ -34,9 +35,17 @@ class Util
         if($req){
             $path = $req->path();
         }
-        self::log("Generic error: Site:" . $site->getEntity()->property_name . ": Page: {$path}" . 
+        self::log($message = "Generic error: Site:" . $site->getEntity()->property_name . ": Page: {$path}" . 
             " Message:" . $exception->getMessage() . "::Code:" .  $exception->getCode() . ":File:" . $exception->getFile() . "::Line:" . $exception->getLine() . "::TraceAsString" .  var_export($exception->getTraceAsString(),1));
         //TODO: route this stuff through site controller's population methods
+        if(ENV("EMAIL_LOGS") == '1'){
+            self::log('emailing....');
+            try{
+                Mailer::queueError('wmerfalen@gmail.com',$site->getEntity()->getLegacyProperty()->url . ": $path -- ERROR",$message,['matt@marketapts.com']);
+            }catch(Exception $e){
+                self::log("ERROR SENDING EMAIL: " . var_export($e,1));
+            }
+        }
         $site->getEntity()->loadLegacyProperty();
         echo view('layouts/' . $site->getEntity()->getTemplateName() . '/404',[
             'errorGeneric' => 1,
@@ -99,8 +108,10 @@ class Util
 
     public static function redisUpdateKeys(array $config){
             //TODO !security this is potentially dangerous. Do this the right way
-        $keys = shell_exec("redis-cli --raw keys '" . preg_replace("|[']*|","",$config['like']) . "'");
-        self::log($keys);
+        $keys = shell_exec("redis-cli --raw keys '" . preg_replace("|[']*|","",$config['like']) . "' | grep '_updated'");
+        foreach(explode("\n",$keys) as $i => $line){
+            Redis::set($line,time());
+        }
     }
 
     public static function redisSet(string $foo,$bar){
@@ -118,8 +129,17 @@ class Util
         Redis::set(self::redisKey($foo),$bar);
     }
 
-    public static function log(string $foo){
-        file_put_contents(storage_path() . '/logs/log.log',date("Y-m-d H:i:s") . "::{$foo}\n",FILE_APPEND);
+    public static function log(string $foo,$opts = null){
+        if(isset($opts['log'])){
+            $file = storage_path() . "/logs/log-" . $opts['log'] . ".log";
+            if(!file_exists($file)){
+                shell_exec("touch $file");
+                shell_exec("chmod 755 $file");
+            }
+        }else{
+            $file = storage_path() . "/logs/log.log";
+        }
+        file_put_contents($file,date("Y-m-d H:i:s") . "::{$foo}\n",FILE_APPEND);
     }
 
     public static function redisFetchOrUpdate(string $key,$callable,$arrayType=false){
