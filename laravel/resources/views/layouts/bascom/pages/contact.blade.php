@@ -2,6 +2,7 @@
             @section('extra-css')
                 <!-- Latest compiled and minified CSS -->
                 <link id="bsdp-css" href="css/bootstrap-datepicker3.min.css" rel="stylesheet">
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
             @stop
 
             @section('after-nav')

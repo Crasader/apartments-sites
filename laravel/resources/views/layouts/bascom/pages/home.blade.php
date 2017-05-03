@@ -105,7 +105,7 @@ $displayOptions['dont-show-contact-details'] = true;
                                         </ul>
                                     </div>
                                     <div class="local-scroll">
-                                        <a href="neighborhood" class="btn btn-mod btn-brown btn-large btn-round">SEE ALL THE ATTRACTIONS</a>
+                                        <a href="neighborhood" class="btn btn-mod btn-brown btn-medium btn-round">SEE ALL THE ATTRACTIONS</a>
                                     </div>
                                 </div>
                             </div>
@@ -166,7 +166,7 @@ $displayOptions['dont-show-contact-details'] = true;
                             <div class="mt-70 mt-lg-70 mb-70 mb-lg-70 mb-sm-30">
                                 <div class="banner-content">
                                     <h3 class="banner-heading font-alt">Join Our community</h3>
-                                    <div class="banner-description">
+                                    <div class="banner-decription">
                                         <?php echo $entity->getText('join-our-community-description',['oneshot'=>" Proin fringilla augue at maximus vestibulum. Nam pulvinar vitae neque et porttitor.
                                                                                 Integer non dapibus diam, ac eleifend lectus."]);?>
                                     </div>
@@ -258,7 +258,7 @@ $displayOptions['dont-show-contact-details'] = true;
         <?php //TODO: dynamically load this ?>
         <?php $key = $entity->getText('google-maps-key',['nodecorate' => 1]); ?>
         <?php if(\App\System\Session::isCmsUser()){ echo "Google maps key: " . $key = $entity->getText('google-maps-key') . "<hr>";}?>
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo $key;?>"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo $entity->getText('google-maps-key',['nodecorate'=>1]);?>"></script>
         <!--[if lt IE 10]><script type="text/javascript" src="js/placeholder.js"></script><![endif]-->
         <script type="text/javascript">
             $('#nav').addClass('transparent');

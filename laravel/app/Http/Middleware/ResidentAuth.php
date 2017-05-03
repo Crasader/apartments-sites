@@ -19,8 +19,7 @@ class ResidentAuth
     }
 
     public function isLoggedIn(){
-        Session::start();
-        return Session::get(Session::USER_LOGIN_KEY) !== null;
+        return Session::residentUserLoggedIn();
     }
 
     public function uriException($request){

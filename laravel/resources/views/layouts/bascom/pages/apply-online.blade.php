@@ -3,38 +3,36 @@
             @section('extra-css')
                 <!-- Latest compiled and minified CSS -->
                 <link id="bsdp-css" href="css/bootstrap-datepicker3.min.css" rel="stylesheet">
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
             @stop
-            @section('after-nav')
+    @section('after-nav')
+    <!-- Page Title Section -->
+    <section class="page-section bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('');?>/page-title-bg1.jpg">
+        <div class="relative container align-left">
 
-            <!-- Page Title Section -->
-            <section class="page-section bg-dark-alfa-30" data-background="images/page-title-bg1.jpg">
-                <div class="relative container align-left">
+            <div class="row">
 
-                    <div class="row">
+                <div class="col-md-8">
+                    <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Apply Now</h1>
+                    <div class="hs-line-4 font-alt">
+						Begin the application process
+                    </div>
+                </div>
 
-                        <div class="col-md-8">
-                            <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Apply online</h1>
-                            <div class="hs-line-4 font-alt">
-								<?php echo $entity->getText('apply-online',['oneshot' => 'Begin the application process']); ?>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4 mt-30">
-                            <div class="mod-breadcrumbs font-alt align-right">
-                                <a href="/">Home</a>&nbsp;/&nbsp;<span>Apply online</span>
-                            </div>
-
-                        </div>
+                <div class="col-md-4 mt-30">
+                    <div class="mod-breadcrumbs font-alt align-right">
+                        <a href="/">Home</a>&nbsp;/&nbsp;<span>Apply Now</span>
                     </div>
 
                 </div>
-            </section>
-            <!-- End Page Title Section -->
+            </div>
 
-
-
-            @stop
+        </div>
+    </section>
+	@stop
+ 
             @section('content')        
+            <script src="https://www.google.com/recaptcha/api.js"></script>
             <!-- Contact Form Section -->
             <section class="page-section pb-0" id="contact-form">
                 <div class="container relative">

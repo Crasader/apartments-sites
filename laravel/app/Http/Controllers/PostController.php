@@ -396,6 +396,9 @@ class PostController extends Controller
         return view($siteData['path'],$siteData['data']);
     }
 
+    public static function log(string $e){
+        Util::log($e,['log' => 'postcontroller']);
+    }
 
     public function handleMaintenance(Request $req){
         $data = $_POST;
@@ -631,12 +634,11 @@ class PostController extends Controller
         
         $soap = app()->make('App\Assets\SoapClient');
         $result = $soap->residentPortal($user,$pass);
-
+        Util::log("Resident portal return: " . var_export($result,1));
         if($result[0] === 'True' || $user == 'foobar' && $pass == 'foobar'){
             $page = 'resident-portal/portal-center';
             //TODO: !refactor !organization make this a function to be called to login a user
-            Session::start();
-            Session::residentUserSet($user . ':' . md5($pass));
+            Session::residentUserSet($user . ':' . md5($pass) . "|" . json_encode($result));
             $extra = ['resident-portal' => true];
         }else{
             Session::residentUserUnset();

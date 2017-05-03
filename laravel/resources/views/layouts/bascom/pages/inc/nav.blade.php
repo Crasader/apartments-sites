@@ -4,6 +4,19 @@ use App\Util\Util;
             <!-- Home Section -->
         <section class="home-section bg-dark-alfa-30 parallax-2" data-background="<?php echo $entity->getWebPublicDirectory('')?>/slide1.jpg" id="home">
                 <!-- Nav -->
+        <?php 
+
+            try{
+                $specials = app()->make('App\Property\Specials');
+                $foo = $specials->traitGet('specials');
+                $data = [];
+                foreach($foo as $index => $object){
+                    $data[$object->U_MARKETING_NAME] = $object->SPECIAL_TEXT;
+                }
+            }catch(\Exception $e){
+                $data = [];
+            }
+            ?>
             <?php if(isset($data['SpecialWebsite'])): ?>
                 <?php if(Util::isHome()): ?>
                     <div id="banner-special">
@@ -11,19 +24,6 @@ use App\Util\Util;
                             <div class="row">
                                 <div class="col-md-12 text-center">
                                     <div class="text">
-                                        <?php 
-
-                                            try{
-                                                $specials = app()->make('App\Property\Specials');
-                                                $foo = $specials->traitGet('specials');
-                                                $data = [];
-                                                foreach($foo as $index => $object){
-                                                    $data[$object->U_MARKETING_NAME] = $object->SPECIAL_TEXT;
-                                                }
-                                            }catch(\Exception $e){
-                                                $data = [];
-                                            }
-                                            ?>
                                         <b>MOVE IN SPECIAL</b><?php echo $data['SpecialWebsite'];?><br>
                                     </div>
                                     <a href="#" class="fa fa-times-circle" id="banner-special-close"></a>
@@ -48,7 +48,7 @@ use App\Util\Util;
                             <ul class="top-nav-right">
                                 <li class="hidden-sm hidden-xs"><a href="/floorplans"><i class="fa fa-search"></i> Apartment Search</a></li>
                                 <li class="hidden-sm hidden-xs"><a href="/resident-portal"><i class="fa fa-user"></i> Residents</a></li>
-                                <li><a href="/floorplans" class="brown"><b>Apply Now <i class="fa fa-angle-right"></i></b></a></li>
+                                <li><a href="/apply-online" class="brown"><b>Apply Now <i class="fa fa-angle-right"></i></b></a></li>
                             </ul>
                         </div>
                     </div>

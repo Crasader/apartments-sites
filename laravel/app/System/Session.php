@@ -3,6 +3,7 @@
 namespace App\System;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Util\Util;
 
 class Session// extends Model
 {
@@ -12,14 +13,21 @@ class Session// extends Model
     const USER_LOGIN_KEY = 'amc-userid';
     const CMS_USER_KEY = 'cms-userid';
     const RESIDENT_USER_KEY = 'res-userid';
+    public static function log(string $a){
+        Util::log($_SERVER['SERVER_NAME'] . "::" . $a,['log' => 'session']);
+    }
     public static function __callStatic($method,$args){
+        self::log("Call static session: $method(" . var_export($args,1) . ")");
         if(session_status() == PHP_SESSION_NONE){
+            self::log("Starting session");
             session_start();
         }
         switch($method){
             case "start":
+
                 return;
             case "unsetKey":
+                self::log("UNsetting key");
                 if(isset($_SESSION[$args[0]])){
                     unset($_SESSION[$args[0]]);
                 }
@@ -29,13 +37,16 @@ class Session// extends Model
             case "cmsUserSet":
                 return $_SESSION[Session::CMS_USER_KEY] = $args[0];
             case "residentUserSet":
+                self::log("Resident center set to : " . var_export($args,1));
                 return $_SESSION[Session::RESIDENT_USER_KEY] = $args[0];
             case "residentUserUnset":
+                self::log("Resident user unset");
                 if(isset($_SESSION[Session::RESIDENT_USER_KEY])){
                     unset($_SESSION[Session::RESIDENT_USER_KEY]);
                 }
                 return null;
             case "residentUserLoggedIn":
+                self::log("RESIDENT_USER_LOGGED_IN");
                 return isset($_SESSION[Session::RESIDENT_USER_KEY]) && $_SESSION[Session::RESIDENT_USER_KEY] !== null;
             case "key":
                 return $_SESSION[$args[0]] = $args[1];
@@ -45,39 +56,8 @@ class Session// extends Model
                 return session_write_close();
             default:
                 //Throw base exception
+                self::log("Unknown method for SESSION call static: " . $method . "|args: " . var_export($args,1),['log' => 'session']);
             return;
         }
-    }
-
-    public static function unsetKey(string $key){
-        if(isset($_SESSION[$key])){
-            unset($_SESSION[$key]);
-        }
-    }
-    public static function isCmsUser(){
-        self::startIfNoSession();
-        return self::get(Session::CMS_USER_KEY) !== null;   
-    }
-
-    public static function cmsUserSet(string $uid){
-        self::startIfNoSession();
-        self::key(Session::CMS_USER_KEY,$uid);
-    }
-
-    public static function key(string $key,$value){
-        self::startIfNoSession();
-        $_SESSION[$key] = $value;
-    }
-
-    public static function get(string $key){
-        self::startIfNoSession();
-        if(!isset($_SESSION[$key])){
-            return null;
-        }
-        return $_SESSION[$key];
-    }
-
-    public static function stop(){
-        session_write_close();
     }
 }

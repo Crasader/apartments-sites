@@ -1,6 +1,7 @@
         <?php
+        //TODO: fill these in !important
             $residentName = $residentInfo[4]. " " . $residentInfo[5];
-            $residentUnitNumber = $residentInfo[3];
+            $residentUnitNumber =$residentInfo[3];
             $residentEmail = $residentInfo[7];
         ?>
         @extends($extends)

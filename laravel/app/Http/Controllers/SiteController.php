@@ -21,10 +21,13 @@ class SiteController extends Controller
 
     public function resolveResident(Request $req){
         try{
+            Util::log("Resolved page by site",['log' => 'sitecontroller']);
             $data = $this->resolvePageBySite($req->getRequestUri(),['resident-portal' => true]);
+            Util::log("Resolved page by site: " . var_export($data,1),['log' => 'sitecontroller']);
             return view($data['path'],$data['data']);
         }catch(Exception $e){
             //TODO: catch this !launch
+            Util::log('EXCEPTION CAUGHT: ' . $e->getMessage(), ['log' => 'sitecontroller']);
             return view('404',['exception' => $e]);
         }
     }

@@ -7,7 +7,7 @@ use App\Exceptions\BaseException;
 use App\Traits\TextCache;
 use App\Property\Site;
 use App\ResidentPortal\Session;
-
+use App\System\Session as Sesh;
 trait PageResolver {
     use TextCache;
     protected $_site = null;
@@ -75,7 +75,7 @@ trait PageResolver {
 
     public function resolveTemplateData($templateDir,$page,$inData,$data){
         if(isset($inData['resident-portal'])){
-            $data['residentInfo'] = session('user_info');
+            $data['residentInfo'] = json_decode(explode("|",Sesh::get(Sesh::RESIDENT_USER_KEY))[1],1); //TODO !ugly
             $data['extends'] = "layouts/$templateDir/main";
         }
         return $data;

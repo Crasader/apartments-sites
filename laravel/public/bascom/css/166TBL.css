@@ -8321,7 +8321,8 @@ text-align: center;}
    margin: 0px auto;
 }
 
-
+input[readonly].form-control { background-color: #fff; }
+input[readonly] { background-color: #fff; }
 
 
 
@@ -8363,7 +8364,7 @@ text-align: center;}
 
 	.unit-table-btn {width: 100%; float: none; display: block; text-align: center; margin-top: 20px;}
 	.unit-table-row span {display: inline-block!important;margin-right: 5px;margin-bottom: 10px;}
-
+    input[readonly].form-control { background-color: #fff; }
 }
 
 /* Extra Small Devices, Phones */ 

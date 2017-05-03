@@ -176,7 +176,7 @@
                                             Address
                                         </div>
                                         <div class="ci-text">
-                                           <?php echo $entity->getFullAddress();?>
+                                           <?php echo $entity->getFullAddress(['city'=>'break','state'=>'abbrev']);?>
                                         </div>
                                     </div>
                                 </div>
@@ -213,7 +213,7 @@
         @section('google-maps-js')
         <!-- Replace test API Key "AIzaSyAZsDkJFLS0b59q7cmW0EprwfcfUA8d9dg" with your own one below 
         **** You can get API Key here - https://developers.google.com/maps/documentation/javascript/get-api-key -->
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKPvpp1b3YxfaEfOZQ6ySdzcpkDSfwqs8"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo $entity->getText('google-map-key',['nodecorate'=>1]);?>"></script>
         @stop
 
             @section('schedule-a-tour')
