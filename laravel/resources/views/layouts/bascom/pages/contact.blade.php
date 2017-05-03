@@ -12,7 +12,7 @@
             <div class="row">
 
                 <div class="col-md-8">
-                    <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Floor Plans & Availablity</h1>
+                    <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Contact us</h1>
                     <div class="hs-line-4 font-alt">
 						<?php echo $entity->getText('contact-header',['oneshot'=>'Have a question? Reach out to our helpful staff 24/7']);?>
                     </div>
@@ -93,7 +93,7 @@
                                                         <div style="overflow:hidden;height:537px;max-width:100%;">
                                                             <div id="map-canvas" style="max-width:100%;"></div>
                                                         <div>
-                                                        @include('layouts/dinapoli/pages/inc/google-maps-script')
+                                                        @include('layouts/bascom/pages/inc/google-maps-script')
                                                     </div>
                                                 </div>
                                             </div>

@@ -15,14 +15,13 @@ use App\Util\Util;
         <!-- CSS -->
 @section('css')
         <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
         <?php $customSheet = null; ?>
         <?php foreach(glob(public_path() . "/bascom/css/*.css") as $i => $sheet){
                 if(preg_match("|bascom/css/([0-9A-Z]{6,}\.css)|",$sheet,$matches)){
                     $customSheet = "/bascom/css/{$matches[1]}";
                 }
                 if(preg_match("|/bascom/css/([^\.]*)\.css|",$sheet,$matches) && !strstr($sheet,$site->getEntity()->getLegacyProperty()->code)){
-                    echo "<link rel='stylesheet' href='/bascom/css/{$matches[1]}.css?v={$entity->getAssetsVersion('bascom/css/' . $matches[1] . '.css')}'/>";
+                    echo "<link rel='stylesheet' href='/bascom/css/{$matches[1]}.css?v={$entity->getAssetsVersion('bascom/css/' . $matches[1] . '.css')}'/>\n\t";
                 }
         }
         if($customSheet){
@@ -47,13 +46,10 @@ use App\Util\Util;
 		@yield('recaptcha-js')
     </head>
     <body class="appear-animate">
-      <!-- Page Wrap -->
-                 <div class="page" id="top">
-          
-
+<?php if(\App\System\Session::isCmsUser()): ?>          
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
 <!-- Trigger the modal with a button -->
 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" id="mmbutton" data-target="#myModal" style='display:none;'>Open Modal</button>
-<?php //TODO: make this a slot or include it from a file ?>
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -76,10 +72,13 @@ use App\Util\Util;
 
   </div>
 </div>
+<?php endif; ?>
         <!-- Page Loader -->
         <div class="page-loader">
             <div class="loader">Loading...</div>
         </div>
+        <!-- page warp -->
+        <div class="page" id="top">
         <!-- End Page Loader -->
         @include('layouts/bascom/pages/inc/nav')
         @yield('content')
@@ -90,7 +89,7 @@ use App\Util\Util;
             	<!-- End Footer -->
             @show
             @yield('epop')
-
+       </div><!-- end page warp -->
        @section('js')
         <!-- JS -->
         @yield('google-maps-js')

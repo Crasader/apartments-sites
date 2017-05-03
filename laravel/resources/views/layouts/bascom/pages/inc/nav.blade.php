@@ -1,29 +1,46 @@
+<?php 
+use App\Util\Util;
+?>
             <!-- Home Section -->
         <section class="home-section bg-dark-alfa-30 parallax-2" data-background="<?php echo $entity->getWebPublicDirectory('')?>/slide1.jpg" id="home">
                 <!-- Nav -->
-            <div id="banner-special">
-                <div class="container relative">
-                    <div class="row">
-                        <div class="col-md-12 text-center">
-                            <div class="text">
-                                <b>MOVIE IN SPECIAL</b> SAVE 20% OFF FIRST MONTHS RENT<br>
-                                <button type="submit" class="btn btn-mod btn-border-w btn-round">
-                                  FIND OUT MORE
-                                </button>
-                            </div>
-                            <a href="#" class="fa fa-times-circle" id="banner-special-close"></a>
-                        </div>
-                    </div>
-                </div>
+            <?php if(isset($data['SpecialWebsite'])): ?>
+                <?php if(Util::isHome()): ?>
+                    <div id="banner-special">
+                        <div class="container relative">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <div class="text">
+                                        <?php 
 
-            </div>
+                                            try{
+                                                $specials = app()->make('App\Property\Specials');
+                                                $foo = $specials->traitGet('specials');
+                                                $data = [];
+                                                foreach($foo as $index => $object){
+                                                    $data[$object->U_MARKETING_NAME] = $object->SPECIAL_TEXT;
+                                                }
+                                            }catch(\Exception $e){
+                                                $data = [];
+                                            }
+                                            ?>
+                                        <b>MOVE IN SPECIAL</b><?php echo $data['SpecialWebsite'];?><br>
+                                    </div>
+                                    <a href="#" class="fa fa-times-circle" id="banner-special-close"></a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+				<?php endif; ?>
+			<?php endif; ?>
             <div class="top-nav">
                 <div class="full-wrapper relative clearfix">
                     <div class="row">
                         <div class="col-xs-6">
                             <ul class="top-nav-left">
                                 <li class="hidden-sm hidden-xs"><i class="fa fa-phone"></i> <b>Call Today</b> : <?php echo $entity->getPhone();?></li>
-                                <li class="hidden-sm hidden-xs"><i class="fa fa-map-marker"></i> <b>Location</b> : <?php echo $entity->getFullAddress(); ?></li>
+                                <li class="hidden-sm hidden-xs"><i class="fa fa-map-marker"></i> <b>Location</b> : <?php echo $entity->getFullAddress(['state' => 'abbrev']); ?></li>
                                 <li class="hidden-md hidden-lg"><a href="tel:+<?php echo preg_replace("|[^0-9]+|","",$entity->getPhone());?>" class="gray"><i class="fa fa-phone"></i> Call Us</a></li>
                             </ul>
                         </div>
@@ -58,7 +75,7 @@
                             <li><a href="/contact">Contact</a></li>
                             <li class="hidden-md hidden-lg"><a href="/floorplans">Apartment Search</a></li>
                             <li class="hidden-md hidden-lg"><a href="/resident-portal">Residents</a></li>
-                            <li><a href="/floorplans" class="brown"><b>Schedule a Tour <i class="fa fa-angle-right"></i></b></a></li>
+                            <li><a href="/schedule-a-tour" class="brown"><b>Schedule a Tour <i class="fa fa-angle-right"></i></b></a></li>
                         </ul>
                     </div>
                 </div>

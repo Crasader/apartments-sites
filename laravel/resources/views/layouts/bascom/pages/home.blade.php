@@ -256,7 +256,9 @@ $displayOptions['dont-show-contact-details'] = true;
             
         @section('page-specific-js')
         <?php //TODO: dynamically load this ?>
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKPvpp1b3YxfaEfOZQ6ySdzcpkDSfwqs8"></script>
+        <?php $key = $entity->getText('google-maps-key',['nodecorate' => 1]); ?>
+        <?php if(\App\System\Session::isCmsUser()){ echo "Google maps key: " . $key = $entity->getText('google-maps-key') . "<hr>";}?>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo $key;?>"></script>
         <!--[if lt IE 10]><script type="text/javascript" src="js/placeholder.js"></script><![endif]-->
         <script type="text/javascript">
             $('#nav').addClass('transparent');

@@ -44,9 +44,13 @@ class Entity extends Model
         }
         
         $this->fk_legacy_property_id = $legacyProperty->id;
-        $templateName = $this->grabTemplateId($_SERVER['SERVER_NAME']);
-        if($templateName === null){
-            throw new BaseException("Unable to find template for property");
+        try{
+            $templateName = $this->grabTemplateId($_SERVER['SERVER_NAME']);
+            if($templateName === null){
+                throw new BaseException("Unable to find template for property");
+            }
+        }catch(\Exception $e){
+            throw $e;
         }
         Util::log($templateName);
         if($templateName === null){
@@ -574,18 +578,32 @@ class Entity extends Model
                 $text = $opts['oneshot'];
                 \Debugbar::info("Name; $name text: $text");
             }
+            if(isset($opts['nodecorate'])){
+                return $text;
+            }
             return $foo->decorateGetText($name,$text,$opts);
         });
 
         \Debugbar::info("Updating textcahce: $name");
+        if(isset($opts['nodecorate'])){
+            return $returnValue;
+        }
         return $this->decorateGetText($name,$returnValue,$opts);
     }
 
-    public function getFullAddress() : string {
-        return trim($this->getStreet()) . " " . 
-            trim($this->getCity()) . ", " . 
-            trim($this->getState()) . " " . 
-            trim($this->getZipCode());
+    public function getFullAddress(array $opt = []) : string {
+        $a = trim($this->getStreet()) . " " ;
+        if(isset($opt['city']) && $opt['city'] == 'break'){
+            $a .= "<br>";
+        }
+        $a .= trim($this->getCity()) . ", " ;
+        if(isset($opt['state']) && $opt['state'] == 'abbrev'){    
+            $a .= trim($this->getAbbreviatedState()) . " ";
+        }else{
+            $a .= trim($this->getState()) . " ";
+        }
+        $a .= trim($this->getZipCode());
+        return $a;
     }
 
     public function getFullAddressBr() : string {

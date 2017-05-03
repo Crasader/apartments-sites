@@ -3,12 +3,12 @@ use App\Util\Util;
 use App\Javascript\ApplySubmitter;
 
 $unit = app()->make('App\AIM\Unit');
-$units = $unit->getAllByType($extras['unittype']);
+$units = $unit->getAllByType($extras['orig_unittype']);
 $js = app()->make('App\Javascript\ApplySubmitter');
 $js->setCollection($units);
 $js->generateIDs();
 
-$unitType = preg_replace("|[^a-z]+|","",strtolower($extras['unittype']));
+$unitType = $extras['unittype'];
 
 ?>
 @extends('layouts/bascom/main')
@@ -46,8 +46,8 @@ $unitType = preg_replace("|[^a-z]+|","",strtolower($extras['unittype']));
                             
                             <!-- Floor Plan Thumbnail -->
                             <div class="row unit-thumb">
-                                <a href="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $unitType;?>.png" class="lightbox-gallery-2 mfp-image">
-                                <img src="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $unitType;?>.png"></a>
+                                <a href="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $unitType;?>.jpg" class="lightbox-gallery-2 mfp-image">
+                                <img src="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $unitType;?>.jpg"></a>
                             </div>
                         </div>
                         
@@ -79,17 +79,20 @@ $unitType = preg_replace("|[^a-z]+|","",strtolower($extras['unittype']));
                         	
                         	<div class="row unit-table-header visible-md visible-lg">
 								
-								<div class="col-md-3">
+								<div class="col-md-2">
 									Unit
 								</div>
-								<div class="col-md-3">
+								<div class="col-md-2">
 									Rent
 								</div>
-								<div class="col-md-3">
+								<div class="col-md-2">
 									Available
 								</div>
 								<div class="col-md-3">
+                                    Special
 								</div>
+								<div class="col-md-3">
+                                </div>
 							</div>
                             <?php //TODO: replace this with php. do unit, rent, available ?>
                             <?php
@@ -98,7 +101,7 @@ $unitType = preg_replace("|[^a-z]+|","",strtolower($extras['unittype']));
                             ?>
                         	<div class="row unit-table-row">
                                                                                                         
-								<div class="col-md-3">
+								<div class="col-md-2">
                                     <?php if(isset($object->RENOVATED) && $object->RENOVATED == "RENOVATED"): ?>
                                         <div style="position:absolute; top:-25px; margin:0px auto; left:0px; right:0px;">
                                             <span class="label label-success">RENOVATED</span>
@@ -106,17 +109,18 @@ $unitType = preg_replace("|[^a-z]+|","",strtolower($extras['unittype']));
                                     <?php endif; ?>
 									<span class="visible-xs visible-sm"><b>Unit: </b></span><?php echo $object->UnitNumber; ?>
 								</div>
-								<div class="col-md-3">
+								<div class="col-md-2">
 									<span class="visible-xs visible-sm"><b>Rent: </b></span>$<?php echo Util::formatRentPrice($object->AskingRent);?>
 								</div>
-								<div class="col-md-3">
+								<div class="col-md-2">
 									<span class="visible-xs visible-sm"><b>Available: </b></span><?php echo $object->UnitAvailableDate;?>
+								</div>
+								<div class="col-md-3">
+									<span class="visible-xs visible-sm"><b>Special: </b></span><?php echo $object->SPECIAL_TEXT;?>
 								</div>
 								<div class="col-md-3 unit-table-btn">
                                 <?php //TODO: do this javascript mess ?>
                                     <a style="cursor:pointer" href='/apply-online' id="<?php echo $js->getGenId($index);?>" class="btn btn-mod btn-brown btn-medium btn-round">Apply Now</a>
-
-                                   
 								</div>
 							</div>
                             <?php endforeach; ?>

@@ -32,7 +32,7 @@
                                             Address
                                         </div>
                                         <div class="ci-text">
-                                           <?php echo $entity->getFullAddress();?>
+                                           <?php echo $entity->getFullAddress(['state' => 'abbrev','city' => 'break']);?>
                                         </div>
                                     </div>
                                 </div>
