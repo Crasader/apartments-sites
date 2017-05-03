@@ -9,11 +9,24 @@
 <section class=content><div class=container>
 <div class=row><div class=col-md-12><div class=page-title><h1>Your submission was received!</h1><div class=divder-teal></div></div></div></div>
 
+<?php if($mode == 'briefContact'): ?>
+<div class=row><div class=col-md-6><p>Thank you <?php echo $contact['name']; ?> for your interest in <?php echo $apartmentName;?> Apartments. 
+<?php else: ?>
 <div class=row><div class=col-md-6><p>Thank you <?php echo $contact['fname']; ?> <?php echo $contact['lname']; ?> for your interest in <?php echo $apartmentName;?> Apartments. 
+<?php endif; ?>
 Our team will quickly review your submission and get back to you as soon as possible. </p>
 <p>For questions, give us a call:&nbsp;<span class=teal><?php echo $entity->getPhone(); ?></span></p></div></div>
 <div class=row><div class=col-md-6><p>Sincerely, <br><?php echo $apartmentName;?> Apartments Management Team</p></div></div>
 <div class=row><div class=col-md-6><p>The following was submitted:</p><p>
+<?php if($mode == 'briefContact'): ?>
+Name: <?php echo $contact['name']; ?><br>
+
+Email: <?php echo $contact['email'];?><br>
+
+Message: <?php echo $contact['message']; ?><br>
+
+Action Requested: SCHEDULE A TOUR (From Front Page )
+<?php endif;?>
 
 <?php if($mode == 'contact'): ?>
 

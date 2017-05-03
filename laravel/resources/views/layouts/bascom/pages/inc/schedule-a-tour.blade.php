@@ -3,7 +3,6 @@
             <section class="page-section schedule-a-tour-section bg-dark" data-background="<?php echo $entity->getWebPublicDirectory('');?>/bg1.jpg">
                 <div class="container relative">
 
-                    <form class="form align-center" >
                         <div class="row">
                             <div class="col-md-8 col-md-offset-2">
 
@@ -12,7 +11,7 @@
                                 </div>
 
                                 <div class="mb-20">
-                                    <form class="form contact-form" id="contact_form">
+                                    <form class="form contact-form" id="contact_form" method="post" action="/briefContact">
                                         <div class="clearfix">
 
                                             <div class="cf-left-col">
@@ -61,14 +60,13 @@
                                             </div>
 
                                         </div>
+                                        {{csrf_field()}}
 
                                         <div id="result"></div>
                                     </form>
                                 </div>
                             </div>
                         </div>
-                    </form>
-
                 </div>
             </section>
             <!-- End Schedule a Tour Section -->            <!-- End Schedule a Tour Section -->

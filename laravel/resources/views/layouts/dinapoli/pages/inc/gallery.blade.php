@@ -27,6 +27,15 @@
                         //TODO: load items and filters dynamically by entity
                             $gallery->loadItems(['community','main']);
                             foreach($gallery->fetchSortedItems($gallery::SORT_TYPE_SPARSE) as $index => $imageData):
+                                       if(isset($displayOptions['gallery-intro-sections'])){
+                                                if($imageData['_itemName_'] == 'main'){
+                                                    $section =  $displayOptions['gallery-intro-sections']['apartment'];
+                                                }else{
+                                                    $section = $displayOptions['gallery-intro-sections']['community'];
+                                                }
+                                        }else{
+                                            $section = ($imageData['_itemName_'] == 'main') ? "Apartment" : "Community";
+                                        }
                         ?>
                         <!-- Gallery Item (Lightbox) :) -->
                         <li class="work-item mix <?php echo $imageData['_itemName_'] ?? "";?>">
@@ -37,7 +46,7 @@
                                 </div>
                                 <?php \Debugbar::info($imageData);?>
                                 <div class="work-intro">
-                                    <h3 class="work-title"><?php echo $imageData['_itemName_'] == "main" ? "Apartment" : "Community";?></h3>
+                                                <h3 class="work-title"><?php echo $section;?></h3>
                                     <div class="work-descr">
                                         <?php echo $imageData['name'] ?? "Lorem ipsum dolor sit amet";?>
                                     </div>

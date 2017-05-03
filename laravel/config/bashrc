@@ -1,1 +1,21 @@
-/home/amcllc/.bashrc
+LAR='/home/amcllc/amcapartments_com/laravel'
+PATH="${PATH}:/home/amcllc/bin"
+alias lar='cd $LAR'
+export PATH
+alias art='php7.0 $LAR/artisan $@'
+alias clear='art cache:clear ; art config:clear ; art route:clear ; art view:clear;'
+alias storage='lar ; cd storage'
+alias log='lar ; cd storage/logs ; tail -f log.log -n 100'
+alias llog='lar ; cd storage/logs ; tail -f laravel.log -n 100'
+alias routes='lar ; cd routes'
+alias admin='lar ; cd resources/views/layouts/admin'
+alias artclear='art cache:clear; art config:clear; art route:clear; art view:clear'
+alias bas='lar ; cd resources/views/layouts/bascom/pages'
+alias t-log='storage ; cd logs; tail -n 1000 -f log.log'
+alias pub='lar ; cd public'
+alias vimbash='vim $LAR/config/bashrc'
+alias app='lar ; cd app'
+alias post='lar ; cd app/Http/Controllers; vim PostController.php'
+alias din='lar ; cd resources/views/layouts/dinapoli/pages'
+alias gp='lar ; git pull'
+alias gs='lar ; git status'

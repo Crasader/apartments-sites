@@ -8,7 +8,7 @@ try{
 }catch(\Exception $e){
     $specials = $spec = null;
 }
-
+$displayOptions['dont-show-contact-details'] = true;
 ?>
     @extends('layouts/bascom/main')
         @section('after-nav')
@@ -158,14 +158,14 @@ try{
 
            
             <!-- Call Action Section -->
-            <section class="page-section pt-0 pb-0 banner-section bg-dark" data-background="<?php echo $entity->getWebPublicDirectory('slides');?>/bg2.jpg">
+            <section class="page-section pt-0 pb-0 banner-section bg-dark" data-background="<?php echo $entity->getWebPublicDirectory('slides');?>/bg1.jpg">
                 <div class="container relative">
 
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="mt-70 mt-lg-70 mb-70 mb-lg-70 mb-sm-30">
                                 <div class="banner-content">
-                                    <h3 class="banner-heading font-alt"><b>Join Our community</b></h3>
+                                    <h3 class="banner-heading font-alt">Join Our community</h3>
                                     <div class="banner-description">
                                         <?php echo $entity->getText('join-our-community-description',['oneshot'=>" Proin fringilla augue at maximus vestibulum. Nam pulvinar vitae neque et porttitor.
                                                                                 Integer non dapibus diam, ac eleifend lectus."]);?>
@@ -246,9 +246,7 @@ try{
                  </div>
              </section>
             <!-- End Google Map -->
-
- 
-                      
+            @include('layouts/bascom/pages/inc/contact-details')    
         @stop
 
 

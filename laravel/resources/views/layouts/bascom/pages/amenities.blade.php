@@ -28,24 +28,27 @@
             <!-- Amenities Section -->
             <section class="page-section pb-0" id="about">
                 <div class="container relative">
-                    <div class="row">
-                    	<div class="col-sm-12">
-                    		<h2 class="section-title font-alt align-left mb-20 mb-sm-20">
-                               <?php echo $entity->getText('slogan'); ?>
+					<div class="row">
+<h2 class="section-title font-alt align-left mb-70 mb-sm-40">
+                               <?php echo $entity->getText('basco-amenities-title',['oneshot' => 'Amenities']);?>
                             </h2>
-                    	</div>
-
-                    </div>
-                    <div class="row">
-                    	<div class="col-sm-12 mb-60">
+                    	<div class="col-sm-6 mb-60">
                     		
                     		<div class="text">
-                    		<?php echo $entity->getText('amenities-welcome');?>
+                    		
+                    		<?php echo $entity->getText('bascom-amenities-page-paragraph',['oneshot' => "Live better at 80 On Gibson Apartments For Rent in Henderson, Nevada. Indulged by a pristine community greenbelt and overlooking Henderson's best sweeping valley views...there is no other place to call home! Striking finishes, abundant storage, elegant cabinetry, gas heat, fireplaces in select homes and spacious nine foot ceilings give you all the comforts of home, the pleasures of a resort and the appeal of the Henderson community. Work hard. Play harder. 80 On Gibson Henderson location and pet-friendly community gives you the most out of your day with restaurants, parks, and shopping within minutes and golfing just moments away! Make time to unwind in the spa, work out in the fitness room or play a game of racquetball in our indoor gym. Enjoy a cup of coffee in our resident lounge or take in the breathtaking views from your private deck. At 80 On Gibson, you are surrounded by life's many pleasures!"]);?>
+                    		
                     		</div>
                     	
                     	</div>
+                    	<div class="col-sm-6 mb-60">
+
+                            <img src="<?php echo $entity->getWebPublicDirectory('gallery')?>/ext3.jpg" alt="">
+                    		
+                    	</div>
                     
                     </div>
+                    
                     <hr class="mb-40">
                     <div class="row">
                     	<div class="col-sm-12 mb-10">

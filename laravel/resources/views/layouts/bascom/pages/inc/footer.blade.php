@@ -70,10 +70,6 @@
 
 <footer class="page-section bg-gray-lighter footer pb-60">
                 <div class="container">
-                    <!-- Footer Logo -->
-                    <div class="local-scroll mb-30 wow fadeIn" data-wow-duration="1.5s" style="visibility: visible; animation-duration: 1.5s; animation-name: fadeIn;">
-                        <a href="#top"><img src="<?php echo $entity->getWebPublicDirectory('logo');?>/logo.png" alt=""></a>
-                    </div>
                     <!-- End Footer Logo -->
                     <!-- Social Links -->
                     <div class="footer-social-links mb-30">

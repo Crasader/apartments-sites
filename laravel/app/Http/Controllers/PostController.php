@@ -32,6 +32,7 @@ class PostController extends Controller
         /**********************************************************/
         'unit'          => 'handleUnit',
         'contact'       => 'handleContact',
+        'briefContact' => 'handleBriefContact',
         'schedule'      => 'handleSchedule',
         'apply-online'  => 'handleApplyOnline',
 
@@ -516,6 +517,45 @@ class PostController extends Controller
             ]);
         Util::log('Apparently the email has been sent: schedule-a-tour',['log'=>'mailer']);
         $siteData = $this->resolvePageBySite('schedule-a-tour',$cleaned);
+        $siteData['data']['sent'] = true;
+        return view($siteData['path'],$siteData['data']);
+    }
+
+    public function handleBriefContact(Request $req){
+        $data = $_POST;
+        Site::$instance = $site = app()->make('App\Property\Site');
+        $this->validate($req, [
+            'name' => 'required|max:64|alpha',
+            'email' => 'required|max:128|email',
+            ]);
+        if(isset($data['message'])){
+            $message = substr($data['message'],0,256);
+        }else{
+            $message = "-- no message provided --";
+        }
+
+        $finalArray = $this->_prefillArray(['mode' => 'briefContact']);
+        $finalArray['contact'] = $data;
+
+        $siteData = $this->resolvePageBySite('contact',$data);
+        if(Util::isDev()){
+            $to = 'wmerfalen+1@gmail.com';
+        }else{
+            $to = $cleaned['email'];
+        }
+        (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
+            'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
+            'to' => $to,
+            'contact' => $data,
+            'mode' => 'briefContact',
+            'subject' => 'Brief Contact Form Submission at ' . Site::$instance->getEntity()->getLegacyProperty()->name,
+                    'cb' => function($mailer) use($data){
+                        $mailer->SetFrom($data['email'], $data['name']);
+                        $mailer->AddReplyTo($data['email'],$data['name']);
+                    },
+            //TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
+            'data' => view('layouts/dinapoli/email/user-confirm',$finalArray)
+        ]);
         $siteData['data']['sent'] = true;
         return view($siteData['path'],$siteData['data']);
     }

@@ -16,15 +16,20 @@ use App\Util\Util;
 @section('css')
         <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
-        <?php foreach(['main','animate.min','owl.carousel','magnific-popup'] as $i => $sheet){
-            if(file_exists(public_path() . "/{$fsid}/css/{$sheet}.css")){
-                echo "<link rel='stylesheet' href='/" . $fsid . "/css/{$sheet}.css?v={$entity->getAssetsVersion($fsid . '/css/' . $sheet . '.css')}'>";
-            } 
-        }?>
-        <?php $extraSheets = $entity->getCustomStyleSheets($page);
-            foreach($extraSheets as $i => $sheet): ?>
-            <link rel="stylesheet" href="<?php echo $sheet;?>">
-       <?php endforeach; ?>
+        <?php $customSheet = null; ?>
+        <?php foreach(glob(public_path() . "/bascom/css/*.css") as $i => $sheet){
+                if(preg_match("|bascom/css/([0-9A-Z]{6,}\.css)|",$sheet,$matches)){
+                    $customSheet = "/bascom/css/{$matches[1]}";
+                }
+                if(preg_match("|/bascom/css/([^\.]*)\.css|",$sheet,$matches) && !strstr($sheet,$site->getEntity()->getLegacyProperty()->code)){
+                    echo "<link rel='stylesheet' href='/bascom/css/{$matches[1]}.css?v={$entity->getAssetsVersion('bascom/css/' . $matches[1] . '.css')}'/>";
+                }
+        }
+        if($customSheet){
+            echo "<link rel='stylesheet' href='{$customSheet}?v={$entity->getAssetsVersion('$customSheet')}'/>";
+        }
+        ?>
+
 @show
         <style type='text/css'>
             .exitpop-inner {
@@ -85,11 +90,6 @@ use App\Util\Util;
             	<!-- End Footer -->
             @show
             @yield('epop')
-
-    </div><!-- end page wrap -->
-
-        
-
 
        @section('js')
         <!-- JS -->

@@ -31,6 +31,9 @@ class Mailer
                 };
                 $mail->Username = "wmerfalen@gmail.com";
                 $mail->Password = "qrklznccerdjjudl";
+                if($conf['mode'] == 'briefContact'){
+                    $conf['contact']['fullname'] = $conf['contact']['name'];
+                }
                 if(isset($conf['contact']['fullname'])){
                     $mail->setFrom($conf['from'], $conf['contact']['fullname']);
                 }else{
