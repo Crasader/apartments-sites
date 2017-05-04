@@ -554,7 +554,7 @@ class PostController extends Controller
             'contact' => $data,
             'subject' => [
                 'property' => 'Contact Form Submission at ' . $aptName,
-                'user' => 'Schedule a tour Confirmation for '  . $aptName . ' Apartments',
+                'user' => 'Contact Us Confirmation for '  . $aptName . ' Apartments',
             ],
             'data' => view('layouts/dinapoli/email/user-confirm',$finalArray)
         ]);
