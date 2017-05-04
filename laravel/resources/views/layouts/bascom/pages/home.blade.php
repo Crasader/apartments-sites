@@ -189,7 +189,7 @@ $displayOptions['dont-show-contact-details'] = true;
 
             <!-- Gallery Section -->
             <section class="page-section pb-0 " id="portfolio">
-                <div class="container relative">
+                <div class="relative">
 
                     <h2 class="section-title font-alt mb-70 mb-sm-40">
                         GALLERY

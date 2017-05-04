@@ -22,9 +22,12 @@ class Session// extends Model
             self::log("Starting session");
             session_start();
         }
+        self::log("Session data: " . var_export($_SESSION,1));
         switch($method){
+            case "log":
+                self::log($args[0]);
+                return;
             case "start":
-
                 return;
             case "unsetKey":
                 self::log("UNsetting key");
@@ -33,6 +36,8 @@ class Session// extends Model
                 }
                 return;
             case "isCmsUser":
+                self::log("CMS_USERKEY: " . var_export(self::get(Session::CMS_USER_KEY),1));
+                self::log(var_export(self::get(Session::CMS_USER_KEY) !== null,1));
                 return self::get(Session::CMS_USER_KEY) !== null;
             case "cmsUserSet":
                 return $_SESSION[Session::CMS_USER_KEY] = $args[0];
@@ -51,6 +56,7 @@ class Session// extends Model
             case "key":
                 return $_SESSION[$args[0]] = $args[1];
             case "get":
+                self::log("GET: args:" . var_export($args[0],1));
                 return isset($_SESSION[$args[0]]) ? $_SESSION[$args[0]] : null;
             case "stop":
                 return session_write_close();

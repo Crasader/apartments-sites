@@ -51,7 +51,7 @@ class SiteController extends Controller
     }
     
     public function tagsLogout(){
-        //TODO: session logout
+        Session::unsetKey(Session::CMS_USER_KEY);
     }
 
     public function validateUser(Request $req){

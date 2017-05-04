@@ -1006,20 +1006,27 @@ if(typeof Object.create!=="function"){Object.create=function(e){function t(){}t.
      --------------------------------------------- */
     $(document).one("mouseleave" , function() {
         // Show the exit popup
-		if($("#exitpopup-overlay").data("localstorage").length){
+		if($("#exitpopup-overlay").length == 0){ return; }
+        console.log(localStorage.getItem('#floorplan-popup'));
+
+        if($("#exitpopup-overlay").data('localstorage').length){
+            console.log("epop ls length > 0");
             localStorage.setItem('#floorplan-popup','');
         }
+
 		if(localStorage.getItem('#floorplan-popup') != 'shown'){
 			$('#exitpopup-overlay').fadeIn();
 			$('#exit_pop').fadeIn();
+        }else{
+            $("#exitpopup-overlay").css("display","none");
+            $("#exit_pop").css("display","none");
         }
     });
     
     $('#epop-close').click(function(e){
 		e.preventDefault();
-		if(localStorage.getItem('#floorplan-popup') != 'shown'){
-			localStorage.setItem('#floorplan-popup','shown')
-		}
+        console.log('epop close');
+	    localStorage.setItem('#floorplan-popup','shown')
 		$('#exitpopup-overlay').fadeOut();
 		$('#exit_pop').slideUp();
     });

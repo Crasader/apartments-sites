@@ -469,12 +469,12 @@ class Entity extends Model
             $q = "'";
         }
         if(Session::isCmsUser()){
+            Util::log("Is cms user... decorate tags...");
             if($text === null){ return "<b style={$q}color:green{$q} class={$q}edit-tag{$q} onclick='edit_tag(\"$name\");'>{!}</b>"; }
             if(in_array($name,$this->_decorateIgnoreText)){ 
                 if(strlen($text) == 0){
                     return "<b style={$q}color:green{$q} class={$q}edit-tag{$q} onclick='edit_tag(\"$name\")'>{!}</b>";
                 }
-                return $this->conditionalDecorateTags($name,$text,$opts);// . "<b style={$q}color:red{$q} class={$q}edit-tag{$q} onclick='edit_tag(\"$name\")'>{!}</b>"; 
             }
             return $this->conditionalDecorateTags($name,$text,$opts);// . "<b style={$q}color:red;{$q} class={$q}edit-tag{$q} onclick='edit_tag(\"$name\")'>{!}</b>";
         }else{
@@ -549,6 +549,7 @@ class Entity extends Model
         $translatables = $foo->getTextTranslatables();
         if(in_array($name,array_keys($translatables))){
             Util::log('translatable: ' . var_export($name,1),['log' => 'translatable']);
+            Util::log("Translatable");
             return $translatables[$name]['fetch']();
         }
         $returnValue = Util::redisFetchOrUpdate('textcache_str_key_' . $name,function() use($foo,$name,$opts) {
@@ -581,13 +582,15 @@ class Entity extends Model
             if(isset($opts['nodecorate'])){
                 return $text;
             }
-            return $foo->decorateGetText($name,$text,$opts);
+            return $text;
         });
 
         \Debugbar::info("Updating textcahce: $name");
         if(isset($opts['nodecorate'])){
+            Util::log("No decorate!!!!");
             return $returnValue;
         }
+        Util::log("Calling decorate text...");
         return $this->decorateGetText($name,$returnValue,$opts);
     }
 

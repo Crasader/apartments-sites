@@ -154,7 +154,7 @@ class Util
         }else{
             $file = storage_path() . "/logs/log.log";
         }
-        file_put_contents($file,date("Y-m-d H:i:s") . "::{$foo}\n",FILE_APPEND);
+        file_put_contents($file,date("Y-m-d H:i:s") . "::" . $_SERVER['SERVER_NAME'] . "::{$foo}\n",FILE_APPEND);
     }
 
     public static function redisFetchOrUpdate(string $key,$callable,$arrayType=false){
