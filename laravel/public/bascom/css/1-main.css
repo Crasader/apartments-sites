@@ -8254,3 +8254,7 @@ section:hover .small-item-carousel .owl-next {
         padding-bottom: 140px
     }
 }
+
+body { 
+    font-family: "Open Sans", arial, sans-serif;
+}

@@ -13,7 +13,7 @@
                                             <i class="fa fa-phone"></i>
                                         </div>
                                         <div class="ci-title font-alt">
-                                            Call Us
+                                           Call Us
                                         </div>
                                         <div class="ci-text">
                                             <?php echo $entity->getPhone();?>

@@ -29,9 +29,13 @@
             <section class="page-section pb-0" id="about">
                 <div class="container relative">
 					<div class="row">
-<h2 class="section-title font-alt align-left mb-70 mb-sm-40">
-                               <?php echo $entity->getText('basco-amenities-title',['oneshot' => 'Amenities']);?>
-                            </h2>
+                    	<div class="col-sm-6 mb-60">
+                                <h2 class="section-title font-alt align-left mb-70 mb-sm-40">
+                                   <?php echo $entity->getText('basco-amenities-title',['oneshot' => 'Amenities']);?>
+                                </h2>
+                        </div>
+                    </div>
+                    <div class="row">
                     	<div class="col-sm-6 mb-60">
                     		
                     		<div class="text">

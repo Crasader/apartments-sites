@@ -12,17 +12,32 @@ $unitType = $extras['unittype'];
 
 ?>
 @extends('layouts/bascom/main')
-                        @section('page-title-row')
+                        @section('after-nav')
+
+<section class="page-section bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('');?>/page-title-bg4.jpg" style="background-image: url('<?php echo $entity->getWebPublicDirectory('');?>/page-title-bg4.jpg');">
+                <div class="relative container align-left">
+                    
+                    <div class="row">
+                        
                         <div class="col-md-8">
-                            <h1 class="hs-line-11 font-alt mb-20 mb-xs-0"><?php echo $extras['unittype'];?></h1>
+                            <h1 class="hs-line-11 font-alt mb-20 mb-xs-0"><?php echo $extras['orig_unittype'];?></h1>
                             <div class="hs-line-4 font-alt">
-                                <?php echo $extras['unittype'];?> AVAILABILITY
+                               	<?php echo $extras['orig_unittype'];?> AVAILABILITY
                             </div>
                         </div>
-                        @stop
-                        @section('page-title-span','FLOOR PLANS')
-                        @section('page-title-span-suffix')
-                        &nbsp;/&nbsp;<span><?php echo $extras['unittype']; ?></span>
+                        
+                        <div class="col-md-4 mt-30">
+                            <div class="mod-breadcrumbs font-alt align-right">
+                                <a href="#">Home</a>&nbsp;/&nbsp;<span>FLOOR PLANS</span>&nbsp;/&nbsp;<span><?php echo $extras['orig_unittype'];?></span>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+            </section>
+
+
                         @stop
             @section('content')
             <?php //TODO: component/slot for submitUnit form ?>
@@ -57,7 +72,7 @@ $unitType = $extras['unittype'];
                         
                         <div class="col-sm-8 mb-40">
                         	<div class="row">
-                        		<div class="col-sm-6"><h3 class="uppercase mb-20"><?php echo $extras['unittype'];?></h3></div>
+                        		<div class="col-sm-6"><h3 class="uppercase mb-20"><?php echo $extras['orig_unittype'];?></h3></div>
                         	</div>
                         	<div class="unit-description mb-40">
                         		<ul>

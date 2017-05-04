@@ -242,7 +242,7 @@ $displayOptions['dont-show-contact-details'] = true;
                 <div class="row">
                     <div class="map-container">
                         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-                        <div style="overflow:hidden;height:537px;max-width:100%;">
+                        <div style="overflow:hidden;max-width:100%;">
                             <div id="map-canvas"></div>
                         <div>
                         @include('layouts/dinapoli/pages/inc/google-maps-script')
