@@ -13,11 +13,13 @@ class Mailer
     const PROC_CATEGORY_CONTACT = 'contact';
 
     private static $_conf;
-
     private static $_categories = [
         Mailer::PROC_CATEGORY_ERROR,
         Mailer::PROC_CATEGORY_CONTACT,
         ];
+    public static function setConf($conf){
+        self::$_conf = $conf;
+    }
     public static function uniqueId(array $conf){
         return Property\Site::$instance->getEntity()->getLegacyProperty()->name . "|" . json_encode($conf) . "|";
     }
@@ -77,9 +79,8 @@ class Mailer
                     )
                 );
             }
-            $conf = self::$_conf;
-            $mail->Debugoutput = function($str,$level) use($conf){
-                self::log(Mailer::uniqueId($conf) . "-> $level: '$str'",['log' => 'mailer']);
+            $mail->Debugoutput = function($str,$level){
+                self::log(Mailer::uniqueId(self::$_conf) . "-> $level: '$str'",['log' => 'mailer']);
             };
             $mail->Username = ENV("MAILER_USERNAME");
             $mail->Password = ENV("MAILER_PASSWORD");

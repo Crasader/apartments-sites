@@ -70,13 +70,15 @@ class PostController extends Controller
             'to' => $details['user'],
             'subject' => $details['subject']['user'],
             'data' => $details['data'],
-            'from' => MulitContact::getPropertyEmail(true),
+            'from' => MultiContact::getPropertyEmail(true),
         ]);
 
         $mailer->sendPropertyContact([
             'subject' => $details['subject']['property'],
             'data' => $details['data'],
+            'view' => 'layouts/dinapoli/email/property-contact',
             'from' => $details['user'],
+            'fromName' => $details['fromName'],
         ]);
     }
 
@@ -210,6 +212,7 @@ class PostController extends Controller
         $aptName = Site::$instance->getEntity()->getLegacyProperty()->name;
         $this->sendMultiContact('contact-request',[ 
             'user' => $to,
+            'fromName' => $data['fname'] . " " . $data['lname'],
             'contact' => $data,
             'subject' => [
                 'property' => 'Resident Portal Contact Request for property: ' . $aptName,
@@ -253,7 +256,8 @@ class PostController extends Controller
         $finalArray = $this->_prefillArray($data);
         $finalArray['contact'] = $data;
         $this->sendMultiContact('apply-online',[ 
-            'user' => $to,
+            'user' => $data['email'],
+            'fromName' => $data['fname'] . " " . $data['lname'],
             'contact' => $data,
             'subject' => [
                 'property' => 'A customer applied online for property: ' . $aptName,
@@ -299,15 +303,21 @@ class PostController extends Controller
         return view($siteData['path'],$siteData['data']);
     }
 
-    protected function _prefillArray(array $arr){
-        //TODO: replace these with the site's css !launch
-        $arr['styleSheets'] = [
+    protected static $_styleSheets =  [
             'http://www.400rhett.com/css/jquery-ui.min.css',
             'http://www.400rhett.com/css/bootstrap-theme.min.css',
             'http://www.400rhett.com/css/bootstrap.min.css',
             'http://www.400rhett.com/css/animations.css',
             'http://www.400rhett.com/css/main.css'
             ];
+
+    public static function styleSheets(){
+        return self::$_styleSheets; //TODO !organization This needs to go somewhere else
+    }
+
+    protected function _prefillArray(array $arr){
+        //TODO: replace these with the site's css !launch
+        $arr['styleSheets'] = self::$_styleSheets;
         $arr['apartmentName'] = Site::$instance->getEntity()->property_name;
         $arr['entity'] = Site::$instance->getEntity();
         return $arr;
@@ -479,7 +489,8 @@ class PostController extends Controller
             $to = $data['email'];
         }
         $this->sendMultiContact('apply-online',[ 
-            'user' => $to,
+            'user' => $data['email'],
+            'fromName' => $data['name'],
             'contact' => $data,
             'subject' => [
                 'property' => 'User would like to schedule a tour [front page] property: ' . $aptName,
@@ -535,7 +546,8 @@ class PostController extends Controller
             $to = $cleaned['email'];
         }
         $this->sendMultiContact('contact',[ 
-            'user' => $to,
+            'user' => $cleaned['email'],
+            'fromName' => $cleaned['fname'] . " " . $cleaned['lname'],
             'contact' => $data,
             'subject' => [
                 'property' => 'Contact Form Submission at ' . $aptName,
