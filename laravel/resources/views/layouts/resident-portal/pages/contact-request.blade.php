@@ -58,7 +58,7 @@
 							<div class="location">
 								<b><?php echo $entity->getCity(). ", " . $entity->getState();?></b>
 								<p>
-                                <?php echo $entity->getFullAddress(); ?><br>
+                                <?php echo $entity->getFullAddress(['city' => 'break','state'=>'abbrev']); ?><br>
                                 <?php echo $entity->getPhone(); ?>
 								</p>
 							</div>

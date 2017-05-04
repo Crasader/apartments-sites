@@ -19,19 +19,21 @@ use App\Util\Util;
             ?>
             <?php if(isset($data['SpecialWebsite'])): ?>
                 <?php if(Util::isHome()): ?>
-                    <div id="banner-special">
-                        <div class="container relative">
-                            <div class="row">
-                                <div class="col-md-12 text-center">
-                                    <div class="text">
-                                        <b>MOVE IN SPECIAL</b><?php echo $data['SpecialWebsite'];?><br>
-                                    </div>
-                                    <a href="#" class="fa fa-times-circle" id="banner-special-close"></a>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
+			<div id="banner-special" style="display: block;"> 
+				<div class="container relative">
+            		<div class="row">
+        				<div class="col-md-12 text-center">
+    						<div class="text">
+                                        <b>MOVE IN SPECIAL</b> <?php echo $data['SpecialWebsite'];?><br>
+    							<button type="submit" class="btn btn-mod btn-border-w btn-round" onclick='window.location="/floorplans";'>
+                             	  FIND OUT MORE
+                        		</button> 
+    						</div>
+                            <a href="#" class="fa fa-times-circle" id="banner-special-close"></a>    				
+						</div>
+        			</div>
+        		</div>
+			</div>
 				<?php endif; ?>
 			<?php endif; ?>
             <div class="top-nav">
@@ -58,7 +60,7 @@ use App\Util\Util;
                 <div class="full-wrapper relative clearfix">
                     <div class="nav-logo-wrap local-scroll">
                         <a href="/" class="logo">
-                            <images src="images/logo.png" alt="" />
+                            <img src="<?php echo $entity->getWebPublicDirectory('');?>/logo.png" alt="" />
                         </a>
                     </div>
                     <div class="mobile-nav">

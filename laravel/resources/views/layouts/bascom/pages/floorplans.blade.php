@@ -92,8 +92,8 @@ $displayOptions['dont-show-contact-details'] = 1;
                     
                     <!-- Floor Plans Row -->
                     <?php 
-                        $grid = 3; 
-                        $col = 4;
+                        $grid = 4; 
+                        $col = 3;
                     ?>
                         <?php if(count($sorted) == 2){ $grid = 2; $col = 4; } ?>
                         <?php if(count($sorted) == 1){ $grid = 12; } ?>
@@ -178,6 +178,7 @@ $displayOptions['dont-show-contact-details'] = 1;
                     
                 </div>
             </section>
+            @include('layouts/bascom/pages/inc/epop')
         @stop
             
             
@@ -190,9 +191,6 @@ $displayOptions['dont-show-contact-details'] = 1;
         
         @section('contact','')
 
-        @section('epop')
-            @include('layouts/bascom/pages/inc/epop')
-        @stop
     @section('page-specific-js')
     <script language="javascript">
         $(document).ready(function(){

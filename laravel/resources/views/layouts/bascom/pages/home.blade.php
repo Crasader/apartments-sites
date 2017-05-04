@@ -130,20 +130,20 @@ $displayOptions['dont-show-contact-details'] = true;
                             $features->setFeaturesLimit(['apartment' => 3,'community' => 3]);
                             $features->loadSelectedFeatures(['apartment','community']);
                             $features->setFeaturesFormatter(new App\Util\Formatter('li'));
+							$ctr = 0;
                             foreach(['apartment' => 'Apartment Features',
                                 'community' => 'Community Features'
                                 ] as $section => $label):
                         ?>
-                            <div class="col-sm-6">
-                                <div class="col-md-6">
-                                     <div class="text">
-                                        <ul style="list-style-type:none; line-height: 30px;">
+
+ 							<div class="col-md-4 col-sm-6 <?php if(!(++$ctr > 1)){ echo 'col-md-offset-2'; }?> mb-40">
+                                <div class="text">
+                                    <ul style="list-style-type:none; line-height: 30px;">
                                             <?php echo Util::redisFetchOrUpdate('home_features_section_' . $section,function() use($features,$section){
                                                 return implode('',$features->getEntireFeaturesSection($section));
                                             },false);
                                             ?>
                                         </ul>
-                                    </div>
                                 </div>
                             </div>
                         <?php

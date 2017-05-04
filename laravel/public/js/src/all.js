@@ -70,6 +70,9 @@
      --------------------------------------------- */
     $(document).one("mouseleave" , function() {
         // Show the exit popup
+		if($("#exitpopup-overlay").data("localstorage").length){
+            localStorage.setItem('#floorplan-popup','');
+        }
 		if(localStorage.getItem('#floorplan-popup') != 'shown'){
 			$('#exitpopup-overlay').fadeIn();
 			$('#exit_pop').fadeIn();

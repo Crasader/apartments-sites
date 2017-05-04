@@ -8379,3 +8379,56 @@ input[readonly] { background-color: #fff; }
 @media only screen and (max-width : 320px) {
     
 }
+
+.exitpop-content {
+    position: fixed;
+    height: 600px;
+    width: 908px;
+    margin: -200px 0px 0px -454px;
+    top: 30%;
+    left: 50%;
+    text-align: left;
+    padding: 0px;
+    border: none;
+}
+
+.exitpop-inner {
+    display: block;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+    background-size: cover;
+}
+
+.exitpop-inner .epop-title {
+    /* background: #85cebc; */
+    color: #fff;
+    padding: 15px;
+    font-size: 40px;
+}
+
+.exitpop-inner .epop-button {
+    padding: 30px;
+}
+ .exitpop-inner .epop-message h1 {
+    font-size: 80px;
+    margin: 80px 0px 0px 0px;
+    padding: 0px;
+    line-height: 30px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+}
+
+
+.exitpop-inner .epop-message h3 {
+    font-size: 30px;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+}
+
+.btn-mod.btn-border-w:focus, .btn-mod.btn-border-w:hover {
+    color: #111;
+    border-color: transparent;
+    background: #fff;
+}
