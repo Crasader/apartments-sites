@@ -171,7 +171,7 @@ $displayOptions['dont-show-contact-details'] = true;
                                                                                 Integer non dapibus diam, ac eleifend lectus."]);?>
                                     </div>
                                     <div class="local-scroll">
-                                        <p><a href="floorplans" class="btn btn-mod btn-brown btn-large btn-round">SEE FLOOR PLANS</a></p>
+                                        <p><a href="floorplans" class="btn btn-mod btn-brown btn-medium btn-round">SEE FLOOR PLANS</a></p>
                                     </div>
                                 </div>
                             </div>
@@ -220,8 +220,6 @@ $displayOptions['dont-show-contact-details'] = true;
             </section>
             <!-- End Gallery Section -->
 
-
-
             <!-- Google Map -->
             <section class="page-section pb-0">
                 <div class="relative">
@@ -240,10 +238,16 @@ $displayOptions['dont-show-contact-details'] = true;
                             </div>
                         </div>
                     </div>
-                    <div class="google-map">
-                        <div data-address="<?php echo $entity->getFullAddress();?>" id="map-canvas"></div>
-                    </div>
                  </div>
+                <div class="row">
+                    <div class="map-container">
+                        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+                        <div style="overflow:hidden;height:537px;max-width:100%;">
+                            <div id="map-canvas"></div>
+                        <div>
+                        @include('layouts/dinapoli/pages/inc/google-maps-script')
+                    </div>
+                </div>
              </section>
             <!-- End Google Map -->
             @include('layouts/bascom/pages/inc/contact-details')    
@@ -255,10 +259,6 @@ $displayOptions['dont-show-contact-details'] = true;
         @stop
             
         @section('page-specific-js')
-        <?php //TODO: dynamically load this ?>
-        <?php $key = $entity->getText('google-maps-key',['nodecorate' => 1]); ?>
-        <?php if(\App\System\Session::isCmsUser()){ echo "Google maps key: " . $key = $entity->getText('google-maps-key') . "<hr>";}?>
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo $entity->getText('google-maps-key',['nodecorate'=>1]);?>"></script>
         <!--[if lt IE 10]><script type="text/javascript" src="js/placeholder.js"></script><![endif]-->
         <script type="text/javascript">
             $('#nav').addClass('transparent');
