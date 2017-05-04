@@ -17,6 +17,7 @@ use App\Property\Text as PropertyText;
 use App\Property\Template as PropertyTemplate;
 use Redis;
 use App\System\Session;
+use App\Mailer\MultiContact;
 
 class PostController extends Controller
 {
@@ -60,6 +61,25 @@ class PostController extends Controller
         if(ENV("SHOW_DEBUG_BAR") == "0"){
             \Debugbar::disable();
         }
+    }
+    
+    public function sendMultiContact(string $mode,array $details){
+        //
+        $mailer = new MultiContact;
+        $mailer->sendUserContact([
+            'to' => $details['user'],
+            'subject' => $details['subject']['user'],
+            'data' => $details['data'],
+            'from' => MultiContact::getPropertyEmail(true),
+        ]);
+
+        $mailer->sendPropertyContact([
+            'subject' => $details['subject']['property'],
+            'data' => $details['data'],
+            'view' => 'layouts/dinapoli/email/property-contact',
+            'from' => $details['user'],
+            'fromName' => $details['fromName'],
+        ]);
     }
 
     public function handle(Request $request,string $page){
@@ -173,19 +193,15 @@ class PostController extends Controller
         ];
     }
 
+
+    //TODO: Handle form validation
     public function handleResidentContact(Request $req){
         $data = $_POST;
         Site::$instance = $site = app()->make('App\Property\Site');
         if(Session::residentUserLoggedIn() === false){
             return $this->residentNotLoggedIn();
         }
-        /*
-        TODO
-        $this->validate($req, [
-            'ResidentName' => 'required|max:64',
-            'email' => 'required|email',
-        ]);*/
-        //
+        
         $siteData = $this->resolvePageBySite('/resident-portal/contact-request',['resident-portal' => true]);
         $to = $data['email'];
         $data['mode'] = 'resident-contact';
@@ -193,27 +209,30 @@ class PostController extends Controller
         $data['lname'] = explode(" ",$data['name'])[1];
         $finalArray = $this->_prefillArray($data);
         $finalArray['contact'] = $data;
-        (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
-            'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
-            'to' => $to,
+        $aptName = Site::$instance->getEntity()->getLegacyProperty()->name;
+        $this->sendMultiContact('contact-request',[ 
+            'user' => $to,
+            'fromName' => $data['fname'] . " " . $data['lname'],
             'contact' => $data,
-            'mode' => 'contact-request',
-            'subject' => 'Resident Portal Contact Request for property: ' . Site::$instance->getEntity()->getLegacyProperty()->name,
-            //TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
-            'data' => view('layouts/resident-portal/email/contact',$finalArray)
-            ]);
+            'subject' => [
+                'property' => 'Resident Portal Contact Request for property: ' . $aptName,
+                'user' => 'Thank you for contacting '  . $aptName . ' Apartments',
+            ],
+            'data' => view('layouts/resident-portal/email/contact',$finalArray),//TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
+        ]);
         $siteData['data']['sent'] = true;
         $siteData['data']['name'] = $req->input('name');
         $siteData['data']['email'] = $req->input('email');
         $siteData['data']['phone'] =  (isset($_POST['phone']) && strlen($_POST['phone'])) ? $_POST['phone'] : "No phone number supplied";
         $siteData['data']['memo'] = (isset($_POST['memo']) && strlen($_POST['memo'])) ? $_POST['memo'] : "no memo supplied";
         
-            return view($siteData['path'],$siteData['data']);
+        return view($siteData['path'],$siteData['data']);
     }
 
     public function handleApplyOnline(Request $req){
         $data = $_POST;
         Site::$instance = $site = app()->make('App\Property\Site');
+        $aptName =  Site::$instance->getEntity()->getLegacyProperty()->name;
         if(!Util::isDev()){
             if(!$this->validateCaptcha($data['g-recaptcha-response'])){
                 return $this->invalidCaptcha('apply-online');
@@ -236,19 +255,16 @@ class PostController extends Controller
         $data['mode'] = 'apply-online';
         $finalArray = $this->_prefillArray($data);
         $finalArray['contact'] = $data;
-        (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
-            'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
-            'to' => $to,
+        $this->sendMultiContact('apply-online',[ 
+            'user' => $data['email'],
+            'fromName' => $data['fname'] . " " . $data['lname'],
             'contact' => $data,
-            'mode' => 'apply-online',
-            'cb' => function($mailer) use($data){
-                $mailer->SetFrom($data['email'], $data['fname'] . " " . $data['lname']);
-                $mailer->AddReplyTo($data['email'],$data['fname'] . " " . $data['lname']);
-            },
-            'subject' => 'A Customer Applied online for property: ' . Site::$instance->getEntity()->getLegacyProperty()->name,
-            //TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
+            'subject' => [
+                'property' => 'A customer applied online for property: ' . $aptName,
+                'user' => 'Apply Online Confirmation for '  . $aptName . ' Apartments',
+            ],
             'data' => view('layouts/dinapoli/email/user-confirm',$finalArray)
-            ]);
+        ]);
         $siteData = $this->resolvePageBySite('apply-online',[]);
         $siteData['data']['sent'] = true;
 
@@ -287,15 +303,21 @@ class PostController extends Controller
         return view($siteData['path'],$siteData['data']);
     }
 
-    protected function _prefillArray(array $arr){
-        //TODO: replace these with the site's css !launch
-        $arr['styleSheets'] = [
+    protected static $_styleSheets =  [
             'http://www.400rhett.com/css/jquery-ui.min.css',
             'http://www.400rhett.com/css/bootstrap-theme.min.css',
             'http://www.400rhett.com/css/bootstrap.min.css',
             'http://www.400rhett.com/css/animations.css',
             'http://www.400rhett.com/css/main.css'
             ];
+
+    public static function styleSheets(){
+        return self::$_styleSheets; //TODO !organization This needs to go somewhere else
+    }
+
+    protected function _prefillArray(array $arr){
+        //TODO: replace these with the site's css !launch
+        $arr['styleSheets'] = self::$_styleSheets;
         $arr['apartmentName'] = Site::$instance->getEntity()->property_name;
         $arr['entity'] = Site::$instance->getEntity();
         return $arr;
@@ -424,100 +446,22 @@ class PostController extends Controller
             $to = 'wmerfalen@gmail.com';
         }else{
             $to = $data['email'];
-            $response = $soap->maintenanceRequest($data);
-            if($response['Status'] == 'error'){
-                $siteData['data']['maintenanceError'] = true;
-            }else{
-                //Send email
-                (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
-                    'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
-                    'to' => $to,
-                    'contact' => ['fname' => explode(" ",$data['ResidentName'])[0],
-                        'lname' => explode(" ",$data['ResidentName'])[0],
-                        'from' => $this->_getApartmentEmail(),
-                    ],
-                    'cb' => function($mailer) use($data){
-                        $mailer->SetFrom($data['email'], $data['ResidentName']);
-                        $mailer->AddReplyTo($data['email'],$data['ResidentName']);
-                    },
-                    'subject' => 'Resident Center Maintenance Request at ' . Site::$instance->getEntity()->getLegacyProperty()->name,
-                    'mode' => 'maint-request',
-                    //TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
-                    'data' => view('layouts/resident-portal/email/user-confirm',$data)
-                ]);
-                $siteData['data']['sent'] = true;
-            }
         }
-        return view($siteData['path'],$siteData['data']);
-    }
-
-    public function invalidCaptcha($page){
-        $siteData = $this->resolvePageBySite($page,[]);
-        $siteData['data']['invalidRecaptcha'] = true;
-        return view($siteData['path'],$siteData['data']);
-    }
-
-    public function handleSchedule(Request $req){
-        $data = $_POST;
-        Site::$instance = $this->_site = app()->make('App\Property\Site');
-        if(Util::isDev() == false){
-            if(!$this->validateCaptcha($data['g-recaptcha-response'])){
-                return $this->invalidCaptcha('schedule-a-tour');
-            }
-        }
-        $this->validate($req, [
-            'firstname' => 'required|max:64|alpha',
-            'lastname' => 'required|max:64|alpha',
-            'email' => 'required|max:128|email',
-            'phone' => 'required|max:14|regex:~\([0-9]{3}\) [0-9]{3}\-[0-9]{4}~',
-            'moveindate'=> 'required|date',
-            'visitdate' => 'required|date',
-            'visittime' => 'required',
-            ]);
-        $cleaned = [
-            'fname' => $data['firstname'],
-            'lname' => $data['lastname'],
-            'email' => $data['email'],
-            'phone' => $data['phone'],
-            'movein' => $data['moveindate'],
-            'visit' => $data['visitdate'],
-            'visittime' => $data['visittime'],
-            'mode' => 'schedule-a-tour'
-        ];  
-
-        $contact = app()->make('App\Contact');
-        $contact->first_name = $cleaned['fname'];
-        $contact->last_name = $cleaned['lname'];
-        $contact->email = $cleaned['email'];
-        $contact->notes = 'contacted via schedule-a-tour';
-        $contact->property_id = Site::$instance->getEntity()->fk_legacy_property_id;
-        $contact->corporate_group_id = Site::$instance->getEntity()->getLegacyProperty()->corporate_group_id;
-        $contact->phone = $cleaned['phone'];
-        $contact->when = $cleaned['movein'];
-        $contact->save();
-
-        $finalArray = $this->_prefillArray(['mode' => 'schedule-a-tour']);
-        $finalArray['contact'] = $cleaned;
-
-        if(Util::isDev()){
-            $to = 'wmerfalen+1@gmail.com';
+        $response = $soap->maintenanceRequest($data);
+        if($response['Status'] == 'error'){
+            $siteData['data']['maintenanceError'] = true;
         }else{
-            $to = $cleaned['email'];
-        }
-        
-        (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
-            'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
-            'to' => $to,
-            'contact' => $cleaned,
-            'mode' => 'schedule-a-tour',
-            'subject' => 'Schedule a tour request at ' . Site::$instance->getEntity()->getLegacyProperty()->name,
-                    'cb' => function($mailer) use($data){
-                        $mailer->SetFrom($data['email'], $data['firstname'] . " " . $data['lastname']);
-                        $mailer->AddReplyTo($data['email'],$data['firstname'] . " " . $data['lastname']);
-                    },
-            //TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
-            'data' => view('layouts/dinapoli/email/user-confirm',$finalArray)
+            //Send email
+            (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
+                'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
+                'to' => $to,
+                'contact' => ['fname' => explode(" ",$data['ResidentName'])[0],
+                    'lname' => explode(" ",$data['ResidentName'])[0],
+                    'from' => $this->_getApartmentEmail(),
+                ],
+                'data' => view('layouts/dinapoli/email/user-confirm',$finalArray)
             ]);
+        }
         Util::log('Apparently the email has been sent: schedule-a-tour',['log'=>'mailer']);
         $siteData = $this->resolvePageBySite('schedule-a-tour',$cleaned);
         $siteData['data']['sent'] = true;
@@ -527,6 +471,7 @@ class PostController extends Controller
     public function handleBriefContact(Request $req){
         $data = $_POST;
         Site::$instance = $site = app()->make('App\Property\Site');
+        $aptName =  Site::$instance->getEntity()->getLegacyProperty()->name;
         $this->validate($req, [
             'name' => 'required|max:64|alpha',
             'email' => 'required|max:128|email',
@@ -544,19 +489,16 @@ class PostController extends Controller
         if(Util::isDev()){
             $to = 'wmerfalen+1@gmail.com';
         }else{
-            $to = $cleaned['email'];
+            $to = $data['email'];
         }
-        (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
-            'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
-            'to' => $to,
+        $this->sendMultiContact('apply-online',[ 
+            'user' => $data['email'],
+            'fromName' => $data['name'],
             'contact' => $data,
-            'mode' => 'briefContact',
-            'subject' => 'Brief Contact Form Submission at ' . Site::$instance->getEntity()->getLegacyProperty()->name,
-                    'cb' => function($mailer) use($data){
-                        $mailer->SetFrom($data['email'], $data['name']);
-                        $mailer->AddReplyTo($data['email'],$data['name']);
-                    },
-            //TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
+            'subject' => [
+                'property' => 'User would like to schedule a tour [front page] property: ' . $aptName,
+                'user' => 'Schedule a tour Confirmation for '  . $aptName . ' Apartments',
+            ],
             'data' => view('layouts/dinapoli/email/user-confirm',$finalArray)
         ]);
         $siteData['data']['sent'] = true;
@@ -566,7 +508,8 @@ class PostController extends Controller
     public function handleContact(Request $req){
         $data = $_POST;
         Site::$instance = $site = app()->make('App\Property\Site');
-        if(!$this->validateCaptcha($data['g-recaptcha-response'])){
+        $aptName =  Site::$instance->getEntity()->getLegacyProperty()->name;
+        if(!Util::isDev() && !$this->validateCaptcha($data['g-recaptcha-response'])){
             return $this->invalidCaptcha($this->_page);
         }
         $this->validate($req, [
@@ -605,17 +548,14 @@ class PostController extends Controller
         }else{
             $to = $cleaned['email'];
         }
-        (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
-            'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
-            'to' => $to,
-            'contact' => $cleaned,
-            'mode' => 'contact',
-            'subject' => 'Contact Form Submission at ' . Site::$instance->getEntity()->getLegacyProperty()->name,
-                    'cb' => function($mailer) use($data){
-                        $mailer->SetFrom($data['email'], $data['firstname'] . " " . $data['lastname']);
-                        $mailer->AddReplyTo($data['email'],$data['firstname'] . " " . $data['lastname']);
-                    },
-            //TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
+        $this->sendMultiContact('contact',[ 
+            'user' => $cleaned['email'],
+            'fromName' => $cleaned['fname'] . " " . $cleaned['lname'],
+            'contact' => $data,
+            'subject' => [
+                'property' => 'Contact Form Submission at ' . $aptName,
+                'user' => 'Schedule a tour Confirmation for '  . $aptName . ' Apartments',
+            ],
             'data' => view('layouts/dinapoli/email/user-confirm',$finalArray)
         ]);
         $siteData['data']['sent'] = true;
