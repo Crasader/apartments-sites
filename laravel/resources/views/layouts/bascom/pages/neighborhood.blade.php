@@ -89,7 +89,7 @@
                                         Integer non dapibus diam, ac eleifend lectus.']);?>
                                     </div>
                                     <div class="local-scroll">
-                                        <a href="#" class="btn btn-mod btn-brown btn-medium btn-round">SCHEDULE A TOUR</a>
+                                        <a href="/schedule-a-tour" class="btn btn-mod btn-brown btn-medium btn-round">SCHEDULE A TOUR</a>
                                     </div>
                                 </div>
                             </div>

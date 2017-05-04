@@ -21,7 +21,7 @@
 				<div class="row">
 					<div class="col-md-6">
                 		<a href="https://www.amcrentpay.com/Account/Loginx" target="_blank" class="resident_btn">
-                		<img src="/img/res/amc_icon_pay.png" />   <b>MAKE A PAYMENT</b> </a>
+                		<img src="<?php echo $entity->getWebPublicCommon('amc_icon_pay.png');?>" />   <b>MAKE A PAYMENT</b> </a>
                         <p>Pay your rent or schedule automatic payments quickly and securely.</p>
             		           			
             		</div>
@@ -29,7 +29,7 @@
 		        <div class="row">
 					<div class="col-md-6">
 		             	<a href="/resident-portal/maintenance-request" class="resident_btn">  
-		                <img src="/img/res/amc_icon_maintenance.png" />  <b>SUBMIT A MAINTENANCE REQUEST</b> </a>
+		                <img src="<?php echo $entity->getWebPublicCommon('amc_icon_maintenance.png');?>" />  <b>SUBMIT A MAINTENANCE REQUEST</b> </a>
 		             	<p>Have an issue in your apartment? Complete a request for maintenance and a member of our team will service your apartment as quickly as possible.</p>
             			
             		</div>
@@ -37,7 +37,7 @@
 		        <div class="row">
 					<div class="col-md-6">
 		             	<a href="/resident-portal/contact-request" class="resident_btn">  
-		                <img src="<?php echo $entity->getWebPublicDirectory('');?>/amc_icon_contact.png" />  <b>CONTACT THE OFFICE</b> </a>
+		                <img src="<?php echo $entity->getWebPublicCommon('amc_icon_contact.png');?>" />  <b>CONTACT THE OFFICE</b> </a>
 		             	<p>How can we help? Contact the leasing team with any questions or concerns.</p>
             			
             		</div>

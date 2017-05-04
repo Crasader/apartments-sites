@@ -225,6 +225,14 @@ class Entity extends Model
         });
     }
 
+    /* TODO: Grab a different directory based on type. for now we only use images/* but
+     * in the future we should use $type/*
+    */
+    public function getWebPublicCommon(string $path,$type=null){
+        $base = env("WEB_PUBLIC_BASE");
+        return $base . "images/common/{$path}";
+    }
+
     public function getWebPublicDirectory(string $type){
         $base = env('WEB_PUBLIC_BASE');
         switch($type){

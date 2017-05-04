@@ -15,6 +15,11 @@ use App\Util\Util;
         <!-- CSS -->
 @section('css')
         <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
+        <?php if(\App\System\Session::isCmsUser()): ?>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+        <?php else: ?>
+        @yield('before-css')
+        <?php endif; ?>
         <?php $customSheet = null; ?>
         <?php foreach(glob(public_path() . "/bascom/css/*.css") as $i => $sheet){
                 if(preg_match("|bascom/css/([0-9A-Z]{6,}\.css)|",$sheet,$matches)){
@@ -34,6 +39,9 @@ use App\Util\Util;
             .exitpop-inner {
                 background: url(<?php echo $entity->getWebPublicDirectory('');?>/popup.jpg);
             }
+            input[readonly]:hover { 
+                cursor: pointer;
+            }
         </style>
         <?php echo $entity->getGoogleAnalytics(); ?>
         @yield('extra-css')
@@ -47,7 +55,6 @@ use App\Util\Util;
     </head>
     <body class="appear-animate">
 <?php if(\App\System\Session::isCmsUser()): ?>          
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
 <!-- Trigger the modal with a button -->
 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" id="mmbutton" data-target="#myModal" style='display:none;'>Open Modal</button>
 <!-- Modal -->

@@ -1,9 +1,11 @@
 <?php use App\Util\Util; ?>
 @extends('layouts/bascom/main')
+            @section('before-css')
+             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" /> 
+            @stop
             @section('extra-css')
             <link rel="stylesheet" href="css/bootstrap-datepicker3.min.css"/>
             <link rel="stylesheet" href="/css/neon-forms.css"/> 
-             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" /> 
             @stop
 
             @section('after-nav')
