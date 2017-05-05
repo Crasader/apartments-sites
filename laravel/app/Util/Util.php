@@ -10,6 +10,11 @@ use App\Mailer;
 class Util 
 {
 
+    public static function common(string $type,$category){
+        $entity = app()->make('App\Property\Site')->getEntity();
+        return $entity->getWebPublicCommon($category);
+    }
+
     public static function updateIfExists(string $model,array $where,array $setToValue){
         $foo = app()->make($model);
         $row = $foo->where($where)->get();

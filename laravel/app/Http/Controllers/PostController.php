@@ -229,6 +229,52 @@ class PostController extends Controller
         return view($siteData['path'],$siteData['data']);
     }
 
+    public function handleSchedule(Request $req){
+        $data = $_POST;
+        Site::$instance = $site = app()->make('App\Property\Site');
+        $aptName =  Site::$instance->getEntity()->getLegacyProperty()->name;
+        if(!Util::isDev()){
+            if(!$this->validateCaptcha($data['g-recaptcha-response'])){
+                return $this->invalidCaptcha('apply-online');
+            }
+        }
+
+        $this->validate($req, [
+            'firstname' => 'required|max:64',
+            'lastname' => 'required|max:64',
+            'email' => 'required|email',
+            'phone' => 'required|max:14|regex:~\([0-9]{3}\) [0-9]{3}\-[0-9]{4}~',
+            'moveindate' => 'required|max:32',
+            'visitdate' => 'required|max:15',
+            'visittime' => 'required|max:15',
+        ]);
+        //
+        $siteData = $this->resolvePageBySite('schedule-a-tour',[]);
+        if(Util::isDev()){
+            $to = 'wmerfalen@gmail.com';
+        }else{
+            $to = $data['email'];
+        }
+        $data['mode'] = 'schedule-a-tour';
+        $finalArray = $this->_prefillArray($data);
+        $finalArray['contact'] = $data;
+        $this->sendMultiContact('schedule-a-tour',[ 
+            'user' => $data['email'],
+            'fromName' => $data['firstname'] . " " . $data['lastname'],
+            'contact' => $data,
+            'subject' => [
+                'property' => 'A customer wants to schedule a tour for property: ' . $aptName,
+                'user' => 'Schedule A Tour Confirmation for '  . $aptName . ' Apartments',
+            ],
+            'data' => view('layouts/dinapoli/email/user-confirm',$finalArray)
+        ]);
+        $siteData = $this->resolvePageBySite('schedule-a-tour',[]);
+        $siteData['data']['sent'] = true;
+
+        $siteData['data']['redirectConfig'] = $this->_fillApplyOnlineRedirectData();
+        return view($siteData['path'],$siteData['data']);
+    }
+
     public function handleApplyOnline(Request $req){
         $data = $_POST;
         Site::$instance = $site = app()->make('App\Property\Site');

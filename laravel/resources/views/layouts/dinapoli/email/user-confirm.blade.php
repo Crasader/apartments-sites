@@ -44,17 +44,17 @@ Action Requested: Contact<br>
 <?php endif; ?>
 
 <?php if($mode == 'schedule-a-tour'): ?>
-First Name: <?php echo $contact['fname'];?> <br>
+First Name: <?php echo $contact['firstname'];?> <br>
 
-Last Name: <?php echo $contact['lname'];?><br>
+Last Name: <?php echo $contact['lastname'];?><br>
 
 Email: <?php echo $contact['email'];?> <br>
 
 Phone: <?php echo $contact['phone'];?> <br>
 
-Move-in date: <?php echo $contact['movein'];?> <br>
+Move-in date: <?php echo $contact['moveindate'];?> <br>
 
-Visit date: <?php echo $contact['visit'];?> <br>
+Visit date: <?php echo $contact['visitdate'];?> <br>
 
 Visit time: <?php echo $contact['visittime'];?><br>
 
