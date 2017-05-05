@@ -68,9 +68,11 @@ class MultiContact
 
     /*
      * Grabs the property email. Returns Will's email if on development. 
-     * TODO: Return ENV("DEV_EMAIL") or something like that
+     * TODO: Return env("DEV_EMAIL") or something like that
      */
     public static function getPropertyEmail($first=true,$except=null,$force=false) : array{
+        if(Util::isDevDomain())
+            return ["william@marketapts.com"];
         if(Util::isDev() && !$force)
             return ["william@marketapts.com"];
         $site = Site::$instance;
@@ -132,10 +134,10 @@ class MultiContact
             $mail->CharSet = "utf-8"; // set charset to utf8
             $mail->SMTPAuth = true;  // use smpt auth
             $mail->SMTPSecure = "tls"; // or ssl
-            $mail->Host = ENV("MAILER_HOST");
-            $mail->Port =  ENV("MAILER_PORT");
+            $mail->Host = env("MAILER_HOST");
+            $mail->Port =  env("MAILER_PORT");
             $mail->SMTPDebug = 4;
-            if(ENV("MAILER_IS_UNSECURED_TRASH") == '1'){
+            if(env("MAILER_IS_UNSECURED_TRASH") == '1'){
                 $mail->SMTPOptions = array(
                     'ssl' => array(
                         'verify_peer' => false,
@@ -148,8 +150,8 @@ class MultiContact
             $mail->Debugoutput = function($str,$level) use($conf){
                 self::log(Mailer::uniqueId($conf) . "-> $level: '$str'");
             };
-            $mail->Username = ENV("MAILER_USERNAME");
-            $mail->Password = ENV("MAILER_PASSWORD");
+            $mail->Username = env("MAILER_USERNAME");
+            $mail->Password = env("MAILER_PASSWORD");
         }catch(phpmailerException $e){
             self::handleException($e);
             return false;

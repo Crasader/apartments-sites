@@ -15,6 +15,10 @@ class Util
         return $entity->getWebPublicCommon($category);
     }
 
+    public static function isDevDomain(){
+        return preg_match("|^dev\.|",$_SERVER['SERVER_NAME']);
+    }
+
     public static function updateIfExists(string $model,array $where,array $setToValue){
         $foo = app()->make($model);
         $row = $foo->where($where)->get();
