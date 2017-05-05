@@ -15,7 +15,7 @@ $unitType = $extras['unittype'];
 @extends('layouts/dinapoli/main')
                         @section('page-title-row')
                         <div class="col-md-8">
-                            <h1 class="hs-line-11 font-alt mb-20 mb-xs-0"><?php echo $extras['unittype'];?></h1>
+                            <h1 class="hs-line-11 font-alt mb-20 mb-xs-0"><?php echo $extras['orig_unittype'];?></h1>
                             <div class="hs-line-4 font-alt">
                                 <?php echo $extras['unittype'];?> AVAILABILITY
                             </div>
@@ -23,7 +23,7 @@ $unitType = $extras['unittype'];
                         @stop
                         @section('page-title-span','FLOOR PLANS')
                         @section('page-title-span-suffix')
-                        &nbsp;/&nbsp;<span><?php echo $extras['unittype']; ?></span>
+                        &nbsp;/&nbsp;<span><?php echo $extras['orig_unittype']; ?></span>
                         @stop
             @section('content')
             <?php //TODO: component/slot for submitUnit form ?>
@@ -58,7 +58,7 @@ $unitType = $extras['unittype'];
                         
                         <div class="col-sm-8 mb-40">
                         	<div class="row">
-                        		<div class="col-sm-6"><h3 class="uppercase mb-20"><?php echo $extras['unittype'];?></h3></div>
+                        		<div class="col-sm-6"><h3 class="uppercase mb-20"><?php echo $extras['orig_unittype'];?></h3></div>
                         	</div>
                         	<div class="unit-description mb-40">
                         		<ul>
@@ -104,6 +104,10 @@ $unitType = $extras['unittype'];
                                     <?php if(isset($object->RENOVATED) && $object->RENOVATED == "RENOVATED"): ?>
                                         <div style="position:absolute; top:-25px; margin:0px auto; left:0px; right:0px;">
                                             <span class="label label-success">RENOVATED</span>
+                                        </div>
+                                    <?php elseif(isset($object->RENOVATED) && $object->RENOVATED == "BRAND NEW"): ?>
+                                        <div style="position:absolute; top:-25px; margin:0px auto; left:0px; right:0px;">
+                                            <span class="label label-success">BRAND NEW</span>
                                         </div>
                                     <?php endif; ?>
 									<span class="visible-xs visible-sm"><b>Unit: </b></span><?php echo $object->UnitNumber; ?>
