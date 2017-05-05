@@ -72,9 +72,9 @@ class MultiContact
      */
     public static function getPropertyEmail($first=true,$except=null,$force=false) : array{
         if(Util::isDevDomain())
-            return ["william@marketapts.com"];
+            return [env("DEV_EMAIL")];
         if(Util::isDev() && !$force)
-            return ["william@marketapts.com"];
+            return [env("DEV_EMAIL")];
         $site = Site::$instance;
         $email = $site->getEntity()->getLegacyProperty()->email;
         $chunks = explode("~",$email);
