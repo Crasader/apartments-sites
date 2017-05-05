@@ -30,6 +30,7 @@ class Https extends BaseVerifier
     }
 
     public function hostIsException(){
+        if(preg_match("|^dev\.|",$_SERVER['SERVER_NAME'])){ return true; }
         if(file_exists(config_path() . "/https-exceptions.json") == false){
             return false;
         }
