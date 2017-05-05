@@ -80,10 +80,7 @@ use App\Assets\Css;
 		</div><!-- end content -->
         @section('js')
         <!-- JS -->
-        //@yield('google-maps-js')
         <script type="text/javascript" src="/js/build/marketapts.min.js?v=<?php echo uniqid() . time();?>"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
-        <!--[if lt IE 10]><script type="text/javascript" src="js/placeholder.js"></script><![endif]-->
 		@yield('page-specific-js')
         @show
         @section('footer')

@@ -1,3 +1,15 @@
+        <?php
+        /*
+            Such laziness :)
+            foreach([1398,1399,1400] as $i => $bar){
+                $foo = \App\Property\Neighborhood::find($bar);
+                $foo->replicate();
+                $foo->property_id = 72;
+                $foo->save();
+            }
+            */
+            ?>
+        <?php use App\Util\Util; ?>
         @extends('layouts/material/main')
         @section('content')
 			<!-- Slider -->
@@ -12,7 +24,7 @@
 				<div class="row container">
 					<h2 class="white-text"><?php echo $entity->getLegacyProperty()->name;?></h2>
 					<p class="white-text text-darken-3 lighten-3">
-						<?php echo $entity->getText('material-title',['oneshot' => "<?php echo $entity->getLegacyProperty()->name;?> is Salt Lake City's newest downtown living destination. Located in the heart of the city, our community is within walking distance to the downtown business district, shopping, restaurants, and entertainment. With TRAX and FrontRunner stations just steps from your front door, you'll be minutes away from everything. At home, you'll enjoy spacious floor plans, granite counter tops, wood floors, elevated ceilings, walk-in closets and much more. Move up to downtown luxury at <?php echo $entity->getLegacyProperty()->name;?>. Ask about our Move in Specials!! "]);?>
+						<?php echo $entity->getText('material-title',['oneshot' => $entity->getLegacyProperty()->name . " is Salt Lake City's newest downtown living destination. Located in the heart of the city, our community is within walking distance to the downtown business district, shopping, restaurants, and entertainment. With TRAX and FrontRunner stations just steps from your front door, you'll be minutes away from everything. At home, you'll enjoy spacious floor plans, granite counter tops, wood floors, elevated ceilings, walk-in closets and much more. Move up to downtown luxury at " .  $entity->getLegacyProperty()->name . ". Ask about our Move in Specials!! "]);?>
 					</p>
 					<a href="/floorplans" class="waves-effect waves-light btn-large blue-grey darken-4 white-text"><i class="material-icons right">keyboard_arrow_right</i>Check Availability</a>
 				</div>
@@ -23,73 +35,47 @@
 					<div class="col s12">
 						<ul class="tabs grey lighten-5">
 							<li class="tab col s6"><a class="active" href="#test1">Amenities</a></li>
-                            <?php //TODO !launch !wtf what is #test2? ?>
 							<li class="tab col s6"><a href="#test2">Neighborhood</a></li>
 						</ul>
 					</div>
 					<div id="test1" class="col s12 tab-content">
 						<ul class="collection">
-							
-							<li class="collection-item">Professional Management</li>
-                            
-							<li class="collection-item">Great Neighborhood</li>
-                            
-							<li class="collection-item">24 hr Emergency Maintenance Service</li>
-                            
-							<li class="collection-item">Flexible Lease Terms Available</li>
-                            
-							<li class="collection-item">24 hour Fitness Center</li>
-                            
-							<li class="collection-item">Spa</li>
-                            
-							<li class="collection-item">Underground Parking</li>
-                            
-							<li class="collection-item">Gated Community</li>
-                            
-							<li class="collection-item">Onsite Maintenance</li>
-                            
+							<?php 
+								$features = app()->make('App\Property\Feature');
+                            	$features->setFeaturesFormatter((new App\Util\Formatter('li'))
+									->setClass("collection-item")
+									->setDashed(false)
+								);
+                            	$features->setFeaturesChunkCount(1);
+                            	$features->loadAllFeatures();
+								
+								echo $features->getFeaturesChunk('apartment',0);?>
 						</ul>
 					</div>
 					<div id="test2" class="col s12 tab-content">
-						   
+                    <?php
+                        $feature  = app()->make('App\Property\Feature');
+                        $ctr = 0;
+                        foreach(array_chunk($entity->hasNeighborhood()->get()->toArray(),3) as $chunkIndex => $chunkArray):
+                            echo '<div class="section-text mb-80 mb-sm-20">';
+                            echo '<div class="row">';
+                            foreach($chunkArray as $index => $nFeature):
+                    ?>
 						<div class="col s12 m4">
 							<div class="card">
 								<div class="card-image">
-                                <?php //TODO !launch replace this with neighrbodhood code from bascom/dinapoli ;?>
-									<img src="http://www.willowcoveapts.net/images/amc/04CIS/neighborhood1.jpg">
-									<span class="card-title">Utah Hogle Zoo</span>
-								</div>
-								<div class="card-content eqheight">
-									<p>Utah's Hogle Zoo dates from 1931 and is located at the mouth of Emigrations Canyon.  Its natural terrain covers 42 acres of tree-lined pathways where visitors can view over 800 animals.</p>
-								</div>
-							</div>
-						</div>
-						   
-						<div class="col s12 m4">
-							<div class="card">
-								<div class="card-image">
-									<img src="http://www.willowcoveapts.net/images/amc/04CIS/neighborhood2.jpg">
-									<span class="card-title">University of Utah</span>
-								</div>
-								<div class="card-content eqheight">
-									<p>Founded in 1850, The University of Utah is the flagship institution of higher learning in Utah, and offers over 100 undergraduate and more than 90 graduate degree programs to over 30,000 students.</p>
-								</div>
-							</div>
-						</div>
-						   
-						<div class="col s12 m4">
-							<div class="card">
-								<div class="card-image">
-									<img src="http://www.willowcoveapts.net/images/amc/04CIS/neighborhood3.jpg">
-									<span class="card-title">Gateway Shopping Mall</span>
-								</div>
-								<div class="card-content eqheight">
-									<p>Welcome to the Gateway. Salt Lake City's only open-air contemporary destination that delivers the ultimate in shopping, dining, entertainment and is located in the heart of downtown Salt Lake City.</p>
-								</div>
-							</div>
-						</div>
-						  
-						
+                                    <img src="<?php echo $feature->decorator($nFeature)['image'];?>" alt=""/>
+                                        <span class="card-title"><?php echo $nFeature['name'];?></span>
+                                    <div class="card-content eqheight">
+                                        <?php echo $nFeature['description'];?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php
+                            endforeach;
+                        endforeach;
+                    ?>
 					</div>
 				</div>
 			</div>
@@ -110,6 +96,7 @@
 			 <section>
                 <div class="map-holder">
                     <iframe src="<?php echo $entity->getText('material-google-embed',['oneshot' => "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3021.564483039027!2d-111.90924430000001!3d40.771602699999995!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8752f454313fa3df%3A0x7f6ab1cbd34543d4!2s644+W+North+Temple%2C+Salt+Lake+City%2C+UT+84116!5e0!3m2!1sen!2sus!4v1410793864315"]);?>">
+					</iframe>
                 </div>
             </section>
 

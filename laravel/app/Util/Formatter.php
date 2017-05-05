@@ -8,6 +8,8 @@ class Formatter implements IFormatter
 {
     protected $_formatterType = null;
     protected $_lineItems = [];
+    protected $_class = null;
+    protected $_dashed = true;
     public function __construct($type){
         $this->_formatterType = $type;
     }
@@ -25,6 +27,17 @@ class Formatter implements IFormatter
         for($i=0;$i < $top;$i++){
             $this->_lineItems[$i] = array_shift($items);
         }
+    }
+
+    //TODO !refactor Create a trait that allows for storing of preferences for a class.. i.e.: lets store a preference for adding a "-" after an opening li tag
+    public function setDashed(bool $d){
+        $this->_dashed = $d;
+        return $this;
+    }
+
+    public function setClass(string $class){
+        $this->_class = $class;
+        return $this;
     }
 
     public function addLineItem($item){
@@ -68,7 +81,14 @@ class Formatter implements IFormatter
     protected function _fetchLineItem($item){
         switch($this->_formatterType){
             case 'li':
-                return '<li>- ' . $item . '</li>';
+                $html = '<li'; 
+                if($this->_class)
+                    $html .= " class='{$this->_class}'";
+                $html .= '>';
+                if($this->_dashed)
+                    $html .= '- ';
+                $html .= $item . '</li>';
+                return $html;
             default: 
                 return $item;
          }
