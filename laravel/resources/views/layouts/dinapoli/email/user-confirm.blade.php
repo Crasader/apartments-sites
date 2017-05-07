@@ -11,8 +11,10 @@
 
 <?php if($mode == 'briefContact'): ?>
 <div class=row><div class=col-md-6><p>Thank you <?php echo $contact['name']; ?> for your interest in <?php echo $apartmentName;?> Apartments. 
+<?php elseif($mode == 'schedule-a-tour'): ?>
+<div class=row><div class=col-md-6><p>Thank you <?php echo $contact['firstname']; ?> <?php echo $contact['lastname']; ?> for your interest in <?php echo $apartmentName;?> Apartments. 
 <?php else: ?>
-<div class=row><div class=col-md-6><p>Thank you <?php echo $contact['fname']; ?> <?php echo $contact['lname']; ?> for your interest in <?php echo $apartmentName;?> Apartments. 
+<div class=row><div class=col-md-6><p>Thank you <?php echo $contact['firstname']; ?> <?php echo $contact['lastname']; ?> for your interest in <?php echo $apartmentName;?> Apartments. 
 <?php endif; ?>
 Our team will quickly review your submission and get back to you as soon as possible. </p>
 <p>For questions, give us a call:&nbsp;<span class=teal><?php echo $entity->getPhone(); ?></span></p></div></div>

@@ -51,11 +51,10 @@ class MultiContact
         Mailer::setConf($conf);
         try{
             $conf['from'] = self::getPropertyEmail();
-            $mail = Mailer::configure();
             $proper = self::getPropertyEmail(true,null,true);
             $proper = array_shift($proper);
             $conf['from'] = ['email' => $proper, 'name' => Site::$instance->getEntity()->getLegacyProperty()->name . " Apartments"];
-            $this->prepareMessage($conf,$mail)->send();
+            $this->prepareMessage($conf,Mailer::configure())->send();
         } catch (phpmailerException $e) {
             self::handleException($e);
             return false;
@@ -115,9 +114,8 @@ class MultiContact
             $dataCopy['to'] = array_shift($dataCopy['to']);
             $dataCopy['data'] = view($conf['view'])->with($conf['data']->getData()); //,compact($conf['data']->getData()))->__toString();
             $dataCopy['from'] = ['email' => $conf['from'],'name' => $conf['fromName']];
-            $mail = Mailer::configure();
             /* This can be mis-leading. The "from" key in the conf array is the user that submitted the form */
-            $this->prepareMessage($dataCopy,$mail)->send();
+            $this->prepareMessage($dataCopy,Mailer::configure())->send();
         } catch (phpmailerException $e) {
             self::handleException($e);
             return false;
