@@ -11,6 +11,8 @@
 
 <?php if($mode == 'briefContact'): ?>
 <div class=row><div class=col-md-6><p>Thank you <?php echo $contact['name']; ?> for your interest in <?php echo $apartmentName;?> Apartments. 
+<?php elseif($mode == 'schedule-a-tour'): ?>
+<div class=row><div class=col-md-6><p>Thank you <?php echo $contact['firstname']; ?> <?php echo $contact['lastname']; ?> for your interest in <?php echo $apartmentName;?> Apartments. 
 <?php else: ?>
 <div class=row><div class=col-md-6><p>Thank you <?php echo $contact['fname']; ?> <?php echo $contact['lname']; ?> for your interest in <?php echo $apartmentName;?> Apartments. 
 <?php endif; ?>
