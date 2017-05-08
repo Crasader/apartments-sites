@@ -106,6 +106,11 @@ class PostController extends Controller
         $site = app()->make('App\Property\Site');
         $tag = $req->input("tag");
 
+        $body = $site->getEntity()->getText($tag,['nodecorate' => 1]);
+        if(strlen($body)){
+            die(json_encode(['success' => 'true','body' => $body]));
+        }
+
         $arr = TextType::select('id')->where('str_key',$tag)->get()->toArray();
         if(empty($arr)){
             $text = $site->getEntity()->getText($tag);
