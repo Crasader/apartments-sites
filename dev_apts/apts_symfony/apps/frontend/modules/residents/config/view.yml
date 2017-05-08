@@ -1,3 +1,0 @@
-acaciaSuccess:
-  stylesheets: [-*, acacia.css, jquery.lightbox-0.5.css]
-  javascripts: [-*, https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js, jquery.lightbox-0.5.min.js, acacia.js]
