@@ -1,14 +1,13 @@
 <!-- Schedule a Tour Section -->
 <section class="page-section schedule-a-tour-section bg-dark-alfa-70" data-background="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide1a.jpg">
     <div class="container relative">
-        <form class="form align-center" >
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
                     <div class="newsletter-label font-alt text-shadow">
                        <?php echo $entity->getText('schedule-tour-newsletter');?>
                     </div>
                     <div class="mb-20">
-                        <form class="form contact-form" id="contact_form">
+                        <form class="form contact-form" id="contact_form" method="post" action="/briefContact">
                             <div class="clearfix">
                                 <div class="cf-left-col">
                                     <!-- Name -->
@@ -50,7 +49,6 @@
                     </div>                           
                 </div>
             </div>
-        </form>
     </div>
 </section>
 <!-- End Schedule a Tour Section -->

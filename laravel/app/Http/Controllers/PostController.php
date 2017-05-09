@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Validator;
@@ -542,6 +541,7 @@ class PostController extends Controller
 
         $finalArray = $this->_prefillArray(['mode' => 'briefContact']);
         $finalArray['contact'] = $data;
+        $finalArray['contact']['mode'] = 'briefContact';
 
         $siteData = $this->resolvePageBySite('contact',$data);
         if(Util::isDev()){

@@ -10,7 +10,7 @@
 <div class=row><div class=col-md-12><div class=page-title><h1>Your submission was received!</h1><div class=divder-teal></div></div></div></div>
 
 <?php if($mode == 'briefContact'): ?>
-<div class=row><div class=col-md-6><p>Thank you <?php echo $contact['name']; ?> for your interest in <?php echo $apartmentName;?> Apartments. 
+<div class=row><div class=col-md-5><p>Thank you <?php echo $contact['name']; ?> for your interest in <?php echo $apartmentName;?> Apartments. 
 <?php elseif($mode == 'schedule-a-tour'): ?>
 <div class=row><div class=col-md-6><p>Thank you <?php echo $contact['firstname']; ?> <?php echo $contact['lastname']; ?> for your interest in <?php echo $apartmentName;?> Apartments. 
 <?php else: ?>

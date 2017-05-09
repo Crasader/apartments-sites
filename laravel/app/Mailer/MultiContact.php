@@ -132,12 +132,17 @@ class MultiContact
         try {
             $mail->isSMTP(); // tell to use smtp
             $mail->CharSet = "utf-8"; // set charset to utf8
-            $mail->SMTPAuth = true;  // use smpt auth
-            $mail->SMTPSecure = "tls"; // or ssl
+            //$mail->SMTPAuth = true;  // use smpt auth
+            //$mail->SMTPSecure = "tls"; // or ssl
+            $mail->SMTPAutoTLS = false; 
+            $mail->SMTPSecure = false;
             $mail->Host = env("MAILER_HOST");
             $mail->Port =  env("MAILER_PORT");
+            /*
             if(Util::isDev())
                 $mail->SMTPDebug = 4;
+                */
+            /*
             if(env("MAILER_IS_UNSECURED_TRASH") == '1'){
                 $mail->SMTPOptions = array(
                     'ssl' => array(
@@ -146,12 +151,14 @@ class MultiContact
                         'allow_self_signed' => true
                     )
                 );
-            }
+            }*/
             $conf = self::$_conf;
+            /*
             if(Util::isDev())
                 $mail->Debugoutput = function($str,$level) use($conf){
                     self::log(Mailer::uniqueId($conf) . "-> $level: '$str'");
                 };
+                */
             $mail->Username = env("MAILER_USERNAME");
             $mail->Password = env("MAILER_PASSWORD");
         }catch(phpmailerException $e){
