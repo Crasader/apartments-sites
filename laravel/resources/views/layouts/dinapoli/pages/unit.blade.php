@@ -17,7 +17,7 @@ $unitType = $extras['unittype'];
                         <div class="col-md-8">
                             <h1 class="hs-line-11 font-alt mb-20 mb-xs-0"><?php echo $extras['orig_unittype'];?></h1>
                             <div class="hs-line-4 font-alt">
-                                <?php echo $extras['unittype'];?> AVAILABILITY
+                                <?php echo $extras['orig_unittype'];?> AVAILABILITY
                             </div>
                         </div>
                         @stop

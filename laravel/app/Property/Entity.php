@@ -476,6 +476,8 @@ class Entity extends Model
         }else{
             $q = "'";
         }
+        if(isset($opts['nodecorate']))
+            return preg_replace("|<b style=['\"]color:[^>]*>\{!\}</b>|","",$text);
         if(Session::isCmsUser()){
             Util::log("Is cms user... decorate tags...");
             if($text === null){ return "<b style={$q}color:green{$q} class={$q}edit-tag{$q} onclick='edit_tag(\"$name\");'>{!}</b>"; }
@@ -558,7 +560,7 @@ class Entity extends Model
         if(in_array($name,array_keys($translatables))){
             Util::log('translatable: ' . var_export($name,1),['log' => 'translatable']);
             Util::log("Translatable");
-            return $translatables[$name]['fetch']();
+            return $this->decorateGetText($name,$translatables[$name]['fetch'](),$opts);
         }
         $returnValue = Util::redisFetchOrUpdate('textcache_str_key_' . $name,function() use($foo,$name,$opts) {
             if(preg_match("|title_(.*)|",$name,$matches)){
