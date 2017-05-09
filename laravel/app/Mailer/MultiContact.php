@@ -29,21 +29,23 @@ class MultiContact
         $mail->Subject = $conf['subject'];
         $mail->MsgHTML($conf['data']);		
         
-        if(isset($conf['css']))
-            foreach(array_unique($conf['cc']) as $index => $emailAddress){
-                if($emailAddress == $conf['to'])
-                    continue;
+        if(isset($conf['cc']))
+            foreach(array_unique($conf['cc']) as $index => $emailAddress)
                 $mail->addCC($emailAddress,$emailAddress);
-            }
+
         $sendTo = $conf['to'];
         $from = $conf['from']['email'];
+
+        if(strlen($sendTo) == 0){
+            self::log("SEnd to empty!!!");
+            throw new Exception("Send to address is null!");
+        }
 
         $mail->addAddress($sendTo);
         self::log("Sending...");
         if(is_array($conf['from']['email']))
             $from = array_pop($conf['from']['email']);
         $mail->setFrom($from,$conf['from']['name']);
-        //$mail->Sender = $from['from']['email'];
         return $mail;
     }
 
@@ -65,53 +67,53 @@ class MultiContact
         return true;
     }
 
+
+    public static function getDevEmails(){
+        $d = env("DEV_EMAIL");
+        if(strlen($d) ==0){
+            return ['ali@marketapts.com','matt@marketapts.com','william@marketapts.com'];
+        }
+        return array_filter(explode("|",$d),function($item){
+            return strlen($item) > 0;
+        });
+    }
+
     /*
      * Grabs the property email. Returns Will's email if on development. 
      * TODO: Return env("DEV_EMAIL") or something like that
      */
     public static function getPropertyEmail($first=true,$except=null,$force=false) : array{
         if(Util::isDevDomain())
-            return [env("DEV_EMAIL")];
+            return self::getDevEmails();
         if(Util::isDev() && !$force)
-            return [env("DEV_EMAIL")];
-        $site = Site::$instance;
+            return self::getDevEmails();
+        $site = app()->make('App\Property\Site');
         $email = $site->getEntity()->getLegacyProperty()->email;
         $chunks = explode("~",$email);
         if(count($chunks) > 1){
-            if($first)
-                if($chunks[0] == $except)
-                    return [];
-                else
-                    return [$chunks[0]]; 
-            else
-                if(in_array($except,$chunks)){
-                    return array_filter($chunks,function($element) use($except){
-                        return $except != $element;
-                    });
-                }
-                else
-                    return $chunks;
+            return $chunks; 
         }else{
-            if($except == $email)
-                 return [];
-            else
-                return [$email];
+            return [$email];
         }
     }
 
+
+    /* Feature change 
+     * If the property wants CCd emails they must follow the symfony code standard
+     * where they separate emails in the db with "~"
+     */
     public function sendPropertyContact(array $conf){
         Mailer::setConf($conf);
         try{
-            
-            if(isset($conf['cc']))
-                $conf['cc'] = self::getPropertyEmail(false,$conf['to']);
             
             $dataCopy = $conf;
             /* 
              * We render the view ourselves so that all calling code doesnt have to :)
              */
-            $dataCopy['to'] = self::getPropertyEmail();
-            $dataCopy['to'] = array_shift($dataCopy['to']);
+            $emailList = self::getPropertyEmail();
+            $dataCopy['to'] = array_shift($emailList);
+            if(is_array($emailList) && count($emailList))
+                $dataCopy['cc']  = $emailList;
             $dataCopy['data'] = view($conf['view'])->with($conf['data']->getData()); //,compact($conf['data']->getData()))->__toString();
             $dataCopy['from'] = ['email' => $conf['from'],'name' => $conf['fromName']];
             /* This can be mis-leading. The "from" key in the conf array is the user that submitted the form */
@@ -134,7 +136,8 @@ class MultiContact
             $mail->SMTPSecure = "tls"; // or ssl
             $mail->Host = env("MAILER_HOST");
             $mail->Port =  env("MAILER_PORT");
-            $mail->SMTPDebug = 4;
+            if(Util::isDev())
+                $mail->SMTPDebug = 4;
             if(env("MAILER_IS_UNSECURED_TRASH") == '1'){
                 $mail->SMTPOptions = array(
                     'ssl' => array(
@@ -145,9 +148,10 @@ class MultiContact
                 );
             }
             $conf = self::$_conf;
-            $mail->Debugoutput = function($str,$level) use($conf){
-                self::log(Mailer::uniqueId($conf) . "-> $level: '$str'");
-            };
+            if(Util::isDev())
+                $mail->Debugoutput = function($str,$level) use($conf){
+                    self::log(Mailer::uniqueId($conf) . "-> $level: '$str'");
+                };
             $mail->Username = env("MAILER_USERNAME");
             $mail->Password = env("MAILER_PASSWORD");
         }catch(phpmailerException $e){

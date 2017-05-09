@@ -62,6 +62,13 @@ class PostController extends Controller
             \Debugbar::disable();
         }
     }
+
+    public function invalidCaptcha(string $page) {
+        //TODO: this should be a redirect instead of returning a view
+        $siteData = $this->resolvePageBySite($page,[]);
+        $siteData['data']['invalidCaptcha'] = true;
+        return view($siteData['path'],$siteData['data']);
+    }
     
     public function sendMultiContact(string $mode,array $details){
         //

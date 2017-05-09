@@ -20,9 +20,7 @@ trait PageResolver {
         }
     }
     public function resolvePageBySite(string $page,$inData = null) : array{
-        if(!$this->_site){
-            $this->_site = Site::$instance;
-        }
+        $this->_site = app()->make('App\Property\Site');
         if(!$this->_site->id){
             $this->_site = app()->make("App\Property\Site");
         }else{
