@@ -109,12 +109,17 @@ $unitType = $extras['unittype'];
                                         <div style="position:absolute; top:-25px; margin:0px auto; left:0px; right:0px;">
                                             <span class="label label-success">BRAND NEW</span>
                                         </div>
-                                    <?php elseif(isset($object->RENOVATED) && preg_match("|W/D [INC]+|",$object->RENOVATED)): ?>
-                                        <div style="position:absolute; top:-25px; margin:0px auto; left:0px; right:0px;">
-                                            <span class="label label-success">W/D INCLUDED</span>
-                                        </div>
                                     <?php endif; ?>
 									<span class="visible-xs visible-sm"><b>Unit: </b></span><?php echo $object->UnitNumber; ?>
+                                    <?php if(isset($object->EXTRAS) && preg_match("|W/D [INC]+|",$object->EXTRAS)): ?>
+                                        <div style="position:absolute; bottom:-25px; margin:0px auto; left:0px; right:0px;">
+                                            <span class="label label-info">W/D INCLUDED</span>
+                                        </div>
+                                    <?php elseif(isset($object->EXTRAS) && preg_match("|GARAGE|",$object->EXTRAS)): ?>
+                                        <div style="position:absolute; bottom:-25px; margin:0px auto; left:0px; right:0px;">
+                                            <span class="label label-info">GARAGE</span>
+                                        </div>
+                                    <?php endif;?>
 								</div>
 								<div class="col-md-3">
 									<span class="visible-xs visible-sm"><b>Rent: </b></span>$<?php echo Util::formatRentPrice($object->AskingRent);?>
