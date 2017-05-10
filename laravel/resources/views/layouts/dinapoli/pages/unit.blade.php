@@ -35,27 +35,27 @@ $unitType = $extras['unittype'];
 			  <input type="hidden" name="unitnumber" id="unitnumber" value="X">
 				{{ csrf_field() }}
 			</form>
- 
+
             <!-- Amenities Section -->
             <section class="page-section" id="about">
                 <div class="container relative">
                     <div class="row">
-                        
+
                         <!-- Col -->
-                        
+
                         <div class="col-sm-4 mb-40">
-                            
+
                             <!-- Floor Plan Thumbnail -->
                             <div class="row unit-thumb">
                                 <a href="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $unitType;?>.jpg" class="lightbox-gallery-2 mfp-image">
                                 <img src="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $unitType;?>.jpg"></a>
                             </div>
                         </div>
-                        
+
                         <!-- End Col -->
-                        
+
                         <!-- Col -->
-                        
+
                         <div class="col-sm-8 mb-40">
                         	<div class="row">
                         		<div class="col-sm-6"><h3 class="uppercase mb-20"><?php echo $extras['orig_unittype'];?></h3></div>
@@ -68,18 +68,18 @@ $unitType = $extras['unittype'];
                         			<li>SQ. FEET: <?php echo $extras['sqft'];?></li>
                         		</ul>
                         	</div>
-                        	<div class="text">		                            	
+                        	<div class="text">
                                 <?php //TODO: grab apartment features ?>
                                 <?php echo $entity->getText('unity-apartment-features'); ?>
-                        	</div>   
+                        	</div>
                         </div>
-                        
+
                         <!-- End Col -->
-                        
+
                         <div class="col-sm-12">
-                        	
+
                         	<div class="row unit-table-header visible-md visible-lg">
-								
+
 								<div class="col-md-3">
 									Unit
 								</div>
@@ -99,15 +99,19 @@ $unitType = $extras['unittype'];
                                 foreach($units as $index => $object):
                             ?>
                         	<div class="row unit-table-row">
-                                                                                                        
+
 								<div class="col-md-3">
-                                    <?php if(isset($object->RENOVATED) && $object->RENOVATED == "RENOVATED"): ?>
+                                    <?php if(isset($object->RENOVATED) && preg_match("|^RENO|",$object->RENOVATED)): ?>
                                         <div style="position:absolute; top:-25px; margin:0px auto; left:0px; right:0px;">
                                             <span class="label label-success">RENOVATED</span>
                                         </div>
-                                    <?php elseif(isset($object->RENOVATED) && $object->RENOVATED == "BRAND NEW"): ?>
+                                    <?php elseif(isset($object->RENOVATED) && preg_match("|^BRAND|",$object->RENOVATED)): ?>
                                         <div style="position:absolute; top:-25px; margin:0px auto; left:0px; right:0px;">
                                             <span class="label label-success">BRAND NEW</span>
+                                        </div>
+                                    <?php elseif(isset($object->RENOVATED) && preg_match("|W/D [INC]+|",$object->RENOVATED)): ?>
+                                        <div style="position:absolute; top:-25px; margin:0px auto; left:0px; right:0px;">
+                                            <span class="label label-success">W/D INCLUDED</span>
                                         </div>
                                     <?php endif; ?>
 									<span class="visible-xs visible-sm"><b>Unit: </b></span><?php echo $object->UnitNumber; ?>
@@ -122,27 +126,27 @@ $unitType = $extras['unittype'];
                                 <?php //TODO: do this javascript mess ?>
                                     <a style="cursor:pointer" href='/apply-online' id="<?php echo $js->getGenId($index);?>" class="btn btn-mod btn-brown btn-medium btn-round">Apply Now</a>
 
-                                   
+
 								</div>
 							</div>
                             <?php endforeach; ?>
-						
+
                             <div classs="row">
                                 <div class="col-sm-12">
                                     <p>
-*Pricing and availability are subject to change. Valid for new residents only. Square footages displayed are approximate. Discounts will be calculated upon lease execution. Minimum lease terms and occupancy guidelines may apply. Deposits may fluctuate based on credit, rental history, income, and/or other qualifying standards. Additional taxes and fees may apply and will be disclosed as per governing laws and company policies.  
+*Pricing and availability are subject to change. Valid for new residents only. Square footages displayed are approximate. Discounts will be calculated upon lease execution. Minimum lease terms and occupancy guidelines may apply. Deposits may fluctuate based on credit, rental history, income, and/or other qualifying standards. Additional taxes and fees may apply and will be disclosed as per governing laws and company policies.
                                     </p>
                                 </div>
                             </div>
 
                         </div>
-                        
+
                      </div>
                 </div>
             </section>
             <!-- End Amenities Section -->
             @stop
-			
+
             @section('schedule-a-tour')
 			<!-- Schedule a Tour Section -->
                 @include('layouts/dinapoli/pages/inc/schedule-a-tour')
