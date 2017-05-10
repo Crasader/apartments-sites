@@ -17,7 +17,7 @@ use App\Mock;
 
 class ResidentPortalTest extends TestCase
 {
-    //TODO: exploit the "withSession" function to test resident portal 
+    //TODO: exploit the "withSession" function to test resident portal
 
     public function testResidentPortalPostForms(){
 
@@ -29,7 +29,10 @@ $user = substr($data['email'],0,64);
   4         $result = $soap->residentPortal($user,$pass);
   5         U
 */
-        /* Test failures */
+        /*
+         * Test failures
+         *
+         */
         $response = $this->call('post',env('PHPUNIT_BASE_URL') . 'portal-center',[
             'user' => 'imafailureatlife',
             'pass' => '1-203-1023-102-301-032'
@@ -38,7 +41,10 @@ $user = substr($data['email'],0,64);
         $this->assertTrue(preg_match("|Invalid Username\/Password|",$response->getContent()) > 0);
 
 
-        /* Authenticate with an invalid user */
+        /*
+         * Authenticate with an invalid user
+         *
+         */
         $response = $this->call('post',env('PHPUNIT_BASE_URL') . 'find-userid',[
             'email' => 'wmerfalen@gmail.com',
             'unit' => '1404'
@@ -46,7 +52,10 @@ $user = substr($data['email'],0,64);
         $this->assertTrue(preg_match("|Email Address was not found|",$response->getContent()) > 0);
 
 
-        /* Use an invalid email, should fail */
+        /*
+         * Use an invalid email, should fail
+         *
+         */
         Mock::setPropertyCode('638ROF');
         $response = $this->call('post',env('PHPUNIT_BASE_URL') . 'find-userid',[
             'email' => 'ronaldreaganwasagolfer@mentoc.ddns.net',
@@ -56,9 +65,10 @@ $user = substr($data['email'],0,64);
         $this->assertTrue($response->getStatusCode() == 200);
 
 
-        /* 
-         * Valid stuff now. For real.
+        /*
+         * Valid stuff
          */
+         /* Thornhill park property code */
         Mock::setPropertyCode('669TRN');
         $response = $this->call('post',env('PHPUNIT_BASE_URL') . 'find-userid',[
             'email' => 'william@marketapts.com',
@@ -69,7 +79,7 @@ $user = substr($data['email'],0,64);
         $this->assertTrue(preg_match(
             "|An email has been sent to the email address you registered with at move\-in|",
             $response->getContent()) == 1);
-
+            
     }
 
 /**********************************************************************
@@ -85,19 +95,19 @@ $user = substr($data['email'],0,64);
  37         'schedule'      => 'handleSchedule',				//[covered]2017-05-09
  38         'apply-online'  => 'handleApplyOnline',             //[covered]2017-05-09
  39
- 40         /* Administrative/CMS routes 
+ 40         /* Administrative/CMS routes
  41         'text-tag'      => 'handleTextTag',
  42         'text-tag-get'  => 'handleGetTextTag',
  43
  44         /*****************************
- 45         /* Routes for resident portal 
+ 45         /* Routes for resident portal
  46         /*****************************
  47         'portal-center' => 'handleResident',                //[covered]2017-05-09
  48         'find-userid'   => 'handleFindUserId',
  49         'reset-password'=> 'handleResetPassword',
  50
  51         /*==========================================================
- 52         /* Routes that require authentication (done via middleware) 
+ 52         /* Routes that require authentication (done via middleware)
  53         /*==========================================================
  54         'resident-contact-mailer'   => 'handleResidentContact',
  55         'maintenance-request'       => 'handleMaintenance',
