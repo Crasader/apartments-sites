@@ -1,3 +1,7 @@
+<?php
+use App\Util\Util;
+use App\System\Session as Sesh;
+?>
 @extends('layouts/dinapoli/main')
     @section('page-title-row')
             <div class="col-md-8">
@@ -9,16 +13,16 @@
             <!-- Gallery Section -->
             <section class="page-section pb-0" id="portfolio">
                 <div class="relative">
-                    
+
                     <div class="container">
                         <div class="row">
                             <div class="col-md-8 col-md-offset-2">
-                                
+
                                 <div class="section-text align-center mb-70 mb-xs-40">
                                     <?php echo $entity->getText('gallery-intro-text');
                                     ?>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -29,9 +33,9 @@
             <!-- Call Action Section -->
             <section class="page-section pt-0 pb-0 banner-section bg-dark-alfa-70" data-background="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide2a.jpg">
                 <div class="container relative">
-                    
+
                     <div class="row">
-                        
+
                         <div class="col-sm-6">
                             <div class="mt-70 mt-lg70 mb-70 mb-lg-70 mb-sm-30">
                                 <div class="banner-content text-shadow">
@@ -53,10 +57,15 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </section>
             <!-- End Call Action Section -->
 @stop
-                 
-            @section('contact','')           
+
+            @section('contact','')
+    @section('page-specific-js')
+      <?php if(Sesh::isCmsUser()): ?>
+        @include('layouts/common/gallery')
+      <?php endif; ?>
+    @stop
