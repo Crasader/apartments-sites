@@ -45,7 +45,7 @@ class Entity extends Model
         
         $this->fk_legacy_property_id = $legacyProperty->id;
         try{
-            $templateName = $this->grabTemplateId($_SERVER['SERVER_NAME']);
+            $templateName = $this->grabTemplateId(Util::serverName());
             if($templateName === null){
                 throw new BaseException("Unable to find template for property");
             }

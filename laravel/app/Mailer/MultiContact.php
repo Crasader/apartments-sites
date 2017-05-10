@@ -45,7 +45,8 @@ class MultiContact
         self::log("Sending...");
         if(is_array($conf['from']['email']))
             $from = array_pop($conf['from']['email']);
-        $mail->setFrom($from,$conf['from']['name']);
+        if(isset($conf['from']['name']))
+            $mail->setFrom($from,$conf['from']['name']);
         return $mail;
     }
 
@@ -97,6 +98,10 @@ class MultiContact
         }
     }
 
+    public static function getCcPropertyEmail(){
+        return self::getPropertyEmail();
+    }
+
 
     /* Feature change 
      * If the property wants CCd emails they must follow the symfony code standard
@@ -125,6 +130,10 @@ class MultiContact
             self::handleException($e);
             return false;
         }
+    }
+
+    public static function getPropertyViewHtml(string $view,$conf){
+        return view($view)->with($conf->getData());
     }
 
     public static function configure(){

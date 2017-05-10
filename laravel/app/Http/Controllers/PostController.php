@@ -17,6 +17,8 @@ use App\Property\Template as PropertyTemplate;
 use Redis;
 use App\System\Session;
 use App\Mailer\MultiContact;
+use App\Structures\Mail as StructMail;
+use App\Mailer\Queue;
 
 class PostController extends Controller
 {
@@ -70,22 +72,32 @@ class PostController extends Controller
     }
     
     public function sendMultiContact(string $mode,array $details){
-        //
-        $mailer = new MultiContact;
-        $mailer->sendUserContact([
-            'to' => $details['user'],
-            'subject' => $details['subject']['user'],
-            'data' => $details['data'],
-            'from' => MultiContact::getPropertyEmail(true),
-        ]);
+        $struct = new StructMail;
+        $queue = new Queue;
+        try{
+            $struct->to = $details['user'];
+            $struct->subject = $details['subject']['user'];
+            $struct->htmlBody = $details['data'];
+            $struct->from =  MultiContact::getPropertyEmail();
+            $struct->from = array_shift($struct->from);
+            $struct->cc = json_encode([]);
+            $queue->queueItem($struct);
+        }catch(ParameterException $p){
+            throw $p;
+        }
 
-        $mailer->sendPropertyContact([
-            'subject' => $details['subject']['property'],
-            'data' => $details['data'],
-            'view' => 'layouts/dinapoli/email/property-contact',
-            'from' => $details['user'],
-            'fromName' => $details['fromName'],
-        ]);
+        try{
+            $struct = new StructMail;
+            $struct->to = MultiContact::getPropertyEmail();
+            $struct->to = array_shift($struct->to);
+            $struct->subject = $details['subject']['property'];
+            $struct->htmlBody = MultiContact::getPropertyViewHtml('layouts/dinapoli/email/property-contact',$details['data']);
+            $struct->from = $details['user'];
+            $struct->cc = json_encode(MultiContact::getCcPropertyEmail());
+            $queue->queueItem($struct);
+        }catch(ParameterException $p){
+            throw $p;
+        }
     }
 
     public function handle(Request $request,string $page){
@@ -207,7 +219,7 @@ class PostController extends Controller
 
     //TODO: Handle form validation
     public function handleResidentContact(Request $req){
-        $data = $_POST;
+        $data = $req->all();
         Site::$instance = $site = app()->make('App\Property\Site');
         if(Session::residentUserLoggedIn() === false){
             return $this->residentNotLoggedIn();
@@ -234,14 +246,14 @@ class PostController extends Controller
         $siteData['data']['sent'] = true;
         $siteData['data']['name'] = $req->input('name');
         $siteData['data']['email'] = $req->input('email');
-        $siteData['data']['phone'] =  (isset($_POST['phone']) && strlen($_POST['phone'])) ? $_POST['phone'] : "No phone number supplied";
-        $siteData['data']['memo'] = (isset($_POST['memo']) && strlen($_POST['memo'])) ? $_POST['memo'] : "no memo supplied";
+        $siteData['data']['phone'] =  (isset($data['phone']) && strlen($data['phone'])) ? $data['phone'] : "No phone number supplied";
+        $siteData['data']['memo'] = (isset($data['memo']) && strlen($data['memo'])) ? $data['memo'] : "no memo supplied";
         
         return view($siteData['path'],$siteData['data']);
     }
 
     public function handleSchedule(Request $req){
-        $data = $_POST;
+        $data = $req->all();
         Site::$instance = $site = app()->make('App\Property\Site');
         $aptName =  Site::$instance->getEntity()->getLegacyProperty()->name;
         if(!Util::isDev()){
@@ -287,7 +299,7 @@ class PostController extends Controller
     }
 
     public function handleApplyOnline(Request $req){
-        $data = $_POST;
+        $data = $req->all();
         Site::$instance = $site = app()->make('App\Property\Site');
         $aptName =  Site::$instance->getEntity()->getLegacyProperty()->name;
         if(!Util::isDev()){
@@ -345,7 +357,7 @@ class PostController extends Controller
 
 
     public function handleUnit(Request $req){
-        $data = $_POST;
+        $data = $req->all();
         Site::$instance = $site = app()->make('App\Property\Site');
         $cleaned = [
             'unittype' => Util::transformFloorplanName($data['unittype']),
@@ -429,7 +441,7 @@ class PostController extends Controller
     }
 
     public function handleFindUserId(Request $req){
-        $data = $_POST;
+        $data = $req->all();
         Site::$instance = $this->_site = app()->make('App\Property\Site');
         $this->validate($req, [
             'email' => 'required|email',
@@ -441,7 +453,6 @@ class PostController extends Controller
         \Debugbar::info($data);
         $siteData = $this->resolvePageBySite('/resident-portal/find-userid',['resident-portal' => true]);
         if($data['status'] == 'error'){
-            dd("Not found!");
             $siteData['data']['userIdNotFound'] = true;
         }else{
             $siteData['data']['userIdFound'] = true;
@@ -451,7 +462,7 @@ class PostController extends Controller
 
 
     public function handleResetPassword(Request $req){
-        $data = $_POST;
+        $data = $req->all();
         Site::$instance = $this->_site = app()->make('App\Property\Site');
         $this->validate($req, [
             'txtUserId' => 'required'
@@ -480,7 +491,8 @@ class PostController extends Controller
     }
 
     public function handleMaintenance(Request $req){
-        $data = $_POST;
+        $data = $req->all();
+        $data = $req->all();
         Site::$instance = $this->_site = app()->make('App\Property\Site');
         if(Session::residentUserLoggedIn() === false){
             return $this->residentNotLoggedIn();
@@ -526,7 +538,7 @@ class PostController extends Controller
     }
 
     public function handleBriefContact(Request $req){
-        $data = $_POST;
+        $data = $req->all();
         Site::$instance = $site = app()->make('App\Property\Site');
         $aptName =  Site::$instance->getEntity()->getLegacyProperty()->name;
         $this->validate($req, [
@@ -541,7 +553,6 @@ class PostController extends Controller
 
         $finalArray = $this->_prefillArray(['mode' => 'briefContact']);
         $finalArray['contact'] = $data;
-        $finalArray['contact']['mode'] = 'briefContact';
 
         $siteData = $this->resolvePageBySite('contact',$data);
         if(Util::isDev()){
@@ -564,7 +575,7 @@ class PostController extends Controller
     }
 
     public function handleContact(Request $req){
-        $data = $_POST;
+        $data = $req->all();
         Site::$instance = $site = app()->make('App\Property\Site');
         $aptName =  Site::$instance->getEntity()->getLegacyProperty()->name;
         if(!Util::isDev() && !$this->validateCaptcha($data['g-recaptcha-response'])){
@@ -620,12 +631,33 @@ class PostController extends Controller
         return view($siteData['path'],$siteData['data']);
     }
 
-    public function handleResident(){
-        $data = $_POST;
+
+    public function invalidUsername(){
+        $data = $this->resolvePageBySite('resident-portal');
+        return view($data['path'],
+                array_merge($data['data'],$this->_prefillArray(['residentFailed' => 'invalid user name']))
+        );
+    }
+
+    public function invalidPassword(){
+        $data = $this->resolvePageBySite('resident-portal');
+        return view($data['path'],
+                array_merge($data['data'],$this->_prefillArray(['residentFailed' => 'invalid password']))
+        );
+    }
+    public function handleResident(Request $req){
+        $data = $req->all();
         Site::$instance = $site = app()->make('App\Property\Site');
 
         if(Util::isDev() == false && !$this->validateCaptcha($data['g-recaptcha-response'])){
             return $this->invalidCaptcha($this->_page);
+        }
+        if(!isset($data['email'])){
+            //TODO fail validation properly
+            return $this->invalidUsername();
+        }
+        if(!isset($data['pass'])){
+            return $this->invalidPassword();
         }
         $user = substr($data['email'],0,64);
         $pass = substr($data['pass'],0,64);

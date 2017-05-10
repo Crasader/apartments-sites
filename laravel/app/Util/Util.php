@@ -15,8 +15,23 @@ class Util
         return $entity->getWebPublicCommon($category);
     }
 
+    public static function isCommandLine(){
+        if(php_sapi_name() == 'cli')
+            return true;
+        else
+            return false;
+    }
+
+    public static function requestUri(){
+        if(isset($_SERVER['REQUEST_URI']))
+            return $_SERVER['REQUEST_URI'];
+        else
+            return request()->getRequestUri();
+    }
+
+
     public static function isDevDomain(){
-        return preg_match("|^dev\.|",$_SERVER['SERVER_NAME']);
+        return preg_match("|^dev\.|",Util::serverName());
     }
 
     public static function updateIfExists(string $model,array $where,array $setToValue){
@@ -90,7 +105,7 @@ class Util
     }
 
     public static function isPage(string $p){
-        return preg_match("|^/$p|",$_SERVER["REQUEST_URI"]);
+        return preg_match("|^/$p|",self::requestUri());
     }
 
     public static function baseUri($inReq,$default=null) : string{
@@ -107,6 +122,7 @@ class Util
             return $req;
         }
     }
+
     public static function isJson(string $s){
         json_decode($s);
         return (json_last_error() == JSON_ERROR_NONE);
@@ -163,8 +179,16 @@ class Util
         }else{
             $file = storage_path() . "/logs/log.log";
         }
-        file_put_contents($file,date("Y-m-d H:i:s") . "::" . $_SERVER['SERVER_NAME'] . "::{$foo}\n",FILE_APPEND);
+        file_put_contents($file,date("Y-m-d H:i:s") . "::" . Util::serverName() . "::{$foo}\n",FILE_APPEND);
     }
+
+    public static function serverName(){
+        if(isset($_SERVER['SERVER_NAME']))
+            return $_SERVER['SERVER_NAME'];
+        else
+            return 'no-server-set';
+    }
+
 
     public static function redisFetchOrUpdate(string $key,$callable,$arrayType=false){
         if(env("REDIS_ALWAYS_FETCH") === '1'){
@@ -219,7 +243,7 @@ class Util
             if($site->redis_alias !== null){
                 return Site::$instance->redis_alias . ':' . $foo;
             }
-            return str_replace("www.","",$_SERVER['SERVER_NAME']) . ":$foo";
+            return str_replace("www.","",Util::serverName()) . ":$foo";
         }else{
             return $foo;
         }
@@ -246,7 +270,7 @@ class Util
     }
 
     public static function isResidentPortal(){
-        return preg_match("|^/resident\-portal/,*|",$_SERVER['REQUEST_URI']);
+        return preg_match("|^/resident\-portal/,*|",self::requestUri());
     }
 
     public static function depluralize(string $s){
@@ -255,10 +279,10 @@ class Util
 
     public static function isHome(){
         return (
-            preg_match("|^/index|",$_SERVER['REQUEST_URI']) ||
-            preg_match("|^/home|",$_SERVER['REQUEST_URI']) ||
-            $_SERVER['REQUEST_URI'] == '/' ||
-            strlen($_SERVER['REQUEST_URI']) == 0
+            preg_match("|^/index|",self::requestUri()) ||
+            preg_match("|^/home|",self::requestUri()) ||
+            self::requestUri() == '/' ||
+            strlen(self::requestUri()) == 0
         );
     }
 

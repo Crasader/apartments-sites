@@ -73,7 +73,9 @@ trait PageResolver {
 
     public function resolveTemplateData($templateDir,$page,$inData,$data){
         if(isset($inData['resident-portal'])){
-            $data['residentInfo'] = json_decode(explode("|",Sesh::get(Sesh::RESIDENT_USER_KEY))[1],1); //TODO !ugly
+            if(Sesh::get(Sesh::RESIDENT_USER_KEY) !== null){
+                $data['residentInfo'] = json_decode(explode("|",Sesh::get(Sesh::RESIDENT_USER_KEY))[1],1); //TODO !ugly
+            }
             $data['extends'] = "layouts/$templateDir/main";
         }
         return $data;
