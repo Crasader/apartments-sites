@@ -115,6 +115,10 @@ $unitType = $extras['unittype'];
                                         <div style="position:absolute; bottom:-25px; margin:0px auto; left:0px; right:0px;">
                                             <span class="label label-info">W/D INCLUDED</span>
                                         </div>
+                                    <?php elseif(isset($object->EXTRAS) && preg_match("|GARAGE|",$object->EXTRAS)): ?>
+                                        <div style="position:absolute; bottom:-25px; margin:0px auto; left:0px; right:0px;">
+                                            <span class="label label-info">GARAGE</span>
+                                        </div>
                                     <?php endif;?>
 								</div>
 								<div class="col-md-3">
