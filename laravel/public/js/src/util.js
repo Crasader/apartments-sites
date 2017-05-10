@@ -79,7 +79,7 @@ function logoutEditTag(){
         location.href = "/";
     });
 
-}   
+}
 function submitEditTag(){
     var html = $("#editMe").val();
     $.ajax({
@@ -96,6 +96,8 @@ function submitEditTag(){
     });
 }
 function edit_tag(name){
+  if(location.href.match(/floorplans$/))
+    $("#epop-close").trigger("click");
     editTagName = name;
     $.ajax({
         'url': '/text-tag-get',
@@ -109,3 +111,9 @@ function edit_tag(name){
         $("#mmbutton").trigger("click");
     });
 }
+
+
+$(document).ready(function(){
+  if(location.href.match(/floorplans$/) && $("#exitpopup-overlay").data('localstorage') == 'ignore')
+    localStorage.setItem('#floorplan-popup','ignore');
+});
