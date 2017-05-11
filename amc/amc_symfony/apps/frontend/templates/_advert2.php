@@ -1,1 +1,0 @@
-<div><a href="<?php echo url_for('movingresources/index'); ?>"><img src="/images/home-cort.png" alt="cort special discounts" border="0" /></a></div>

@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Structures\Mail as StructMail;
+use Validator;
 use App\Traits\Constants;
 
 trait AttributeValidator{
@@ -11,10 +12,10 @@ trait AttributeValidator{
     * item is the name of the attribute.
     * rules is laravel rules
     **/
-  protected $rules = [
-    'item' => 'rules',
-    'item2' => 'rules2'
-  ];
+  // public $rules = [
+  //   'item' => 'rules',
+  //   'item2' => 'rules2'
+  // ];
     public $validate_okay = 1;
     public $validate_errors_encountered = 0;
     public $errors = null;
@@ -29,7 +30,7 @@ trait AttributeValidator{
             unset($rulesArray[$index]);
             $rules = implode('|', $rulesArray);
         } else {
-            if (is_array($this->{$item})) {
+            if (is_array($items)) {
                 $this->errors = ["{$item} can not be an array"];
                 return false;
             }
@@ -41,10 +42,12 @@ trait AttributeValidator{
         foreach ($items as $item) {
             $validator = Validator::make(['item'=>$item], ['item'=>$rules]);
             if ($validator->fails()) {
-                $this->errors = $validator->errors()->get('item');
+
+                $this->errors = $validator->errors();
                 return false;
             }
         }
+        return true;
     }
     public function validateMemberVariables()
     {

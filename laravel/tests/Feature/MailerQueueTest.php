@@ -12,6 +12,7 @@ use App\Structures\Mail as StructMail;
 use App\Traits\MemberValidator;
 use App\Mailer as QueueMailer;
 use App\Util\Util;
+use App\Traits\Constants;
 
 class MailerQueueTest extends TestCase
 {
@@ -23,59 +24,20 @@ class MailerQueueTest extends TestCase
     public function testInvalidMemberVariables()
     {
         $struct = new StructMail;
-        $this->assertTrue( $struct->validateMemberVariables() == StructMail::VALIDATE_ERRORS_ENCOUNTERED);
+        $this->assertTrue( $struct->validateMemberVariables() == Constants::VALIDATE_ERRORS_ENCOUNTERED);
     }
 
     public function testValidMemberVariables(){
         $struct = new StructMail;
-        $struct->to = $struct->from = $struct->subject = $struct->htmlBody = "foobar";
-        $this->assertTrue( $struct->validateMemberVariables() != StructMail::VALIDATE_ERRORS_ENCOUNTERED);
+        $struct->to = $struct->from = $struct->subject = $struct->htmlBody = "brady@marketapts.com";
+        $passed = $struct->validateMemberVariables(1) != Constants::VALIDATE_ERRORS_ENCOUNTERED;
+        if(!$passed){
+          $errors = $struct->errors;
+          print_r(compact('errors'));
+        }
+        $this->assertTrue( $passed );
     }
 
-    public function testCustomValidatorFunction(){
-        $struct = new StructMail;
-        $struct->setEmptyQualifierReturn(null);
-        $struct->setEmptyQualifier(function($item){
-            /* Purposefully fail */
-            return null;
-        });
-        $struct->to = $struct->from = $struct->subject = $struct->htmlBody = "foobar";
-        $this->assertTrue( $struct->validateMemberVariables() == StructMail::VALIDATE_ERRORS_ENCOUNTERED);
-
-        $struct->setEmptyQualifier("is_null");
-        $struct->to = $struct->from = $struct->subject = $struct->htmlBody = null; 
-        $struct->setEmptyQualifierReturn(true);
-        $this->assertTrue( $struct->validateMemberVariables() == StructMail::VALIDATE_ERRORS_ENCOUNTERED);
-
-        /* Test easy qualifiers */
-        $struct->easyQualifier("is_null");
-        $struct->to = null;
-        $this->assertTrue( $struct->validateMemberVariables() == StructMail::VALIDATE_ERRORS_ENCOUNTERED);
-
-        /* Test valid data */
-        //easyQualifier("is_null") is the same as setting setEmptyQulaifier('is_null'); setEmptyQualifierReturn(true)
-        $struct->easyQualifier("is_null");
-        $struct->to = 'wmerfalen@gmail.com';
-        $struct->from = 'matt@marketapts.com';
-        $struct->subject = 'test contact form';
-        $struct->htmlBody = '<h1>test</h1>';
-        $this->assertTrue( $struct->validateMemberVariables() == StructMail::VALIDATE_OKAY);
-
-
-        /* test valid closure */
-        $struct->to = 'wmerfalen@gmail.com';
-        $struct->from = 'matt@marketapts.com';
-        $struct->subject = 'test contact form';
-        $struct->htmlBody = '<h1>test</h1>';
-        $struct->setEmptyQualifier(function($item){
-            if(strlen($item) == 0){
-                return false;
-            }
-            return true;
-        });
-        $struct->setEmptyQualifierReturn(false);
-        $this->assertTrue( $struct->validateMemberVariables() == StructMail::VALIDATE_OKAY);
-    }
 
     public function testMailGetsQueued(){
         /* test valid closure */
@@ -86,15 +48,8 @@ class MailerQueueTest extends TestCase
         $struct->subject = 'test contact form';
         $struct->htmlBody = '<h1>test</h1>';
         $struct->cc = json_encode([]);
-        $struct->setEmptyQualifier(function($item){
-            if(strlen($item) == 0){
-                return false;
-            }
-            return true;
-        });
-        $struct->setEmptyQualifierReturn(false);
-        $this->assertTrue( $struct->validateMemberVariables() == StructMail::VALIDATE_OKAY);
-        
+        $this->assertTrue( $struct->validateMemberVariables() == Constants::VALIDATE_OKAY);
+
         $queue = new Queue;
         $this->assertTrue($queue->queueItem($struct));
     }
@@ -117,17 +72,17 @@ class MailerQueueTest extends TestCase
         });
         $struct->setEmptyQualifierReturn(false);
         $this->assertTrue( $struct->validateMemberVariables() == StructMail::VALIDATE_OKAY);
-        
+
         $queue = new Queue;
         $this->assertTrue($queue->queueItem($struct));
 
         $this->assertTrue(QueueMailer::processQueue('contact',['environment' => Queue::ENVIRONMENT_DEV]) > 0);
-        
+
     }
 
 */
     //TODO: exploit the "withSessioN" function to test cms users :)
-    //TODO: exploit the "withSession" function to test resident portal 
+    //TODO: exploit the "withSession" function to test resident portal
 
     public function testPostControllerSubmitsToQueue(){
         /* Expected to redirect (302) */
@@ -175,19 +130,19 @@ class MailerQueueTest extends TestCase
  37         'schedule'      => 'handleSchedule',				//[covered]2017-05-09
  38         'apply-online'  => 'handleApplyOnline',             //[covered]2017-05-09
  39
- 40         /* Administrative/CMS routes 
+ 40         /* Administrative/CMS routes
  41         'text-tag'      => 'handleTextTag',
  42         'text-tag-get'  => 'handleGetTextTag',
  43
  44         /*****************************
- 45         /* Routes for resident portal 
+ 45         /* Routes for resident portal
  46         /*****************************
  47         'portal-center' => 'handleResident',
  48         'find-userid'   => 'handleFindUserId',
  49         'reset-password'=> 'handleResetPassword',
  50
  51         /*==========================================================
- 52         /* Routes that require authentication (done via middleware) 
+ 52         /* Routes that require authentication (done via middleware)
  53         /*==========================================================
  54         'resident-contact-mailer'   => 'handleResidentContact',
  55         'maintenance-request'       => 'handleMaintenance',
@@ -201,7 +156,7 @@ class MailerQueueTest extends TestCase
             return str_replace("becauseimcool",uniqid(),$em);
         }
         /* Expected to redirect (302) */
-        
+
         $weirdEmail = transmutateEmail($baseEmail);
         Queue::where('to_address',$weirdEmail)->get()->each(function(&$item){
             $item->delete();
@@ -283,7 +238,7 @@ $this->validate($req, [
   7             'visittime' => 'required|max:15',
   8         ]);
   9         //
- 
+
 */
         $weirdEmail = transmutateEmail($baseEmail);
         Queue::where('to_address',$weirdEmail)->get()->each(function(&$item){
@@ -389,7 +344,7 @@ $this->validate($req, [
         $ctr = 0;
     }
 
-    
+
 
 
 }
