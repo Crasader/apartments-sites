@@ -21,7 +21,7 @@ use App\Util\Util;
         }?>
         <?php $extraSheets = $entity->getCustomStyleSheets($page);
             foreach($extraSheets as $i => $sheet): ?>
-            <link rel="stylesheet" href="<?php echo $sheet;?>">
+            <link rel="stylesheet" href="<?php echo $sheet . "?v={$entity->getAssetsVersion($sheet)}"; ?>">
        <?php endforeach; ?>
 @show
         <style type='text/css'>
