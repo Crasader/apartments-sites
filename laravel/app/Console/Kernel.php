@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
         Commands\CreateVhostConfigs::class,
         Commands\CreateServerTemplate::class,
         Commands\CreateHttpsException::class,
+        Commands\CssInsert::class,
     ];
 
     /**
