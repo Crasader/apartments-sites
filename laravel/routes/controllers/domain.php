@@ -73,7 +73,7 @@ Route::get('/admin','SiteController@tagsAdmin')->middleware('https');
 Route::post('/admin','SiteController@tagsLogin')->middleware('https');
 Route::get('/redis',function(){
     $serv = preg_replace("|^www\.|","",$_SERVER['SERVER_NAME']);
-    $cmd = "/usr/local/bin/redis-cli --raw keys '*$serv*' | xargs /usr/local/bin/redis-cli del";
+    $cmd = "/usr/local/bin/redis-cli --raw keys '*$serv*' | grep -v \"'\" | xargs /usr/local/bin/redis-cli del";
     shell_exec($cmd);
     die("Redis flushed for $serv");
 });
