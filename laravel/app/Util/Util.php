@@ -7,7 +7,7 @@ use App\Property\Site;
 use Illuminate\Http\Request;
 use App\Mailer;
 
-class Util 
+class Util
 {
 
     public static function common(string $type,$category){
@@ -46,7 +46,7 @@ class Util
             $row->save();
             return true;
         }
-        return false;    
+        return false;
     }
 
     public static function die404($req=null,$exception=null){
@@ -74,7 +74,7 @@ class Util
         if($req){
             $path = $req->path();
         }
-        self::log($message = "Generic error: Site:" . $site->getEntity()->property_name . ": Page: {$path}" . 
+        self::log($message = "Generic error: Site:" . $site->getEntity()->property_name . ": Page: {$path}" .
             " Message:" . $exception->getMessage() . "::Code:" .  $exception->getCode() . ":File:" . $exception->getFile() . "::Line:" . $exception->getLine() . "::TraceAsString" .  var_export($exception->getTraceAsString(),1));
         //TODO: route this stuff through site controller's population methods
         if(ENV("EMAIL_LOGS") == '1'){
@@ -189,7 +189,12 @@ class Util
             return 'no-server-set';
     }
 
-
+    /**
+    * @param key string Key being called
+    * @param callable function to fetch if data is new
+    * @param arrayType json_decodes data if set to true
+    * @return string|array the fetched value from redis or callable
+    */
     public static function redisFetchOrUpdate(string $key,$callable,$arrayType=false){
         if(env("REDIS_ALWAYS_FETCH") === '1'){
             \Debugbar::info("REDIS ALWAYS FETCH");
