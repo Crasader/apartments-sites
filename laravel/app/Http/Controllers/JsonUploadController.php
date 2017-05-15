@@ -109,8 +109,6 @@ class JsonUploadController extends PostController
             ->fk_legacy_property_id)
         ->join('photo_type','photo_type.id','=','property_photo.photo_type_id')
         ->get();
-        if(!count($prop)){
-            return [];
         }
         return $prop->toArray();
     }
