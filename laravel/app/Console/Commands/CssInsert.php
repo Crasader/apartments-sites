@@ -42,7 +42,7 @@ class CssInsert extends Command
         foreach(app()->make('App\Template')->get()->toArray() as $index => $template){
             $path = public_path() . '/' . $template['name'] . '/css/*';
             foreach(glob($path) as $i => $f){
-                if(preg_match("|([0-9A-Z]{6}\.css)|",$f,$matches)){
+                if(preg_match("|([0-9A-Z]{3,}\.css)|",$f,$matches)){
                     $prop = app()->make('App\Legacy\Property');
                     $p = $prop::where('code',str_replace(".css","",$matches[1]))->get()->toArray();
                     if($p[0]['code'] . ".css" == $matches[1]){
