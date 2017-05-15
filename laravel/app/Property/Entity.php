@@ -42,7 +42,7 @@ class Entity extends Model
         foreach($attributes as $key => $value){
             $this->$key = $value;
         }
-        
+
         $this->fk_legacy_property_id = $legacyProperty->id;
         try{
             $templateName = $this->grabTemplateId(Util::serverName());
@@ -108,7 +108,7 @@ class Entity extends Model
     }
 
     public function getFileSystemId(){
-        return $this->_legacyProperty->code . '-' . 
+        return $this->_legacyProperty->code . '-' .
             preg_replace("|\-{2,}|","-",
                     preg_replace("|[^a-z0-9]+|","-",strtolower($this->_legacyProperty->name))
                 )
@@ -148,18 +148,18 @@ class Entity extends Model
                     switch($page){
                         case '':
                         case '/':
-                        case 'home': 
-                            return "Welcome home to " . $foo->getLegacyProperty()->name . " apartments in " . 
-                        $foo->getCity() . ", " . $foo->getState() . ". " . 
+                        case 'home':
+                            return "Welcome home to " . $foo->getLegacyProperty()->name . " apartments in " .
+                        $foo->getCity() . ", " . $foo->getState() . ". " .
                         "We are a unique garden styled community that offers you many of the luxuries to meet your needs. ";
-                        case 'gallery': 
-                            return 'Take an online virtual tour of our Photos for ' . $foo->getLegacyProperty()->name . ' apartments in ' . 
+                        case 'gallery':
+                            return 'Take an online virtual tour of our Photos for ' . $foo->getLegacyProperty()->name . ' apartments in ' .
                             $foo->getCity() . ' ' . $foo->getAbbreviatedState() . '. Newly renovated units and classic styles to choose from. Schedule your tour today.';
                         case 'floorplans':
-                            return 'Choose from our newly renovated 2 & 3 bedroom apartments in ' . $foo->getCity() . ', ' . $foo->getAbbreviatedState() . '. ' . 
+                            return 'Choose from our newly renovated 2 & 3 bedroom apartments in ' . $foo->getCity() . ', ' . $foo->getAbbreviatedState() . '. ' .
                             'Luxury and comfort awaits you in our spacious floorplans. ';
                         case 'neighborhood':
-                            return $foo->getLegacyProperty()->name . ' is a commuters dream and our residents can enjoy all the shopping, dining and entertainment, choices the ' . 
+                            return $foo->getLegacyProperty()->name . ' is a commuters dream and our residents can enjoy all the shopping, dining and entertainment, choices the ' .
                             $foo->getCity() . ' ' . $foo->getAbbreviatedState() . ' metro area has to offer.';
                         case 'amenities':
                             return $foo->getLegacyProperty()->name . ' offers luxury amenities and deluxe features designed for you. Pet-friendly, resort-style pool, spa, cabana, fitness center, private garages, and more . ';
@@ -182,7 +182,7 @@ class Entity extends Model
                         case '':
                         case '/':
                         case 'home':
-                            return $foo->getCity() . ' ' . $foo->getAbbreviatedState() . ' Apartments, Apartments in ' . 
+                            return $foo->getCity() . ' ' . $foo->getAbbreviatedState() . ' Apartments, Apartments in ' .
                             $foo->getCity() . ', ' . $foo->getCity()  . ' Apartments for Rent';
                         case 'gallery':
                             return $foo->getCity() . ' ' . $foo->getAbbreviatedState() . ' Apartment Photos, Gallery of Apartments in ' . $foo->getCity() . ', Virtual Tour';
@@ -190,7 +190,7 @@ class Entity extends Model
                             return $foo->getCity() .  ' Apartment Floor Plans, ' . $foo->getCity() . ' 2 & 3 Bedrooms Apartment, 2 & 3 Bedrooms ' . $foo->getCity() . ', ' . $foo->getState() . ' Apartment Floor Plans,' .
                             ' ' . $foo->getLegacyProperty()->name . 'Apartments Floor Plans, 3D Floor Plans';
                         case 'neighborhood':
-                            return $foo->getCity() . ' Apartments, Apartments ' . $foo->getCity() . ', ' . $foo->getLegacyProperty()->name . ', ' . $foo->getCity() . ' Rental Apartments, ' . 
+                            return $foo->getCity() . ' Apartments, Apartments ' . $foo->getCity() . ', ' . $foo->getLegacyProperty()->name . ', ' . $foo->getCity() . ' Rental Apartments, ' .
                             $foo->getCity() . ' Apts, Apartment Community ' . $foo->getCity() . ', ' . $foo->getCity() . ' Apartment Complex, Apts ' . $foo->getCity() . ' ' .  $foo->getAbbreviatedState();
                         case 'amenities':
                             return 'luxury amenities, deluxe features, all electric kitchen, cable ready, wood burning fireplaces, sparkling pool';
@@ -202,8 +202,8 @@ class Entity extends Model
     }
 
     public function getCustomStyleSheets($page){
-        //return Util::redisFetchOrUpdate('clientside_assets_' . $page, function(){ 
-            $foo =  app()->make('App\Property\Clientside\Assets')->getStyleSheets(Site::$instance); 
+        //return Util::redisFetchOrUpdate('clientside_assets_' . $page, function(){
+            $foo =  app()->make('App\Property\Clientside\Assets')->getStyleSheets(Site::$instance);
             return $foo;
         //    },true);
     }
@@ -252,7 +252,7 @@ class Entity extends Model
                 return $base . "images/{$this->getTemplateName()}/{$this->getLegacyCode()}/gallery";
             case 'img':
                 return $base . "images/{$this->getTemplateName()}/{$this->getLegacyCode()}";
-            default: 
+            default:
                 return $base . "images/{$this->getTemplateName()}/{$this->getLegacyCode()}";
         }
     }
@@ -277,8 +277,8 @@ class Entity extends Model
             $foo = preg_replace("|<\-multi\->|","",$fbUri);
             $parts = explode("\n",$foo);
             foreach($parts as $i => $p){
-                if(strpos($p,"~") === false){ 
-                    continue; 
+                if(strpos($p,"~") === false){
+                    continue;
                 }
                 \Debugbar::info("Parts: " . var_export($p,1));
                 list($var,$value) = explode("~",$p);
@@ -409,7 +409,7 @@ class Entity extends Model
         return Util::redisFetchOrUpdate('email',function() use($foo) {
             return $foo->_legacyProperty->email;
         });
-    
+
     }
 
     public function getTitle() : string{
@@ -481,7 +481,7 @@ class Entity extends Model
         if(Session::isCmsUser()){
             Util::log("Is cms user... decorate tags...");
             if($text === null){ return "<b style={$q}color:green{$q} class={$q}edit-tag{$q} onclick='edit_tag(\"$name\");'>{!}</b>"; }
-            if(in_array($name,$this->_decorateIgnoreText)){ 
+            if(in_array($name,$this->_decorateIgnoreText)){
                 if(strlen($text) == 0){
                     return "<b style={$q}color:green{$q} class={$q}edit-tag{$q} onclick='edit_tag(\"$name\")'>{!}</b>";
                 }
@@ -523,11 +523,15 @@ class Entity extends Model
         }
 
     }
-
-    public function getTextTranslatables(){
+    /**
+    * @return interface to return translatables to|from Symphony database
+    * use getText and setText functions
+    *
+    */
+    protected function getTextTranslatables(){
         $foo = $this;
         return $translatables = [
-            'apartment-title' => [ 
+            'apartment-title' => [
                 'schema' => 'property.name',
                 'fetch' => function() use($foo) { return $foo->getLegacyProperty()->name; },
                 'set' => function($val) use($foo){ $leg = $foo->getLegacyProperty(); $leg->name = $val; $leg->save(); },
@@ -538,13 +542,16 @@ class Entity extends Model
                 'set' => function($val) use($foo){ $leg = $foo->getLegacyProperty(); $leg->description = $val; $leg->save(); },
                 ],
             'slogan' => [
-                'fetch' => function(){ return 'More than just a place to sleep';}, 
+                'fetch' => function(){ return 'More than just a place to sleep';},
                 'set' => function($val) use($foo) { /* Temporarily ignored; */ },
                 'schema' => 'property.foo',
-                ], 
+                ],
         ];
     }
-
+    /** checks to see if needs to store in symphony tables, if yay, then store, if nay, then well...
+    * @param $key string key to lookup in texttranslatables
+    * @param $body string value to set to key
+    */
     public function setText(string $key,string $body){
         $translations = $this->getTextTranslatables();
         if(in_array($key,array_keys($translations))){
@@ -552,7 +559,14 @@ class Entity extends Model
         }
     }
 
-
+    /**
+    * @param $name string key to fetch
+    * @param $opts array. default []
+    *   ['nodecorate'] => won't call decorateGetText
+    *   ['use_double'] => if set, forces double quotes when decorating text
+    *   ['oneshot'] => if not already set, then sets to this value
+    *
+    */
     public function getText(string $name,array $opts = []){
         $foo = $this;
         self::$_objectInstance = $this;
@@ -610,7 +624,7 @@ class Entity extends Model
             $a .= "<br>";
         }
         $a .= trim($this->getCity()) . ", " ;
-        if(isset($opt['state']) && $opt['state'] == 'abbrev'){    
+        if(isset($opt['state']) && $opt['state'] == 'abbrev'){
             $a .= trim($this->getAbbreviatedState()) . " ";
         }else{
             $a .= trim($this->getState()) . " ";
@@ -620,9 +634,9 @@ class Entity extends Model
     }
 
     public function getFullAddressBr() : string {
-        return trim($this->getStreet()) . "<br>" . 
-            trim($this->getCity()) . ", " . 
-            trim($this->getState()) . " " . 
+        return trim($this->getStreet()) . "<br>" .
+            trim($this->getCity()) . ", " .
+            trim($this->getState()) . " " .
             trim($this->getZipCode());
     }
 
