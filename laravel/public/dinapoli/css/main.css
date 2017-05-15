@@ -8268,3 +8268,23 @@ a.resident-links {
     transition: all .27s cubic-bezier(.3, .1, .58, 1)
     font-size: 12px;
 }
+
+.dash-list {
+     list-style-type: none;
+      text-indent: -5px;
+}
+.dash-list > li {
+     font-size: 16px;
+      line-height: 18px;
+       margin-bottom: 12px;
+}
+.dash-list > li:before {
+     content: "- ";
+      text-indent: -5px;
+       
+}
+ 
+.dash-list > li:after {
+      margin-bottom: 10px;
+}
+  

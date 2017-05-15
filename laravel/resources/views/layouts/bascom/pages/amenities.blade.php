@@ -68,7 +68,7 @@
                         ?>
                     	<div class="col-md-6 mb-40">
                     		<div class="text">
-                    			<ul style="list-style-type:none; line-height: 30px;">
+                    			<ul class='dash-list'>
                                     <?php echo $features->getFeaturesChunk('apartment',$i,'amenities'); ?>
                                 </ul>
                     		</div>
@@ -89,7 +89,7 @@
                         ?>
                     	<div class="col-sm-4 mb-40">
                     		<div class="text">
-                    			<ul style="list-style-type:none; line-height: 30px;">
+                    			<ul class='dash-list'>
                                     <?php 
                                         echo $features->getFeaturesChunk('community',$i,'amenities');
                                     ?>
@@ -113,7 +113,7 @@
                         ?>
                                 <div class="col-sm-4 mb-40">
                                     <div class="text">
-                                        <ul style="list-style-type:none; line-height: 30px;">
+                                        <ul class='dash-list'>
                                             <?php echo $features->getFeaturesChunk('other',$i); ?>
                                         </ul>
                                     </div>

@@ -8258,3 +8258,23 @@ section:hover .small-item-carousel .owl-next {
 body { 
     font-family: "Open Sans", arial, sans-serif;
 }
+
+.dash-list {
+     list-style-type: none;
+      text-indent: -5px;
+}
+.dash-list > li {
+     font-size: 16px;
+      line-height: 18px;
+       margin-bottom: 12px;
+}
+.dash-list > li:before {
+     content: "- ";
+      text-indent: -5px;
+       
+}
+ 
+.dash-list > li:after {
+      margin-bottom: 10px;
+}
+  
