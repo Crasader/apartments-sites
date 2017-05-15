@@ -49,15 +49,15 @@ class Email extends Model
     }
     public function categorizeEmailAddresses()
     {
-        $emails = new Collection;
-        foreach ($this->emails as $email) {
-            $address_type = $email->pivot->address_type;
-            if (!$emails[$address_type]) {
-                $emails[$address_type] = new Collection;
+        $emailAddressesCollection = new Collection;
+        foreach ($this->emailAddresses as $emailAddress) {
+            $address_type = $emailAddress->pivot->address_type;
+            if (!$emailAddressesCollection->get($address_type)) {
+                $emailAddressesCollection[$address_type] = new Collection;
             }
-            $emails[$address_type][] = $email->value;
+            $emailAddressesCollection[$address_type][] = $emailAddress->value;
         }
-        $this->categorizedEmailAddresses = $emails;
+        $this->categorizedEmailAddresses = $emailAddressesCollection;
     }
     public function getToAttribute(){
         return $this->getAddressesByType('to');

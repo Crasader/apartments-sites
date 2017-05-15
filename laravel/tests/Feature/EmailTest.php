@@ -40,8 +40,6 @@ class EmailTest extends TestCase
     {
         $email = Email
             ::find(self::$testId);
-        print('testId: ' . $email->from);
-        print_r($email->toArray());
         $passed = false;
         if (
             $email->subject == self::$subject
@@ -57,14 +55,23 @@ class EmailTest extends TestCase
     {
         $email = Email
         ::find(self::$testId);
-        $passed = false;
+        $passed = true;
         if (
-            $email->to == self::$to
-            &&
-            $email->from == self::$from
+            $email->to[0] != self::$to[0]
         ) {
-            $passed = true;
+            $passed = false;
         }
+        if (
+            $email->to[1] != self::$to[1]
+        ) {
+            $passed = false;
+        }
+        if (
+            $email->from[0] != self::$from
+        ) {
+            $passed = false;
+        }
+        print_r([$passed ? "true" : "false",  $email->to, self::$to, self::$from, $email->from]);
         $this->assertTrue($passed, "Failed Checking Email Addresses");
     }
     public function testDeleteEmail()
@@ -74,6 +81,6 @@ class EmailTest extends TestCase
         $email -> delete();
         $email = Email
             ::find(self::$testId);
-        $this->assertTrue($email->id === null, "Failed Deleting Email");
+        $this->assertTrue($email === null, "Failed Deleting Email");
     }
 }
