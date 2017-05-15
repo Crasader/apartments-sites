@@ -171,7 +171,7 @@
                                 <h2 class="section-title font-alt mb-40 mb-sm-40">{{ $label }}</h2>
                                 <div class="col-md-6">
                                      <div class="text">
-                                        <ul style="list-style-type:none; line-height: 30px;">
+                                        <ul class='dash-list'>
                                             <?php echo Util::redisFetchOrUpdate('home_features_section_' . $section,function() use($features,$section){
                                                 return implode('',$features->getEntireFeaturesSection($section)); 
                                             },false);

@@ -30,10 +30,12 @@ class Https extends BaseVerifier
     }
 
     public function hostIsException(){
-        if(preg_match("|^dev\.|",$_SERVER['SERVER_NAME'])){ return true; }
-        if(file_exists(config_path() . "/https-exceptions.json") == false){
+        if(preg_match("|^dev\.|",$_SERVER['SERVER_NAME']))
+            return true; 
+        if(preg_match("|^staging\.|",$_SERVER['SERVER_NAME']))
+            return true;
+        if(file_exists(config_path() . "/https-exceptions.json") == false)
             return false;
-        }
         $foo = json_decode(file_get_contents(config_path() . "/https-exceptions.json"),true);
         $keys = array_keys($foo);
         $serv = str_replace("www.","",$_SERVER['SERVER_NAME']);

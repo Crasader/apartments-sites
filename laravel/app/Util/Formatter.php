@@ -68,7 +68,7 @@ class Formatter implements IFormatter
     protected function _fetchLineItem($item){
         switch($this->_formatterType){
             case 'li':
-                return '<li>- ' . $item . '</li>';
+                return '<li> ' . $item . '</li>';
             default: 
                 return $item;
          }
