@@ -33,7 +33,7 @@ class MailerQueueTest extends TestCase
         $passed = $struct->validateMemberVariables(1) != Constants::VALIDATE_ERRORS_ENCOUNTERED;
         if(!$passed){
           $errors = $struct->errors;
-          print_r(compact('errors'));
+          print_r([__LINE__.__FILE__, compact('errors')]);
         }
         $this->assertTrue( $passed );
     }

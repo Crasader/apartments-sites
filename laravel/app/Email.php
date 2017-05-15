@@ -5,6 +5,10 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Mail;
+use App\Jobs\SendEmail;
+use App\Mail\DefaultEmail;
+
 use App\Util\CollectionHelpers;
 
 class Email extends Model
@@ -21,6 +25,18 @@ class Email extends Model
         static::saved(function($email){
             self::updateEmailAddresses($email);
         });
+    }
+    public function addQueue(){
+        return(dispatch(new SendEmail($this)));
+    }
+    public function send(){
+
+        print("sending email");
+        $rtn = Mail::send(new DefaultEmail($this));
+        print_r(
+            [__LINE__.__FILE__.':',
+            compact('rtn')
+        ]);
     }
     protected static function updateEmailAddresses($email){
         foreach(self::$emailTypes as $emailType){

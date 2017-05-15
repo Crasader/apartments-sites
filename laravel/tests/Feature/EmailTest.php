@@ -33,7 +33,6 @@ class EmailTest extends TestCase
         $email->text_body = self::$text_body;
         $email->save();
         self::$testId = $email->id;
-        print('email_id: ' . $email->id);
         $this->assertTrue($email->id != null, "Failed Creating Email");
     }
     public function testCheckEmail()
@@ -71,16 +70,11 @@ class EmailTest extends TestCase
         ) {
             $passed = false;
         }
-        print_r([$passed ? "true" : "false",  $email->to, self::$to, self::$from, $email->from]);
         $this->assertTrue($passed, "Failed Checking Email Addresses");
     }
-    public function testDeleteEmail()
-    {
+    public function testEmail(){
         $email = Email
             ::find(self::$testId);
-        $email -> delete();
-        $email = Email
-            ::find(self::$testId);
-        $this->assertTrue($email === null, "Failed Deleting Email");
+        print_r($email->addQueue());
     }
 }
