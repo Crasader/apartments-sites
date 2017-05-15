@@ -11,6 +11,7 @@ trait AttributeValidator{
     * example rules, uses laravel validation rules.
     * item is the name of the attribute.
     * rules is laravel rules
+
     **/
   // public $rules = [
   //   'item' => 'rules',

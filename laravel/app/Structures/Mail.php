@@ -16,9 +16,9 @@ class Mail
       'to' => 'arrayable|email',
       'from' => 'arrayable|email',
       'htmlBody' => 'string|nullable',
-      'cc' => 'string|nullable',
+      'htmlText' => 'string|nullable',
+      'cc' => 'arrayable|email|nullable',
       'subject' => 'string|nullable',
     ];
-
 
 }
