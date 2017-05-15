@@ -57,7 +57,7 @@ $displayOptions['dont-show-contact-details'] = true;
                             </div>
                             
                             <div class="col-md-4 col-sm-6 mb-sm-50 mb-xs-30">
-                                <ul style="list-style-type:none; line-height: 30px;">
+                                <ul class='dash-list'>
                         <?php
                             $features = app()->make('App\Property\Feature');
                             $features->setFeaturesLimit(['apartment' => 9]);
@@ -138,7 +138,7 @@ $displayOptions['dont-show-contact-details'] = true;
 
  							<div class="col-md-4 col-sm-6 <?php if(!(++$ctr > 1)){ echo 'col-md-offset-2'; }?> mb-40">
                                 <div class="text">
-                                    <ul style="list-style-type:none; line-height: 30px;">
+                                    <ul class='dash-list'>
                                             <?php echo Util::redisFetchOrUpdate('home_features_section_' . $section,function() use($features,$section){
                                                 return implode('',$features->getEntireFeaturesSection($section));
                                             },false);
