@@ -20,7 +20,7 @@ class CreateBascomClintsideCss extends Migration
             ->get();
         if(count($entity) == 0){
             echo "Shit, can't make the clientside assets because the entity doesnt exist!\n";
-            exit(0);
+            return;
         }
         $temp->fk_property_id = $entity[0]->fk_legacy_property_id;
         $temp->uri = '/bascom/css/166TBL.css';

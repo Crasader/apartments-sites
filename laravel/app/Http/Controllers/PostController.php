@@ -88,9 +88,10 @@ class PostController extends Controller
         ]);
     }
 
-    public function handle(Request $request,string $page){
+    public function handle(Request $request,string $page = null){
         Util::log(var_export($request,1));
-
+        if($page === null)
+          $page = preg_replace("|^/|","",$request->getRequestUri());
         $inPage = in_array($page,array_keys($this->_allowed));
         $inPath = in_array($request->getPathInfo(),array_keys($this->_allowed));
         if(!$inPage && !$inPath){

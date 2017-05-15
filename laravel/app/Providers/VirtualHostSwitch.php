@@ -75,5 +75,4 @@ class VirtualHostSwitch extends ServiceProvider
         return preg_replace("|^dev\.|","",$_SERVER['SERVER_NAME']);
     }
 
-
 }

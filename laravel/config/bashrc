@@ -21,3 +21,5 @@ alias gp='lar ; git pull'
 alias gs='lar ; git status'
 alias mat='lar ; cd resources/views/layouts/material/pages'
 alias gr='lar ; grunt --gruntfile ./Gruntfile'
+alias cw="ssh amcllc@will '~/clear'"
+alias com='lar ; cd resources/views/layouts/common'

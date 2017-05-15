@@ -68,7 +68,7 @@ Route::get('/places/{page}',function($page){
 
 })->middleware(['https']);
 Route::post('/admin/{page}/{subpage}','AdminPostController@handle');
-
+Route::get('/admin/{page}/{subpage}','AdminGetController@handle');
 Route::get('/admin','SiteController@tagsAdmin')->middleware('https');
 Route::post('/admin','SiteController@tagsLogin')->middleware('https');
 Route::get('/redis',function(){
@@ -85,10 +85,15 @@ Route::get('/{page}','SiteController@resolve')->middleware('https');
 Route::get('/','SiteController@resolve')->middleware('https');
 Route::get('/resident-portal/{page}','SiteController@resolveResident')->middleware(['https','residentauth']);
 
-/* 
- * POST CONTROLLERS 
+
+/*
+ * JSON POST CONTROLLERS
+ */
+Route::post('/json','JsonUploadController@handle')->middleware(['https']);
+
+/*
+ * POST CONTROLLERS
  */
 Route::post('/tags-logout','SiteController@tagsLogout')->middleware('https');
 Route::post('/{page}','PostController@handle')->middleware('https');
 Route::post('/resident-portal/{page}','PostController@handle')->middleware(['https','residentauth']);
-
