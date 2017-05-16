@@ -8,6 +8,7 @@ use App\Traits\TextCache;
 use App\Property\Site;
 use App\ResidentPortal\Session;
 use App\System\Session as Sesh;
+use App\Util\Util;
 
 trait PageResolver
 {
@@ -17,6 +18,7 @@ trait PageResolver
     {
         try {
             $data = $this->resolvePageBySite($page);
+            $modal = 
             return view($data['path'], $data['data']);
         } catch (BaseException $e) {
             return view("404");
