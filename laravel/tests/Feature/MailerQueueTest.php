@@ -36,9 +36,8 @@ class MailerQueueTest extends TestCase
             $errors = $struct->errors;
             print_r([__LINE__.__FILE__, compact('errors')]);
         }
-        $this->assertTrue($passed);
+        $this->assertTrue( $passed );
     }
-
 
 
     //TODO: exploit the "withSessioN" function to test cms users :)
