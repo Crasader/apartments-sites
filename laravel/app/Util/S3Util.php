@@ -6,6 +6,7 @@ use App\Property\Entity;
 use App\Property\Site;
 use Illuminate\Http\Request;
 use Aws\S3\S3Client;
+use App\Util\Util;
 
 class S3Util 
 {
@@ -21,7 +22,7 @@ class S3Util
         //$collection['neighborhood'] = \DB::connection('live-mysql')->table('property_neighborhood')->select('url')->where('property_id',$site->getEntity()->fk_legacy_property_id)->get();
         $collection['floorplans']  = \DB::connection('live-mysql')->table('property_floorplan')->select('image')->where('property_id',$site->getEntity()->fk_legacy_property_id)->get();
         chdir("/tmp");
-        $serv = preg_replace("|[^a-z+]|","",$_SERVER['SERVER_NAME']);
+        $serv = preg_replace("|[^a-z+]|","",Util::serverName());
         $dir = "/tmp/$serv";
         @mkdir($dir);
         chdir($dir);

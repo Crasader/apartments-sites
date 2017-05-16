@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use App\Property\Site;
+use App\Email;
 use App\Http\Controllers\SiteController;
 use App\Traits\PageResolver;
 use App\Util\Util;
@@ -17,6 +18,8 @@ use App\Property\Template as PropertyTemplate;
 use Redis;
 use App\System\Session;
 use App\Mailer\MultiContact;
+use App\Structures\Mail as StructMail;
+use App\Mailer\Queue;
 
 class PostController extends Controller
 {
@@ -68,24 +71,58 @@ class PostController extends Controller
         $siteData['data']['invalidCaptcha'] = true;
         return view($siteData['path'],$siteData['data']);
     }
-    
-    public function sendMultiContact(string $mode,array $details){
-        //
-        $mailer = new MultiContact;
-        $mailer->sendUserContact([
-            'to' => $details['user'],
-            'subject' => $details['subject']['user'],
-            'data' => $details['data'],
-            'from' => MultiContact::getPropertyEmail(true),
-        ]);
 
-        $mailer->sendPropertyContact([
-            'subject' => $details['subject']['property'],
-            'data' => $details['data'],
-            'view' => 'layouts/dinapoli/email/property-contact',
-            'from' => $details['user'],
-            'fromName' => $details['fromName'],
-        ]);
+    public function sendMultiContact(string $mode,array $details){
+        //hijack
+        $struct = new StructMail;
+        $queue = new Queue;
+        try{
+            //TODO: !mailer modify this to use brady's queue
+            // $struct->to = $details['user'];
+            // $struct->subject = $details['subject']['user'];
+            // $struct->htmlBody = $details['data'];
+            // $struct->from =  MultiContact::getPropertyEmail();
+            // $struct->from = array_shift($struct->from);
+            // $struct->cc = json_encode([]);
+            // $queue->queueItem($struct);
+            $email = new Email;
+            $email->to = $details['user'];
+            $email->subject = $details['subject']['user'];
+            $email->html_body = $details['data'];
+            $from =  MultiContact::getPropertyEmail();
+            $email->from = array_shift($from);
+            $email->cc = [];
+            $email->save();
+            $email->addQueue();
+
+        }catch(ParameterException $p){
+            throw $p;
+        }
+
+        try{
+            //TODO: !mailer modify this to use brady's queue
+            // $struct = new StructMail;
+            // $struct->to = MultiContact::getPropertyEmail();
+            // $struct->to = array_shift($struct->to);
+            // $struct->subject = $details['subject']['property'];
+            // $struct->htmlBody = MultiContact::getPropertyViewHtml('layouts/dinapoli/email/property-contact',$details['data']);
+            // $struct->from = $details['user'];
+            // $struct->cc = json_encode(MultiContact::getCcPropertyEmail());
+            // $queue->queueItem($struct);
+
+            $email = new Email;
+            $to = MultiContact::getPropertyEmail();
+            $email->to = array_shift($to);
+            $email->subject = $details['subject']['property'];
+            $email->html_body = MultiContact::getPropertyViewHtml('layouts/dinapoli/email/property-contact',$details['data']);
+            $email->from = $details['user'];
+            $email->cc = MultiContact::getCcPropertyEmail();
+            $email->save();
+            $email->addQueue();
+            // $queue->queueItem($struct);
+        }catch(ParameterException $p){
+            throw $p;
+        }
     }
 
     public function handle(Request $request,string $page){
@@ -140,7 +177,7 @@ class PostController extends Controller
         $body = $req->input("body");
 
         $arr = TextType::select('id')->where('str_key',$tag)->get()->toArray();
-        
+
         if(count($arr) == 0){
             //Create text type
             $ttype = new TextType();
@@ -207,12 +244,12 @@ class PostController extends Controller
 
     //TODO: Handle form validation
     public function handleResidentContact(Request $req){
-        $data = $_POST;
+        $data = $req->all();
         Site::$instance = $site = app()->make('App\Property\Site');
         if(Session::residentUserLoggedIn() === false){
             return $this->residentNotLoggedIn();
         }
-        
+
         $siteData = $this->resolvePageBySite('/resident-portal/contact-request',['resident-portal' => true]);
         $to = $data['email'];
         $data['mode'] = 'resident-contact';
@@ -221,7 +258,7 @@ class PostController extends Controller
         $finalArray = $this->_prefillArray($data);
         $finalArray['contact'] = $data;
         $aptName = Site::$instance->getEntity()->getLegacyProperty()->name;
-        $this->sendMultiContact('contact-request',[ 
+        $this->sendMultiContact('contact-request',[
             'user' => $to,
             'fromName' => $data['fname'] . " " . $data['lname'],
             'contact' => $data,
@@ -229,19 +266,19 @@ class PostController extends Controller
                 'property' => 'Resident Portal Contact Request for property: ' . $aptName,
                 'user' => 'Thank you for contacting '  . $aptName . ' Apartments',
             ],
-            'data' => view('layouts/resident-portal/email/contact',$finalArray),//TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
+            'data' => view('layouts/resident-portal/email/contact',$finalArray),//TODO: Dynamically grab the layouts/<TEMPLATE_DIR>
         ]);
         $siteData['data']['sent'] = true;
         $siteData['data']['name'] = $req->input('name');
         $siteData['data']['email'] = $req->input('email');
-        $siteData['data']['phone'] =  (isset($_POST['phone']) && strlen($_POST['phone'])) ? $_POST['phone'] : "No phone number supplied";
-        $siteData['data']['memo'] = (isset($_POST['memo']) && strlen($_POST['memo'])) ? $_POST['memo'] : "no memo supplied";
-        
+        $siteData['data']['phone'] =  (isset($data['phone']) && strlen($data['phone'])) ? $data['phone'] : "No phone number supplied";
+        $siteData['data']['memo'] = (isset($data['memo']) && strlen($data['memo'])) ? $data['memo'] : "no memo supplied";
+
         return view($siteData['path'],$siteData['data']);
     }
 
     public function handleSchedule(Request $req){
-        $data = $_POST;
+        $data = $req->all();
         Site::$instance = $site = app()->make('App\Property\Site');
         $aptName =  Site::$instance->getEntity()->getLegacyProperty()->name;
         if(!Util::isDev()){
@@ -269,7 +306,7 @@ class PostController extends Controller
         $data['mode'] = 'schedule-a-tour';
         $finalArray = $this->_prefillArray($data);
         $finalArray['contact'] = $data;
-        $this->sendMultiContact('schedule-a-tour',[ 
+        $this->sendMultiContact('schedule-a-tour',[
             'user' => $data['email'],
             'fromName' => $data['firstname'] . " " . $data['lastname'],
             'contact' => $data,
@@ -287,7 +324,7 @@ class PostController extends Controller
     }
 
     public function handleApplyOnline(Request $req){
-        $data = $_POST;
+        $data = $req->all();
         Site::$instance = $site = app()->make('App\Property\Site');
         $aptName =  Site::$instance->getEntity()->getLegacyProperty()->name;
         if(!Util::isDev()){
@@ -312,7 +349,7 @@ class PostController extends Controller
         $data['mode'] = 'apply-online';
         $finalArray = $this->_prefillArray($data);
         $finalArray['contact'] = $data;
-        $this->sendMultiContact('apply-online',[ 
+        $this->sendMultiContact('apply-online',[
             'user' => $data['email'],
             'fromName' => $data['fname'] . " " . $data['lname'],
             'contact' => $data,
@@ -345,7 +382,7 @@ class PostController extends Controller
 
 
     public function handleUnit(Request $req){
-        $data = $_POST;
+        $data = $req->all();
         Site::$instance = $site = app()->make('App\Property\Site');
         $cleaned = [
             'unittype' => Util::transformFloorplanName($data['unittype']),
@@ -391,7 +428,7 @@ class PostController extends Controller
             return $email[0]['email'];
         }
     }
-    
+
     public function validateCaptcha(string $captcha){
         //TODO: create a class to do this !organization
 		$postdata = http_build_query(
@@ -424,12 +461,12 @@ class PostController extends Controller
             $data['maintenance_name'] = 'none';
             $data['PermissionToEnterDate'] = '0000/00/00';
         }
-        
+
         return $data;
     }
 
     public function handleFindUserId(Request $req){
-        $data = $_POST;
+        $data = $req->all();
         Site::$instance = $this->_site = app()->make('App\Property\Site');
         $this->validate($req, [
             'email' => 'required|email',
@@ -441,7 +478,6 @@ class PostController extends Controller
         \Debugbar::info($data);
         $siteData = $this->resolvePageBySite('/resident-portal/find-userid',['resident-portal' => true]);
         if($data['status'] == 'error'){
-            dd("Not found!");
             $siteData['data']['userIdNotFound'] = true;
         }else{
             $siteData['data']['userIdFound'] = true;
@@ -451,12 +487,12 @@ class PostController extends Controller
 
 
     public function handleResetPassword(Request $req){
-        $data = $_POST;
+        $data = $req->all();
         Site::$instance = $this->_site = app()->make('App\Property\Site');
         $this->validate($req, [
             'txtUserId' => 'required'
         ]);
-        
+
         $soap = app()->make('App\Assets\SoapClient');
         $data = $soap->resetPassword($data,$data['txtUserId']);
         \Debugbar::info($data);
@@ -480,7 +516,8 @@ class PostController extends Controller
     }
 
     public function handleMaintenance(Request $req){
-        $data = $_POST;
+        $data = $req->all();
+        $data = $req->all();
         Site::$instance = $this->_site = app()->make('App\Property\Site');
         if(Session::residentUserLoggedIn() === false){
             return $this->residentNotLoggedIn();
@@ -494,7 +531,7 @@ class PostController extends Controller
             'PermissionToEnterDate' => 'date',
             'maintenance_mrequest' => 'required'
             ]);
-        
+
         $soap = app()->make('App\Assets\SoapClient');
         $data = $this->decorateMaintenance($data);
 
@@ -509,15 +546,26 @@ class PostController extends Controller
             $siteData['data']['maintenanceError'] = true;
         }else{
             //Send email
-            (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
-                'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
-                'to' => $to,
-                'contact' => ['fname' => explode(" ",$data['ResidentName'])[0],
-                    'lname' => explode(" ",$data['ResidentName'])[0],
-                    'from' => $this->_getApartmentEmail(),
-                ],
-                'data' => view('layouts/dinapoli/email/user-confirm',$finalArray)
-            ]);
+            //TODO: !mailer modify this to submit to the queue
+            //hijack
+            $mail = new Mail;
+            $mail->from = $this->_getApartmentEmail();
+            $mail->cc = ['matt@marketapts.com',$this->_getApartmentEmail()];
+            $mail->to = $to;
+            $mail->html_body = view('layouts/dinapoli/email/user-confirm',$finalArray);
+            $mail->subject = "Maintanance";
+            $mail->save();
+            $mail->addQueue();
+
+            // (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
+            //     'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
+            //     'to' => $to,
+            //     'contact' => ['fname' => explode(" ",$data['ResidentName'])[0],
+            //         'lname' => explode(" ",$data['ResidentName'])[0],
+            //         'from' => $this->_getApartmentEmail(),
+            //     ],
+            //     'data' => view('layouts/dinapoli/email/user-confirm',$finalArray)
+            // ]);
         }
         Util::log('Apparently the email has been sent: schedule-a-tour',['log'=>'mailer']);
         $siteData = $this->resolvePageBySite('schedule-a-tour',$cleaned);
@@ -526,7 +574,7 @@ class PostController extends Controller
     }
 
     public function handleBriefContact(Request $req){
-        $data = $_POST;
+        $data = $req->all();
         Site::$instance = $site = app()->make('App\Property\Site');
         $aptName =  Site::$instance->getEntity()->getLegacyProperty()->name;
         $this->validate($req, [
@@ -541,7 +589,6 @@ class PostController extends Controller
 
         $finalArray = $this->_prefillArray(['mode' => 'briefContact']);
         $finalArray['contact'] = $data;
-        $finalArray['contact']['mode'] = 'briefContact';
 
         $siteData = $this->resolvePageBySite('contact',$data);
         if(Util::isDev()){
@@ -549,7 +596,7 @@ class PostController extends Controller
         }else{
             $to = $data['email'];
         }
-        $this->sendMultiContact('apply-online',[ 
+        $this->sendMultiContact('apply-online',[
             'user' => $data['email'],
             'fromName' => $data['name'],
             'contact' => $data,
@@ -564,7 +611,7 @@ class PostController extends Controller
     }
 
     public function handleContact(Request $req){
-        $data = $_POST;
+        $data = $req->all();
         Site::$instance = $site = app()->make('App\Property\Site');
         $aptName =  Site::$instance->getEntity()->getLegacyProperty()->name;
         if(!Util::isDev() && !$this->validateCaptcha($data['g-recaptcha-response'])){
@@ -584,7 +631,7 @@ class PostController extends Controller
             'phone' => $data['phone'],
             'movein' => $data['date'],
             'mode' => 'contact'
-        ];  
+        ];
 
         $contact = app()->make('App\Contact');
         $contact->first_name = $cleaned['fname'];
@@ -606,7 +653,10 @@ class PostController extends Controller
         }else{
             $to = $cleaned['email'];
         }
-        $this->sendMultiContact('contact',[ 
+        $email = new Email();
+        $email->fromName = "{$cleaned['fname']} {$cleaned['lname']}";
+        $email->subject =
+        $this->sendMultiContact('contact',[
             'user' => $cleaned['email'],
             'fromName' => $cleaned['fname'] . " " . $cleaned['lname'],
             'contact' => $data,
@@ -620,16 +670,37 @@ class PostController extends Controller
         return view($siteData['path'],$siteData['data']);
     }
 
-    public function handleResident(){
-        $data = $_POST;
+
+    public function invalidUsername(){
+        $data = $this->resolvePageBySite('resident-portal');
+        return view($data['path'],
+                array_merge($data['data'],$this->_prefillArray(['residentFailed' => 'invalid user name']))
+        );
+    }
+
+    public function invalidPassword(){
+        $data = $this->resolvePageBySite('resident-portal');
+        return view($data['path'],
+                array_merge($data['data'],$this->_prefillArray(['residentFailed' => 'invalid password']))
+        );
+    }
+    public function handleResident(Request $req){
+        $data = $req->all();
         Site::$instance = $site = app()->make('App\Property\Site');
 
         if(Util::isDev() == false && !$this->validateCaptcha($data['g-recaptcha-response'])){
             return $this->invalidCaptcha($this->_page);
         }
+        if(!isset($data['email'])){
+            //TODO fail validation properly
+            return $this->invalidUsername();
+        }
+        if(!isset($data['pass'])){
+            return $this->invalidPassword();
+        }
         $user = substr($data['email'],0,64);
         $pass = substr($data['pass'],0,64);
-        
+
         $soap = app()->make('App\Assets\SoapClient');
         $result = $soap->residentPortal($user,$pass);
         Util::log("Resident portal return: " . var_export($result,1));

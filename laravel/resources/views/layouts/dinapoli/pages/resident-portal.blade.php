@@ -20,7 +20,7 @@
                     <div class="section-text mb-50 mb-sm-20">
                         <div class="row">
                             <div class="col-md-6 col-sm-6 col-md-offset-3 mb-sm-50 mb-xs-30">
-                                <?php if(isset($residentfailed)): ?><h1 class="error">Invalid Username/Password</h1><?php endif;?>
+                                <?php if(isset($residentFailed)): ?><h1 class="error">Invalid Username/Password</h1><?php endif;?>
                                 <form action="/resident-portal/portal-center" method="post" id='form1'>
                                     <div class="mb-20 mb-md-10">
                                         <label><i class="fa fa-user"></i> Username or Email</label>

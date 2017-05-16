@@ -23,12 +23,18 @@ class VirtualHostSwitch extends ServiceProvider
     {
         $tempThis = $this;
         $this->app->bind(Site::class,function() use($tempThis) {
-            $entity = PropertyEntity::where('fk_legacy_property_id',$tempThis->_resolveSiteId())->get()->first();   
+            if(Util::isCommandLine()){
+                return Site::$instance = $this->newCommandLineSite();
+            }
+            $entity = null;
+            if($entity === null){
+                $entity = PropertyEntity::where('fk_legacy_property_id',$tempThis->_resolveSiteId())->get()->first();   
+            }
             if($entity === null){
 				$prop = new PropertyEntity;
-				$legacy = LegacyProperty::where('url','like','%' . self::serverName() . '%')->get()->first();
+				$legacy = LegacyProperty::where('url','like','%' . Util::serverName() . '%')->get()->first();
                 if($legacy === null){
-				    $legacy = LegacyProperty::where('devurl','like','%' .self::serverName() . '%')->get()->first();
+				    $legacy = LegacyProperty::where('devurl','like','%' . Util::serverName() . '%')->get()->first();
                 }
 				$cbCounter = 5;
 				$fileSystemId = $prop->generateFilesystemId($legacy,function() use($cbCounter) {
@@ -52,18 +58,19 @@ class VirtualHostSwitch extends ServiceProvider
         });
     }
 
-    //TODO: put this in Util
-    public static function serverName(){
-        return preg_replace("|^dev\.|","",preg_replace("|^staging\.|","",$_SERVER['SERVER_NAME']));
-    }
-
+==== BASE ====
+==== BASE ====
     private function _resolveSiteId(){
         $serverName = preg_replace("|^staging\.|","",$_SERVER['SERVER_NAME']);
         $serverName = preg_replace("|^dev\.|","",$_SERVER['SERVER_NAME']);
         if(preg_match('|^www\.|',$_SERVER['SERVER_NAME'])){ 
-            $site = LegacyProperty::where('url','like',"http://{$serverName}%")->get();
+==== BASE ====
+            $site = LegacyProperty::where('url','like','http://' . $this->_dev($_SERVER['SERVER_NAME']) . '%')->get();
+==== BASE ====
         }else{
-            $site = LegacyProperty::where('url','like',"http://www.{$serverName}%")->get();
+==== BASE ====
+            $site = LegacyProperty::where('url','like','http://www.' . $this->_dev($_SERVER['SERVER_NAME']) . '%')->get();
+==== BASE ====
         }
         if(count($site)){
             Site::$site_id_set = true;
@@ -73,4 +80,12 @@ class VirtualHostSwitch extends ServiceProvider
         }
     }
 
+==== BASE ====
+    //!devonly
+    private function _dev(){
+        return preg_replace("|^dev\.|","",$_SERVER['SERVER_NAME']);
+    }
+
+
+==== BASE ====
 }

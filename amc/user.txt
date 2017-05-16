@@ -1,4 +1,0 @@
-"usertableID","userID","password","firstname","lastname","office","phone","mobile"
-5,"kferran","ferran4429","Kyle","Ferran","801.676.1634","801.676.1634","801.856.6356"
-1,"mbradley","frank9567","Matt","Bradley","801.533.7851","801.485.3947","801.550.3267"
-4,"bturner","chris8130","Brandon","Turner","801.565.4698","801.565.4698","801.815.1119"
