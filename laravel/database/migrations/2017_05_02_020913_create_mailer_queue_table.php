@@ -13,13 +13,15 @@ class CreateMailerQueueTable extends Migration
      */
     public function up()
     {
-        if(Schema::hasTable('mailer_queue')){ return ; }
+        if (Schema::hasTable('mailer_queue')) {
+            return ;
+        }
         Schema::create('mailer_queue', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('to_address',64);
-            $table->string('from_address',64);
+            $table->string('to_address', 64);
+            $table->string('from_address', 64);
             $table->text('cc');
-            $table->string('subject',256);
+            $table->string('subject', 256);
             $table->longText('body');
             $table->timestamps();
         });

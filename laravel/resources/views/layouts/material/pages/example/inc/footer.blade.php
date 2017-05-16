@@ -1,5 +1,5 @@
 
-    <?php if(!isset($displayOptions['dont-show-contact-details'])): ?>
+    <?php if (!isset($displayOptions['dont-show-contact-details'])): ?>
          <section class="contact-padding page-section" id="contact">
                 <div class="container relative">
 
@@ -87,13 +87,13 @@
                         $yelp = $entity->getSocialMedia('yelp');
                         \Debugbar::info("$fb $twitter $insta $li");
                     ?>
-                        <?php if(strlen($fb)): ?> <a href="<?php echo $fb?>" title="Facebook" target="_blank"><i class="fa fa-facebook"></i></a> <?php endif; ?>
-                        <?php if(strlen($google)): ?> <a href="<?php echo $google?>" title="Google" target="_blank"><i class="fa fa-google"></i></a> <?php endif; ?>
-                        <?php if(strlen($yelp)): ?> <a href="<?php echo $yelp?>" title="Yelp" target="_blank"><i class="fa fa-yelp"></i></a> <?php endif; ?>
-                        <?php if(strlen($twitter)): ?> <a href="<?php echo $twitter?>" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a> <?php endif; ?>
-                        <?php if(strlen($insta)): ?> <a href="<?php echo $insta?>" title="Instagram" target="_blank"><i class="fa fa-instagram"></i></a> <?php endif; ?>
-                        <?php if(strlen($li)): ?> <a href="<?php echo $li?>" title="LinkedIn+" target="_blank"><i class="fa fa-linkedin"></i></a> <?php endif; ?>
-                        <?php if(strlen($pin)): ?> <a href="<?php echo $pin?>" title="LinkedIn+" target="_blank"><i class="fa fa-pinterest"></i></a> <?php endif; ?>
+                        <?php if (strlen($fb)): ?> <a href="<?php echo $fb?>" title="Facebook" target="_blank"><i class="fa fa-facebook"></i></a> <?php endif; ?>
+                        <?php if (strlen($google)): ?> <a href="<?php echo $google?>" title="Google" target="_blank"><i class="fa fa-google"></i></a> <?php endif; ?>
+                        <?php if (strlen($yelp)): ?> <a href="<?php echo $yelp?>" title="Yelp" target="_blank"><i class="fa fa-yelp"></i></a> <?php endif; ?>
+                        <?php if (strlen($twitter)): ?> <a href="<?php echo $twitter?>" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a> <?php endif; ?>
+                        <?php if (strlen($insta)): ?> <a href="<?php echo $insta?>" title="Instagram" target="_blank"><i class="fa fa-instagram"></i></a> <?php endif; ?>
+                        <?php if (strlen($li)): ?> <a href="<?php echo $li?>" title="LinkedIn+" target="_blank"><i class="fa fa-linkedin"></i></a> <?php endif; ?>
+                        <?php if (strlen($pin)): ?> <a href="<?php echo $pin?>" title="LinkedIn+" target="_blank"><i class="fa fa-pinterest"></i></a> <?php endif; ?>
                     </div>
                     <!-- End Social Links -->
 
@@ -148,7 +148,7 @@
 
                         <!-- Copyright -->
 						<div class="footer-copy font-alt">
-                            <img src="https://s3-us-west-2.amazonaws.com/mktapts/images/dinapoli/164MTB/logo/hudimg.png" alt="Equal Housing" title="Equal Housing" class="eq-house-img" width="30" height="20"> <?php //TODO: !common put this in common images folder ?>
+                            <img src="https://s3-us-west-2.amazonaws.com/mktapts/images/dinapoli/164MTB/logo/hudimg.png" alt="Equal Housing" title="Equal Housing" class="eq-house-img" width="30" height="20"> <?php //TODO: !common put this in common images folder?>
                             <img src="https://s3-us-west-2.amazonaws.com/mktapts/images/dinapoli/164MTB/logo/pet.png" alt="Pet Friendly" title="Pet Friendly" class="eq-house-img" width="30" height="20"> 
                             <img src="https://s3-us-west-2.amazonaws.com/mktapts/images/dinapoli/164MTB/logo/disabled.png" alt="Disability Access" title="Disability Access" class="eq-house-img" width="30" height="20"> 
                         </div>

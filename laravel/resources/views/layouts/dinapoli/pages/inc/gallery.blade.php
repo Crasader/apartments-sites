@@ -3,16 +3,16 @@
                         <a href="#" class="filter active" data-filter="*">All</a>
                         <?php 
                         //TODO: load items and filters dynamically by entity
-                            if(isset($galleryOptions)){
+                            if (isset($galleryOptions)) {
                                 $sections = $galleryOptions['sections'];
                                 $filters = $galleryOptions['filters'];
-                            }else{
+                            } else {
                                 $sections = ['community' => 'Community','main' => 'Apartment'];
                                 $filters = ['community','main'];
                             }
                             $gallery = app()->make('App\Property\Gallery');
                             $gallery->setFilters($filters);
-                            foreach($sections as $type => $label):
+                            foreach ($sections as $type => $label):
                         ?>
                         <a href="#<?php echo $type;?>" class="filter" data-filter=".<?php echo $type;?>"><?php echo $label;?></a>
                         <?php
@@ -26,22 +26,22 @@
                         <?php 
                         //TODO: load items and filters dynamically by entity
                             $gallery->loadItems(['community','main']);
-                            foreach($gallery->fetchSortedItems($gallery::SORT_TYPE_SPARSE) as $index => $imageData):
-                                       if(isset($displayOptions['gallery-intro-sections'])){
-                                                if($imageData['_itemName_'] == 'main'){
-                                                    $section =  $displayOptions['gallery-intro-sections']['apartment'];
-                                                }else{
-                                                    $section = $displayOptions['gallery-intro-sections']['community'];
-                                                }
-                                        }else{
-                                            $section = ($imageData['_itemName_'] == 'main') ? "Apartment" : "Community";
-                                        }
+                            foreach ($gallery->fetchSortedItems($gallery::SORT_TYPE_SPARSE) as $index => $imageData):
+                                       if (isset($displayOptions['gallery-intro-sections'])) {
+                                           if ($imageData['_itemName_'] == 'main') {
+                                               $section =  $displayOptions['gallery-intro-sections']['apartment'];
+                                           } else {
+                                               $section = $displayOptions['gallery-intro-sections']['community'];
+                                           }
+                                       } else {
+                                           $section = ($imageData['_itemName_'] == 'main') ? "Apartment" : "Community";
+                                       }
                         ?>
                         <!-- Gallery Item (Lightbox) :) -->
                         <li class="work-item mix <?php echo $imageData['_itemName_'] ?? "";?>">
                             <a href="<?php echo $imageData['image'] ?? "";?>" class="work-lightbox-link mfp-image">
                                 <div class="work-img">
-                                    <?php //TODO: create migration to add 'alt' 'description' 'title' fields to property_photo ?>
+                                    <?php //TODO: create migration to add 'alt' 'description' 'title' fields to property_photo?>
                                     <img src="<?php echo $imageData['image'] ?? "";?>" alt="<?php echo $imageData['alt'] ?? "Work" ;?>" />
                                 </div>
                                 <?php \Debugbar::info($imageData);?>
@@ -54,7 +54,11 @@
                             </a>
                         </li>
                         <!-- End Gallery Item -->
-                        <?php if(isset($galleryLimit)){ if(--$galleryLimit == 0){ break; } }?>
+                        <?php if (isset($galleryLimit)) {
+                            if (--$galleryLimit == 0) {
+                                break;
+                            }
+                        }?>
                         <?php endforeach; ?>
                     </ul>
                     <!-- End Gallery Grid -->

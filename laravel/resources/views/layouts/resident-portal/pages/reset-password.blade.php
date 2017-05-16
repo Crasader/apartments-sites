@@ -9,7 +9,7 @@
 			<!-- Content Blocks -->
 			<div class="container">
             <br><br>
-                <?php if(isset($userIdFound)):?>
+                <?php if (isset($userIdFound)):?>
 				<div class="row">
                     <div class="col-md-6 col-sm-6 col-md-offset-3 mb-sm-50 mb-xs-30 section-text">
 						<p>An email has been sent to the email address you registered with at move-in. </p>
@@ -26,10 +26,10 @@
 						<p>Please enter your User ID and we will reset your account and email you a new password to the email address you registered with at move-in. </p>
 						<div class="mb-20 mb-md-10 schedule-a-tour-form form-container section-text">
 							<form role="form" id="form1" name="form1" method="post" class="validate" action="/resident-portal/reset-password">
-								<?php foreach($errors->all() as $i => $errorMessage): ?>
+								<?php foreach ($errors->all() as $i => $errorMessage): ?>
                                     <p><span class="colored-text"><b><?php echo $errorMessage; ?></b></span></p>
                                 <?php endforeach; ?>
-                                <?php if(isset($userIdNotFound)): ?>
+                                <?php if (isset($userIdNotFound)): ?>
                                    <p><span class="colored-text"><b>User ID was not found</b></span></p> 
                                 <?php endif;?>
 								<div class="form-group">

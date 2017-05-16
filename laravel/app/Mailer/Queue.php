@@ -20,9 +20,10 @@ class Queue extends Model
     const ENVIRONMENT_DEV = 'dev';
     const ENVIRONMENT_LIVE = 'live';
 
-    public function queueItem(StructMail $m){
+    public function queueItem(StructMail $m)
+    {
         $ret = $m->validateMemberVariables();
-        if($ret == StructMail::VALIDATE_OKAY){
+        if ($ret == StructMail::VALIDATE_OKAY) {
             $queue = new self();
             $queue->to_address = $m->to;
             $queue->from_address= $m->from;
@@ -34,15 +35,16 @@ class Queue extends Model
             $queue->environment = $this->getEnvironment();
             $queue->save();
             return true;
-        }else{
-            throw new ParameterException("Validating member variables failed: " . var_export($m,1));
+        } else {
+            throw new ParameterException("Validating member variables failed: " . var_export($m, 1));
         }
     }
 
-    public function getEnvironment(){
-        if(Util::isDev()){
+    public function getEnvironment()
+    {
+        if (Util::isDev()) {
             return Queue::ENVIRONMENT_DEV;
-        }else{
+        } else {
             return Queue::ENVIRONMENT_LIVE;
         }
     }
