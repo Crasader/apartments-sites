@@ -31,7 +31,17 @@ class DefaultEmail extends Mailable
      */
     public function build()
     {
-        $this->from($this->email->from[0]);
+        if($this->email->fromName){
+            $from = [
+                'email' => $this->email->from,
+                'name' => $this->email->fromName
+            ];
+            $this->from(
+                $from
+            );
+        } else {
+            $this->from($this->email->from);
+        }
         $this->to($this->email->to);
         $this->subject($this->email->subject);
         if(count($this->email->cc)){

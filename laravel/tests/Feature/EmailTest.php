@@ -18,19 +18,22 @@ class EmailTest extends TestCase
      */
     public static $testId = null;
     public static $to = ['bvfbarten@gmail.com', 'brady@marketapts.com'];
-    public static $from = 'brady@marketapts.com';
+    public static $from =  'brady@marketapts.com';
+    public static $from_name = 'Name';
     public static $subject = 'test';
     public static $html_body = '<h1>Hello World</h1>';
     public static $text_body = 'Hello World';
 
     public function testCreateEmail()
     {
-        $email = new Email;
+        $email = new Email();
         $email->to = self::$to;
         $email->from = self::$from;
         $email->subject = self::$subject;
+        $email->fromName = self::$from_name;
         $email->html_body = self::$html_body;
         $email->text_body = self::$text_body;
+
         $email->save();
         self::$testId = $email->id;
         $this->assertTrue($email->id != null, "Failed Creating Email");
@@ -41,14 +44,15 @@ class EmailTest extends TestCase
             ::find(self::$testId);
         $passed = false;
         if (
-            $email->subject == self::$subject
+            $email->fromName == self::$from_name
+            && $email->subject == self::$subject
             && $email->html_body == self::$html_body
             && $email->text_body == self::$text_body
         ) {
             $passed = true;
         }
 
-        $this->assertTrue($passed, "Failed Checking Initial Emails");
+        $this->assertTrue($passed, "Failed Checking Initial Emails. ({$email->fromName})");
     }
     public function testCheckEmailAddress()
     {
@@ -66,7 +70,7 @@ class EmailTest extends TestCase
             $passed = false;
         }
         if (
-            $email->from[0] != self::$from
+            $email->from != self::$from
         ) {
             $passed = false;
         }

@@ -17,6 +17,7 @@ class Email extends Model
     use SoftDeletes;
     protected $table = 'emails';
     public $timestamps = true;
+    public $privateFromName;
     public static $emailTypes = ['to', 'from', 'cc', 'bcc'];
     protected $categorizedEmailAddresses = null;
     //
@@ -33,18 +34,22 @@ class Email extends Model
 
         print("sending email");
         $rtn = Mail::send(new DefaultEmail($this));
-        print_r(
-            [__LINE__.__FILE__.':',
-            compact('rtn')
-        ]);
     }
     protected static function updateEmailAddresses($email){
         foreach(self::$emailTypes as $emailType){
             $emailAddressesCollection = $email->getAddressesByType($emailType);
             $emailAddressIds = [];
             if(CollectionHelpers::isIterable($emailAddressesCollection)){
+                if($emailType == 'from'){
+                    // die(print_r($emailAddressesCollection));
+                }
                 foreach($emailAddressesCollection as $emailAddress){
+
                     $emailAddress = EmailAddress::firstOrCreate(['value' => $emailAddress]);
+                    if($emailType == 'from'){
+                        $email->emailAddresses()->attach($emailAddress->id, ['address_type' => $emailType, 'name' => $email->privateFromName]);
+                        continue;
+                    }
                     $emailAddressIds[] = $emailAddress->id;
                 }
             }
@@ -54,7 +59,7 @@ class Email extends Model
     public function emailAddresses()
     {
         return $this->belongsToMany('App\EmailAddress')
-            ->withPivot('address_type');
+            ->withPivot('address_type', 'name');
     }
     public function getAddressesByType($addressType)
     {
@@ -68,6 +73,9 @@ class Email extends Model
         $emailAddressesCollection = new Collection;
         foreach ($this->emailAddresses as $emailAddress) {
             $address_type = $emailAddress->pivot->address_type;
+            if($address_type == 'from'){
+                $this->privateFromName = $emailAddress->pivot->name;
+            }
             if (!$emailAddressesCollection->get($address_type)) {
                 $emailAddressesCollection[$address_type] = new Collection;
             }
@@ -79,13 +87,23 @@ class Email extends Model
         return $this->getAddressesByType('to');
     }
     public function getFromAttribute(){
-        return $this->getAddressesByType('from');
+        return array_get($this->getAddressesByType('from'), 0);
     }
     public function getCcAttribute(){
         return $this->getAddressesByType('cc');
     }
     public function getBccAttribute(){
         return $this->getAddressesByType('bcc');
+    }
+    public function getFromNameAttribute(){
+        if(!$this->privateFromName){
+            $this->categorizeEmailAddresses();
+        }
+        return $this->privateFromName;
+    }
+    public function setFromNameAttribute($value){
+
+        $this->privateFromName = $value;
     }
     public function setToAttribute($value){
         return $this->categorizedEmailAddresses['to'] = CollectionHelpers::returnAsCollection($value);
