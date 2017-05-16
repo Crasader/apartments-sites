@@ -21,5 +21,4 @@ alias gp='lar ; git pull'
 alias gs='lar ; git status'
 alias mat='lar ; cd resources/views/layouts/material/pages'
 alias gr='lar ; grunt --gruntfile ./Gruntfile'
-alias dev='source $LAR/config/bashrc-dev'
-alias live='source $LAR/config/bashrc'
+alias autossh_alias='autossh -M 5512 -fN -R 1433:192.168.1.139:1433 amcllc@brady.dev' #5512 needs to be different for each instance of autossh . Ports 5512 and 5513 are used for autossh, so choose something else
