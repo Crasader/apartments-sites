@@ -75,6 +75,7 @@ class PostController extends Controller
         $struct = new StructMail;
         $queue = new Queue;
         try{
+            //TODO: !mailer modify this to use brady's queue
             $struct->to = $details['user'];
             $struct->subject = $details['subject']['user'];
             $struct->htmlBody = $details['data'];
@@ -87,6 +88,7 @@ class PostController extends Controller
         }
 
         try{
+            //TODO: !mailer modify this to use brady's queue
             $struct = new StructMail;
             $struct->to = MultiContact::getPropertyEmail();
             $struct->to = array_shift($struct->to);
@@ -521,6 +523,7 @@ class PostController extends Controller
             $siteData['data']['maintenanceError'] = true;
         }else{
             //Send email
+            //TODO: !mailer modify this to submit to the queue
             (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
                 'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
                 'to' => $to,
