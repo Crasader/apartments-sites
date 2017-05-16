@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use App\Property\Site;
+use App\Email;
 use App\Http\Controllers\SiteController;
 use App\Traits\PageResolver;
 use App\Util\Util;
@@ -70,33 +71,55 @@ class PostController extends Controller
         $siteData['data']['invalidCaptcha'] = true;
         return view($siteData['path'],$siteData['data']);
     }
-    
+
     public function sendMultiContact(string $mode,array $details){
+        //hijack
         $struct = new StructMail;
         $queue = new Queue;
         try{
             //TODO: !mailer modify this to use brady's queue
-            $struct->to = $details['user'];
-            $struct->subject = $details['subject']['user'];
-            $struct->htmlBody = $details['data'];
-            $struct->from =  MultiContact::getPropertyEmail();
-            $struct->from = array_shift($struct->from);
-            $struct->cc = json_encode([]);
-            $queue->queueItem($struct);
+            // $struct->to = $details['user'];
+            // $struct->subject = $details['subject']['user'];
+            // $struct->htmlBody = $details['data'];
+            // $struct->from =  MultiContact::getPropertyEmail();
+            // $struct->from = array_shift($struct->from);
+            // $struct->cc = json_encode([]);
+            // $queue->queueItem($struct);
+            $email = new Email;
+            $email->to = $details['user'];
+            $email->subject = $details['subject']['user'];
+            $email->html_body = $details['data'];
+            $from =  MultiContact::getPropertyEmail();
+            $email->from = array_shift($from);
+            $email->cc = [];
+            $email->save();
+            $email->addQueue();
+
         }catch(ParameterException $p){
             throw $p;
         }
 
         try{
             //TODO: !mailer modify this to use brady's queue
-            $struct = new StructMail;
-            $struct->to = MultiContact::getPropertyEmail();
-            $struct->to = array_shift($struct->to);
-            $struct->subject = $details['subject']['property'];
-            $struct->htmlBody = MultiContact::getPropertyViewHtml('layouts/dinapoli/email/property-contact',$details['data']);
-            $struct->from = $details['user'];
-            $struct->cc = json_encode(MultiContact::getCcPropertyEmail());
-            $queue->queueItem($struct);
+            // $struct = new StructMail;
+            // $struct->to = MultiContact::getPropertyEmail();
+            // $struct->to = array_shift($struct->to);
+            // $struct->subject = $details['subject']['property'];
+            // $struct->htmlBody = MultiContact::getPropertyViewHtml('layouts/dinapoli/email/property-contact',$details['data']);
+            // $struct->from = $details['user'];
+            // $struct->cc = json_encode(MultiContact::getCcPropertyEmail());
+            // $queue->queueItem($struct);
+
+            $email = new Email;
+            $to = MultiContact::getPropertyEmail();
+            $email->to = array_shift($to);
+            $email->subject = $details['subject']['property'];
+            $email->html_body = MultiContact::getPropertyViewHtml('layouts/dinapoli/email/property-contact',$details['data']);
+            $email->from = $details['user'];
+            $email->cc = MultiContact::getCcPropertyEmail();
+            $email->save();
+            $email->addQueue();
+            // $queue->queueItem($struct);
         }catch(ParameterException $p){
             throw $p;
         }
@@ -154,7 +177,7 @@ class PostController extends Controller
         $body = $req->input("body");
 
         $arr = TextType::select('id')->where('str_key',$tag)->get()->toArray();
-        
+
         if(count($arr) == 0){
             //Create text type
             $ttype = new TextType();
@@ -226,7 +249,7 @@ class PostController extends Controller
         if(Session::residentUserLoggedIn() === false){
             return $this->residentNotLoggedIn();
         }
-        
+
         $siteData = $this->resolvePageBySite('/resident-portal/contact-request',['resident-portal' => true]);
         $to = $data['email'];
         $data['mode'] = 'resident-contact';
@@ -235,7 +258,7 @@ class PostController extends Controller
         $finalArray = $this->_prefillArray($data);
         $finalArray['contact'] = $data;
         $aptName = Site::$instance->getEntity()->getLegacyProperty()->name;
-        $this->sendMultiContact('contact-request',[ 
+        $this->sendMultiContact('contact-request',[
             'user' => $to,
             'fromName' => $data['fname'] . " " . $data['lname'],
             'contact' => $data,
@@ -243,14 +266,14 @@ class PostController extends Controller
                 'property' => 'Resident Portal Contact Request for property: ' . $aptName,
                 'user' => 'Thank you for contacting '  . $aptName . ' Apartments',
             ],
-            'data' => view('layouts/resident-portal/email/contact',$finalArray),//TODO: Dynamically grab the layouts/<TEMPLATE_DIR> 
+            'data' => view('layouts/resident-portal/email/contact',$finalArray),//TODO: Dynamically grab the layouts/<TEMPLATE_DIR>
         ]);
         $siteData['data']['sent'] = true;
         $siteData['data']['name'] = $req->input('name');
         $siteData['data']['email'] = $req->input('email');
         $siteData['data']['phone'] =  (isset($data['phone']) && strlen($data['phone'])) ? $data['phone'] : "No phone number supplied";
         $siteData['data']['memo'] = (isset($data['memo']) && strlen($data['memo'])) ? $data['memo'] : "no memo supplied";
-        
+
         return view($siteData['path'],$siteData['data']);
     }
 
@@ -283,7 +306,7 @@ class PostController extends Controller
         $data['mode'] = 'schedule-a-tour';
         $finalArray = $this->_prefillArray($data);
         $finalArray['contact'] = $data;
-        $this->sendMultiContact('schedule-a-tour',[ 
+        $this->sendMultiContact('schedule-a-tour',[
             'user' => $data['email'],
             'fromName' => $data['firstname'] . " " . $data['lastname'],
             'contact' => $data,
@@ -326,7 +349,7 @@ class PostController extends Controller
         $data['mode'] = 'apply-online';
         $finalArray = $this->_prefillArray($data);
         $finalArray['contact'] = $data;
-        $this->sendMultiContact('apply-online',[ 
+        $this->sendMultiContact('apply-online',[
             'user' => $data['email'],
             'fromName' => $data['fname'] . " " . $data['lname'],
             'contact' => $data,
@@ -405,7 +428,7 @@ class PostController extends Controller
             return $email[0]['email'];
         }
     }
-    
+
     public function validateCaptcha(string $captcha){
         //TODO: create a class to do this !organization
 		$postdata = http_build_query(
@@ -438,7 +461,7 @@ class PostController extends Controller
             $data['maintenance_name'] = 'none';
             $data['PermissionToEnterDate'] = '0000/00/00';
         }
-        
+
         return $data;
     }
 
@@ -469,7 +492,7 @@ class PostController extends Controller
         $this->validate($req, [
             'txtUserId' => 'required'
         ]);
-        
+
         $soap = app()->make('App\Assets\SoapClient');
         $data = $soap->resetPassword($data,$data['txtUserId']);
         \Debugbar::info($data);
@@ -508,7 +531,7 @@ class PostController extends Controller
             'PermissionToEnterDate' => 'date',
             'maintenance_mrequest' => 'required'
             ]);
-        
+
         $soap = app()->make('App\Assets\SoapClient');
         $data = $this->decorateMaintenance($data);
 
@@ -524,15 +547,25 @@ class PostController extends Controller
         }else{
             //Send email
             //TODO: !mailer modify this to submit to the queue
-            (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
-                'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
-                'to' => $to,
-                'contact' => ['fname' => explode(" ",$data['ResidentName'])[0],
-                    'lname' => explode(" ",$data['ResidentName'])[0],
-                    'from' => $this->_getApartmentEmail(),
-                ],
-                'data' => view('layouts/dinapoli/email/user-confirm',$finalArray)
-            ]);
+            //hijack
+            $mail = new Mail;
+            $mail->from = $this->_getApartmentEmail();
+            $mail->cc = ['matt@marketapts.com',$this->_getApartmentEmail()];
+            $mail->to = $to;
+            $mail->html_body = view('layouts/dinapoli/email/user-confirm',$finalArray);
+            $mail->subject = "Maintanance";
+            $mail->save();
+            $mail->addQueue();
+
+            // (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
+            //     'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
+            //     'to' => $to,
+            //     'contact' => ['fname' => explode(" ",$data['ResidentName'])[0],
+            //         'lname' => explode(" ",$data['ResidentName'])[0],
+            //         'from' => $this->_getApartmentEmail(),
+            //     ],
+            //     'data' => view('layouts/dinapoli/email/user-confirm',$finalArray)
+            // ]);
         }
         Util::log('Apparently the email has been sent: schedule-a-tour',['log'=>'mailer']);
         $siteData = $this->resolvePageBySite('schedule-a-tour',$cleaned);
@@ -563,7 +596,7 @@ class PostController extends Controller
         }else{
             $to = $data['email'];
         }
-        $this->sendMultiContact('apply-online',[ 
+        $this->sendMultiContact('apply-online',[
             'user' => $data['email'],
             'fromName' => $data['name'],
             'contact' => $data,
@@ -598,7 +631,7 @@ class PostController extends Controller
             'phone' => $data['phone'],
             'movein' => $data['date'],
             'mode' => 'contact'
-        ];  
+        ];
 
         $contact = app()->make('App\Contact');
         $contact->first_name = $cleaned['fname'];
@@ -620,7 +653,10 @@ class PostController extends Controller
         }else{
             $to = $cleaned['email'];
         }
-        $this->sendMultiContact('contact',[ 
+        $email = new Email();
+        $email->fromName = "{$cleaned['fname']} {$cleaned['lname']}";
+        $email->subject =
+        $this->sendMultiContact('contact',[
             'user' => $cleaned['email'],
             'fromName' => $cleaned['fname'] . " " . $cleaned['lname'],
             'contact' => $data,
@@ -664,7 +700,7 @@ class PostController extends Controller
         }
         $user = substr($data['email'],0,64);
         $pass = substr($data['pass'],0,64);
-        
+
         $soap = app()->make('App\Assets\SoapClient');
         $result = $soap->residentPortal($user,$pass);
         Util::log("Resident portal return: " . var_export($result,1));

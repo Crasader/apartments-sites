@@ -39,48 +39,7 @@ class MailerQueueTest extends TestCase
     }
 
 
-    public function testMailGetsQueued(){
-        /* test valid closure */
-        $struct = new StructMail;
-        $struct->easyQualifier("is_null");
-        $struct->to = 'wmerfalen@gmail.com';
-        $struct->from = 'matt@marketapts.com';
-        $struct->subject = 'test contact form';
-        $struct->htmlBody = '<h1>test</h1>';
-        $struct->cc = json_encode([]);
-        $this->assertTrue( $struct->validateMemberVariables() == Constants::VALIDATE_OKAY);
 
-        $queue = new Queue;
-        $this->assertTrue($queue->queueItem($struct));
-    }
-
-/*
-    public function testMailGetsSent(){
-        $this->assertTrue(Util::isDev());
-        $struct = new StructMail;
-        $struct->easyQualifier("is_null");
-        $struct->to = 'wmerfalen@gmail.com';
-        $struct->from = 'matt@marketapts.com';
-        $struct->subject = 'test contact form';
-        $struct->htmlBody = '<h1>test</h1>';
-        $struct->cc = json_encode([]);
-        $struct->setEmptyQualifier(function($item){
-            if(strlen($item) == 0){
-                return false;
-            }
-            return true;
-        });
-        $struct->setEmptyQualifierReturn(false);
-        $this->assertTrue( $struct->validateMemberVariables() == StructMail::VALIDATE_OKAY);
-
-        $queue = new Queue;
-        $this->assertTrue($queue->queueItem($struct));
-
-        $this->assertTrue(QueueMailer::processQueue('contact',['environment' => Queue::ENVIRONMENT_DEV]) > 0);
-
-    }
-
-*/
     //TODO: exploit the "withSessioN" function to test cms users :)
     //TODO: exploit the "withSession" function to test resident portal
 
@@ -90,32 +49,16 @@ class MailerQueueTest extends TestCase
         $this->assertTrue($response->getStatusCode() == 302);
 
         $weirdEmail = "wmerfalenactisbecauseimcool@gmail.sulfur.net";
-        Queue::where('to_address',$weirdEmail)->get()->each(function(&$item){
-            $item->delete();
-        });
         /* make a valid post */
-        $response = $this->call('post',env('PHPUNIT_BASE_URL') . 'contact',$data = [
+        $response = $this->call('post', env('PHPUNIT_BASE_URL') . 'contact', $data = [
             'firstname' => 'William',
             'lastname' => 'Merfalen',
             'email' => $weirdEmail,
             'phone' => '(619) 379-2582',
             'date' => '01/01/1970'
         ],[]);
-        $this->assertTrue($response->getStatusCode() == 200);
-        $ctr = 0;
-        foreach(Queue::where([
-            ['to_address','=',$weirdEmail],
-            ['environment','=','dev'],
-            ['msg_sent','=','0']]
-        )->get() as $i => $record){
-            $ctr++;
-        }
-        $this->assertTrue($ctr > 0);
 
-        /* Mark it as sent because lord knows what you gettin into */
-        $record = Queue::where('to_address',$weirdEmail)->get()->first();
-        $record->msg_sent = '1';
-        $record->save();
+        $this->assertTrue($response->getStatusCode() == 200, "status code: " . $response->getStatusCode());
     }
 /**********************************************************************
  * 			pulled from PostController.php
