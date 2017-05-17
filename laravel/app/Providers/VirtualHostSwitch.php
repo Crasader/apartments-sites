@@ -73,4 +73,12 @@ class VirtualHostSwitch extends ServiceProvider
         }
     }
 
+    //!devonly
+    private function _dev(){
+        $serverName = preg_replace("|^dev\.|","",$_SERVER['SERVER_NAME']);
+        $serverName = preg_replace("|^staging\.|","",$serverName);
+        return $serverName;
+    }
+
+
 }
