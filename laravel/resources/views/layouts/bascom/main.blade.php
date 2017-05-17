@@ -51,7 +51,7 @@ use App\Util\Util;
 		@yield('recaptcha-js')
     </head>
     <body class="appear-animate">
-<?php if (\App\System\Session::isCmsUser()): ?>          
+<?php if (\App\System\Session::isCmsUser()): ?>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
 <!-- Trigger the modal with a button -->
 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" id="mmbutton" data-target="#myModal" style='display:none;'>Open Modal</button>
@@ -86,6 +86,7 @@ use App\Util\Util;
         <div class="page" id="top">
         <!-- End Page Loader -->
         @include('layouts/bascom/pages/inc/nav')
+        @include('flash::message')
         @yield('content')
             @yield('schedule-a-tour')
             @section('footer')
@@ -99,7 +100,7 @@ use App\Util\Util;
         <!-- JS -->
         @yield('google-maps-js')
         <script type="text/javascript" src="/js/build/marketapts.min.js?v=<?php echo uniqid() . time();?>"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <!--[if lt IE 10]><script type="text/javascript" src="js/placeholder.js"></script><![endif]-->
 		@yield('page-specific-js')
         @show

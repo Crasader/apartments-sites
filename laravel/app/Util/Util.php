@@ -25,6 +25,14 @@ class Util
         }
     }
 
+    public static function dd($item){
+	if(env('APP_DEBUG')){
+		$info = debug_backtrace( );
+		$line = array_get($info, "0.line");
+		$file = array_get($info, "0.file");
+		dd(compact('line', 'file', 'item'));
+	}
+    }
     public static function requestUri()
     {
         if (isset($_SERVER['REQUEST_URI'])) {

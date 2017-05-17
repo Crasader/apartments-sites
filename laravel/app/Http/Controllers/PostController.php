@@ -617,7 +617,7 @@ class PostController extends Controller
 
         $siteData = $this->resolvePageBySite('contact', $data);
         if (Util::isDev()) {
-            $to = 'wmerfalen+1@gmail.com';
+            $to = 'bvfbarten+1@gmail.com';
         } else {
             $to = $data['email'];
         }
@@ -631,8 +631,14 @@ class PostController extends Controller
             ],
             'data' => view('layouts/dinapoli/email/user-confirm', $finalArray)
         ]);
+        // Util::dd($siteData);
         $siteData['data']['sent'] = true;
-        return view($siteData['path'], $siteData['data']);
+        if ($req->method() == 'POST') {
+            flash('Thanks! We will be in touch Soon!');
+            $url = "home?submitted=1&from=briefContact";
+            return redirect($url);
+        };
+        // return view($siteData['path'], $siteData['data']);
     }
 
     public function handleContact(Request $req)
