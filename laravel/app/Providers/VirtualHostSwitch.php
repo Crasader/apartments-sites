@@ -59,12 +59,11 @@ class VirtualHostSwitch extends ServiceProvider
     }
 
     private function _resolveSiteId(){
-        $serverName = preg_replace("|^staging\.|","",Util::serverName());
-        $serverName = preg_replace("|^dev\.|","",Util::serverName());
-        if(preg_match('|^www\.|',Util::serverName())){ 
-            $site = LegacyProperty::where('url','like','http://' . $this->_dev(Util::serverName()) . '%')->get();
+        $serverName = Util::realServerName();
+        if(preg_match('|^www\.|',$serverName)){ 
+            $site = LegacyProperty::where('url','like','http://' . $serverName . '%')->get();
         }else{
-            $site = LegacyProperty::where('url','like','http://www.' . $this->_dev(Util::serverName()) . '%')->get();
+            $site = LegacyProperty::where('url','like','http://www.' . $serverName . '%')->get();
         }
         if(count($site)){
             Site::$site_id_set = true;
@@ -72,13 +71,6 @@ class VirtualHostSwitch extends ServiceProvider
             Site::$site_id = $site->first()->id;
             return Site::$site_id;
         }
-    }
-
-    //!devonly
-    private function _dev(){
-        $replaced = preg_replace("|^dev\.|","",Util::serverName());
-        $replaced = preg_replace("|^staging\.|","",$replaced);
-        return $replaced;
     }
 
     public function newCommandLineSite(){
@@ -95,6 +87,5 @@ class VirtualHostSwitch extends ServiceProvider
         }
         return new Site($entity);
     }
-
 
 }
