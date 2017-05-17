@@ -70,12 +70,13 @@
      --------------------------------------------- */
     $(document).one("mouseleave" , function() {
         // Show the exit popup
-		if($("#exitpopup-overlay").length == 0){ return; }
-        console.log(localStorage.getItem('#floorplan-popup'));
+		if($("#exitpopup-overlay").hasOwnProperty("length") && 
+            $("#exitpopup-overlay").length == 0){ return; }
 
-        if($("#exitpopup-overlay").data('localstorage').length){
+        var dataAttribute = $("#exitpopup-overlay").data('localstorage');
+        if(dataAttribute == "ignore"){
             console.log("epop ls length > 0");
-            localStorage.setItem('#floorplan-popup','');
+            localStorage.setItem('#floorplan-popup','ignored');
         }
 
 		if(localStorage.getItem('#floorplan-popup') != 'shown'){

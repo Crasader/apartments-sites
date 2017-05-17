@@ -1,1 +1,0 @@
-<?php echo $property_template->getProperty()->getUrl();?>
