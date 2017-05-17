@@ -596,6 +596,7 @@ class PostController extends Controller
         }else{
             $to = $data['email'];
         }
+        $finalArray['contact']['mode'] = 'briefContact';
         $this->sendMultiContact('apply-online',[
             'user' => $data['email'],
             'fromName' => $data['name'],
