@@ -22,7 +22,12 @@ class Mailer
         self::$_conf = $conf;
     }
     public static function uniqueId(array $conf){
-        return Property\Site::$instance->getEntity()->getLegacyProperty()->name . "|" . json_encode($conf) . "|";
+        return app()->make('App\Property\Site')->getEntity()->getLegacyProperty()->name . "|" . json_encode($conf) . "|";
+    }
+
+    public static function staticSend(array $conf){
+        $me = new self;
+        return $me->send($conf);
     }
 
     public function send(array $conf){
@@ -40,11 +45,12 @@ class Mailer
             }
             $mail->MsgHTML($conf['data']);		
             
-            foreach(array_unique($conf['cc']) as $index => $emailAddress){
-                if($emailAddress == $conf['to'])
-                    continue;
-                $mail->addCC($emailAddress,$emailAddress);
-            }
+            if(isset($conf['cc']))
+                foreach(array_unique($conf['cc']) as $index => $emailAddress){
+                    if($emailAddress == $conf['to'])
+                        continue;
+                    $mail->addCC($emailAddress,$emailAddress);
+                }
             $mail->addAddress($conf['to']);
             self::log("Sending...");
             $mail->setFrom($conf['from']);
@@ -134,15 +140,34 @@ class Mailer
         $mq->save();
     }
 
-    public static function processQueue(string $qName){
+    public static function processQueue(string $qName,array $opts) : int{
         if(in_array($qName,self::$_categories)){
-            foreach(Queue::where(['process_category','=',$qName],
-                ['msg_sent','=','0'])->get() as $key => $row){
-                self::error($row->to_address,$row->subject,nl2br($row->body),json_decode($row->cc,true),$row->from_address);
+            $sentCounter = 0;
+            $where = array_merge([
+                ['process_category','=',$qName],
+                ['msg_sent','=','0']
+            ],$opts
+            );
+            foreach(Queue::where($where)->get() as $key => $row){
+                if($qName == 'error'){
+                    self::error($row->to_address,$row->subject,nl2br($row->body),json_decode($row->cc,true),$row->from_address);
+                }else{
+                    $ret = self::staticSend(['to' => $row->to_address,
+                        'from' => $row->from_address,
+                        'subject' => $row->subject,
+                        'data' => nl2br($row->body),
+                    ]);
+                    if($ret){
+                        $row->msg_sent = '1';
+                        $row->save();
+                        ++$sentCounter;
+                    }
+                }
             }
         }else{
             self::log('Unknown process queue category: ' . $qName,['log' => 'mailer-processQueue']);
         }
+        return $sentCounter;
     }
 
     public static function log(string $foo){

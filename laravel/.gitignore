@@ -1,3 +1,5 @@
+tags
+exec.sh
 /node_modules
 /public/storage
 /public/hot

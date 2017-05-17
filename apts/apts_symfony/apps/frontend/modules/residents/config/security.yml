@@ -1,8 +1,0 @@
-forgotpassword:
-  is_secure: false
-forgotuserid:
-  is_secure: false
-login:
-  is_secure: false
-all:
-  is_secure: true
