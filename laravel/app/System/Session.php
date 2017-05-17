@@ -13,10 +13,14 @@ class Session// extends Model
     const USER_LOGIN_KEY = 'amc-userid';
     const CMS_USER_KEY = 'cms-userid';
     const RESIDENT_USER_KEY = 'res-userid';
+    private static $dummy = [];
+
     public static function log(string $a){
-        Util::log($_SERVER['SERVER_NAME'] . "::" . $a,['log' => 'session']);
+        Util::log(Util::serverName() . "::" . $a,['log' => 'session']);
     }
     public static function __callStatic($method,$args){
+        if(Util::isCommandLine())
+            return self::cmdMock($method,$args);
         self::log("Call static session: $method(" . var_export($args,1) . ")");
         if(session_status() == PHP_SESSION_NONE){
             self::log("Starting session");
@@ -65,5 +69,17 @@ class Session// extends Model
                 self::log("Unknown method for SESSION call static: " . $method . "|args: " . var_export($args,1),['log' => 'session']);
             return;
         }
+    }
+
+    public static function cmdMock($method,$args){
+        if(isset(self::$resolveCmd))
+            return call_user_func(self::$resolveCmd,[$method,$args]);
+        if($method == 'residentUserSet')
+            self::$dummy[self::RESIDENT_USER_KEY] = $args[1];
+        if($method == 'set')
+            self::$dummy[$args[0]] = $args[1];
+        if($method == 'get')
+            return isset(self::$dummy[$args[0]]) ? self::$dummy[$args[0]] : null;
+        return [];
     }
 }

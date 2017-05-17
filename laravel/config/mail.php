@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+    'host' => env('MAILER_HOST', 'smtp.mailgun.org'),
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +42,7 @@ return [
     |
     */
 
-    'port' => env('MAIL_PORT', 587),
+    'port' => env('MAILER_PORT', 587),
 
     /*
     |--------------------------------------------------------------------------
@@ -71,8 +71,23 @@ return [
     |
     */
 
-    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-
+    'ssloptions' => [
+        'allow_self_signed' => (
+            env('MAILER_IS_UNSECURED_TRASH', 0)
+            ? true
+            : false
+        ),
+        'verify_peer' => (
+            env('MAILER_IS_UNSECURED_TRASH', 0)
+            ? false
+            : true
+        ),
+        'verify_peer_name' => (
+            env('MAILER_IS_UNSECURED_TRASH', 0)
+            ? false
+            : true
+        ),
+    ],
     /*
     |--------------------------------------------------------------------------
     | SMTP Server Username
@@ -84,9 +99,9 @@ return [
     |
     */
 
-    'username' => env('MAIL_USERNAME'),
+    'username' => env('MAILER_USERNAME'),
 
-    'password' => env('MAIL_PASSWORD'),
+    'password' => env('MAILER_PASSWORD'),
 
     /*
     |--------------------------------------------------------------------------

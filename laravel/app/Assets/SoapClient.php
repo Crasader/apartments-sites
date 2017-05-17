@@ -9,6 +9,8 @@ use App\Exceptions\BaseException;
 use App\Property\Site;
 use App\Exceptions\LogicException;
 use App\Util\Util as Utility;
+use App\Mock;
+
 
 class SoapClient implements IDataFetcher
 {
@@ -38,7 +40,7 @@ class SoapClient implements IDataFetcher
 		$data_query->sysPassword = 'g3tm3s0m3pr0ps';
 
         if($url === null){
-		    $URL = "http://" . ENV("SOAP_CLIENT_HOST") . ":" . ENV("SOAP_CLIENT_PORT") . "/mapts_com.asmx?WSDL";
+		    $URL = "http://" . env("SOAP_CLIENT_HOST") . ":" . env("SOAP_CLIENT_PORT") . "/mapts_com.asmx?WSDL";
         }else{
             $URL = $url;
         }
@@ -141,7 +143,10 @@ class SoapClient implements IDataFetcher
         $res = $this->loadClient("https://amcrentpay.com/ws/mapts.asmx?WSDL");
         $data_query = $res['obj'];
         $client = $res['soap'];
-        $data_query->PropertyCode = '638ROF';//$propertyCode;
+        if(Mock::get(Mock::PROPERTY_CODE) !== null)
+            $propertyCode = Mock::get(Mock::PROPERTY_CODE);
+        echo $propertyCode;
+        $data_query->PropertyCode = $propertyCode;
         $data_query->EmailAddress = $email;
         $data_query->UnitNumber = $unit;
 

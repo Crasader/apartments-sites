@@ -21,15 +21,28 @@ class Site extends Model
     protected $table = 'property_entity';
 
     public function __construct($entity){
-        if($entity['id']){
+        if(get_class($entity) == "App\Property\Entity"){
+            self::$instance = $this;
+            $this->id = self::$site_id = $entity->id;
+            self::$site_id_set = true;
+            self::$template_dir = Template::where('id',$entity->fk_template_id)
+                ->get()->first()
+                ->filesystem_id
+            ;
+            $this->_entity = $entity;
+            return;
+        }
+        //TODO:this code is rather redundant..
+        if(isset($entity['id'])){
             self::$instance = $this;
             self::$site_id = $entity['id'];
             self::$site_id_set = true;
             self::$template_dir = Template::where('id',$entity->fk_template_id)
-            ->get()->first()
-            ->filesystem_id
-            ;
+                ->get()->first()
+                ->filesystem_id
+                ;
             $this->id = $entity['id'];
+            $this->_entity = Entity::find($this->id);
         }
         if(is_array($entity)){
             $e = new Entity();
@@ -38,7 +51,6 @@ class Site extends Model
             \Debugbar::info("Loaded site::entity by array");
             return;
         }
-        $this->_entity = Entity::find($entity['id']);
     }
 
     public function getEntity(){
