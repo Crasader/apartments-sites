@@ -12,21 +12,21 @@
 			<!-- Content Blocks -->
 			<div class="container">
                 <?php
-                    if (isset($errors)) {
-                        foreach ($errors->all() as $i => $error) {
+                    if(isset($errors)){
+                        foreach($errors->all() as $i => $error){
                             echo "<div class='error'>$error</div>";
                         }
                     }
-                    if (isset($workOrder)) {
-                        if ($workOrder['Status'] == "SUCCESS") {
+                    if(isset($workOrder)){
+                        if($workOrder['Status'] == "SUCCESS"){
                             echo "<h1 class='notice'>Your work order was successfully submited</h1>";
                             echo "<div class='info'>Your Work Order Number is: " . $workOrder['WorkOrderNumber'] . "</div>";
-                        } else {
+                        }else{
                             echo "<h1 class='error'>We were unable to process your work order.</h1>";
                             echo "<div class='error'>If this problem persists, please contact us</div>";
                         }
                     }
-                    if (isset($error)) {
+                    if(isset($error)){
                         echo "<h1 class='error'>$error</h1>";
                     }
                 ?>

@@ -13,15 +13,15 @@ class CreateAssetsFloorplanTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('assets_floorplan')) {
-            Schema::create('assets_floorplan', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('fk_legacy_property_id');
-                $table->string('floorplan_name');
-                $table->enum('extension', ['jpg','png','gif','jpeg']);
-                $table->timestamps();
-            });
-        }
+	if(!Schema::hasTable('assets_floorplan')){
+        Schema::create('assets_floorplan', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('fk_legacy_property_id');
+            $table->string('floorplan_name');
+            $table->enum('extension',['jpg','png','gif','jpeg']);
+            $table->timestamps();
+        });
+	}
     }
 
     /**

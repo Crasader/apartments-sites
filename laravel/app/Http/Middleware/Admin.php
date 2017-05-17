@@ -17,12 +17,11 @@ class Admin extends BaseVerifier
         
     ];
 
-    public function handle($request, Closure $next)
-    {
+    public function handle($request, Closure $next) {
         //TODO: Change this to something less specific to tags
-        if (session('tags-admin-userid') != 1) {
+        if(session('tags-admin-userid') != 1){
             return redirect('/admin');
         }
-        return $next($request);
+		return $next($request); 
     }
 }

@@ -31,7 +31,7 @@
 					<div class="row">
                     	<div class="col-sm-6 mb-60">
                                 <h2 class="section-title font-alt align-left mb-70 mb-sm-40">
-                                   <?php echo $entity->getText('basco-amenities-title', ['oneshot' => 'Amenities']);?>
+                                   <?php echo $entity->getText('basco-amenities-title',['oneshot' => 'Amenities']);?>
                                 </h2>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                     		
                     		<div class="text">
                     		
-                    		<?php echo $entity->getText('bascom-amenities-page-paragraph', ['oneshot' => "Live better at 80 On Gibson Apartments For Rent in Henderson, Nevada. Indulged by a pristine community greenbelt and overlooking Henderson's best sweeping valley views...there is no other place to call home! Striking finishes, abundant storage, elegant cabinetry, gas heat, fireplaces in select homes and spacious nine foot ceilings give you all the comforts of home, the pleasures of a resort and the appeal of the Henderson community. Work hard. Play harder. 80 On Gibson Henderson location and pet-friendly community gives you the most out of your day with restaurants, parks, and shopping within minutes and golfing just moments away! Make time to unwind in the spa, work out in the fitness room or play a game of racquetball in our indoor gym. Enjoy a cup of coffee in our resident lounge or take in the breathtaking views from your private deck. At 80 On Gibson, you are surrounded by life's many pleasures!"]);?>
+                    		<?php echo $entity->getText('bascom-amenities-page-paragraph',['oneshot' => "Live better at 80 On Gibson Apartments For Rent in Henderson, Nevada. Indulged by a pristine community greenbelt and overlooking Henderson's best sweeping valley views...there is no other place to call home! Striking finishes, abundant storage, elegant cabinetry, gas heat, fireplaces in select homes and spacious nine foot ceilings give you all the comforts of home, the pleasures of a resort and the appeal of the Henderson community. Work hard. Play harder. 80 On Gibson Henderson location and pet-friendly community gives you the most out of your day with restaurants, parks, and shopping within minutes and golfing just moments away! Make time to unwind in the spa, work out in the fitness room or play a game of racquetball in our indoor gym. Enjoy a cup of coffee in our resident lounge or take in the breathtaking views from your private deck. At 80 On Gibson, you are surrounded by life's many pleasures!"]);?>
                     		
                     		</div>
                     	
@@ -64,17 +64,16 @@
                             $features->setFeaturesFormatter(new App\Util\Formatter('li'));
                             $features->setFeaturesChunkCount($rows);
                             $features->loadAllFeatures();
-                            for ($i=0;$i < $rows;$i++) {
-                                ?>
+                            for($i=0;$i < $rows;$i++){
+                        ?>
                     	<div class="col-md-6 mb-40">
                     		<div class="text">
                     			<ul class='dash-list'>
-                                    <?php echo $features->getFeaturesChunk('apartment', $i, 'amenities'); ?>
+                                    <?php echo $features->getFeaturesChunk('apartment',$i,'amenities'); ?>
                                 </ul>
                     		</div>
                     	</div>
                         <?php
-
                             }   //End for
                         ?>
                     </div>
@@ -86,23 +85,23 @@
                         <?php
                             $rows = 3;
                             $features->setFeaturesChunkCount($rows);
-                            for ($i=0; $i < $rows;$i++) {
-                                ?>
+                            for($i=0; $i < $rows;$i++){
+                        ?>
                     	<div class="col-sm-4 mb-40">
                     		<div class="text">
                     			<ul class='dash-list'>
                                     <?php 
-                                        echo $features->getFeaturesChunk('community', $i, 'amenities'); ?>
+                                        echo $features->getFeaturesChunk('community',$i,'amenities');
+                                    ?>
                                 </ul>
                     		</div>
                     	</div>
                         <?php
-
                             }   //End for loop
                         ?>
                     </div>
                     <hr class="mb-40">
-                    <?php //TODO: if other features exist...?>
+                    <?php //TODO: if other features exist... ?>
                     <div class="row">
                     	<div class="col-sm-12 mb-10">
                     		<h2 class="section-title font-alt align-left mb-20 mb-sm-20">Other Features & Services</h2>
@@ -110,17 +109,16 @@
                         <?php
                             $rows = 2;
                             $features->setFeaturesChunkCount($rows);
-                            for ($i=0;$i < $rows;$i++) {
-                                ?>
+                            for($i=0;$i < $rows;$i++){
+                        ?>
                                 <div class="col-sm-4 mb-40">
                                     <div class="text">
                                         <ul class='dash-list'>
-                                            <?php echo $features->getFeaturesChunk('other', $i); ?>
+                                            <?php echo $features->getFeaturesChunk('other',$i); ?>
                                         </ul>
                                     </div>
                                 </div>
                         <?php
-
                             }   //End for
                         ?>
                     </div>

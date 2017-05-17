@@ -13,7 +13,7 @@ class AddNullToTextBodyInEmail extends Migration
      */
     public function up()
     {
-        Schema::table('emails', function ($table) {
+        Schema::table('emails', function($table){
             $table->string('text_body')->nullable()->change();
         });
         //

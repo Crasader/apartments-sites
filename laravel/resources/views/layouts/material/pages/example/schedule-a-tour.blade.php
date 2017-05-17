@@ -1,6 +1,4 @@
-<?php use App\Util\Util;
-
-?>
+<?php use App\Util\Util; ?>
 @extends('layouts/bascom/main')
             @section('before-css')
              <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" /> 
@@ -20,7 +18,7 @@
                 <div class="col-md-8">
                     <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Schedule a tour</h1>
                     <div class="hs-line-4 font-alt">
-						<?php echo $entity->getText('schedule-a-tour-title', ['oneshot' => 'Schedule a tour']);?>
+						<?php echo $entity->getText('schedule-a-tour-title',['oneshot' => 'Schedule a tour']);?>
                     </div>
                 </div>
 
@@ -42,19 +40,19 @@
              <!-- Schedule Form Section -->
             <section class="page-section pb-0" id="contact-form">
                 <div class="container relative">
-                    <?php if (isset($sent)): ?><h1 class='notice'>Your email has been submitted</h1><?php endif;?>
-                    <?php if (isset($errors)) {
-    foreach ($errors->all() as $message) {
-        echo "<div class='error'>$message</div>";
-    }
-}
+                    <?php if(isset($sent)): ?><h1 class='notice'>Your email has been submitted</h1><?php endif;?>
+                    <?php if(isset($errors)){
+                        foreach($errors->all() as $message){
+                            echo "<div class='error'>$message</div>";
+                        }
+                    }
                     ?>
                     <div class="section-text mb-50 mb-sm-20">
                         <div class="row">
                             
                             <div class="col-md-7 col-sm-7 mb-sm-50 mb-xs-30">
                                 <form role="form" id="form1" name="form1" method="post" class="validate" action="/schedule">
-                                    <?php //TODO: Find a form helper for laravel that will do this for us?>
+                                    <?php //TODO: Find a form helper for laravel that will do this for us ?>
                                     <div class="mb-20 mb-md-10 form-group">
                                         <label>First Name</label>
                                         <input type="text" name="firstname" id="firstname" data-validate="required" data-message-required="First name is a required field" class="input-md form-control" maxlength="100">
@@ -91,7 +89,7 @@
                                     <label id="datepicker-error" class="error" for="datepicker" style='margin-bottom: 20px;'></label>
                                     <label id="timepicker-error" class="error" for="timepicker" style='margin-bottom: 20px;'></label>
                                     {{csrf_field()}}
-                                    <?php if (Util::isDev() == false): ?>
+                                    <?php if(Util::isDev() == false): ?>
                                     <div class="mb-20 mb-md-10 form-group">
                                         <div class="g-recaptcha" data-sitekey="<?php echo $entity->getRecaptchaKey();?>"></div>
                                     </div>
@@ -196,7 +194,7 @@
 		<script type="text/javascript">
 		$(document).ready(function() {
             <?php
-                /* TODO: Add custom messages for each field
+                /* TODO: Add custom messages for each field 
                  * TODO: Create validation that doesn't let the user enter a time before or after the valid hours of the office
                  * TODO: Create a "slot" or something that we can utilize so that we don't have to duplicate this form code everywhere
                  */
@@ -224,7 +222,7 @@
                         required: true,
                         'date': true
                     }
-                    <?php if (Util::isDev() == false): ?>
+                    <?php if(Util::isDev() == false): ?>
                     ,hiddenRecaptcha: {
                         required: function(){
                             return grecaptcha.getResponse() == "";

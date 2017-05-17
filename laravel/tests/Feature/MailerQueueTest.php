@@ -24,19 +24,18 @@ class MailerQueueTest extends TestCase
     public function testInvalidMemberVariables()
     {
         $struct = new StructMail;
-        $this->assertTrue($struct->validateMemberVariables() == Constants::VALIDATE_ERRORS_ENCOUNTERED);
+        $this->assertTrue( $struct->validateMemberVariables() == Constants::VALIDATE_ERRORS_ENCOUNTERED);
     }
 
-    public function testValidMemberVariables()
-    {
+    public function testValidMemberVariables(){
         $struct = new StructMail;
         $struct->to = $struct->from = $struct->subject = $struct->htmlBody = "brady@marketapts.com";
         $passed = $struct->validateMemberVariables(1) != Constants::VALIDATE_ERRORS_ENCOUNTERED;
-        if (!$passed) {
-            $errors = $struct->errors;
-            print_r([__LINE__.__FILE__, compact('errors')]);
+        if(!$passed){
+          $errors = $struct->errors;
+          print_r([__LINE__.__FILE__, compact('errors')]);
         }
-        $this->assertTrue($passed);
+        $this->assertTrue( $passed );
     }
 
 
@@ -44,10 +43,9 @@ class MailerQueueTest extends TestCase
     //TODO: exploit the "withSessioN" function to test cms users :)
     //TODO: exploit the "withSession" function to test resident portal
 
-    public function testPostControllerSubmitsToQueue()
-    {
+    public function testPostControllerSubmitsToQueue(){
         /* Expected to redirect (302) */
-        $response = $this->post(env('PHPUNIT_BASE_URL') . '/contact', ['lol' => true]);
+        $response = $this->post(env('PHPUNIT_BASE_URL') . '/contact',['lol' => true]);
         $this->assertTrue($response->getStatusCode() == 302);
 
         $weirdEmail = "wmerfalenactisbecauseimcool@gmail.sulfur.net";
@@ -58,7 +56,7 @@ class MailerQueueTest extends TestCase
             'email' => $weirdEmail,
             'phone' => '(619) 379-2582',
             'date' => '01/01/1970'
-        ], []);
+        ],[]);
 
         $this->assertTrue($response->getStatusCode() == 200, "status code: " . $response->getStatusCode());
     }
@@ -95,17 +93,15 @@ class MailerQueueTest extends TestCase
  5
 */
 
-    public function testUnauthenticatedUserForms()
-    {
+    public function testUnauthenticatedUserForms(){
         $baseEmail = "wmerfalenactisbecauseimcool@gmail.sulfur.net";
-        function transmutateEmail($em)
-        {
-            return str_replace("becauseimcool", uniqid(), $em);
+	    function transmutateEmail($em){
+            return str_replace("becauseimcool",uniqid(),$em);
         }
         /* Expected to redirect (302) */
 
         $weirdEmail = transmutateEmail($baseEmail);
-        Queue::where('to_address', $weirdEmail)->get()->each(function (&$item) {
+        Queue::where('to_address',$weirdEmail)->get()->each(function(&$item){
             $item->delete();
         });
 
@@ -125,26 +121,26 @@ class MailerQueueTest extends TestCase
               #        ####   #    #  #    #
 
         /* make a valid post */
-        $response = $this->call('post', env('PHPUNIT_BASE_URL') . 'contact', $data = [
+        $response = $this->call('post',env('PHPUNIT_BASE_URL') . 'contact',$data = [
             'firstname' => 'William',
             'lastname' => 'Merfalen',
             'email' => $weirdEmail,
             'phone' => '(619) 379-2582',
             'date' => '01/01/1970'
-        ], []);
+        ],[]);
         $this->assertTrue($response->getStatusCode() == 200);
         $ctr = 0;
-        foreach (Queue::where([
+        foreach(Queue::where([
             ['to_address','=',$weirdEmail],
             ['environment','=','dev'],
             ['msg_sent','=','0']]
-        )->get() as $i => $record) {
+        )->get() as $i => $record){
             $ctr++;
         }
         $this->assertTrue($ctr > 0);
 
         /* Mark it as sent because lord knows what you gettin into */
-        $record = Queue::where('to_address', $weirdEmail)->get()->first();
+        $record = Queue::where('to_address',$weirdEmail)->get()->first();
         $record->msg_sent = '1';
         $record->save();
 
@@ -188,10 +184,10 @@ $this->validate($req, [
 
 */
         $weirdEmail = transmutateEmail($baseEmail);
-        Queue::where('to_address', $weirdEmail)->get()->each(function (&$item) {
+        Queue::where('to_address',$weirdEmail)->get()->each(function(&$item){
             $item->delete();
         });
-        $response = $this->call('post', env('PHPUNIT_BASE_URL') . 'schedule', $data = [
+        $response = $this->call('post',env('PHPUNIT_BASE_URL') . 'schedule',$data = [
             'firstname' => 'William',
             'lastname' => 'Merfalen',
             'email' => $weirdEmail,
@@ -199,20 +195,20 @@ $this->validate($req, [
             'moveindate' => '01/01/1970',
             'visitdate' => '01/01/1970',
             'visittime' => '10:00:00 AM',
-        ], []);
+        ],[]);
         $this->assertTrue($response->getStatusCode() == 200);
         $ctr = 0;
-        foreach (Queue::where([
+        foreach(Queue::where([
             ['to_address','=',$weirdEmail],
             ['environment','=','dev'],
             ['msg_sent','=','0']]
-        )->get() as $i => $record) {
+        )->get() as $i => $record){
             $ctr++;
         }
         $this->assertTrue($ctr > 0);
 
         /* Mark it as sent because lord knows what you gettin into */
-        $record = Queue::where('to_address', $weirdEmail)->get()->first();
+        $record = Queue::where('to_address',$weirdEmail)->get()->first();
         $record->msg_sent = '1';
         $record->save();
 
@@ -234,32 +230,32 @@ $this->validate($req, [
 
 
         $weirdEmail = transmutateEmail($baseEmail);
-        Queue::where('to_address', $weirdEmail)->get()->each(function (&$item) {
+        Queue::where('to_address',$weirdEmail)->get()->each(function(&$item){
             $item->delete();
         });
-        $response = $this->call('post', env('PHPUNIT_BASE_URL') . 'apply-online', $data = [
+        $response = $this->call('post',env('PHPUNIT_BASE_URL') . 'apply-online',$data = [
             'fname' => 'William',
             'lname' => 'Merfalen',
             'email' => $weirdEmail,
             'phone' => '(619) 379-2582',
-        ], []);
+        ],[]);
         $this->assertTrue($response->getStatusCode() == 200);
         $ctr = 0;
-        foreach (Queue::where([
+        foreach(Queue::where([
             ['to_address','=',$weirdEmail],
             ['environment','=','dev'],
             ['msg_sent','=','0']]
-        )->get() as $i => $record) {
+        )->get() as $i => $record){
             $ctr++;
         }
         $this->assertTrue($ctr > 0);
 
         /* Mark it as sent because lord knows what you gettin into */
-        $record = Queue::where('to_address', $weirdEmail)->get()->first();
+        $record = Queue::where('to_address',$weirdEmail)->get()->first();
         $record->msg_sent = '1';
         $record->save();
 
-        //TODO:!phpunit add detection of redirect javascript
+		//TODO:!phpunit add detection of redirect javascript
 
 
  #    #  #    #     #     #####
@@ -269,7 +265,7 @@ $this->validate($req, [
      #    #  #   ##     #       #
        ####   #    #     #       #
 
-        /*
+		/*
 
   7         $cleaned = [
   6             'unittype' => Util::transformFloorplanName($data['unittype']),
@@ -279,15 +275,19 @@ $this->validate($req, [
   2             'orig_unittype' => $data['unittype'],
   1         ];
 369
-        */
-        $response = $this->call('post', env('PHPUNIT_BASE_URL') . 'unit', $data = [
+		*/
+        $response = $this->call('post',env('PHPUNIT_BASE_URL') . 'unit',$data = [
             'unittype' => 'William',
             'bed' => 'Merfalen',
             'bath' => $weirdEmail,
             'sqft' => '(619) 379-2582',
             'orig_unittype' => 'the studio',
-        ], []);
+        ],[]);
         $this->assertTrue($response->exception == null);
         $ctr = 0;
     }
+
+
+
+
 }

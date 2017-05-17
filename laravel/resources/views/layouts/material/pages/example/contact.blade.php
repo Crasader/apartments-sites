@@ -17,7 +17,7 @@
                 <div class="col-md-8">
                     <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Contact us</h1>
                     <div class="hs-line-4 font-alt">
-						<?php echo $entity->getText('contact-header', ['oneshot'=>'Have a question? Reach out to our helpful staff 24/7']);?>
+						<?php echo $entity->getText('contact-header',['oneshot'=>'Have a question? Reach out to our helpful staff 24/7']);?>
                     </div>
                 </div>
 
@@ -42,8 +42,8 @@
                 <div class="container relative">
                     <div class="section-text mb-50 mb-sm-20">
                         <div class="row">
-                            <?php if (isset($sent)): ?><h1 class="notice">Your contact information has been submitted</h1><?php endif;?>
-                            <?php if (isset($invalidRecaptcha)): ?><h1 class="error">Invalid ReCaptcha</h1><?php endif; ?>
+                            <?php if(isset($sent)): ?><h1 class="notice">Your contact information has been submitted</h1><?php endif;?>
+                            <?php if(isset($invalidRecaptcha)): ?><h1 class="error">Invalid ReCaptcha</h1><?php endif; ?>
                             <div class="col-md-7 col-sm-7 mb-sm-50 mb-xs-30">
                                 <form id="form1" method="post" action="/contact">
                                     <input type="hidden" name="form_id" value="contact"/>

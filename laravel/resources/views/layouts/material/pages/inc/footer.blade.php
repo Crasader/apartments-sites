@@ -29,10 +29,10 @@
                     <li><a href="contact">Contact</a></li>
                     <li><a href="floorplans">Schedule a Tour</a></li>
                     <li>
-<?php //TODO: Make dinapoli and bascom use these Util::common calls :)?>
-                        <a href=""><img class="hud-img" src="<?php echo Util::common('images', 'fair-housing');?>" alt="Equal Housing" title="Equal Housing"></a>
-                        <a href="resident-portal"><img class="hud-img" src="<?php echo Util::common('images', 'pet-friendly');?>" width="30" height="20" alt="Pet Friendly" title="Pet Friendly"></a>
-                        <a href=""><img class="hud-img" src="<?php echo Util::common('images', 'disability');?>" width="30" height="20" alt="Disability Access" title="Disability Access"></a>
+<?php //TODO: Make dinapoli and bascom use these Util::common calls :) ?>
+                        <a href=""><img class="hud-img" src="<?php echo Util::common('images','fair-housing');?>" alt="Equal Housing" title="Equal Housing"></a>
+                        <a href="resident-portal"><img class="hud-img" src="<?php echo Util::common('images','pet-friendly');?>" width="30" height="20" alt="Pet Friendly" title="Pet Friendly"></a>
+                        <a href=""><img class="hud-img" src="<?php echo Util::common('images','disability');?>" width="30" height="20" alt="Disability Access" title="Disability Access"></a>
                     </li>
 
                 </ul>

@@ -21,22 +21,22 @@
 
                         \Debugbar::info("$fb $twitter $insta $li");
                     ?>
-                        <?php if (strlen($fb)): ?> <a href="<?php echo $fb?>" title="Facebook" target="_blank"><i class="fa fa-facebook"></i></a> <?php endif; ?>
-                        <?php if (strlen($google)): ?> <a href="<?php echo $google?>" title="Google" target="_blank"><i class="fa fa-google"></i></a> <?php endif; ?>
-                        <?php if (strlen($yelp)): ?> <a href="<?php echo $yelp?>" title="Yelp" target="_blank"><i class="fa fa-yelp"></i></a> <?php endif; ?>
-                        <?php if (strlen($twitter)): ?> <a href="<?php echo $twitter?>" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a> <?php endif; ?>
-                        <?php if (strlen($insta)): ?> <a href="<?php echo $insta?>" title="Instagram" target="_blank"><i class="fa fa-instagram"></i></a> <?php endif; ?>
-                        <?php if (strlen($li)): ?> <a href="<?php echo $li?>" title="LinkedIn+" target="_blank"><i class="fa fa-linkedin"></i></a> <?php endif; ?>
-                        <?php if (strlen($pin)): ?> <a href="<?php echo $pin?>" title="LinkedIn+" target="_blank"><i class="fa fa-pinterest"></i></a> <?php endif; ?>
+                        <?php if(strlen($fb)): ?> <a href="<?php echo $fb?>" title="Facebook" target="_blank"><i class="fa fa-facebook"></i></a> <?php endif; ?>
+                        <?php if(strlen($google)): ?> <a href="<?php echo $google?>" title="Google" target="_blank"><i class="fa fa-google"></i></a> <?php endif; ?>
+                        <?php if(strlen($yelp)): ?> <a href="<?php echo $yelp?>" title="Yelp" target="_blank"><i class="fa fa-yelp"></i></a> <?php endif; ?>
+                        <?php if(strlen($twitter)): ?> <a href="<?php echo $twitter?>" title="Twitter" target="_blank"><i class="fa fa-twitter"></i></a> <?php endif; ?>
+                        <?php if(strlen($insta)): ?> <a href="<?php echo $insta?>" title="Instagram" target="_blank"><i class="fa fa-instagram"></i></a> <?php endif; ?>
+                        <?php if(strlen($li)): ?> <a href="<?php echo $li?>" title="LinkedIn+" target="_blank"><i class="fa fa-linkedin"></i></a> <?php endif; ?>
+                        <?php if(strlen($pin)): ?> <a href="<?php echo $pin?>" title="LinkedIn+" target="_blank"><i class="fa fa-pinterest"></i></a> <?php endif; ?>
                     </div>
                     <!-- End Social Links -->
 
                     <div class="row mb-30">
                         <div class="col-md-12">
                             <h2 class="section-title font-alt">
-                                <?php echo $entity->getStreet() . " " .
-                                $entity->getCity() . ", " .
-                                $entity->getAbbreviatedState() . " " .
+                                <?php echo $entity->getStreet() . " " . 
+                                $entity->getCity() . ", " . 
+                                $entity->getAbbreviatedState() . " " . 
                                 $entity->getZipCode(); ?>
                             </h2>
                         </div>

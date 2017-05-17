@@ -19,15 +19,16 @@ Route::get('/test/fsid', function () {
     $legacy = new LegacyProperty;
     $legacy->name = "foobar";
     $cbCounter = 5;
-    $fileSystemId = $prop->generateFilesystemId($legacy, function () use ($cbCounter) {
+    $fileSystemId = $prop->generateFilesystemId($legacy,function() use($cbCounter) {
         echo "Callback counter: $cbCounter<hr>";
-        if ($cbCounter-- <= 0) {
+        if($cbCounter-- <= 0){
             return null;
-        } else {
+        }
+        else{
             return 'retry';
         }
     });
-    if (!$fileSystemId) {
+    if(!$fileSystemId){
         throw new Exception("Could not generate a file system id for property: " . $propertyName);
     }
     dd($fileSystemId);
@@ -38,14 +39,15 @@ Route::get('/create-from-legacy/{id}', function ($id) {
     $legacy = LegacyProperty::findOrFail($id);
     
     $cbCounter = 5;
-    $fileSystemId = $prop->generateFilesystemId($legacy, function () use ($cbCounter) {
-        if ($cbCounter-- <= 0) {
+    $fileSystemId = $prop->generateFilesystemId($legacy,function() use($cbCounter) {
+        if($cbCounter-- <= 0){
             return null;
-        } else {
+        }
+        else{
             return 'retry';
         }
     });
-    if (!$fileSystemId) {
+    if(!$fileSystemId){
         throw new Exception("Could not generate a file system id for property: " . $propertyName);
     }
     dd($fileSystemId);

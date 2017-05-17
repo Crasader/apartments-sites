@@ -14,8 +14,8 @@ class IncreasePropertyNameLength extends Migration
     public function up()
     {
         //
-        Schema::table('property_entity', function (Blueprint $table) {
-            $table->string('property_name', 512)->change();
+        Schema::table('property_entity',function(Blueprint $table){
+            $table->string('property_name',512)->change();
         });
     }
 

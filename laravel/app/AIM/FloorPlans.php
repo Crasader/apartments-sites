@@ -14,15 +14,14 @@ class FloorPlans extends Model
     ];
 
     //TODO: create a service provider that will give this object the correct connection type
-    public function __construct()
-    {
+    public function __construct(){
         DatabaseChanger::changeDb('database.connections.dynamic');
-        $this->connection = 'dynamic';
+		$this->connection = 'dynamic';
     }
-    public function getFloorPlans()
-    {
+    public function getFloorPlans(){
         $foo =  \DB::connection($this->connection)->select($this->_procedures['floor-plans']);
-        \Debugbar::info("floor plans: " . var_export($foo, 1));
+        \Debugbar::info("floor plans: " . var_export($foo,1));
         return $foo;
     }
+
 }

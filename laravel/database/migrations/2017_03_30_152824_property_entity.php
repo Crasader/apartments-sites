@@ -13,15 +13,15 @@ class PropertyEntity extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('property_entity')) {
-            Schema::create('property_entity', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('property_group_id')->unsigned();
-                $table->string('property_name', 16);
-                $table->string('filesystem_id');
-                $table->timestamps();
-            });
-        }
+	if(!Schema::hasTable('property_entity')){
+        Schema::create('property_entity', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('property_group_id')->unsigned();
+            $table->string('property_name',16);
+            $table->string('filesystem_id');
+            $table->timestamps();
+        });
+	}
     }
 
     /**

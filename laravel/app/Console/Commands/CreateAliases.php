@@ -46,30 +46,31 @@ class CreateAliases extends Command
         $realpath = $this->argument("realpath");
 
         $path = resource_path() . '/views/layouts/' . $template;
-        if (!file_exists($path)) {
+        if(!file_exists($path)){
             $this->error("Invalid path! {$path}\n");
             return;
-        } else {
+        }
+        else{
             $this->info("Found path: {$path}... [OK]\n");
         }
-        if (file_exists("{$path}/aliases")) {
+        if(file_exists("{$path}/aliases")){
             $json = file_get_contents("{$path}/aliases");
-        } else {
+        }else{
             $json = '';
         }
 
-        $object = json_decode($json, true);
+        $object = json_decode($json,true);
         $object[$alias] = $realpath;
         $this->info("JSON: '" . json_encode($object) . "'");
         $this->info("Copying aliases file for backup purposes...");
-        if (file_exists("{$path}/aliases")) {
-            copy("{$path}/aliases", "{$path}/aliases-bkup/" . date("Y-m-d_H:i:s"));
-        } else {
+        if(file_exists("{$path}/aliases")){
+            copy("{$path}/aliases","{$path}/aliases-bkup/" . date("Y-m-d_H:i:s"));
+        }else{
             touch("{$path}/aliases");
         }
         $this->info("[OK]");
         $this->info("Writing...");
-        file_put_contents("{$path}/aliases", json_encode($object));
+        file_put_contents("{$path}/aliases",json_encode($object));
         $this->info("[OK]");
         $this->info("{$path}/aliases: " . filesize("{$path}/aliases") . " bytes");
         return;
