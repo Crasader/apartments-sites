@@ -11,7 +11,7 @@ class Template extends Model
     protected $table = 'property_template';
     public static function getGMapKey($siteInstance = null){
         if(!$siteInstance){
-            $siteInstance = \App::make('App\Property\Site');
+            $siteInstance = app()->make('App\Property\Site');
         }
             $url = self::select('gmap_key')
             ->where(
@@ -26,9 +26,7 @@ class Template extends Model
                     return (trim($url['gmap_key']));
                 }
             }
-            return '<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key="></script>';
-        Util::redisFetchOrUpdate('google-maps-src-api',function() use ($siteInstance) {
-        });
+            return '<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>';
     }
 }
 
