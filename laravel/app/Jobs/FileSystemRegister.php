@@ -21,6 +21,7 @@ class FileSystemRegister implements ShouldQueue
     public function __construct(RegisteredPropertyEvent $event)
     {
         //
+
     }
 
     /**

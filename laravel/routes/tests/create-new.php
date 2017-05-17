@@ -20,14 +20,15 @@ Route::get('/test/create-new/{id}', function ($id) {
     $legacy = LegacyProperty::findOrFail($id);
     
     $cbCounter = 5;
-    $fileSystemId = $prop->generateFilesystemId($legacy, function () use ($cbCounter) {
-        if ($cbCounter-- <= 0) {
+    $fileSystemId = $prop->generateFilesystemId($legacy,function() use($cbCounter) {
+        if($cbCounter-- <= 0){
             return null;
-        } else {
+        }
+        else{
             return 'retry';
         }
     });
-    if (!$fileSystemId) {
+    if(!$fileSystemId){
         throw new Exception("Could not generate a file system id for property: " . $propertyName);
     }
     $prop->createNew([
@@ -37,5 +38,5 @@ Route::get('/test/create-new/{id}', function ($id) {
         'property_group_id' => 0,
         'property_name' => $legacy->name,
         'filesystem_id' => $fileSystemId
-    ], $legacy);
+    ],$legacy);
 });

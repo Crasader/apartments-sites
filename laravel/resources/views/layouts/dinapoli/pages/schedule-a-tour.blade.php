@@ -1,6 +1,8 @@
-<?php use App\Util\Util;
-
+<?php
+use App\Util\Util;
+use App\Property\Template as PropertyTemplate;
 ?>
+
 @extends('layouts/dinapoli/main')
             @section('extra-css')
             <link rel="stylesheet" href="css/bootstrap-datepicker3.min.css"/>
@@ -22,19 +24,19 @@
              <!-- Schedule Form Section -->
             <section class="page-section pb-0" id="contact-form">
                 <div class="container relative">
-                    <?php if (isset($sent)): ?><h1 class='notice'>Your email has been submitted</h1><?php endif;?>
-                    <?php if (isset($errors)) {
-    foreach ($errors->all() as $message) {
-        echo "<div class='error'>$message</div>";
-    }
-}
+                    <?php if(isset($sent)): ?><h1 class='notice'>Your email has been submitted</h1><?php endif;?>
+                    <?php if(isset($errors)){
+                        foreach($errors->all() as $message){
+                            echo "<div class='error'>$message</div>";
+                        }
+                    }
                     ?>
                     <div class="section-text mb-50 mb-sm-20">
                         <div class="row">
-                            
+
                             <div class="col-md-7 col-sm-7 mb-sm-50 mb-xs-30">
                                 <form role="form" id="form1" name="form1" method="post" class="validate" action="/schedule">
-                                    <?php //TODO: Find a form helper for laravel that will do this for us?>
+                                    <?php //TODO: Find a form helper for laravel that will do this for us ?>
                                     <div class="mb-20 mb-md-10 form-group">
                                         <label>First Name</label>
                                         <input type="text" name="firstname" id="firstname" data-validate="required" data-message-required="First name is a required field" class="input-md form-control" maxlength="100">
@@ -71,7 +73,7 @@
                                     <label id="datepicker-error" class="error" for="datepicker" style='margin-bottom: 20px;'></label>
                                     <label id="timepicker-error" class="error" for="timepicker" style='margin-bottom: 20px;'></label>
                                     {{csrf_field()}}
-                                    <?php if (Util::isDev() == false): ?>
+                                    <?php if(Util::isDev() == false): ?>
                                     <div class="mb-20 mb-md-10 form-group">
                                         <div class="g-recaptcha" data-sitekey="<?php echo $entity->getRecaptchaKey();?>"></div>
                                     </div>
@@ -82,7 +84,7 @@
                                     </div>
                                 </form>
                             </div>
-                            
+
                             <div class="col-md-5 col-sm-5 mb-sm-50 mb-xs-30 text-center">
                                 <div class="row">
                                 	<div class="col-sm-12">
@@ -90,7 +92,7 @@
                                             <div class="map-block">
                                                 <div class="map">
                                                     <div class="map-container">
-                                                        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script> 
+                                                        <?=PropertyTemplate::getGmapKey();?>
                                                         <div style="height:537px;overflow:hidden;max-width:100%;">
                                                             <div id="map-canvas" style="max-width:100%;"></div>
                                                         <div>
@@ -103,7 +105,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </section>
             <!-- End Schedule Section -->
@@ -112,12 +114,12 @@
             @section('contact')
             <section class="page-section pt-0" id="contact">
                 <div class="container relative">
-                    
+
                     <div class="row">
-                        
+
                         <div class="col-md-10 col-md-offset-1">
                             <div class="row">
-                                
+
                                 <!-- Phone -->
                                 <div class="col-sm-6 col-lg-4 pt-20 pb-20 pb-xs-20">
                                     <div class="contact-item">
@@ -133,7 +135,7 @@
                                     </div>
                                 </div>
                                 <!-- End Phone -->
-                                
+
                                 <!-- Address -->
                                 <div class="col-sm-6 col-lg-4 pt-20 pb-20 pb-xs-20">
                                     <div class="contact-item">
@@ -149,7 +151,7 @@
                                     </div>
                                 </div>
                                 <!-- End Address -->
-                                
+
                                 <!-- Office Hours -->
                                 <div class="col-sm-6 col-lg-4 pt-20 pb-20 pb-xs-20">
                                     <div class="contact-item">
@@ -168,7 +170,7 @@
                             </div>
                         </div>
                     </div>
-            	</div>        
+            	</div>
             </section>
             @stop
 
@@ -182,9 +184,9 @@
                  */
             ?>
             $("#timepicker").timepicker({});
-            $("#datepicker").datepicker({format: 'mm/dd/yyyy'});	
-            $("#moveindatediv").datepicker({format: 'mm/dd/yyyy'});	
-            amcBindValidate({ 
+            $("#datepicker").datepicker({format: 'mm/dd/yyyy'});
+            $("#moveindatediv").datepicker({format: 'mm/dd/yyyy'});
+            amcBindValidate({
                 'form': '#form1',
                 'ignore': '.ignore',
                 'rules': {
@@ -204,7 +206,7 @@
                         required: true,
                         'date': true
                     }
-                    <?php if (Util::isDev() == false): ?>
+                    <?php if(Util::isDev() == false): ?>
                     ,hiddenRecaptcha: {
                         required: function(){
                             return grecaptcha.getResponse() == "";
@@ -223,6 +225,6 @@
             });
             amcMaskPhone('#phone','(999) 999-9999');
 		});	//End document.ready
-		
+
 	</script>
 		@stop

@@ -18,22 +18,23 @@ use App\Util\Util;
 
 class Assets extends Model
 {
+
     use TextCache;
     protected $table = 'property_clientside_assets';
 
-    public function getStyleSheets(Site $site = null) : array
-    {
-        if ($site === null) {
+    public function getStyleSheets(Site $site = null) : array {
+        if($site === null){
             $site = Site::$instance;
         }
-        if ($site === null) {
+        if($site === null){
             $site = app()->make('App\Property\Site');
         }
-        $all = $this->select('uri')->where('fk_property_id', $site->getEntity()->fk_legacy_property_id)
+        $all = $this->select('uri')->where('fk_property_id',$site->getEntity()->fk_legacy_property_id)
             ->get()
             ->pluck('uri')
             ->toArray()
             ;
         return $all;
     }
+
 }

@@ -8,4 +8,6 @@ class Feature extends Model
 {
     //
     protected $table = 'apartment_feature';
+
+
 }

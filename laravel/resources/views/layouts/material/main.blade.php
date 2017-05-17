@@ -1,7 +1,6 @@
 <?php
 use App\Util\Util;
 use App\Assets\Css;
-
 ?>
 <!DOCTYPE html>
 <html lang="">
@@ -10,8 +9,8 @@ use App\Assets\Css;
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0" >
 @section('meta')
-        <meta name="description" content="<?php echo $entity->getMeta('description', $_SERVER['REQUEST_URI']);?>">
-        <meta name="keywords" content="<?php echo $entity->getMeta('keywords', $_SERVER['REQUEST_URI']);?>">
+        <meta name="description" content="<?php echo $entity->getMeta('description',$_SERVER['REQUEST_URI']);?>">
+        <meta name="keywords" content="<?php echo $entity->getMeta('keywords',$_SERVER['REQUEST_URI']);?>">
         <meta charset="utf-8">
         <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -23,9 +22,7 @@ use App\Assets\Css;
 @section('css')
         <!-- CSS -->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <?php foreach (Css::fetch() as $index => $value) {
-    echo $value;
-} ?>
+        <?php foreach(Css::fetch() as $index => $value) echo $value; ?>
         <!-- End CSS -->
 @show
         <link rel='canonical' href='<?php echo $entity->getLegacyProperty()->url;?>' />
@@ -49,8 +46,8 @@ use App\Assets\Css;
 
     <body id='homepage'>
 	@include('layouts/material/pages/inc/header')
-<?php //TODO: !organization !redundancy Remove this and put it in a slot/include file. <3 loves you?>
-<?php if (\App\System\Session::isCmsUser()): ?>          
+<?php //TODO: !organization !redundancy Remove this and put it in a slot/include file. <3 loves you ?>
+<?php if(\App\System\Session::isCmsUser()): ?>          
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
 <!-- Trigger the modal with a button -->
 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" id="mmbutton" data-target="#myModal" style='display:none;'>Open Modal</button>

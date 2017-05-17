@@ -3,11 +3,9 @@
     <h1>Google</h1>
         <form id='form1' method='post' action='/admin/places/placeid'>
             <label for='placeid'>Enter a place id: </label>
-            <input type='text' name='placeid'  value="<?php if (isset($placeId)) {
-    echo $placeId;
-}?>">
+            <input type='text' name='placeid'  value="<?php if(isset($placeId)){ echo $placeId; }?>">
             <input type='submit'>
-            <input type='hidden' name='type' value='<?php echo \App\Reviews::GOOGLE;?>'>
+            <input type='hidden' name='type' value='<?Php echo \App\Reviews::GOOGLE;?>'>
             {{csrf_field()}}
          </form>
     <hr>
@@ -16,11 +14,9 @@
     <h1>Yelp</h1>
         <form id='form1' method='post' action='/admin/places/placeid'>
             <label for='placeid'>Enter a place id: </label>
-            <input type='text' name='placeid' value="<?php if (isset($yelpPlaceId)) {
-    echo $yelpPlaceId;
-}?>">
+            <input type='text' name='placeid' value="<?php if(isset($yelpPlaceId)){ echo $yelpPlaceId; }?>">
             <input type='submit'>
-            <input type='hidden' name='type' value='<?php echo \App\Reviews::YELP;?>'>
+            <input type='hidden' name='type' value='<?Php echo \App\Reviews::YELP;?>'>
             {{csrf_field()}}
         </form>
 

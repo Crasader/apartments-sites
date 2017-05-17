@@ -76,8 +76,7 @@ class EmailTest extends TestCase
         }
         $this->assertTrue($passed, "Failed Checking Email Addresses");
     }
-    public function testEmail()
-    {
+    public function testEmail(){
         $email = Email
             ::find(self::$testId);
         print_r($email->addQueue());

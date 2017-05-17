@@ -9,18 +9,18 @@ $sortedIds = [];
 
 $fpImage = app()->make('App\Assets\FloorPlanImage');
 \Debugbar::info($fpData);
-\Debugbar::info("fpImage: " . var_export($fpImage, 1));
+\Debugbar::info("fpImage: " . var_export($fpImage,1));
 $ctr = 0;
-foreach ($fpData as $index => $object) {
+foreach($fpData as $index => $object){
     $uniqueId = uniqid() . "_" . $object->BED;
     $object->uniqid = $uniqueId;
-    if (intval($object->AVAIL) == 0) {
+    if(intval($object->AVAIL) == 0){
         $object->ACTION = 'contact';
         $object->TEXT = 'Limited | MORE INFO';
-    } elseif (intval($object->AVAIL) == 1) {
+    }elseif(intval($object->AVAIL) == 1){
         $object->TEXT = 'Unit Available';
         $object->ACTION = 'unit';
-    } else {
+    }else{
         $object->TEXT = 'Units Available';
         $object->ACTION = 'unit';
     }
@@ -77,16 +77,12 @@ $displayOptions['dont-show-contact-details'] = 1;
                         <a href="#" class="filter active" data-filter="*">All</a>
                         <?php 
                             $printed = [];
-                            foreach ($sorted as $bedCount => $object):
-                                if (in_array($object->BED, $printed)) {
-                                    continue;
-                                }
+                            foreach($sorted as $bedCount => $object):
+                                if(in_array($object->BED,$printed)){ continue; }
                                 $printed[] = $object->BED;
                         ?>
                         <a href="#<?php echo $object->BED;?>bed" class="filter" data-filter=".<?php echo $object->BED;?>bed">
-                        <?php echo $object->BED; ?> Bedroom<?php if ($object->BED > 1) {
-                            echo "s";
-                        }?>
+                        <?php echo $object->BED; ?> Bedroom<?php if($object->BED > 1){ echo "s"; }?>
                         </a>
                         <?php
                             endforeach;
@@ -96,18 +92,13 @@ $displayOptions['dont-show-contact-details'] = 1;
                     
                     <!-- Floor Plans Row -->
                     <?php 
-                        $grid = 4;
+                        $grid = 4; 
                         $col = 3;
                     ?>
-                        <?php if (count($sorted) == 2) {
-                        $grid = 2;
-                        $col = 4;
-                    } ?>
-                        <?php if (count($sorted) == 1) {
-                        $grid = 12;
-                    } ?>
+                        <?php if(count($sorted) == 2){ $grid = 2; $col = 4; } ?>
+                        <?php if(count($sorted) == 1){ $grid = 12; } ?>
                         <div class="row multi-columns-row works-grid work-grid-<?php echo $grid;?>" id="work-grid">
-                            <?php foreach ($sorted as $index => $object): ?>
+                            <?php foreach($sorted as $index => $object): ?>
                             <!-- Individual Unit -->
                             <div class="col-sm-6 col-md-<?php echo $col;?> col-lg-<?php echo $col;?> work-item mix <?php echo $object->BED;?>bed">
                                 <div class="floorplan-item">
@@ -115,7 +106,7 @@ $displayOptions['dont-show-contact-details'] = 1;
                                         <div class="floorplan-wrap">
                                             <!-- Floor Plan Thumbnail -->
                                             <div class="floorplan-thumb">
-                                                <?php //TODO: make a function to clean this cruft?>
+                                                <?php //TODO: make a function to clean this cruft ?>
                                                 <?php $uName = Util::transformFloorplanName($object->U_MARKETING_NAME);?>
                                                 <a href="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $uName;?>.<?php echo $object->image_data[$uName];?>" class="lightbox-gallery-2 mfp-image">
                                                 <img src="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $uName;?>.<?php echo $object->image_data[$uName];?>"></a>
@@ -124,7 +115,7 @@ $displayOptions['dont-show-contact-details'] = 1;
                                              <!-- Unit Title -->
                                             <div class="floorplan-title">
                                                 <?php echo $object->U_MARKETING_NAME; ?><br>
-                                                <?php if (strlen($object->SPECIAL_TEXT)): ?>
+                                                <?php if(strlen($object->SPECIAL_TEXT)): ?>
                                                     <span class="special red"><i class="fa fa-star"><?php echo $object->SPECIAL_TEXT;?></i></span>
                                                 <?php endif; ?>
                                                 
@@ -141,7 +132,7 @@ $displayOptions['dont-show-contact-details'] = 1;
                                             </div>
                                             
                                             <div class="floorplan-num">
-                                                <sup>$</sup><?php echo round($object->RENT_FROM, 2, PHP_ROUND_HALF_UP);?>
+                                                <sup>$</sup><?php echo round($object->RENT_FROM,2,PHP_ROUND_HALF_UP);?>
                                             </div>
                                             
                                             <div class="pr-per">
@@ -152,7 +143,7 @@ $displayOptions['dont-show-contact-details'] = 1;
                                             <div class="pr-button">
                                                 <?php 
                                                     $text = '';
-                                                    switch ($object->AVAIL) {
+                                                    switch($object->AVAIL){
                                                     case '0':
                                                         $text = 'Limited | MORE INFO';
                                                         break;

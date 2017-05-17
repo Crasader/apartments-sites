@@ -11,7 +11,7 @@
 |
 */
 
-if (env('DEV')) {
+if(env('DEV')){
     include('tests/file-system.php');
     include('tests/create-new.php');
     include('tests/ms-sql.php');

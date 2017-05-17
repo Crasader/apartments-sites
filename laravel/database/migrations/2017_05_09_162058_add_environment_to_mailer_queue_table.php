@@ -14,11 +14,9 @@ class AddEnvironmentToMailerQueueTable extends Migration
     public function up()
     {
         //
-        if (Schema::hasColumn('mailer_queue', 'environment')) {
-            return;
-        }
-        Schema::table('mailer_queue', function ($table) {
-            $table->enum('environment', ['dev','live']);
+        if(Schema::hasColumn('mailer_queue','environment')){ return; }
+        Schema::table('mailer_queue',function($table){
+            $table->enum('environment',['dev','live']);
         });
     }
 

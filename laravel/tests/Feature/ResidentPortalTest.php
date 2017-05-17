@@ -19,8 +19,7 @@ class ResidentPortalTest extends TestCase
 {
     //TODO: exploit the "withSession" function to test resident portal
 
-    public function testResidentPortalPostForms()
-    {
+    public function testResidentPortalPostForms(){
 
 /*
 $user = substr($data['email'],0,64);
@@ -34,23 +33,23 @@ $user = substr($data['email'],0,64);
          * Test failures
          *
          */
-        $response = $this->call('post', env('PHPUNIT_BASE_URL') . 'portal-center', [
+        $response = $this->call('post',env('PHPUNIT_BASE_URL') . 'portal-center',[
             'user' => 'imafailureatlife',
             'pass' => '1-203-1023-102-301-032'
         ]);
         $this->assertTrue($response->getStatusCode() == 200);
-        $this->assertTrue(preg_match("|Invalid Username\/Password|", $response->getContent()) > 0);
+        $this->assertTrue(preg_match("|Invalid Username\/Password|",$response->getContent()) > 0);
 
 
         /*
          * Authenticate with an invalid user
          *
          */
-        $response = $this->call('post', env('PHPUNIT_BASE_URL') . 'find-userid', [
+        $response = $this->call('post',env('PHPUNIT_BASE_URL') . 'find-userid',[
             'email' => 'wmerfalen@gmail.com',
             'unit' => '1404'
         ]);
-        $this->assertTrue(preg_match("|Email Address was not found|", $response->getContent()) > 0);
+        $this->assertTrue(preg_match("|Email Address was not found|",$response->getContent()) > 0);
 
 
         /*
@@ -58,11 +57,11 @@ $user = substr($data['email'],0,64);
          *
          */
         Mock::setPropertyCode('638ROF');
-        $response = $this->call('post', env('PHPUNIT_BASE_URL') . 'find-userid', [
+        $response = $this->call('post',env('PHPUNIT_BASE_URL') . 'find-userid',[
             'email' => 'ronaldreaganwasagolfer@mentoc.ddns.net',
             'unit' => '207721'
         ]);
-        $this->assertTrue(preg_match("|Email Address was not found|", $response->getContent()) > 0);
+        $this->assertTrue(preg_match("|Email Address was not found|",$response->getContent()) > 0);
         $this->assertTrue($response->getStatusCode() == 200);
 
 
@@ -71,15 +70,16 @@ $user = substr($data['email'],0,64);
          */
          /* Thornhill park property code */
         Mock::setPropertyCode('669TRN');
-        $response = $this->call('post', env('PHPUNIT_BASE_URL') . 'find-userid', [
+        $response = $this->call('post',env('PHPUNIT_BASE_URL') . 'find-userid',[
             'email' => 'william@marketapts.com',
             'unit' => '501'
         ]);
-        $this->assertTrue(preg_match("|Email Address was not found|", $response->getContent()) == 0);
+        $this->assertTrue(preg_match("|Email Address was not found|",$response->getContent()) == 0);
         $this->assertTrue($response->getStatusCode() == 200);
         $this->assertTrue(preg_match(
             "|An email has been sent to the email address you registered with at move\-in|",
             $response->getContent()) == 1);
+            
     }
 
 /**********************************************************************
@@ -114,4 +114,5 @@ $user = substr($data['email'],0,64);
  56     ];
  5
 */
+
 }

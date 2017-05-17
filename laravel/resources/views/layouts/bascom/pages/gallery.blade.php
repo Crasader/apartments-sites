@@ -10,11 +10,11 @@
 <?php
 
 $galleryOptions = [
-    'sections' => [
-        'community' => 'Exterior',
-        'main' => 'Interior'
-     ],
-     'filters' => ['community','main']
+	'sections' => [
+		'community' => 'Exterior',
+		'main' => 'Interior'
+	 ],
+	 'filters' => ['community','main']
 ];
 
 $displayOptions['dont-show-contact-details'] = true;

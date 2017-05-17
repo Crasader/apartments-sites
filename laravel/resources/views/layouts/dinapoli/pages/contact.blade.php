@@ -24,8 +24,8 @@ use App\Property\Template as PropertyTemplate;
                 <div class="container relative">
                     <div class="section-text mb-50 mb-sm-20">
                         <div class="row">
-                            <?php if (isset($sent)): ?><h1 class="notice">Your contact information has been submitted</h1><?php endif;?>
-                            <?php if (isset($invalidRecaptcha)): ?><h1 class="error">Invalid ReCaptcha</h1><?php endif; ?>
+                            <?php if(isset($sent)): ?><h1 class="notice">Your contact information has been submitted</h1><?php endif;?>
+                            <?php if(isset($invalidRecaptcha)): ?><h1 class="error">Invalid ReCaptcha</h1><?php endif; ?>
                             <div class="col-md-7 col-sm-7 mb-sm-50 mb-xs-30">
                                 <form id="form1" method="post" action="/contact">
                                     <input type="hidden" name="form_id" value="contact"/>

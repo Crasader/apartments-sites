@@ -1,14 +1,13 @@
 <?php
 use App\Util\Util;
-
 ?>
 <!DOCTYPE html>
 <html lang="">
     <head>
         <title><?php echo $entity->getCity();?> <?php echo $entity->getAbbreviatedState();?> Apartments | Luxury Apartments For Rent | <?php echo $entity->getLegacyProperty()->name;?>></title>
 @section('meta')
-        <meta name="description" content="<?php echo $entity->getMeta('description', $_SERVER['REQUEST_URI']);?>">
-        <meta name="keywords" content="<?php echo $entity->getMeta('keywords', $_SERVER['REQUEST_URI']);?>">
+        <meta name="description" content="<?php echo $entity->getMeta('description',$_SERVER['REQUEST_URI']);?>">
+        <meta name="keywords" content="<?php echo $entity->getMeta('keywords',$_SERVER['REQUEST_URI']);?>">
         <meta charset="utf-8">
         <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -17,19 +16,18 @@ use App\Util\Util;
 @section('css')
         <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
         <?php $customSheet = null; ?>
-        <?php //TODO: !refactor move this to a library function so we can utilize this code in every template?>
-        <?php foreach (glob(public_path() . "/bascom/css/*.css") as $i => $sheet) {
-    if (preg_match("|bascom/css/([0-9A-Z]{6,}\.css)|", $sheet, $matches)) {
-        if (strcmp($matches[1], $site->getEntity()->getLegacyProperty()->code . ".css") == 0) {
-            $customSheet = "/bascom/css/{$matches[1]}";
+        <?php //TODO: !refactor move this to a library function so we can utilize this code in every template ?>
+        <?php foreach(glob(public_path() . "/bascom/css/*.css") as $i => $sheet){
+                if(preg_match("|bascom/css/([0-9A-Z]{6,}\.css)|",$sheet,$matches)){
+                    if(strcmp($matches[1],$site->getEntity()->getLegacyProperty()->code . ".css") == 0)
+                        $customSheet = "/bascom/css/{$matches[1]}";
+                    continue;
+                }
+                if(preg_match("|/bascom/css/([^\.]*)\.css|",$sheet,$matches) && !strstr($sheet,$site->getEntity()->getLegacyProperty()->code)){
+                    echo "<link rel='stylesheet' href='/bascom/css/{$matches[1]}.css?v={$entity->getAssetsVersion('bascom/css/' . $matches[1] . '.css')}'/>\n\t";
+                }
         }
-        continue;
-    }
-    if (preg_match("|/bascom/css/([^\.]*)\.css|", $sheet, $matches) && !strstr($sheet, $site->getEntity()->getLegacyProperty()->code)) {
-        echo "<link rel='stylesheet' href='/bascom/css/{$matches[1]}.css?v={$entity->getAssetsVersion('bascom/css/' . $matches[1] . '.css')}'/>\n\t";
-    }
-}
-        if ($customSheet) {
+        if($customSheet){
             echo "<link rel='stylesheet' href='{$customSheet}?v={$entity->getAssetsVersion('$customSheet')}'/>";
         }
         ?>

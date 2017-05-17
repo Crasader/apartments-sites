@@ -40,13 +40,13 @@ class CreateHttpsException extends Command
         //
         $url  = $this->argument('url');
         $objects = [];
-        if (!file_exists(config_path() . "/https-exceptions.json")) {
+        if(!file_exists(config_path() . "/https-exceptions.json")){
             shell_exec("touch " . config_path() . "/https-exceptions.json");
         }
         $fileContents = file_get_contents(config_path() . "/https-exceptions.json");
-        $objects = json_decode($fileContents, true);
-        $objects[$url] = '$money$';
-        file_put_contents(config_path() . "/https-exceptions.json", json_encode($objects));
+        $objects = json_decode($fileContents,true);
+        $objects[$url] = '$money$'; 
+        file_put_contents(config_path() . "/https-exceptions.json",json_encode($objects));
         echo "DONE\n";
     }
 }

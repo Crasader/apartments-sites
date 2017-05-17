@@ -6,9 +6,8 @@ use App\Structures\Mail as StructMail;
 use Validator;
 use App\Traits\Constants;
 
-trait AttributeValidator
-{
-    /**
+trait AttributeValidator{
+  /**
     * example rules, uses laravel validation rules.
     * item is the name of the attribute.
     * rules is laravel rules
@@ -44,6 +43,7 @@ trait AttributeValidator
         foreach ($items as $item) {
             $validator = Validator::make(['item'=>$item], ['item'=>$rules]);
             if ($validator->fails()) {
+
                 $this->errors = $validator->errors();
                 return false;
             }

@@ -14,10 +14,8 @@ class AddProcessCategoryToMailerQueue extends Migration
     public function up()
     {
         //
-        if (Schema::hasColumn('mailer_queue', 'process_category')) {
-            return;
-        }
-        Schema::table('mailer_queue', function ($table) {
+        if(Schema::hasColumn('mailer_queue','process_category')){ return; }
+        Schema::table('mailer_queue',function($table){
             $table->string('process_category');
         });
     }

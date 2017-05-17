@@ -14,7 +14,7 @@ class MakeStringValueBigger extends Migration
     public function up()
     {
         //
-        Schema::table('property_text', function (Blueprint $table) {
+        Schema::table('property_text',function(Blueprint $table){
             $table->text('string_value')->change();
         });
     }
