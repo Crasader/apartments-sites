@@ -251,7 +251,7 @@ class PostController extends Controller
         //
         $siteData = $this->resolvePageBySite('schedule-a-tour',[]);
         if(Util::isDev()){
-            $to = 'wmerfalen@gmail.com';
+            $to = env("DEV_EMAIL");
         }else{
             $to = $data['email'];
         }
@@ -294,7 +294,7 @@ class PostController extends Controller
         //
         $siteData = $this->resolvePageBySite('apply-online',[]);
         if(Util::isDev()){
-            $to = 'wmerfalen@gmail.com';
+            $to = env("DEV_EMAIL");
         }else{
             $to = $data['email'];
         }
@@ -372,7 +372,7 @@ class PostController extends Controller
     protected function _getApartmentEmail(){
         //TODO: move this to a different place !organization
         if(Util::isDev()){
-            return 'wmerfalen@gmail.com';
+            return env("DEV_EMAIL");
         }
         $email = \App\Property\Template::select('email')->where('property_id',Site::$instance->getEntity()->fk_legacy_property_id)
             ->get();
@@ -489,7 +489,7 @@ class PostController extends Controller
 
         $siteData = $this->resolvePageBySite('/resident-portal/maintenance-request',['resident-portal' => true]);
         if(Util::isDev()){
-            $to = 'wmerfalen@gmail.com';
+            $to = env("DEV_EMAIL");
         }else{
             $to = $data['email'];
         }

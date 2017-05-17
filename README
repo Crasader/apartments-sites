@@ -1,0 +1,9 @@
+Major Branches of code:
+
+  * legacy - houses all legacy code
+  * master - Current Live Site
+  * staging - Code that should be in a state for clients to see and play with before pushing to live
+  * dev - Major QA Branch: Code that developers have unit-tested for bugs.
+
+
+  

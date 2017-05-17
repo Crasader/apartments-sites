@@ -13,6 +13,7 @@ class Mailer
     const PROC_CATEGORY_CONTACT = 'contact';
 
     private static $_conf;
+    private static $_mailer = null;
     private static $_categories = [
         Mailer::PROC_CATEGORY_ERROR,
         Mailer::PROC_CATEGORY_CONTACT,
@@ -67,10 +68,10 @@ class Mailer
             $mail->CharSet = "utf-8"; // set charset to utf8
             $mail->SMTPAuth = true;  // use smpt auth
             $mail->SMTPSecure = "tls"; // or ssl
-            $mail->Host = ENV("MAILER_HOST");
-            $mail->Port =  ENV("MAILER_PORT");
+            $mail->Host = env("MAILER_HOST");
+            $mail->Port =  env("MAILER_PORT");
             $mail->SMTPDebug = 4;
-            if(ENV("MAILER_IS_UNSECURED_TRASH") == '1'){
+            if(env("MAILER_IS_UNSECURED_TRASH") == '1'){
                 $mail->SMTPOptions = array(
                     'ssl' => array(
                         'verify_peer' => false,
@@ -82,8 +83,8 @@ class Mailer
             $mail->Debugoutput = function($str,$level){
                 self::log(Mailer::uniqueId(self::$_conf) . "-> $level: '$str'",['log' => 'mailer']);
             };
-            $mail->Username = ENV("MAILER_USERNAME");
-            $mail->Password = ENV("MAILER_PASSWORD");
+            $mail->Username = env("MAILER_USERNAME");
+            $mail->Password = env("MAILER_PASSWORD");
         }catch(phpmailerException $e){
             self::handleException($e);
             return false;

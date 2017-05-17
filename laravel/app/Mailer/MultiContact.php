@@ -51,11 +51,10 @@ class MultiContact
         Mailer::setConf($conf);
         try{
             $conf['from'] = self::getPropertyEmail();
-            $mail = Mailer::configure();
             $proper = self::getPropertyEmail(true,null,true);
             $proper = array_shift($proper);
             $conf['from'] = ['email' => $proper, 'name' => Site::$instance->getEntity()->getLegacyProperty()->name . " Apartments"];
-            $this->prepareMessage($conf,$mail)->send();
+            $this->prepareMessage($conf,Mailer::configure())->send();
         } catch (phpmailerException $e) {
             self::handleException($e);
             return false;
@@ -68,11 +67,13 @@ class MultiContact
 
     /*
      * Grabs the property email. Returns Will's email if on development. 
-     * TODO: Return ENV("DEV_EMAIL") or something like that
+     * TODO: Return env("DEV_EMAIL") or something like that
      */
     public static function getPropertyEmail($first=true,$except=null,$force=false) : array{
+        if(Util::isDevDomain())
+            return [env("DEV_EMAIL")];
         if(Util::isDev() && !$force)
-            return ["william@marketapts.com"];
+            return [env("DEV_EMAIL")];
         $site = Site::$instance;
         $email = $site->getEntity()->getLegacyProperty()->email;
         $chunks = explode("~",$email);
@@ -113,9 +114,8 @@ class MultiContact
             $dataCopy['to'] = array_shift($dataCopy['to']);
             $dataCopy['data'] = view($conf['view'])->with($conf['data']->getData()); //,compact($conf['data']->getData()))->__toString();
             $dataCopy['from'] = ['email' => $conf['from'],'name' => $conf['fromName']];
-            $mail = Mailer::configure();
             /* This can be mis-leading. The "from" key in the conf array is the user that submitted the form */
-            $this->prepareMessage($dataCopy,$mail)->send();
+            $this->prepareMessage($dataCopy,Mailer::configure())->send();
         } catch (phpmailerException $e) {
             self::handleException($e);
             return false;
@@ -132,10 +132,10 @@ class MultiContact
             $mail->CharSet = "utf-8"; // set charset to utf8
             $mail->SMTPAuth = true;  // use smpt auth
             $mail->SMTPSecure = "tls"; // or ssl
-            $mail->Host = ENV("MAILER_HOST");
-            $mail->Port =  ENV("MAILER_PORT");
+            $mail->Host = env("MAILER_HOST");
+            $mail->Port =  env("MAILER_PORT");
             $mail->SMTPDebug = 4;
-            if(ENV("MAILER_IS_UNSECURED_TRASH") == '1'){
+            if(env("MAILER_IS_UNSECURED_TRASH") == '1'){
                 $mail->SMTPOptions = array(
                     'ssl' => array(
                         'verify_peer' => false,
@@ -148,8 +148,8 @@ class MultiContact
             $mail->Debugoutput = function($str,$level) use($conf){
                 self::log(Mailer::uniqueId($conf) . "-> $level: '$str'");
             };
-            $mail->Username = ENV("MAILER_USERNAME");
-            $mail->Password = ENV("MAILER_PASSWORD");
+            $mail->Username = env("MAILER_USERNAME");
+            $mail->Password = env("MAILER_PASSWORD");
         }catch(phpmailerException $e){
             self::handleException($e);
             return false;

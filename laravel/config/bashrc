@@ -25,3 +25,4 @@ alias mkt='ssh amcllc@107.170.28.7'
 alias s-gib='s3cmd --acl-public put $1 s3://mktapts/images/166TBL/$2'   #80ongibson
 alias s-mb='s3cmd --acl-public put $1 s3://mktapts/images/164MTB/$2'    #martiniquebay
 alias s-lyric='s3cmd --acl-public put $1 s3://mktapts/images/181LYR/$2' #lyriclv
+alias gr='lar ; grunt --gruntfile ./Gruntfile'

@@ -58,9 +58,9 @@ class VirtualHostSwitch extends ServiceProvider
     private function _resolveSiteId(){
         if(!Util::isFpm()){ return 0; }
         if(preg_match('|^www\.|',$_SERVER['SERVER_NAME'])){ 
-            $site = LegacyProperty::where('url','like','http://' . $_SERVER['SERVER_NAME'] . '%')->get();
+            $site = LegacyProperty::where('url','like','http://' . $this->_dev($_SERVER['SERVER_NAME']) . '%')->get();
         }else{
-            $site = LegacyProperty::where('url','like','http://www.' . $_SERVER['SERVER_NAME'] . '%')->get();
+            $site = LegacyProperty::where('url','like','http://www.' . $this->_dev($_SERVER['SERVER_NAME']) . '%')->get();
         }
         if(count($site)){
             Site::$site_id_set = true;
@@ -69,5 +69,11 @@ class VirtualHostSwitch extends ServiceProvider
             return Site::$site_id;
         }
     }
+
+    //!devonly
+    private function _dev(){
+        return preg_replace("|^dev\.|","",$_SERVER['SERVER_NAME']);
+    }
+
 
 }
