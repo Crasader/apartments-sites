@@ -76,7 +76,9 @@ class VirtualHostSwitch extends ServiceProvider
 
     //!devonly
     private function _dev(){
-        return preg_replace("|^dev\.|","",Util::serverName());
+        $replaced = preg_replace("|^dev\.|","",Util::serverName());
+        $replaced = preg_replace("|^staging\.|","",$replaced);
+        return $replaced;
     }
 
     public function newCommandLineSite(){
