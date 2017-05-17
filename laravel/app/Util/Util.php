@@ -9,6 +9,27 @@ use App\Mailer;
 
 class Util
 {
+    private static $stagingRegex = [
+            '^staging\.','^will\.','^brady\.','^\dev\.','^matt\.'
+    ];
+
+    public static function isHttpsException(){
+        $server = self::serverName();
+        foreach(self::$stagingRegex as $i => $k){
+            if(preg_match("|" . $k . "|",$server)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static function realServerName(){
+        $serverName = self::serverName();
+        foreach(self::$stagingRegex as $i => $k){
+            $serverName = preg_replace("|" . $k . "|","",$serverName);
+        }
+		return $serverName;
+    }
 
     public static function common(string $type,$category){
         $entity = app()->make('App\Property\Site')->getEntity();
