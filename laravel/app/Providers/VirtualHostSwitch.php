@@ -58,19 +58,13 @@ class VirtualHostSwitch extends ServiceProvider
         });
     }
 
-==== BASE ====
-==== BASE ====
     private function _resolveSiteId(){
-        $serverName = preg_replace("|^staging\.|","",$_SERVER['SERVER_NAME']);
-        $serverName = preg_replace("|^dev\.|","",$_SERVER['SERVER_NAME']);
-        if(preg_match('|^www\.|',$_SERVER['SERVER_NAME'])){ 
-==== BASE ====
-            $site = LegacyProperty::where('url','like','http://' . $this->_dev($_SERVER['SERVER_NAME']) . '%')->get();
-==== BASE ====
+        $serverName = preg_replace("|^staging\.|","",Util::serverName());
+        $serverName = preg_replace("|^dev\.|","",Util::serverName());
+        if(preg_match('|^www\.|',Util::serverName())){ 
+            $site = LegacyProperty::where('url','like','http://' . $this->_dev(Util::serverName()) . '%')->get();
         }else{
-==== BASE ====
-            $site = LegacyProperty::where('url','like','http://www.' . $this->_dev($_SERVER['SERVER_NAME']) . '%')->get();
-==== BASE ====
+            $site = LegacyProperty::where('url','like','http://www.' . $this->_dev(Util::serverName()) . '%')->get();
         }
         if(count($site)){
             Site::$site_id_set = true;
@@ -80,12 +74,25 @@ class VirtualHostSwitch extends ServiceProvider
         }
     }
 
-==== BASE ====
     //!devonly
     private function _dev(){
-        return preg_replace("|^dev\.|","",$_SERVER['SERVER_NAME']);
+        return preg_replace("|^dev\.|","",Util::serverName());
+    }
+
+    public function newCommandLineSite(){
+        if(!isset($_SERVER['SERVER_NAME'])){
+            $_SERVER['SERVER_NAME'] = Util::serverName();
+        }
+        $entity = PropertyEntity::where('fk_legacy_property_id',$this->_resolveSiteId())->get()->first();   
+        if($entity === null){
+            $prop = new PropertyEntity;
+            $legacy = LegacyProperty::where('url','like','%' . Util::serverName() . '%')->get()->first();
+            if($legacy === null){
+                $legacy = LegacyProperty::where('devurl','like','%' . Util::serverName() . '%')->get()->first();
+            }
+        }
+        return new Site($entity);
     }
 
 
-==== BASE ====
 }

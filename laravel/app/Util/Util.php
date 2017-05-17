@@ -183,10 +183,11 @@ class Util
     }
 
     public static function serverName(){
-        if(isset($_SERVER['SERVER_NAME']))
+        if(isset($_SERVER['SERVER_NAME'])){
             return $_SERVER['SERVER_NAME'];
-        else
-            return 'no-server-set';
+        }else{
+            return env('BACKUP_BASE_URL');
+	}
     }
 
     /**

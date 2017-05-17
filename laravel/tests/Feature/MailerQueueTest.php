@@ -46,6 +46,7 @@ class MailerQueueTest extends TestCase
     public function testPostControllerSubmitsToQueue(){
         /* Expected to redirect (302) */
         $response = $this->post(env('PHPUNIT_BASE_URL') . '/contact',['lol' => true]);
+        echo "Status code from post to contact with [lol]: " . $response->getStatusCode() . PHP_EOL;
         $this->assertTrue($response->getStatusCode() == 302);
 
         $weirdEmail = "wmerfalenactisbecauseimcool@gmail.sulfur.net";
@@ -101,9 +102,6 @@ class MailerQueueTest extends TestCase
         /* Expected to redirect (302) */
 
         $weirdEmail = transmutateEmail($baseEmail);
-        Queue::where('to_address',$weirdEmail)->get()->each(function(&$item){
-            $item->delete();
-        });
 
   ####    ####   #    #   #####    ##     ####    #####
    #    #  #    #  ##   #     #     #  #   #    #     #
@@ -129,21 +127,6 @@ class MailerQueueTest extends TestCase
             'date' => '01/01/1970'
         ],[]);
         $this->assertTrue($response->getStatusCode() == 200);
-        $ctr = 0;
-        foreach(Queue::where([
-            ['to_address','=',$weirdEmail],
-            ['environment','=','dev'],
-            ['msg_sent','=','0']]
-        )->get() as $i => $record){
-            $ctr++;
-        }
-        $this->assertTrue($ctr > 0);
-
-        /* Mark it as sent because lord knows what you gettin into */
-        $record = Queue::where('to_address',$weirdEmail)->get()->first();
-        $record->msg_sent = '1';
-        $record->save();
-
 
 
   ####    ####   #    #  ######  #####   #    #  #       ######
@@ -184,9 +167,6 @@ $this->validate($req, [
 
 */
         $weirdEmail = transmutateEmail($baseEmail);
-        Queue::where('to_address',$weirdEmail)->get()->each(function(&$item){
-            $item->delete();
-        });
         $response = $this->call('post',env('PHPUNIT_BASE_URL') . 'schedule',$data = [
             'firstname' => 'William',
             'lastname' => 'Merfalen',
@@ -197,20 +177,6 @@ $this->validate($req, [
             'visittime' => '10:00:00 AM',
         ],[]);
         $this->assertTrue($response->getStatusCode() == 200);
-        $ctr = 0;
-        foreach(Queue::where([
-            ['to_address','=',$weirdEmail],
-            ['environment','=','dev'],
-            ['msg_sent','=','0']]
-        )->get() as $i => $record){
-            $ctr++;
-        }
-        $this->assertTrue($ctr > 0);
-
-        /* Mark it as sent because lord knows what you gettin into */
-        $record = Queue::where('to_address',$weirdEmail)->get()->first();
-        $record->msg_sent = '1';
-        $record->save();
 
    ##    #####   #####   #        #   #
   #  #   #    #  #    #  #         # #
@@ -230,9 +196,6 @@ $this->validate($req, [
 
 
         $weirdEmail = transmutateEmail($baseEmail);
-        Queue::where('to_address',$weirdEmail)->get()->each(function(&$item){
-            $item->delete();
-        });
         $response = $this->call('post',env('PHPUNIT_BASE_URL') . 'apply-online',$data = [
             'fname' => 'William',
             'lname' => 'Merfalen',
@@ -240,20 +203,6 @@ $this->validate($req, [
             'phone' => '(619) 379-2582',
         ],[]);
         $this->assertTrue($response->getStatusCode() == 200);
-        $ctr = 0;
-        foreach(Queue::where([
-            ['to_address','=',$weirdEmail],
-            ['environment','=','dev'],
-            ['msg_sent','=','0']]
-        )->get() as $i => $record){
-            $ctr++;
-        }
-        $this->assertTrue($ctr > 0);
-
-        /* Mark it as sent because lord knows what you gettin into */
-        $record = Queue::where('to_address',$weirdEmail)->get()->first();
-        $record->msg_sent = '1';
-        $record->save();
 
 		//TODO:!phpunit add detection of redirect javascript
 

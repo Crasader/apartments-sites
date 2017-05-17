@@ -8,6 +8,7 @@ use App\Traits\TextCache;
 use App\Property\Site;
 use App\ResidentPortal\Session;
 use App\System\Session as Sesh;
+use App\Util\Util;
 trait PageResolver {
     use TextCache;
     protected $_site = null;
@@ -56,6 +57,7 @@ trait PageResolver {
             $data['fsid'] = $templateDir;
             $data['aliased'] = $aliased;
             $data['orig'] = $origPage;
+            Util::log("DATA supposedly: " . var_export($data,1));
             return [
                 'path' => $this->resolveTemplatePath($templateDir,$page,$inData),
                 'data' => $this->resolveTemplateData($templateDir,$page,$inData,$data),
