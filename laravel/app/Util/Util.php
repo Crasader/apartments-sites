@@ -19,6 +19,18 @@ class Util
 
     /*
         
+       $example = [
+            [0] => 
+                [
+                    'id' => 1,
+                    'custom_nav' => 'foobar.html'],
+                    .. 
+                ]
+       ];
+
+       Util::keyInArray('custom_nav',$example); //returns true
+
+       returns: true
     */
 
     public static function keyInArray(string $key,array $array){
@@ -37,6 +49,31 @@ class Util
 
     }
 
+
+    /*
+        $example = [
+            [
+                'id' => 1110,
+                'foo' => 'bar',
+                'value' => 'foobar',
+                'date' => '10/15/1984'
+            ],
+            [
+                'id' => '200',
+                'foo' => 'dot',
+                'value' => 'fizzbuzz',
+                'date' => '10/02/1961'
+            ]
+        ];
+
+        $return = Util::flatten(['foo' => 'value'],$example);
+        Return now looks like:
+            [
+                'bar' => 'foobar',
+                'dot' => 'fizzbuz'
+            ]
+
+    */
     public static function flatten(array $associations,array $records){
         $return = [];
         foreach($records as $i => $rec){
