@@ -271,7 +271,7 @@
                     <div class="map-block">
                         <div class="map">
                             <div class="map-container">
-                                <?php=PropertyTemplate::getGMapKey(Site::$instance);?>
+                                <?=PropertyTemplate::getGMapKey(Site::$instance);?>
                                 <div style="overflow:hidden;height:537px;max-width:100%;">
                                     <div id="map-canvas" style="max-width:100%;"></div>
                                 <div>

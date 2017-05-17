@@ -9,10 +9,11 @@ class Template extends Model
 {
     //
     protected $table = 'property_template';
-    public static function getGMapKey($siteInstance){
-
-        Util::redisFetchOrUpdate('google-maps-src-api',function() {
-            self::select('gmap_key')
+    public static function getGMapKey($siteInstance = null){
+        if(!$siteInstance){
+            $siteInstance = \App::make('App\Property\Site');
+        }
+            $url = self::select('gmap_key')
             ->where(
                 'property_id',
                 $siteInstance
@@ -22,11 +23,12 @@ class Template extends Model
             ->first();
             if($url){
                 if(strlen(trim($url['gmap_key']))){
-                    return $url['gmapy_key'];
+                    return (trim($url['gmap_key']));
                 }
             }
             return '<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key="></script>';
-        }
+        Util::redisFetchOrUpdate('google-maps-src-api',function() use ($siteInstance) {
+        });
     }
 }
 
