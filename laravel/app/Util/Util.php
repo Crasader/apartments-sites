@@ -10,6 +10,43 @@ use App\Mailer;
 class Util 
 {
 
+    public static function requestUri(){
+        if(isset($_SERVER['REQUEST_URI'])){
+            return $_SERVER['REQUEST_URI'];
+        }
+        return 'foobar';
+    }
+
+    /*
+        
+    */
+
+    public static function keyInArray(string $key,array $array){
+        foreach($array as $index => $value){
+            if(is_array($value)){
+                if(self::keyInArray($key,$value)){
+                    return true;
+                }
+            }else{
+                if($index == $key){
+                    return true;
+                }
+            }
+        }
+        return false;
+
+    }
+
+    public static function flatten(array $associations,array $records){
+        $return = [];
+        foreach($records as $i => $rec){
+            foreach($associations as $key => $value){
+                $return[$rec[$key]][] = $rec[$value];
+            }
+        }
+        return $return;
+    }
+
     public static function common(string $type,$category){
         $entity = app()->make('App\Property\Site')->getEntity();
         return $entity->getWebPublicCommon($category);
@@ -90,7 +127,7 @@ class Util
     }
 
     public static function isPage(string $p){
-        return preg_match("|^/$p|",$_SERVER["REQUEST_URI"]);
+        return preg_match("|^/$p|",self::requestUri());
     }
 
     public static function baseUri($inReq,$default=null) : string{

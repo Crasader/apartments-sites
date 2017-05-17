@@ -20,7 +20,7 @@ class Session// extends Model
         self::log("Call static session: $method(" . var_export($args,1) . ")");
         if(session_status() == PHP_SESSION_NONE){
             self::log("Starting session");
-            session_start();
+            @session_start();
         }
         self::log("Session data: " . var_export($_SESSION,1));
         switch($method){

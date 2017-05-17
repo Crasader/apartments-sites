@@ -21,3 +21,4 @@ alias gp='lar ; git pull'
 alias gs='lar ; git status'
 alias mat='lar ; cd resources/views/layouts/material/pages'
 alias gr='lar ; grunt --gruntfile ./Gruntfile'
+alias rechown="sudo chown amcllc:www-data -R $LAR/storage; sudo chmod 770 -R $LAR/storage/"

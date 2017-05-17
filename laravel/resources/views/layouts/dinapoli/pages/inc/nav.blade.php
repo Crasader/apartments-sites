@@ -65,15 +65,98 @@ try{
                     <!-- Main Menu -->
                     <div class="inner-nav desktop-nav">
                         <ul class="clearlist scroll-nav local-scroll">
-                            <li class="active hidden-md hidden-sm"><a href="/">Home</a></li>
-                            <li><a href="/gallery">Gallery</a></li>
-                            <li><a href="/amenities">Amenities</a></li>
-                            <li><a href="/floorplans">Floor Plans</a></li>
-                            <li><a href="/neighborhood">Neighborhood</a></li>
-                            <li class="hidden-md hidden-sm"><a href="/contact">Contact</a></li>
-                            <li class="hidden-md hidden-lg"><a href="/floorplans">Apartment Search</a></li>
-                            <li class="hidden-md hidden-lg"><a href="/resident-portal">Residents</a></li> 
-                            <li><a href="/schedule-a-tour" class="red"><b>Schedule a Tour <i class="fa fa-angle-right"></i></b></a></li>
+                            <?php
+                                use App\System\Settings;
+                                $galleryItems = [
+                                    [
+                                        'li-attributes' => [
+                                            'class' => 'active hidden-md hidden-sm',
+                                         ],
+                                         'href' => '/',
+                                        'label' => 'Home'
+                                    ],
+                                    [
+                                        'label' => 'Gallery'
+                                    ],
+                                    [
+                                        'label' => 'Floor Plans'
+                                    ],
+                                    [
+                                        'label' => 'Neighborhood'
+                                    ],
+                                    [
+                                        'li-attributes' => [
+                                            'class' => 'hidden-md hidden-sm'
+                                        ],
+                                        'label' => 'Contact'
+                                    ],
+                                    [
+                                        'li-attributes' => [
+                                            'class' => 'hidden-md hidden-lg'
+                                        ],
+                                        'href' => 'floorplans',
+                                        'label' => 'Apartment Search',
+                                    ],
+                                    [
+                                        'li-attributes' => [
+                                            'class' => 'hidden-md hidden-lg'
+                                        ],
+                                        'href' => 'resident-portal',
+                                        'label' => 'Residents'
+                                    ],
+                                    [
+                                        'a-attributes' => [
+                                            'class' => 'red',
+                                        ],
+                                        'href' => 'schedule-a-tour',
+                                        'label' => '<b>Schedule a Tour <i class="fa fa-angle-right"></i></b>'
+                                    ]
+                                ];
+                                $settings = Settings::site($forceGet=true);
+
+                                if(isset($settings[Settings::CUSTOM_NAV])){
+                                    foreach($settings[Settings::CUSTOM_NAV] as $json){
+                                        $newItems = [];
+                                            foreach($galleryItems as $i => $object){
+                                                $element = json_decode($json,true);
+                                                array_push($newItems,$object);
+                                                if($element['after'] == $object['label']){
+                                                    array_push($newItems,$element);
+                                                }
+                                            }
+                                    }
+                                }else{
+                                    $newItems = $galleryItems;
+                                }
+
+                                foreach($newItems as $index => $navElement){
+                                    echo "<li";
+                                    if(isset($navElement['li-attributes'])){
+                                        foreach($navElement['li-attributes'] as $attribute => $attributeValue){
+                                            if(empty($attribute) || empty($attributeValue)){
+                                                continue;
+                                            }
+                                            echo " $attribute=\"$attributeValue\"";
+                                        }
+                                    }
+                                    echo "><a href=\"";
+                                    if(!isset($navElement['href'])){
+                                        echo "/" . strtolower(preg_replace("|[ ]+|","",$navElement['label']));
+                                    }else{
+                                        echo "/" . $navElement['href'];
+                                    }
+                                    echo "\"";
+                                    if(isset($navElement['a-attributes'])){
+                                        foreach($navElement['a-attributes'] as $attribute => $attributeValue){
+                                            if(empty($attribute) || empty($attributeValue)){
+                                                continue;
+                                            }
+                                            echo " $attribute=\"$attributeValue\"";
+                                        }
+                                    } 
+                                    echo ">{$navElement['label']}</a></li>";
+                                }
+                            ?>
                         </ul>
                     </div>
                 </div>
