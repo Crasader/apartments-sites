@@ -16,7 +16,7 @@ class CreatePlacesTable extends Migration
         Schema::create('review_place', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('fk_legacy_property_id');
-            $table->string('place_id', 32);
+            $table->string('place_id',32);
             $table->timestamps();
         });
     }

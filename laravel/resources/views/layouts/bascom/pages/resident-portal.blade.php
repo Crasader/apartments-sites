@@ -1,6 +1,4 @@
-<?php use App\Util\Util;
-
-?>
+<?php use App\Util\Util; ?>
 @extends('layouts/bascom/main')            
            	@section('after-nav')
 
@@ -13,7 +11,7 @@
                         <div class="col-md-8">
                             <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Resident Portal</h1>
                             <div class="hs-line-4 font-alt">
-								<?php echo $entity->getText('resident-portal', ['oneshot' =>'With convenient 24/7 access, the resident portal makes it easy for you to request maintenance service and pay your rent online. Login to get started!']);?>
+								<?php echo $entity->getText('resident-portal',['oneshot' =>'With convenient 24/7 access, the resident portal makes it easy for you to request maintenance service and pay your rent online. Login to get started!']);?>
                             </div>
                         </div>
 
@@ -38,7 +36,7 @@
                     <div class="section-text mb-50 mb-sm-20">
                         <div class="row">
                             <div class="col-md-6 col-sm-6 col-md-offset-3 mb-sm-50 mb-xs-30">
-                                <?php if (isset($residentfailed)): ?><h1 class="error">Invalid Username/Password</h1><?php endif;?>
+                                <?php if(isset($residentfailed)): ?><h1 class="error">Invalid Username/Password</h1><?php endif;?>
                                 <form action="/resident-portal/portal-center" method="post" id='form1'>
                                     <div class="mb-20 mb-md-10">
                                         <label><i class="fa fa-user"></i> Username or Email</label>
@@ -49,7 +47,7 @@
                                         <input type="password" name="pass" id="pass" class="input-md form-control" maxlength="100">
                                     </div>
                                     {{csrf_field()}}
-                                    <?php if (Util::isDev() == false): ?>
+                                    <?php if(Util::isDev() == false): ?>
 									<div class="mb-20 mb-md-10 form-group">
                                         <div class="g-recaptcha" id='grecaptcha' data-sitekey="<?php echo $entity->getRecaptchaKey();?>"></div>
                                     </div>
@@ -77,7 +75,7 @@
         @section('google-maps-js')
         <!-- Replace test API Key "AIzaSyAZsDkJFLS0b59q7cmW0EprwfcfUA8d9dg" with your own one below 
         **** You can get API Key here - https://developers.google.com/maps/documentation/javascript/get-api-key -->
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo $entity->getText('google-map-key', ['nodecorate'=>1]);?>"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo $entity->getText('google-map-key',['nodecorate'=>1]);?>"></script>
         @stop
 
 		@section('page-specific-js')
@@ -94,7 +92,7 @@
                         pass: {
                             required: true
                         }
-                        <?php if (Util::isDev() == false): ?>
+                        <?php if(Util::isDev() == false): ?>
                         ,hiddenRecaptcha: {
                             required: function () {
                                 if (grecaptcha.getResponse() == '') {

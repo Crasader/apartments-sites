@@ -14,12 +14,14 @@ class RemoveSoftDeleteFromEmailAddresses extends Migration
     public static $tables = ['email_addresses', 'email_email_address'];
     public function up()
     {
-        foreach (self::$tables as $table) {
-            if (Schema::hasColumn($table, 'deleted_at')) {
-                Schema::table($table, function ($innerTable) {
+
+        foreach(self::$tables as $table){
+            if(Schema::hasColumn($table, 'deleted_at')){
+                Schema::table($table, function($innerTable){
                     $innerTable->dropColumn('deleted_at');
                 });
             }
+
         }
         //
     }
@@ -31,12 +33,13 @@ class RemoveSoftDeleteFromEmailAddresses extends Migration
      */
     public function down()
     {
-        foreach (self::$tables as $table) {
-            if (!Schema::hasColumn($table, 'deleted_at')) {
-                Schema::table($table, function ($innerTable) {
+        foreach(self::$tables as $table){
+            if(!Schema::hasColumn($table, 'deleted_at')){
+                Schema::table($table, function($innerTable){
                     $innerTable->timestamp('deleted_at')->nullable();
                 });
             }
+
         }
     }
 }

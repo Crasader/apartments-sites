@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\RegisteredProperty as RegisteredPropertyEvent;
+use App\Events\RegisteredProperty as RegisteredPropertyEvent; 
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -30,7 +30,7 @@ class RegisteredProperty
         //Dispatches a job to create filesystem stuff and whatnot
         
         /** TODO:
-         * In teh future we'll probably want to send an email to someone when there is
+         * In teh future we'll probably want to send an email to someone when there is 
          * a new registered property.
          */
         /*

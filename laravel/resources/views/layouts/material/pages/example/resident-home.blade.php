@@ -32,7 +32,7 @@
                         pass: {
                             required: true
                         }
-                        <?php if (ENV('DEV') == false): ?>
+                        <?php if(ENV('DEV') == false): ?>
                         ,hiddenRecaptcha: {
                             required: function () {
                                 if (grecaptcha.getResponse() == '') {

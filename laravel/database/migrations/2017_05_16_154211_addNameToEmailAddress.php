@@ -14,7 +14,7 @@ class AddNameToEmailAddress extends Migration
     public function up()
     {
         //
-        Schema::table('email_email_address', function ($table) {
+        Schema::table('email_email_address', function($table){
             $table->string('name');
         });
     }
@@ -27,7 +27,7 @@ class AddNameToEmailAddress extends Migration
     public function down()
     {
         //
-        Schema::table('email_email_address', function ($table) {
+        Schema::table('email_email_address', function($table){
             $table->dropColumn('name');
         });
     }

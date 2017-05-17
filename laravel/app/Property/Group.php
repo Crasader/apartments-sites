@@ -15,10 +15,9 @@ class Group extends Model
 
     protected $table = 'property_group';
 
-    public static function generateStrIdentifier($name)
-    {
-        $cleaned = preg_replace('/[^a-z0-9]+/', '-', strtolower($name));
-        $cleaned = preg_replace('/\-{2,}/', '-', $cleaned);
-        return substr($cleaned, 0, 16);
+    public static function generateStrIdentifier($name){
+        $cleaned = preg_replace('/[^a-z0-9]+/','-',strtolower($name));
+        $cleaned = preg_replace('/\-{2,}/','-',$cleaned);
+        return substr($cleaned,0,16);
     }
 }

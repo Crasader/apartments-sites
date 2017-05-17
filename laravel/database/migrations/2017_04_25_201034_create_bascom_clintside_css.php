@@ -16,9 +16,9 @@ class CreateBascomClintsideCss extends Migration
         //
         $temp = app()->make("App\Property\Clientside\Assets");
         $entity = \DB::connection('mysql')->table('property_entity')
-            ->where('filesystem_id', '166tbl-80-on-gibson')
+            ->where('filesystem_id','166tbl-80-on-gibson')
             ->get();
-        if (count($entity) == 0) {
+        if(count($entity) == 0){
             echo "Shit, can't make the clientside assets because the entity doesnt exist!\n";
             exit(0);
         }

@@ -41,9 +41,9 @@ class CreateServerTemplate extends Command
         $template = $this->argument("template");
         $url  = $this->argument('url');
         $fileContents = file_get_contents(ENV("SERVER_TEMPLATE_FILE"));
-        $objects = json_decode($fileContents, true);
+        $objects = json_decode($fileContents,true);
         $objects[$url] = $template;
-        file_put_contents(ENV("SERVER_TEMPLATE_FILE"), json_encode($objects));
+        file_put_contents(ENV("SERVER_TEMPLATE_FILE"),json_encode($objects));
         echo "DONE";
     }
 }

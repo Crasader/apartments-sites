@@ -1,11 +1,11 @@
 <?php /*
 <%
-Dim objXMLHTTP
+Dim objXMLHTTP 
 Dim strRequest, strResult
 
 dim maintenance_mtype
-dim ResidentName
-dim maintenance_unit
+dim ResidentName 
+dim maintenance_unit 
 dim email
 dim maintenance_phone
 dim maintenance_name
@@ -42,7 +42,7 @@ fromAddress = request.form("email")
 
 strTo = "400rhett@amcllc.net, leasing@400rhett.com"
 'strTo = "matt@marketapts.com"
-strFrom = fromAddress
+strFrom = fromAddress 
 'strCc = "matt@marketapts.com"
 strbCc = "ali@marketapts.com"
 strSubject = "Resident Center Maintenance Request at 400 Rhett Apartments"
@@ -65,27 +65,27 @@ strBody = strBody & "</p></h4><br></div></div>"
 strBody = strBody & "</body></html>"
 
 
-    set objCDOMail = Server.CreateObject( "CDONTS.NewMail" )
-    objCDOMail.MailFormat = CdoMailFormatMIME
-    objCDOMail.BodyFormat = CdoBodyFormatHTML
+	set objCDOMail = Server.CreateObject( "CDONTS.NewMail" )
+	objCDOMail.MailFormat = CdoMailFormatMIME
+	objCDOMail.BodyFormat = CdoBodyFormatHTML
 
-    objCDOMail.From = strFrom
-    objCDOMail.Cc = strCc
-    objCDOMail.bCc = strbCc
-    objCDOMail.To = strTo
+	objCDOMail.From = strFrom
+	objCDOMail.Cc = strCc
+	objCDOMail.bCc = strbCc
+	objCDOMail.To = strTo
+	
+	objCDOMail.Subject = strSubject
+	objCDOMail.Body = strBody
 
-    objCDOMail.Subject = strSubject
-    objCDOMail.Body = strBody
+	on error resume next
 
-    on error resume next
+	objCDOMail.Send	
+	on error goto 0
 
-    objCDOMail.Send
-    on error goto 0
+			'Set the object to nothing
+	set objCDOMail = nothing
 
-            'Set the object to nothing
-    set objCDOMail = nothing
-
-
+	
 
 
 
@@ -97,14 +97,14 @@ strBody = strBody & "</body></html>"
 'Response.Write("maintenance_name:" & maintenance_name & "<br>")
 'Response.Write("PermissionToEnterDate:" & PermissionToEnterDate & "<br>")
 'Response.Write("maintenance_mrequest:" & maintenance_mrequest & "<br>")
-
-'Response.End
+   
+'Response.End 
     'Response.Write "<br>START<hr>"
 
     Set oXmlHTTP = CreateObject("Microsoft.XMLHTTP")
-    oXmlHTTP.Open "POST", "http://192.168.1.135:8088/MApts_com.asmx", False
+    oXmlHTTP.Open "POST", "http://192.168.1.135:8088/MApts_com.asmx", False 
 
-    oXmlHTTP.setRequestHeader "Content-Type", "text/xml; charset=utf-8"
+    oXmlHTTP.setRequestHeader "Content-Type", "text/xml; charset=utf-8" 
     oXmlHTTP.setRequestHeader "SOAPAction", "http://tempuri.org/InsertWorkOrder"
 
 strRequest ="<?xml version=""1.0"" encoding=""utf-8""?>" _
@@ -121,11 +121,11 @@ strRequest ="<?xml version=""1.0"" encoding=""utf-8""?>" _
 & "      <sysPassword>g3tm3s0m3pr0ps</sysPassword>" _
 & "    </InsertWorkOrder>" _
 & "  </soap:Body>" _
-& "</soap:Envelope>"
+& "</soap:Envelope>" 
 
 
-
-    oXmlHTTP.send strRequest
+    
+    oXmlHTTP.send strRequest    
 
         'Response.Write oXmlHTTP.responseText
 
@@ -137,8 +137,8 @@ strRequest ="<?xml version=""1.0"" encoding=""utf-8""?>" _
 
 
     'get rid of xml on the front
-    strResult=Replace(strResult, "version1.0","")
-
+	strResult=Replace(strResult, "version1.0","")
+    
 
 
     'get rid of xml on the back
@@ -150,8 +150,8 @@ strRequest ="<?xml version=""1.0"" encoding=""utf-8""?>" _
     'strResult=Replace(strResult, "SUCCESS","")
     'strResult=Replace(strResult, "=","")
 
-
-    'strResult=Replace(strResult, " Status=SUCCESS/>","")
+    
+	'strResult=Replace(strResult, " Status=SUCCESS/>","")
 
 Dim Position
 Position=instr(strResult, "WorkOrderNumber=")

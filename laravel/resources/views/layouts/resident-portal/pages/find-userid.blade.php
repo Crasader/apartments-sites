@@ -12,7 +12,7 @@
 			<!-- Content Blocks -->
 			<div class="container">
                 <br><br>
-				<?php if (isset($userIdFound)): ?>
+				<?php if(isset($userIdFound)): ?>
 				<div class="row">
                     <div class="col-md-6 col-sm-6 col-md-offset-3 mb-sm-50 mb-xs-30 section-text">
 						<p>An email has been sent to the email address you registered with at move-in. </p>
@@ -29,7 +29,7 @@
 						<p>Please enter your email address you registered with at move-in. </p>
 						<div class="section-text schedule-a-tour-form form-container">
 							<form role="form" id="form1" name="form1" method="post" class="validate" action="/resident-portal/find-userid">
-								<p><span class="colored-text"><b><?php if (isset($userIdNotFound)): ?>Email Address was not found<?php endif;?></b></span></p>
+								<p><span class="colored-text"><b><?php if(isset($userIdNotFound)): ?>Email Address was not found<?php endif;?></b></span></p>
 								<div class="form-group">
 									<label class="control-label">Email *</label>
 									<input type="text" class="form-control" name="email" data-validate="required,email" data-message-required="Email Address is a required field."/>

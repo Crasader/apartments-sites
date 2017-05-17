@@ -11,6 +11,7 @@ use App\Util\Util;
 
 class Site extends Model
 {
+
     public static $instance = null;
     public static $site_id_set = false;
     public static $site_id = null;
@@ -19,13 +20,12 @@ class Site extends Model
     protected $_entity = null;
     protected $table = 'property_entity';
 
-    public function __construct($entity)
-    {
-        if (get_class($entity) == "App\Property\Entity") {
+    public function __construct($entity){
+        if(get_class($entity) == "App\Property\Entity"){
             self::$instance = $this;
             $this->id = self::$site_id = $entity->id;
             self::$site_id_set = true;
-            self::$template_dir = Template::where('id', $entity->fk_template_id)
+            self::$template_dir = Template::where('id',$entity->fk_template_id)
                 ->get()->first()
                 ->filesystem_id
             ;
@@ -33,18 +33,18 @@ class Site extends Model
             return;
         }
         //TODO:this code is rather redundant..
-        if (isset($entity['id'])) {
+        if(isset($entity['id'])){
             self::$instance = $this;
             self::$site_id = $entity['id'];
             self::$site_id_set = true;
-            self::$template_dir = Template::where('id', $entity->fk_template_id)
+            self::$template_dir = Template::where('id',$entity->fk_template_id)
                 ->get()->first()
                 ->filesystem_id
                 ;
             $this->id = $entity['id'];
             $this->_entity = Entity::find($this->id);
         }
-        if (is_array($entity)) {
+        if(is_array($entity)){
             $e = new Entity();
             $e->loadByArray($entity);
             $this->_entity = $e;
@@ -53,8 +53,7 @@ class Site extends Model
         }
     }
 
-    public function getEntity()
-    {
+    public function getEntity(){
         return $this->_entity;
     }
 }
