@@ -11,7 +11,7 @@ class Template extends Model
     protected $table = 'property_template';
     public static function getGMapKey($siteInstance = null)
     {
-        return Util::redisFetchOrUpdate('gmap_key', function () {
+        return Util::redisFetchOrUpdate('gmap_key', function () use ($siteInstance) {
             if (!$siteInstance) {
                 $siteInstance = app()->make('App\Property\Site');
             }

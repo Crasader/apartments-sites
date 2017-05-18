@@ -8,26 +8,44 @@ use App\Property\Site;
 
 class Settings extends Model
 {
-    const CUSTOM_NAV = 'customnav'; 
+    const CUSTOM_NAV = 'customnav';
     protected $table ='system_settings';
 
-    public static function site($forceGet=false){
+    public static function site($forceGet=false)
+    {
         $site = app()->make(Site::class);
-        $fetcher = function() use($site){ $settings = self::where('fk_property_id',$site->getEntity()->fk_legacy_property_id)
-                ->where('scope','site')
+        $fetcher = function () use ($site) {
+            $settings = self::where('fk_property_id', $site->getEntity()->fk_legacy_property_id)
+                ->where('scope', 'site')
                 ->get();
-            if(count($settings)){
-                return Util::flatten(['str_key' => 'str_value'],$settings->toArray());
-            }else{
+            if (count($settings)) {
+                return Util::flatten(['str_key' => 'str_value'], $settings->toArray());
+            } else {
                 return [];
             }
         };
-        if($forceGet){
+        if ($forceGet) {
             $return = $fetcher();
             return $return;
         }
-        $settings = Util::redisFetchOrUpdate(Util::redisKey('site-settings'),$fetcher,true);
+        $settings = Util::redisFetchOrUpdate(Util::redisKey('site-settings'), $fetcher, true);
         return $settings;
+    }
+
+    public static function addCustomNavItemsToArray($origNavItems)
+    {
+        $settings = self::site();
+        $newItems = [];
+        foreach ($origNavItems as $origIndex => $origNav) {
+            array_push($newItems, $origNav);
+            foreach ($settings[self::CUSTOM_NAV] as $i => $json) {
+                $element = json_decode($json, 1);
+                if ($element['after'] == $origNav['label']) {
+                    array_push($newItems, $element);
+                }
+            }
+        }
+        return $newItems;
     }
 
     /*
@@ -37,9 +55,10 @@ class Settings extends Model
      * @param $aAttributes array optional array of a attributes to attach
      * @return array ['inserted' => N, 'updated' => M] where N is inserted rows, M is updated rows
      */
-    public function addCustomNav($label,$href,$after,$liAttributes=[],$aAttributes=[]){
+    public function addCustomNav($label, $href, $after, $liAttributes=[], $aAttributes=[])
+    {
         return $this->setSiteSetting(
-            [self::CUSTOM_NAV => 
+            [self::CUSTOM_NAV =>
                 json_encode([
                     'label' => $label,
                     'href' => $href,
@@ -56,25 +75,28 @@ class Settings extends Model
      * @param $setting array ['key' => 'value'  /*
      * @return void
      */
-    public function setSiteSetting(array $setting){
+    public function setSiteSetting(array $setting, $update=false)
+    {
         $results = ['updated' => 0,'inserted' => 0];
         $site = app()->make(Site::class);
         $keys = array_keys($setting);
-        $existing = self::where('fk_property_id',$site->getEntity()->fk_legacy_property_id)
-                ->whereIn('str_key',$keys)
-                ->where('scope','site')
-                ->get();
         $processed = [];
-        if(count($existing)){
-            foreach($existing as $record){
-                $record->str_value = $setting[$record->str_key];
-                $record->save();
-                $processed[] = $record->str_key;
-                $results['updated']++;
+        if ($update) {
+            $existing = self::where('fk_property_id', $site->getEntity()->fk_legacy_property_id)
+                    ->whereIn('str_key', $keys)
+                    ->where('scope', 'site')
+                    ->get();
+            if (count($existing)) {
+                foreach ($existing as $record) {
+                    $record->str_value = $setting[$record->str_key];
+                    $record->save();
+                    $processed[] = $record->str_key;
+                    $results['updated']++;
+                }
             }
         }
-        $leftOvers = array_diff(array_keys($setting),$processed);
-        foreach($leftOvers as $settingIndex){
+        $leftOvers = array_diff(array_keys($setting), $processed);
+        foreach ($leftOvers as $settingIndex) {
             $value = $setting[$settingIndex];
             $save = new self();
             $save->fk_property_id = $site->getEntity()->fk_legacy_property_id;
@@ -87,11 +109,43 @@ class Settings extends Model
         return $results;
     }
 
-    public function removeSiteSetting($setting){
+    public function removeSiteSetting(string $key, string $value)
+    {
         $site = app()->make(Site::class);
-        self::where('fk_property_id',$site->getEntity()->fk_legacy_property_id)
-                ->where('str_key',$setting)
-                ->where('scope','site')
+        self::where('fk_property_id', $site->getEntity()->fk_legacy_property_id)
+                ->where('str_key', $key)
+                ->where('str_value', $value)
+                ->where('scope', 'site')
+                ->delete();
+    }
+
+    public function removeSiteSettingMulti(string $key, array $inSettings)
+    {
+        $site = app()->make(Site::class);
+        $ctr = 0;
+        foreach (self::site() as $iKey => $value) {
+            if ($iKey == $key) {
+                if (is_array($value)) {
+                    foreach ($value as $ivKey => $vValue) {
+                        self::where('fk_property_id', $site->getEntity()->fk_legacy_property_id)
+                            ->where('str_key', $key)
+                            ->where('str_value', $vValue)
+                            ->where('scope', 'site')
+                            ->delete();
+                        $ctr++;
+                    }
+                }
+            }
+        }
+        return $ctr;
+    }
+
+    public function removeAllSiteSetting($setting)
+    {
+        $site = app()->make(Site::class);
+        self::where('fk_property_id', $site->getEntity()->fk_legacy_property_id)
+                ->where('str_key', $setting)
+                ->where('scope', 'site')
                 ->delete();
     }
 }

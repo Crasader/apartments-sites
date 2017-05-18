@@ -113,21 +113,7 @@ try{
                                     ]
                                 ];
                                 $settings = Settings::site($forceGet=true);
-
-                                if(isset($settings[Settings::CUSTOM_NAV])){
-                                    foreach($settings[Settings::CUSTOM_NAV] as $json){
-                                        $newItems = [];
-                                            foreach($galleryItems as $i => $object){
-                                                $element = json_decode($json,true);
-                                                array_push($newItems,$object);
-                                                if($element['after'] == $object['label']){
-                                                    array_push($newItems,$element);
-                                                }
-                                            }
-                                    }
-                                }else{
-                                    $newItems = $galleryItems;
-                                }
+                                $newItems = Settings::addCustomNavItemsToArray($galleryItems);
 
                                 foreach($newItems as $index => $navElement){
                                     echo "<li";
