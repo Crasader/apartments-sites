@@ -9,8 +9,8 @@ class Neighborhood extends Model
     //
     protected $table = 'property_neighborhood';
 
-    public function belongsToProperty(){
-        return $this->belongsTo('App\Property\Entity','fk_legacy_property_id','property_id');
+    public function belongsToProperty()
+    {
+        return $this->belongsTo('App\Property\Entity', 'fk_legacy_property_id', 'property_id');
     }
-
 }
