@@ -16,52 +16,56 @@ class FloorPlanImage extends Model
     //
     protected $table = 'assets_floorplan';
 
-    public function probeImageFiles($floorplan){
+    public function probeImageFiles($floorplan)
+    {
         $site = $this->getSite();
         $foo = $this;
-        return Util::redisFetchOrUpdate('floorplans_images',function() use($foo,$site,$floorplan){
+        return Util::redisFetchOrUpdate('floorplans_images', function () use ($foo, $site, $floorplan) {
             $rows = self::where(
                 ['fk_legacy_property_id' => $site->getEntity()->fk_legacy_property_id],
                 ['floorplan_name' =>  $floorplan]
                 )->get();
-            if(count($rows) == 0){
+            if (count($rows) == 0) {
                 Util::log("Fetching floorplans... ");
                 return $foo->fetchAll();
-            }else{
-                Util::log("Returning formatted db result: " . var_export($rows,1));
+            } else {
+                Util::log("Returning formatted db result: " . var_export($rows, 1));
                 return $foo->formatDbResult($rows);
             }
-        },true);
+        }, true);
     }
 
-    public function getSite(){
+    public function getSite()
+    {
         $site = Site::$instance;
-        if($site === null){
+        if ($site === null) {
             $site = app()->make('App\Property\Site');
         }
         return $site;
     }
 
-    public function formatDbResult($rows){
+    public function formatDbResult($rows)
+    {
         $ret = [];
-        foreach($rows->toArray() as $i => $foo){
+        foreach ($rows->toArray() as $i => $foo) {
             $ret[$foo['floorplan_name']] = $foo['extension'];
         }
         return $ret;
     }
 
 
-    public function fetchAll(){
+    public function fetchAll()
+    {
         $site = $this->getSite();
         $fp = app()->make('App\AIM\Floorplans');
         $sqlPlans = $fp->getFloorPlans();
         $names = [];
         $floorplanArray = [];
-        foreach($sqlPlans as $i => $foo){
+        foreach ($sqlPlans as $i => $foo) {
             $name = Util::transformFloorplanName($foo->U_MARKETING_NAME);
-            foreach(['jpg','jpeg','png','gif'] as $i => $type){
+            foreach (['jpg','jpeg','png','gif'] as $i => $type) {
                 $url = $site->getEntity()->getWebPublicDirectory('floorplans') . "/$name.{$type}";
-                if($this->checkIfFileExists($url) == FloorPlanImage::FOUND){
+                if ($this->checkIfFileExists($url) == FloorPlanImage::FOUND) {
                     $newObject = new self();
                     $newObject->floorplan_name = $name;
                     $newObject->extension = $type;
@@ -75,22 +79,22 @@ class FloorPlanImage extends Model
         return $floorplanArray;
     }
 
-    public function checkIfFileExists(string $url){
+    public function checkIfFileExists(string $url)
+    {
         $ch = \curl_init($url);
 
         \curl_setopt($ch, CURLOPT_NOBODY, true);
         \curl_exec($ch);
         $retcode = \curl_getinfo($ch, CURLINFO_HTTP_CODE);
         \curl_close($ch);
-        Util::log("File exists: $url: retcode: " . var_export($retcode,1));
-        if($retcode >= 400){ 
+        Util::log("File exists: $url: retcode: " . var_export($retcode, 1));
+        if ($retcode >= 400) {
             \Debugbar::info("NOT FOUND: $url");
             return FloorPlanImage::NOT_FOUND;
-        }else if($retcode == 200){
+        } elseif ($retcode == 200) {
             \Debugbar::info("FOUND: $url");
             return FloorPlanImage::FOUND;
-        }else{
-
+        } else {
         }
     }
 }

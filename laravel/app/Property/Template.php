@@ -9,11 +9,12 @@ class Template extends Model
 {
     //
     protected $table = 'property_template';
-    public static function getGMapKey($siteInstance = null){
-        if(!$siteInstance){
+    public static function getGMapKey($siteInstance = null)
+    {
+        if (!$siteInstance) {
             $siteInstance = app()->make('App\Property\Site');
         }
-            $url = self::select('gmap_key')
+        $url = self::select('gmap_key')
             ->where(
                 'property_id',
                 $siteInstance
@@ -21,12 +22,12 @@ class Template extends Model
                     ->fk_legacy_property_id
             )
             ->first();
-            if($url){
-                if(strlen(trim($url['gmap_key']))){
-                    return (trim($url['gmap_key']));
-                }
+        if ($url) {
+            if (strlen(trim($url['gmap_key']))) {
+                return (trim($url['gmap_key']));
             }
-            return '<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>';
+        }
+        return '<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>';
     }
 }
 

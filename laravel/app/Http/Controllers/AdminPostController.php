@@ -36,16 +36,18 @@ class AdminPostController extends PostController
     protected $_translations = [];
     //
 
-    public function __construct(){
-        if(ENV("SHOW_DEBUG_BAR") == "0"){
+    public function __construct()
+    {
+        if (ENV("SHOW_DEBUG_BAR") == "0") {
             \Debugbar::disable();
         }
         parent::__construct();
-        $this->_allowed = array_merge($this->_mergeAllowed,$this->_allowed);
+        $this->_allowed = array_merge($this->_mergeAllowed, $this->_allowed);
     }
 
 
-    public function loadErrorTranslations(int $legacyPropertyId){
+    public function loadErrorTranslations(int $legacyPropertyId)
+    {
         //TODO: offload these strings to a file somewhere !organization
         $this->_translations = [
             'reset-password' => [
@@ -57,7 +59,8 @@ class AdminPostController extends PostController
         ];
     }
 
-    public function handlePlaceId(Request $req){
+    public function handlePlaceId(Request $req)
+    {
         $data = $_POST;
         Site::$instance = $site = app()->make('App\Property\Site');
 
@@ -66,18 +69,17 @@ class AdminPostController extends PostController
             'type' => 'required|max:1',
         ]);
         //
-        $updated = Util::updateIfExists(Place::class,['fk_legacy_property_id' => Site::$instance->getEntity()->fk_legacy_property_id],[
+        $updated = Util::updateIfExists(Place::class, ['fk_legacy_property_id' => Site::$instance->getEntity()->fk_legacy_property_id], [
             'place_id' => $data['placeid'],
             'place_type' => $data['type'],
             ]);
-        if(!$updated){
+        if (!$updated) {
             $p = app()->make('App\Reviews\Place');
             $p->fk_legacy_property_id = Site::$instance->getEntity()->fk_legacy_property_id;
             $p->place_id = $data['placeid'];
             $p->place_type = $data['type'];
             $p->save();
         }
-        return view('layouts/admin/places',['status' => 'Place id successfully saved.']);
+        return view('layouts/admin/places', ['status' => 'Place id successfully saved.']);
     }
-
 }
