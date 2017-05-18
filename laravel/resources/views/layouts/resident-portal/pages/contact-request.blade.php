@@ -19,7 +19,7 @@
 				<div class="row">
 					<div class="col-md-6">
 						<p>Contact the property and we will get your concern taken care of as quickly as possible.</p>
-                        <?php if(isset($sent)): ?><h1>Your information was received</h1><?php endif;?>
+                        <?php if (isset($sent)): ?><h1>Your information was received</h1><?php endif;?>
 						<div class="schedule-a-tour-form form-container">
 							<form class="form-horizontal" action="resident-contact-mailer" name="form1" method="post">
 								<div class="form-group">
@@ -50,7 +50,7 @@
 						<div class="contact-right-container">
 							<div class="map">
 								<div class="embed-responsive embed-responsive-4by3">
-                                    <?php //TODO: replace this ?>
+                                    <?php //TODO: replace this?>
 									<?php //<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3274.454756233728!2d-82.4098738844121!3d34.84479908039779!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8858303520e7b549%3A0xd5cd3705dfa142fd!2s400+Rhett+St%2C+Greenville%2C+SC+29601!5e0!3m2!1sen!2sus!4v1465319930295" class="embed-responsive-item" frameborder="0" style="border:0" allowfullscreen></iframe>
                                     ?>
 								</div>
@@ -69,14 +69,14 @@
 								</p>
 							</div>
                             <?php /*
-							<div class="social-icons">
-								<ul>
-									<li><a href="<?php echo $entity->getSocialMedia('fb');?>" target="_blank"><i class="fa fa-facebook social-icon" aria-hidden="true"></i></a></li>
-									<li><a href="<?php echo $entity->getSocialMedia('twitter');?>" target="_blank"><i class="fa fa-twitter social-icon" aria-hidden="true"></i></a></li>
-									<li><a href="<?php echo $entity->getSocialMedia('insta');?>" target="_blank"><i class="fa fa-instagram social-icon" aria-hidden="true"></i></a></li>
-									<li><a href="<?php echo $entity->getSocialMedia('google');?>" target="_blank"><i class="fa fa-google-plus social-icon" aria-hidden="true"></i></a></li>
-								</ul>
-							</div>
+                            <div class="social-icons">
+                                <ul>
+                                    <li><a href="<?php echo $entity->getSocialMedia('fb');?>" target="_blank"><i class="fa fa-facebook social-icon" aria-hidden="true"></i></a></li>
+                                    <li><a href="<?php echo $entity->getSocialMedia('twitter');?>" target="_blank"><i class="fa fa-twitter social-icon" aria-hidden="true"></i></a></li>
+                                    <li><a href="<?php echo $entity->getSocialMedia('insta');?>" target="_blank"><i class="fa fa-instagram social-icon" aria-hidden="true"></i></a></li>
+                                    <li><a href="<?php echo $entity->getSocialMedia('google');?>" target="_blank"><i class="fa fa-google-plus social-icon" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </div>
                             */?>
 						</div>
 					</div>

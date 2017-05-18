@@ -1,5 +1,6 @@
 <?php
 use App\Util\Util;
+
 //TODO: Make this work for the material template
 ?>
 <!DOCTYPE html>
@@ -15,13 +16,13 @@ use App\Util\Util;
 @section('css')
         <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
-        <?php foreach(['main','animate.min','owl.carousel','magnific-popup'] as $i => $sheet){
-            if(file_exists(public_path() . "/{$fsid}/css/{$sheet}.css")){
-                echo "<link rel='stylesheet' href='/" . $fsid . "/css/{$sheet}.css?v={$entity->getAssetsVersion($fsid . '/css/' . $sheet . '.css')}'>";
-            } 
-        }?>
+        <?php foreach (['main','animate.min','owl.carousel','magnific-popup'] as $i => $sheet) {
+    if (file_exists(public_path() . "/{$fsid}/css/{$sheet}.css")) {
+        echo "<link rel='stylesheet' href='/" . $fsid . "/css/{$sheet}.css?v={$entity->getAssetsVersion($fsid . '/css/' . $sheet . '.css')}'>";
+    }
+}?>
         <?php $extraSheets = $entity->getCustomStyleSheets($page);
-            foreach($extraSheets as $i => $sheet): ?>
+            foreach ($extraSheets as $i => $sheet): ?>
             <link rel="stylesheet" href="<?php echo $sheet;?>">
        <?php endforeach; ?>
 @show
@@ -38,7 +39,7 @@ use App\Util\Util;
         <!-- End Page Loader -->
         @include('layouts/bascom/pages/inc/nav')
             <div class="row text-center">
-                <?php if(isset($errorGeneric)): ?>
+                <?php if (isset($errorGeneric)): ?>
                     <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">An unexpected error occurred</h1>
                 <?php else: ?>
                     <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Page not found</h1>

@@ -8,7 +8,8 @@ use App\Property\Site as Site;
 
 class DomainController extends Controller
 {
-    public function test(){
+    public function test()
+    {
         $site = app()->make(Site::class);
         var_dump($site->id);
     }

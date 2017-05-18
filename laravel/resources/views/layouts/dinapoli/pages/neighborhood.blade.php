@@ -11,10 +11,10 @@
                 <div class="container relative">
                     <?php
                         $feature  = app()->make('App\Property\Feature');
-                        foreach(array_chunk($entity->hasNeighborhood()->get()->toArray(),3) as $chunkIndex => $chunkArray):
+                        foreach (array_chunk($entity->hasNeighborhood()->get()->toArray(), 3) as $chunkIndex => $chunkArray):
                             echo '<div class="section-text mb-80 mb-sm-20">';
                             echo '<div class="row">';
-                            foreach($chunkArray as $index => $nFeature):
+                            foreach ($chunkArray as $index => $nFeature):
                     ?>
                     <!-- Team item -->
                     <div class="col-sm-4 mb-xs-50 wow fadeInUp">

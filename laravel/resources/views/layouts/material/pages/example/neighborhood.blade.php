@@ -10,7 +10,7 @@
                 <div class="col-md-8">
                     <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Eat•Play•Shop</h1>
                     <div class="hs-line-4 font-alt">
-			            <?php echo $entity->getText('neighborhood-text',['oneshot' => 'Everything in your own backyard...']);?>
+			            <?php echo $entity->getText('neighborhood-text', ['oneshot' => 'Everything in your own backyard...']);?>
                     </div>
                 </div>
                 
@@ -38,10 +38,10 @@
                         1 => '<div class="align-center"><h2 class="section-title font-alt"><span class="icon-bike"></span>&nbsp;&nbsp;Recreation</h2></div>',
                         2 => '<div class="align-center"><h2 class="section-title font-alt"><span class="icon-calendar"></span>&nbsp;&nbsp;Events</h2></div>'
                         ];
-                        foreach(array_chunk($entity->hasNeighborhood()->get()->toArray(),3) as $chunkIndex => $chunkArray):
+                        foreach (array_chunk($entity->hasNeighborhood()->get()->toArray(), 3) as $chunkIndex => $chunkArray):
                             echo '<div class="section-text mb-80 mb-sm-20">';
                             echo '<div class="row">';
-                            foreach($chunkArray as $index => $nFeature):
+                            foreach ($chunkArray as $index => $nFeature):
                     ?>
                     <!-- Team item -->
                     <div class="col-sm-4 mb-xs-50 wow fadeInUp">
@@ -85,7 +85,7 @@
                                 <div class="banner-content">
                                     <h3 class="banner-heading font-alt">Schedule A Tour Today!</h3>
                                     <div class="banner-decription">
-                                        <?php echo $entity->getText('schedule-a-tour-description',['oneshot' =>'Proin fringilla augue at maximus vestibulum. Nam pulvinar vitae neque et porttitor.
+                                        <?php echo $entity->getText('schedule-a-tour-description', ['oneshot' =>'Proin fringilla augue at maximus vestibulum. Nam pulvinar vitae neque et porttitor.
                                         Integer non dapibus diam, ac eleifend lectus.']);?>
                                     </div>
                                     <div class="local-scroll">
@@ -136,7 +136,7 @@
                                 <div>
                                 @include('layouts/dinapoli/pages/inc/google-maps-script')
                             </div>
-                            <?Php //@include('layouts/dinapoli/pages/inc/google-maps-apartment-feature') ?>
+                            <?php //@include('layouts/dinapoli/pages/inc/google-maps-apartment-feature')?>
                         </div>
                     </div>
                 </div>
@@ -213,7 +213,7 @@
         @section('google-maps-js')
         <!-- Replace test API Key "AIzaSyAZsDkJFLS0b59q7cmW0EprwfcfUA8d9dg" with your own one below 
         **** You can get API Key here - https://developers.google.com/maps/documentation/javascript/get-api-key -->
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo $entity->getText('google-map-key',['nodecorate'=>1]);?>"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo $entity->getText('google-map-key', ['nodecorate'=>1]);?>"></script>
         @stop
 
             @section('schedule-a-tour')
