@@ -32,7 +32,8 @@ class Settings extends Model
         return $settings;
     }
 
-    public static function rawSite($forceGet=false) : array{
+    public static function rawSite($forceGet=false) : array
+    {
         $fetcher = function () {
             $site = app()->make(Site::class);
             $settings = self::where('fk_property_id', $site->getEntity()->fk_legacy_property_id)
@@ -52,14 +53,18 @@ class Settings extends Model
         return $settings;
     }
 
-    public function removeById(int $id) : int {
+    public function removeById(int $id) : int
+    {
         $site = app()->make(Site::class);
-        try{
+        try {
             $this->find($id)->destroy($id);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return 0;
         }
         return 1;
+    }
+    public static function simplify(string $str){
+        return preg_replace("|[^a-z0-9]+|", "", strtolower(strip_tags($str)));
     }
 
     public static function addCustomNavItemsToArray($origNavItems)
@@ -68,12 +73,12 @@ class Settings extends Model
         $newItems = [];
         foreach ($origNavItems as $origIndex => $origNav) {
             array_push($newItems, $origNav);
-            if(!isset($settings[self::CUSTOM_NAV])){
+            if (!isset($settings[self::CUSTOM_NAV])) {
                 return $origNavItems;
             }
             foreach ($settings[self::CUSTOM_NAV] as $i => $json) {
                 $element = json_decode($json, 1);
-                if ($element['after'] == $origNav['label']) {
+                if(self::simplify($element['after']) == self::simplify($origNav['label'])){
                     array_push($newItems, $element);
                 }
             }
