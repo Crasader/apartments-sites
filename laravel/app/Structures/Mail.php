@@ -20,5 +20,4 @@ class Mail
       'cc' => 'arrayable|email|nullable',
       'subject' => 'string|nullable',
     ];
-
 }

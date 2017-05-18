@@ -1,6 +1,7 @@
 <?php
 use App\Util\Util;
 use App\Property\Template as PropertyTemplate;
+
 ?>
 
 @extends('layouts/dinapoli/main')
@@ -24,19 +25,19 @@ use App\Property\Template as PropertyTemplate;
              <!-- Schedule Form Section -->
             <section class="page-section pb-0" id="contact-form">
                 <div class="container relative">
-                    <?php if(isset($sent)): ?><h1 class='notice'>Your email has been submitted</h1><?php endif;?>
-                    <?php if(isset($errors)){
-                        foreach($errors->all() as $message){
-                            echo "<div class='error'>$message</div>";
-                        }
-                    }
+                    <?php if (isset($sent)): ?><h1 class='notice'>Your email has been submitted</h1><?php endif;?>
+                    <?php if (isset($errors)) {
+    foreach ($errors->all() as $message) {
+        echo "<div class='error'>$message</div>";
+    }
+}
                     ?>
                     <div class="section-text mb-50 mb-sm-20">
                         <div class="row">
 
                             <div class="col-md-7 col-sm-7 mb-sm-50 mb-xs-30">
                                 <form role="form" id="form1" name="form1" method="post" class="validate" action="/schedule">
-                                    <?php //TODO: Find a form helper for laravel that will do this for us ?>
+                                    <?php //TODO: Find a form helper for laravel that will do this for us?>
                                     <div class="mb-20 mb-md-10 form-group">
                                         <label>First Name</label>
                                         <input type="text" name="firstname" id="firstname" data-validate="required" data-message-required="First name is a required field" class="input-md form-control" maxlength="100">
@@ -73,7 +74,7 @@ use App\Property\Template as PropertyTemplate;
                                     <label id="datepicker-error" class="error" for="datepicker" style='margin-bottom: 20px;'></label>
                                     <label id="timepicker-error" class="error" for="timepicker" style='margin-bottom: 20px;'></label>
                                     {{csrf_field()}}
-                                    <?php if(Util::isDev() == false): ?>
+                                    <?php if (Util::isDev() == false): ?>
                                     <div class="mb-20 mb-md-10 form-group">
                                         <div class="g-recaptcha" data-sitekey="<?php echo $entity->getRecaptchaKey();?>"></div>
                                     </div>
@@ -206,7 +207,7 @@ use App\Property\Template as PropertyTemplate;
                         required: true,
                         'date': true
                     }
-                    <?php if(Util::isDev() == false): ?>
+                    <?php if (Util::isDev() == false): ?>
                     ,hiddenRecaptcha: {
                         required: function(){
                             return grecaptcha.getResponse() == "";

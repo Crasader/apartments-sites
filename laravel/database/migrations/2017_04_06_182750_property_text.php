@@ -13,15 +13,15 @@ class PropertyText extends Migration
      */
     public function up()
     {
-	if(!Schema::hasTable('property_text')){
-        Schema::create('property_text', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('entity_id');
-            $table->integer('property_text_type_id');
-            $table->string('string_value');
-            $table->timestamps();
-        });
-	}
+        if (!Schema::hasTable('property_text')) {
+            Schema::create('property_text', function (Blueprint $table) {
+                $table->increments('id');
+                $table->integer('entity_id');
+                $table->integer('property_text_type_id');
+                $table->string('string_value');
+                $table->timestamps();
+            });
+        }
     }
 
     /**

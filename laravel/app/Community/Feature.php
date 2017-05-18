@@ -9,7 +9,8 @@ class Feature extends Model
     //
     protected $table = 'community_feature';
 
-    public function belongsToProperty(){
-        return $this->belongsTo('App\Property\Community\Feature','community_feature_id','id');
+    public function belongsToProperty()
+    {
+        return $this->belongsTo('App\Property\Community\Feature', 'community_feature_id', 'id');
     }
 }

@@ -15,16 +15,15 @@ class AddBascomTemplate extends Migration
     public function up()
     {
         //
-        $foo = \DB::connection('mysql')->table('templates')->where('name','bascom')->get();
-        if(count($foo)){
+        $foo = \DB::connection('mysql')->table('templates')->where('name', 'bascom')->get();
+        if (count($foo)) {
             return;
-        }else{
+        } else {
             $temp = new Template;
             $temp->name = 'bascom';
             $temp->filesystem_id = 'bascom';
             $temp->save();
         }
-
     }
 
     /**

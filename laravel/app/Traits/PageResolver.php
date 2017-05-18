@@ -14,30 +14,31 @@ trait PageResolver
 {
     use TextCache;
     protected $_site = null;
-	public function resolve($page = 'home'){
-        try{
+    public function resolve($page = 'home')
+    {
+        try {
             $data = $this->resolvePageBySite($page);
-            $modal = 
             return view($data['path'], $data['data']);
         } catch (BaseException $e) {
             return view("404");
         }
     }
-    public function resolvePageBySite(string $page,$inData = null) : array{
+    public function resolvePageBySite(string $page, $inData = null) : array
+    {
         $this->_site = app()->make('App\Property\Site');
-        if(!$this->_site->id){
+        if (!$this->_site->id) {
             $this->_site = app()->make("App\Property\Site");
-        }else{
-            if(Site::$template_dir){
+        } else {
+            if (Site::$template_dir) {
                 $templateDir = Site::$template_dir;
-            }else{
+            } else {
                 $ent = PropertyEntity::find($this->_site->id);
                 $templateDir = Template::find($ent->fk_template_id)->get()->first()-filesystem_id;
             }
             $entity = $this->_site->getEntity();
-            try{
+            try {
                 $entity->loadLegacyProperty();
-            }catch(Exception $e){
+            } catch (Exception $e) {
                 throw new BaseException("Unable to grab legacy property info");
             }
             $aliases = app()->make('App\Property\Site\Aliases');
@@ -50,7 +51,7 @@ trait PageResolver
             ];
             $aliased = false;
             $origPage = $page;
-            if($aliases->hasAlias($page)){
+            if ($aliases->hasAlias($page)) {
                 $data['alias'] = $aliases->getAlias($page);
                 $aliased = true;
                 $page = $aliases->getAlias($page);
@@ -60,30 +61,31 @@ trait PageResolver
             $data['fsid'] = $templateDir;
             $data['aliased'] = $aliased;
             $data['orig'] = $origPage;
-            Util::log("DATA supposedly: " . var_export($data,1));
+            Util::log("DATA supposedly: " . var_export($data, 1));
             return [
-                'path' => $this->resolveTemplatePath($templateDir,$page,$inData),
-                'data' => $this->resolveTemplateData($templateDir,$page,$inData,$data),
+                'path' => $this->resolveTemplatePath($templateDir, $page, $inData),
+                'data' => $this->resolveTemplateData($templateDir, $page, $inData, $data),
             ];
         }
         return [];
     }
 
-    public function resolveTemplatePath($templateDir,$page,$inData){
-        if(isset($inData['resident-portal'])){
-            return 'layouts/resident-portal/pages/' . str_replace('resident-portal/',"",$page);
+    public function resolveTemplatePath($templateDir, $page, $inData)
+    {
+        if (isset($inData['resident-portal'])) {
+            return 'layouts/resident-portal/pages/' . str_replace('resident-portal/', "", $page);
         }
         return "layouts/$templateDir/pages/$page";
     }
 
-    public function resolveTemplateData($templateDir,$page,$inData,$data){
-        if(isset($inData['resident-portal'])){
-            if(Sesh::get(Sesh::RESIDENT_USER_KEY) !== null){
-                $data['residentInfo'] = json_decode(explode("|",Sesh::get(Sesh::RESIDENT_USER_KEY))[1],1); //TODO !ugly
+    public function resolveTemplateData($templateDir, $page, $inData, $data)
+    {
+        if (isset($inData['resident-portal'])) {
+            if (Sesh::get(Sesh::RESIDENT_USER_KEY) !== null) {
+                $data['residentInfo'] = json_decode(explode("|", Sesh::get(Sesh::RESIDENT_USER_KEY))[1], 1); //TODO !ugly
             }
             $data['extends'] = "layouts/$templateDir/main";
         }
         return $data;
     }
-    
 }

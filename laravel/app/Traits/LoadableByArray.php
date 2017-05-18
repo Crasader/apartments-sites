@@ -16,11 +16,12 @@ use App\Property\Other\Feature as OtherFeature;
 use Redis;
 use App\Util\Util;
 
-trait LoadableByArray {
-    public function loadByArray(array $foo){
-        foreach($foo as $key => $value){
+trait LoadableByArray
+{
+    public function loadByArray(array $foo)
+    {
+        foreach ($foo as $key => $value) {
             $this->$key = $value;
         }
     }
 }
-

@@ -14,9 +14,11 @@ class AddPlaceTypeToReviewPlaces extends Migration
     public function up()
     {
         //
-        if(Schema::hasColumn('review_place','place_type')){ return; }
-        Schema::table('review_place',function($table){
-            $table->enum('place_type',['y','g']);
+        if (Schema::hasColumn('review_place', 'place_type')) {
+            return;
+        }
+        Schema::table('review_place', function ($table) {
+            $table->enum('place_type', ['y','g']);
         });
     }
 
