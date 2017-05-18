@@ -11,7 +11,7 @@ class Settings extends Model
     const CUSTOM_NAV = 'customnav';
     protected $table ='system_settings';
 
-    public static function site($forceGet=false)
+    public static function site($forceGet=false) : array
     {
         $site = app()->make(Site::class);
         $fetcher = function () use ($site) {
@@ -32,12 +32,45 @@ class Settings extends Model
         return $settings;
     }
 
+    public static function rawSite($forceGet=false) : array{
+        $fetcher = function () {
+            $site = app()->make(Site::class);
+            $settings = self::where('fk_property_id', $site->getEntity()->fk_legacy_property_id)
+                ->where('scope', 'site')
+                ->get();
+            if (count($settings)) {
+                return $settings->toArray();
+            } else {
+                return [];
+            }
+        };
+        if ($forceGet) {
+            $return = $fetcher();
+            return $return;
+        }
+        $settings = Util::redisFetchOrUpdate(Util::redisKey('raw-site-settings'), $fetcher, true);
+        return $settings;
+    }
+
+    public function removeById(int $id) : int {
+        $site = app()->make(Site::class);
+        try{
+            $this->find($id)->destroy($id);
+        }catch(Exception $e){
+            return 0;
+        }
+        return 1;
+    }
+
     public static function addCustomNavItemsToArray($origNavItems)
     {
         $settings = self::site();
         $newItems = [];
         foreach ($origNavItems as $origIndex => $origNav) {
             array_push($newItems, $origNav);
+            if(!isset($settings[self::CUSTOM_NAV])){
+                return $origNavItems;
+            }
             foreach ($settings[self::CUSTOM_NAV] as $i => $json) {
                 $element = json_decode($json, 1);
                 if ($element['after'] == $origNav['label']) {

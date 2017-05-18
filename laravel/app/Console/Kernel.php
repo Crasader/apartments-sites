@@ -19,6 +19,8 @@ class Kernel extends ConsoleKernel
         Commands\CreateServerTemplate::class,
         Commands\CreateHttpsException::class,
         Commands\CssInsert::class,
+        Commands\CustomNav::class,
+        Commands\CustomNavDelete::class,
     ];
 
     /**
