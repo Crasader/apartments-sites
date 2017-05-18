@@ -20,6 +20,7 @@ use App\System\Session;
 use App\Mailer\MultiContact;
 use App\Structures\Mail as StructMail;
 use App\Mailer\Queue;
+use App\Util\UrlHelpers;
 
 class PostController extends Controller
 {
@@ -632,14 +633,15 @@ class PostController extends Controller
             ],
             'data' => view('layouts/dinapoli/email/user-confirm', $finalArray)
         ]);
-        // Util::dd($siteData);
         $siteData['data']['sent'] = true;
         if ($req->method() == 'POST') {
             flash('Thanks! We will be in touch Soon!');
-            $url = "home?submitted=1&from=briefContact";
+            $url = UrlHelpers::GetRedirect('/', [
+                'submitted' => 1,
+                'from' => 'briefContact']
+            );
             return redirect($url);
         };
-        // return view($siteData['path'], $siteData['data']);
     }
 
     public function handleContact(Request $req)
@@ -700,6 +702,14 @@ class PostController extends Controller
             'data' => view('layouts/dinapoli/email/user-confirm', $finalArray)
         ]);
         $siteData['data']['sent'] = true;
+        if ($req->method() == 'POST') {
+            flash('Thanks! We will be in touch Soon!');
+            $url = UrlHelpers::GetRedirect('/contact', [
+                'submitted' => 1,
+                'from' => 'contact']
+            );
+            return redirect($url);
+        };
         return view($siteData['path'], $siteData['data']);
     }
 

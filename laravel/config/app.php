@@ -198,6 +198,11 @@ return [
         * Google places API
         */
        SKAgarwal\GoogleApi\ServiceProvider::class,
+
+       /*
+        * Flash providers
+        */
+        Laracasts\Flash\FlashServiceProvider::class,
     ],
 
     /*
