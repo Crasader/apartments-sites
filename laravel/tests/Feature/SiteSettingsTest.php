@@ -36,7 +36,7 @@ class SiteSettingsTest extends TestCase
         $foo = [];
         $savedSettings = Settings::site();
         foreach($savedSettings as $index => $innerArray){
-            $foo[] = array_keys($innerArray)[0];
+            $foo[] = $index;
         }
         $this->assertTrue(in_array($test1,$foo) == false);
         $this->assertTrue(in_array($test2,$foo) == false);
@@ -48,7 +48,6 @@ class SiteSettingsTest extends TestCase
         $results = $settings->addCustomNav('Custom Nav','floorplans','Gallery');
         $this->assertTrue($results['updated'] > 0 || $results['inserted'] > 0);
         $response = $this->call('get',env('PHPUNIT_BASE_URL'));
-        var_dump($response->getContent());
         $settings->removeSiteSetting(Settings::CUSTOM_NAV);
         $settings = Settings::site();
         $this->assertTrue(isset($settings[Settings::CUSTOM_NAV]) == false);

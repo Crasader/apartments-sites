@@ -17,7 +17,6 @@ class Settings extends Model
                 ->where('scope','site')
                 ->get();
             if(count($settings)){
-                var_dump($settings->toArray());
                 return Util::flatten(['str_key' => 'str_value'],$settings->toArray());
             }else{
                 return [];
@@ -25,17 +24,9 @@ class Settings extends Model
         };
         if($forceGet){
             $return = $fetcher();
+            return $return;
         }
-        return $return;
-        $settings = Util::redisFetchOrUpdate(Util::redisKey('site-settings'),function() use($site){ $settings = self::where('fk_property_id',$site->getEntity()->fk_legacy_property_id)
-                ->where('scope','site')
-                ->get();
-            if(count($settings)){
-                return Util::flatten(['str_key' => 'str_value'],$settings->toArray());
-            }else{
-                return [];
-            }
-        },true);
+        $settings = Util::redisFetchOrUpdate(Util::redisKey('site-settings'),$fetcher,true);
         return $settings;
     }
 

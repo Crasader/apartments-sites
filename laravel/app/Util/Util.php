@@ -31,13 +31,6 @@ class Util
 		return $serverName;
     }
 
-    public static function requestUri(){
-        if(isset($_SERVER['REQUEST_URI'])){
-            return $_SERVER['REQUEST_URI'];
-        }
-        return 'foobar';
-    }
-
     /*
         
        $example = [
@@ -243,7 +236,7 @@ class Util
 
     public static function redisUpdateKeys(array $config){
             //TODO !security this is potentially dangerous. Do this the right way
-        $keys = shell_exec("redis-cli --raw keys '" . preg_replace("|[']*|","",$config['like']) . "' | grep '_updated'");
+        $keys = shell_exec("redis-cli --raw keys '" . preg_replace("|[']*|","",$config['like']) . "' | grep -v \"'\" | grep '_updated'");
         foreach(explode("\n",$keys) as $i => $line){
             Redis::set($line,time());
         }

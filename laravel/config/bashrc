@@ -29,3 +29,13 @@ alias gr='lar ; grunt --gruntfile ./Gruntfile'
 alias rechown="sudo chown amcllc:www-data -R $LAR/storage; sudo chmod 770 -R $LAR/storage/"
 alias dev='source $LAR/config/bashrc-dev'
 alias live='source $LAR/config/bashrc'
+
+parse_git_branch() {
+                 git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
+market_identifier() {
+    echo $(hostname) | grep marketapts-web2 -i > /dev/null && echo -e "\033[31m\033[1;37m@@@[\033[31mLIVE[\033[1;37m@@@"
+}
+
+export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $(market_identifier)$ "
