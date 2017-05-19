@@ -1,4 +1,4 @@
-<?php 
+<?php
 use App\Util\Util;
 
 $floorPlans = app()->make('App\AIM\FloorPlans');
@@ -39,7 +39,7 @@ $js->generateIDs();
             <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Floor Plans & Availablity</h1>
         </div>
     @stop
-    @section('page-title-span','Floor Plans & Availability') 
+    @section('page-title-span','Floor Plans & Availability')
     @section('content')
     <form id="submitUnit" method="post" action="">
       <input type="hidden" name="unittype" id="unittype" value="X">
@@ -49,11 +49,11 @@ $js->generateIDs();
     </form>
             <section class="page-section">
                 <div class="container relative">
-                    
-                    <!-- Floorplans Filter -->                    
+
+                    <!-- Floorplans Filter -->
                     <div class="works-filter font-alt align-center">
                         <a href="#" class="filter active" data-filter="*">All</a>
-                        <?php 
+                        <?php
                             $printed = [];
                             foreach ($sorted as $bedCount => $object):
                                 if (in_array($object->BED, $printed)) {
@@ -74,11 +74,11 @@ $js->generateIDs();
                         <?php
                             endforeach;
                         ?>
-                    </div>                    
+                    </div>
                     <!-- End Floorplans Filter -->
-                    
+
                     <!-- Floor Plans Row -->
-                    <?php 
+                    <?php
                         $grid = 3;
                         $col = 4;
                     ?>
@@ -99,9 +99,9 @@ $js->generateIDs();
                                             <!-- Floor Plan Thumbnail -->
                                             <div class="floorplan-thumb">
                                                 <?php //TODO: make a function to clean this cruft?>
-                                                <?php $uName = Util::transformFloorplanName($object->U_MARKETING_NAME);?>
-                                                <a href="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $uName;?>.jpg" class="lightbox-gallery-2 mfp-image">
-                                                <img src="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $uName;?>.jpg"></a>
+                                                <a href="<?php echo $entity->getFloorPlanThumbSrc($object);?>"
+                                                        class="lightbox-gallery-2 mfp-image">
+                                                <img src="<?php echo $entity->getFloorPlanThumbSrc($object);?>"></a>
                                             </div>
 
                                              <!-- Unit Title -->
@@ -110,9 +110,9 @@ $js->generateIDs();
                                                 <?php if (strlen($object->SPECIAL_TEXT)): ?>
                                                     <span class="special red"><i class="fa fa-star"><?php echo $object->SPECIAL_TEXT;?></i></span>
                                                 <?php endif; ?>
-                                                
+
                                             </div>
-                                            
+
                                             <!-- Unit Features -->
                                             <div class="floorplan-features font-alt">
                                                 <ul class="sf-list pr-list">
@@ -122,18 +122,18 @@ $js->generateIDs();
                                                     <li>Deposit: <b><span>$100</span></b></li>
                                                 </ul>
                                             </div>
-                                            
+
                                             <div class="floorplan-num">
                                                 <sup>$</sup><?php echo round($object->RENT_FROM, 2, PHP_ROUND_HALF_UP);?>
                                             </div>
-                                            
+
                                             <div class="pr-per">
                                                 per month
-                                            </div>                                          
-                                            
-                                            <!-- Button -->                                         
+                                            </div>
+
+                                            <!-- Button -->
                                             <div class="pr-button">
-                                                <?php 
+                                                <?php
                                                     $text = '';
                                                     $id = $js->getGenId($index);
                                                     $href = null;
@@ -154,7 +154,7 @@ $js->generateIDs();
                                                          <?php echo $text;?>
                                                 </a>
                                             </div>
-                                            
+
                                         </div>
                                     </div>
                                 </div>
@@ -171,7 +171,7 @@ $js->generateIDs();
                                 </p>
                             </div>
                         </div>
-                    
+
                 </div>
             </section>
         @stop

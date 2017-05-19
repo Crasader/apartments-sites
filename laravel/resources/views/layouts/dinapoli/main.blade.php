@@ -7,8 +7,8 @@ use App\Util\Util;
     <head>
         <title><?php echo $entity->getText('title_' . Util::baseUri(Request::getRequestUri(), 'home'));?><?php //$entity->getCity(); echo $entity->getAbbreviatedState(); Apartments | Luxury Apartments For Rent | <?php echo $entity->getLegacyProperty()->name;?></title>
 @section('meta')
-        <meta name="description" content="<?php echo $entity->getMeta('description', Request::getRequestUri());?>">
-        <meta name="keywords" content="<?php echo $entity->getMeta('keywords', Request::getRequestUri());?>">
+        <meta name="description" content="<?php echo $entity->getMeta('description', Util::requestUri());?>">
+        <meta name="keywords" content="<?php echo $entity->getMeta('keywords', Util::requestUri());?>">
         <meta charset="utf-8">
         <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />

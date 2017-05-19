@@ -1,4 +1,4 @@
-<?php 
+<?php
 use App\Util\Util;
 
 $floorPlans = app()->make('App\AIM\FloorPlans');
@@ -6,7 +6,6 @@ $js = app()->make('App\Javascript\ApplySubmitter');
 $fpData = $floorPlans->getFloorPlans();
 $sorted = [];
 $sortedIds = [];
-
 $fpImage = app()->make('App\Assets\FloorPlanImage');
 \Debugbar::info($fpData);
 \Debugbar::info("fpImage: " . var_export($fpImage, 1));
@@ -40,24 +39,24 @@ $displayOptions['dont-show-contact-details'] = 1;
     <!-- Page Title Section -->
     <section class="page-section bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('');?>/page-title-bg3.jpg">
         <div class="relative container align-left">
-            
+
             <div class="row">
-                
+
                 <div class="col-md-8">
                     <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Floor Plans & Availablity</h1>
                     <div class="hs-line-4 font-alt">
                         Floor Plans at <?php echo $entity->getLegacyProperty()->name;?> Apartments in <?php echo $entity->getCity();?>, <?php echo $entity->getAbbreviatedState();?>
                     </div>
                 </div>
-                
+
                 <div class="col-md-4 mt-30">
                     <div class="mod-breadcrumbs font-alt align-right">
                         <a href="/">Home</a>&nbsp;/&nbsp;<span>Floor Plans & Availablity</span>
                     </div>
-                    
+
                 </div>
             </div>
-            
+
         </div>
     </section>
     <!-- End Page Title Section -->
@@ -71,11 +70,11 @@ $displayOptions['dont-show-contact-details'] = 1;
     </form>
             <section class="page-section">
                 <div class="container relative">
-                    
-                    <!-- Floorplans Filter -->                    
+
+                    <!-- Floorplans Filter -->
                     <div class="works-filter font-alt align-center">
                         <a href="#" class="filter active" data-filter="*">All</a>
-                        <?php 
+                        <?php
                             $printed = [];
                             foreach ($sorted as $bedCount => $object):
                                 if (in_array($object->BED, $printed)) {
@@ -91,11 +90,11 @@ $displayOptions['dont-show-contact-details'] = 1;
                         <?php
                             endforeach;
                         ?>
-                    </div>                    
+                    </div>
                     <!-- End Floorplans Filter -->
-                    
+
                     <!-- Floor Plans Row -->
-                    <?php 
+                    <?php
                         $grid = 4;
                         $col = 3;
                     ?>
@@ -115,10 +114,11 @@ $displayOptions['dont-show-contact-details'] = 1;
                                         <div class="floorplan-wrap">
                                             <!-- Floor Plan Thumbnail -->
                                             <div class="floorplan-thumb">
-                                                <?php //TODO: make a function to clean this cruft?>
-                                                <?php $uName = Util::transformFloorplanName($object->U_MARKETING_NAME);?>
-                                                <a href="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $uName;?>.<?php echo $object->image_data[$uName];?>" class="lightbox-gallery-2 mfp-image">
-                                                <img src="<?php echo $entity->getWebPublicDirectory('floorplans');?>/<?php echo $uName;?>.<?php echo $object->image_data[$uName];?>"></a>
+                                                <a href="<?= $entity->getFloorplanThumbSrc($object);?>" class="lightbox-gallery-2 mfp-image">
+                                                <img
+                                                src="<?=
+                                                $entity->getFloorPlanThumbSrc($object);?>"
+                                                 ></a>
                                             </div>
 
                                              <!-- Unit Title -->
@@ -127,9 +127,9 @@ $displayOptions['dont-show-contact-details'] = 1;
                                                 <?php if (strlen($object->SPECIAL_TEXT)): ?>
                                                     <span class="special red"><i class="fa fa-star"><?php echo $object->SPECIAL_TEXT;?></i></span>
                                                 <?php endif; ?>
-                                                
+
                                             </div>
-                                            
+
                                             <!-- Unit Features -->
                                             <div class="floorplan-features font-alt">
                                                 <ul class="sf-list pr-list">
@@ -139,18 +139,18 @@ $displayOptions['dont-show-contact-details'] = 1;
                                                     <li>Deposit: <b><span>$100</span></b></li>
                                                 </ul>
                                             </div>
-                                            
+
                                             <div class="floorplan-num">
                                                 <sup>$</sup><?php echo round($object->RENT_FROM, 2, PHP_ROUND_HALF_UP);?>
                                             </div>
-                                            
+
                                             <div class="pr-per">
                                                 per month
-                                            </div>                                          
-                                            
-                                            <!-- Button -->                                         
+                                            </div>
+
+                                            <!-- Button -->
                                             <div class="pr-button">
-                                                <?php 
+                                                <?php
                                                     $text = '';
                                                     switch ($object->AVAIL) {
                                                     case '0':
@@ -167,7 +167,7 @@ $displayOptions['dont-show-contact-details'] = 1;
                                                          <?php echo $text;?>
                                                 </a>
                                             </div>
-                                            
+
                                         </div>
                                     </div>
                                 </div>
@@ -184,20 +184,20 @@ $displayOptions['dont-show-contact-details'] = 1;
                                 </p>
                             </div>
                         </div>
-                    
+
                 </div>
             </section>
             @include('layouts/bascom/pages/inc/epop')
         @stop
-            
-            
+
+
 
             @section('schedule-a-tour')
             <!-- Schedule a Tour Section -->
                 @include('layouts/bascom/pages/inc/schedule-a-tour')
             <!-- End Schedule a Tour Section -->
             @stop
-        
+
         @section('contact','')
 
     @section('page-specific-js')
