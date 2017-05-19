@@ -3,7 +3,7 @@ use App\Util\Util;
 use App\Javascript\ApplySubmitter;
 
 $unit = app()->make('App\AIM\Unit');
-Util::log(var_export($extras,1));
+Util::log(var_export($extras, 1));
 $units = $unit->getAllByType($extras['orig_unittype']);
 $js = app()->make('App\Javascript\ApplySubmitter');
 $js->setCollection($units);
@@ -26,7 +26,7 @@ $unitType = $extras['unittype'];
                         &nbsp;/&nbsp;<span><?php echo $extras['orig_unittype']; ?></span>
                         @stop
             @section('content')
-            <?php //TODO: component/slot for submitUnit form ?>
+            <?php //TODO: component/slot for submitUnit form?>
 			<form id="submitUnit" method="post" action="">
 			  <input type="hidden" name="unittype" id="unittype" value="X">
 			  <input type="hidden" name="bed" id="bed" value="X">
@@ -62,14 +62,14 @@ $unitType = $extras['unittype'];
                         	</div>
                         	<div class="unit-description mb-40">
                         		<ul>
-                                    <?php //TODO: grab bed bath sqft of unit ?>
+                                    <?php //TODO: grab bed bath sqft of unit?>
                         			<li>BED: <?php echo $extras['bed'];?></li>
                         			<li>BATH: <?php echo $extras['bath'];?></li>
                         			<li>SQ. FEET: <?php echo $extras['sqft'];?></li>
                         		</ul>
                         	</div>
                         	<div class="text">
-                                <?php //TODO: grab apartment features ?>
+                                <?php //TODO: grab apartment features?>
                                 <?php echo $entity->getText('unity-apartment-features'); ?>
                         	</div>
                         </div>
@@ -92,30 +92,30 @@ $unitType = $extras['unittype'];
 								<div class="col-md-3">
 								</div>
 							</div>
-                            <?php //TODO: replace this with php. do unit, rent, available ?>
+                            <?php //TODO: replace this with php. do unit, rent, available?>
                             <?php
                                 $unit = app()->make('App\AIM\Unit');
-                                \App\Util\Util::log(var_export($units,1));
-                                foreach($units as $index => $object):
+                                \App\Util\Util::log(var_export($units, 1));
+                                foreach ($units as $index => $object):
                             ?>
                         	<div class="row unit-table-row">
 
 								<div class="col-md-3">
-                                    <?php if(isset($object->RENOVATED) && preg_match("|^RENO|",$object->RENOVATED)): ?>
+                                    <?php if (isset($object->RENOVATED) && preg_match("|^RENO|", $object->RENOVATED)): ?>
                                         <div style="position:absolute; top:-25px; margin:0px auto; left:0px; right:0px;">
                                             <span class="label label-success">RENOVATED</span>
                                         </div>
-                                    <?php elseif(isset($object->RENOVATED) && preg_match("|^BRAND|",$object->RENOVATED)): ?>
+                                    <?php elseif (isset($object->RENOVATED) && preg_match("|^BRAND|", $object->RENOVATED)): ?>
                                         <div style="position:absolute; top:-25px; margin:0px auto; left:0px; right:0px;">
                                             <span class="label label-success">BRAND NEW</span>
                                         </div>
                                     <?php endif; ?>
 									<span class="visible-xs visible-sm"><b>Unit: </b></span><?php echo $object->UnitNumber; ?>
-                                    <?php if(isset($object->EXTRAS) && preg_match("|W/D [INC]+|",$object->EXTRAS)): ?>
+                                    <?php if (isset($object->EXTRAS) && preg_match("|W/D [INC]+|", $object->EXTRAS)): ?>
                                         <div style="position:absolute; bottom:-25px; margin:0px auto; left:0px; right:0px;">
                                             <span class="label label-info">W/D INCLUDED</span>
                                         </div>
-                                    <?php elseif(isset($object->EXTRAS) && preg_match("|GARAGE|",$object->EXTRAS)): ?>
+                                    <?php elseif (isset($object->EXTRAS) && preg_match("|GARAGE|", $object->EXTRAS)): ?>
                                         <div style="position:absolute; bottom:-25px; margin:0px auto; left:0px; right:0px;">
                                             <span class="label label-info">GARAGE</span>
                                         </div>
@@ -128,7 +128,7 @@ $unitType = $extras['unittype'];
 									<span class="visible-xs visible-sm"><b>Available: </b></span><?php echo $object->UnitAvailableDate;?>
 								</div>
 								<div class="col-md-3 unit-table-btn">
-                                <?php //TODO: do this javascript mess ?>
+                                <?php //TODO: do this javascript mess?>
                                     <a style="cursor:pointer" href='/apply-online' id="<?php echo $js->getGenId($index);?>" class="btn btn-mod btn-brown btn-medium btn-round">Apply Now</a>
 
 

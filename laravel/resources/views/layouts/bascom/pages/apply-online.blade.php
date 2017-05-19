@@ -1,4 +1,6 @@
-<?php use App\Util\Util; ?>
+<?php use App\Util\Util;
+
+?>
 @extends('layouts/bascom/main')
             @section('extra-css')
                 <!-- Latest compiled and minified CSS -->
@@ -38,19 +40,19 @@
                 <div class="container relative">
                     <div class="section-text mb-50 mb-sm-20">
                         <div class="row">
-                            <?php foreach($errors->all() as $i => $errorMessage): ?>
+                            <?php foreach ($errors->all() as $i => $errorMessage): ?>
                                 <h1 class='error'><?php echo $errorMessage;?></h1>
                             <?php endforeach; ?>
-                            <?php if(isset($sent) || isset($redirectConfig['redirect'])): ?>
+                            <?php if (isset($sent) || isset($redirectConfig['redirect'])): ?>
                                 <div class="col-md-12 col-sm-12">
                             <?php endif; ?>
-                            <?php if(isset($sent)): ?><h1 class="notice">Your information has been submitted successfully</h1><?php endif; ?>
-                            <?php if(isset($redirectConfig['redirect'])): ?>
+                            <?php if (isset($sent)): ?><h1 class="notice">Your information has been submitted successfully</h1><?php endif; ?>
+                            <?php if (isset($redirectConfig['redirect'])): ?>
                                 <b>We will be redirecting you in <span id='seconds'>&nbsp;</span> seconds...</b><br>
                                 <p>If you are not redirected, you can <a id='redirect-link' href='<?php echo $redirectConfig['url'];?>' target='_blank' onclick='redirect();'>click here</a></p>
                                 </div>
                             <?php else:?>
-                            <?php if(isset($invalidRecaptcha)): ?><h1 class="error">Invalid ReCaptcha</h1><?php endif; ?>
+                            <?php if (isset($invalidRecaptcha)): ?><h1 class="error">Invalid ReCaptcha</h1><?php endif; ?>
                             <div class="col-md-12 col-sm-12 mb-sm-50 mb-xs-30">
                                 <form id="form1" method="post" action="/apply-online">
                                     <div class="row">
@@ -77,7 +79,7 @@
                                          <label id="date-error" class="error" for="date" style='margin-bottom:20px;'></label>
                                     </div>
                                     {{csrf_field()}}
-                                    <?php if(!Util::isDev()): ?>
+                                    <?php if (!Util::isDev()): ?>
                                     <div class="mb-20 mb-md-10 form-group">
                                         <div class="g-recaptcha" id='grecaptcha' data-sitekey="<?php echo $entity->getRecaptchaKey();?>"></div>
                                     </div>
@@ -100,7 +102,7 @@
             @section('page-specific-js')
             <script type="text/javascript">
             $(document).ready(function(){
-                <?php if(isset($redirectConfig['redirect'])): ?>
+                <?php if (isset($redirectConfig['redirect'])): ?>
                 var countdown = 10;
                 window.redirectConfig = <?php echo json_encode($redirectConfig);?>;
                 window.updateSeconds = function(){
@@ -128,7 +130,7 @@
 							email: true
 						},
 						phone: "required"
-                        <?php if(!Util::isDev()): ?>,
+                        <?php if (!Util::isDev()): ?>,
 						hiddenRecaptcha: {
 							required: function () {
 								if (grecaptcha.getResponse() == '') {

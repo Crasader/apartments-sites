@@ -1,20 +1,20 @@
 <?php 
 use App\Util\Util;
 
-try{
+try {
     $specials = app()->make('App\Property\Specials');
     $foo = $specials->traitGet('specials');
     $data = [];
-    foreach($foo as $index => $object){
+    foreach ($foo as $index => $object) {
         $data[$object->U_MARKETING_NAME] = $object->SPECIAL_TEXT;
     }
-}catch(\Exception $e){
+} catch (\Exception $e) {
     $data = [];
 }
 ?>
 			<!-- Speacials Dropdown -->
-            <?php if(isset($data['SpecialWebsite'])): ?>
-                <?php if(Util::isHome()): ?>
+            <?php if (isset($data['SpecialWebsite'])): ?>
+                <?php if (Util::isHome()): ?>
                 <div id="banner-special">
                 	<div class="container relative">
                 		<div class="row">
@@ -39,7 +39,7 @@ try{
                             <ul class="top-nav-left">
                                 <li class="hidden-sm hidden-xs"><i class="fa fa-phone"></i> <b>Call Today</b> : <?php echo $entity->getPhone(); ?></li>
                                 <li class="hidden-sm hidden-xs"><i class="fa fa-map-marker"></i> <b>Location</b> : <?php echo $entity->getFullAddress();?></li>
-                                <li class="hidden-md hidden-lg"><a href="tel:+<?php echo preg_replace("|[^0-9]+|","",$entity->getPhone());?>" class="gray"><i class="fa fa-phone"></i> Call Us</a></li>
+                                <li class="hidden-md hidden-lg"><a href="tel:+<?php echo preg_replace("|[^0-9]+|", "", $entity->getPhone());?>" class="gray"><i class="fa fa-phone"></i> Call Us</a></li>
                             </ul>
                         </div>
                         <div class="col-xs-6 text-right">

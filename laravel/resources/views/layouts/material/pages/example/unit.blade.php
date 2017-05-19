@@ -40,7 +40,7 @@ $unitType = $extras['unittype'];
 
                         @stop
             @section('content')
-            <?php //TODO: component/slot for submitUnit form ?>
+            <?php //TODO: component/slot for submitUnit form?>
 			<form id="submitUnit" method="post" action="">
 			  <input type="hidden" name="unittype" id="unittype" value="X">
 			  <input type="hidden" name="bed" id="bed" value="X">
@@ -76,14 +76,14 @@ $unitType = $extras['unittype'];
                         	</div>
                         	<div class="unit-description mb-40">
                         		<ul>
-                                    <?php //TODO: grab bed bath sqft of unit ?>
+                                    <?php //TODO: grab bed bath sqft of unit?>
                         			<li>BED: <?php echo $extras['bed'];?></li>
                         			<li>BATH: <?php echo $extras['bath'];?></li>
                         			<li>SQ. FEET: <?php echo $extras['sqft'];?></li>
                         		</ul>
                         	</div>
                         	<div class="text">		                            	
-                                <?php //TODO: grab apartment features ?>
+                                <?php //TODO: grab apartment features?>
                                 <?php echo $entity->getText('unity-apartment-features'); ?>
                         	</div>   
                         </div>
@@ -109,15 +109,15 @@ $unitType = $extras['unittype'];
 								<div class="col-md-3">
                                 </div>
 							</div>
-                            <?php //TODO: replace this with php. do unit, rent, available ?>
+                            <?php //TODO: replace this with php. do unit, rent, available?>
                             <?php
                                 $unit = app()->make('App\AIM\Unit');
-                                foreach($units as $index => $object):
+                                foreach ($units as $index => $object):
                             ?>
                         	<div class="row unit-table-row">
                                                                                                         
 								<div class="col-md-2">
-                                    <?php if(isset($object->RENOVATED) && $object->RENOVATED == "RENOVATED"): ?>
+                                    <?php if (isset($object->RENOVATED) && $object->RENOVATED == "RENOVATED"): ?>
                                         <div style="position:absolute; top:-25px; margin:0px auto; left:0px; right:0px;">
                                             <span class="label label-success">RENOVATED</span>
                                         </div>
@@ -134,7 +134,7 @@ $unitType = $extras['unittype'];
 									<span class="visible-xs visible-sm"><b>Special: </b></span><?php echo $object->SPECIAL_TEXT;?>
 								</div>
 								<div class="col-md-3 unit-table-btn">
-                                <?php //TODO: do this javascript mess ?>
+                                <?php //TODO: do this javascript mess?>
                                     <a style="cursor:pointer" href='/apply-online' id="<?php echo $js->getGenId($index);?>" class="btn btn-mod btn-brown btn-medium btn-round">Apply Now</a>
 								</div>
 							</div>
