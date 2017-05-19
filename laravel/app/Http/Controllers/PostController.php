@@ -332,6 +332,15 @@ class PostController extends Controller
         $siteData['data']['sent'] = true;
 
         $siteData['data']['redirectConfig'] = $this->_fillApplyOnlineRedirectData();
+        Util::data(compact('siteData'));
+        if ($req->method() == 'POST') {
+            flash('Thanks! We will be in touch Soon!');
+            $url = UrlHelpers::getUrl('/', [
+                'submitted' => 1,
+                'from' => 'Schedule']
+            );
+            return redirect($url);
+        };
         return view($siteData['path'], $siteData['data']);
     }
 
@@ -376,6 +385,12 @@ class PostController extends Controller
         $siteData['data']['sent'] = true;
 
         $siteData['data']['redirectConfig'] = $this->_fillApplyOnlineRedirectData();
+        // Util::dd(compact('siteData'));
+        $url = UrlHelpers::getUrl('/', [
+            'submitted' => 1,
+            'from' => 'Schedule'
+        ]);
+        // return view($siteData['path'], $siteData['data']);
         return view($siteData['path'], $siteData['data']);
     }
 
@@ -636,7 +651,7 @@ class PostController extends Controller
         $siteData['data']['sent'] = true;
         if ($req->method() == 'POST') {
             flash('Thanks! We will be in touch Soon!');
-            $url = UrlHelpers::GetRedirect('/', [
+            $url = UrlHelpers::getUrl('/', [
                 'submitted' => 1,
                 'from' => 'briefContact']
             );
@@ -704,7 +719,7 @@ class PostController extends Controller
         $siteData['data']['sent'] = true;
         if ($req->method() == 'POST') {
             flash('Thanks! We will be in touch Soon!');
-            $url = UrlHelpers::GetRedirect('/contact', [
+            $url = UrlHelpers::getUrl('/contact', [
                 'submitted' => 1,
                 'from' => 'contact']
             );
