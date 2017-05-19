@@ -20,7 +20,6 @@ trait PageResolver
             $data = $this->resolvePageBySite($page);
             return view($data['path'], $data['data']);
         } catch (BaseException $e) {
-            Util::log("Exception in resolvePagebySite: " . $e->getMessage());
             return view("404");
         }
     }

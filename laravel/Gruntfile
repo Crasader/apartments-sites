@@ -16,7 +16,7 @@ module.exports = function(grunt) {
         options: {
             stripBanners: true,
             separator: ';\n',
-            banner: '/*! <%= pkg.name %> -v<%= pkg.version %> - ' + 
+            banner: '/*! <%= pkg.name %> -v<%= pkg.version %> - ' +
                 '<%= grunt.template.today("yyyy-mm-dd") %> */',
         },
         dist: {
@@ -48,6 +48,7 @@ module.exports = function(grunt) {
             'public/js/src/jquery.validate.js',
             'public/js/src/jquery.maskedinput.js',
             'public/js/src/amc.validate.js',
+            'public/js/src/flash.js',
             'public/js/src/util.js',
             ],
             dest: 'public/js/build/marketapts.concat.js'

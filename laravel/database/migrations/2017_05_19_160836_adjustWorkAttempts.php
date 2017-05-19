@@ -3,9 +3,8 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use App\Template;
 
-class AddBascomTemplate extends Migration
+class AdjustWorkAttempts extends Migration
 {
     /**
      * Run the migrations.
@@ -15,15 +14,11 @@ class AddBascomTemplate extends Migration
     public function up()
     {
         //
-        $foo = \DB::connection('mysql')->table('templates')->where('name', 'bascom')->get();
-        if (count($foo)) {
-            return;
-        } else {
-            $temp = new Template;
-            $temp->name = 'bascom';
-            $temp->filesystem_id = 'bascom';
-            $temp->save();
-        }
+        Schema::table('jobs', function($table){
+            $table->integer('attempts')
+                ->unsigned()
+                ->change();
+        });
     }
 
     /**

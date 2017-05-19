@@ -78,6 +78,7 @@ use App\Util\Util;
             <!-- Nav -->
 			@include('layouts/dinapoli/pages/inc/nav')
             <!-- End Nav-->
+            @include('flash::message')
 
             @section('title-section')
             <!-- Page Title Section -->

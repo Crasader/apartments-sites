@@ -1,12 +1,12 @@
 <?php use App\Util\Util;
-
+    use App\Util\UrlHelpers;
 ?>
 @extends('layouts/dinapoli/main')
             @section('extra-css')
                 <!-- Latest compiled and minified CSS -->
                 <link id="bsdp-css" href="css/bootstrap-datepicker3.min.css" rel="stylesheet">
             @stop
-                       @section('page-title-row') 
+                       @section('page-title-row')
                         <div class="col-md-8">
                             <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Apply Online</h1>
                             <div class="hs-line-4 font-alt">
@@ -18,7 +18,7 @@
                         @section('recaptcha-js')
                         <script src="https://www.google.com/recaptcha/api.js"></script>
                         @stop
-            @section('content')        
+            @section('content')
             <!-- Contact Form Section -->
             <section class="page-section pb-0" id="contact-form">
                 <div class="container relative">
@@ -38,7 +38,10 @@
                             <?php else:?>
                             <?php if (isset($invalidRecaptcha)): ?><h1 class="error">Invalid ReCaptcha</h1><?php endif; ?>
                             <div class="col-md-12 col-sm-12 mb-sm-50 mb-xs-30">
-                                <form id="form1" method="post" action="/apply-online">
+                                <form id="form1" method="post" action="<?=UrlHelpers::getUrl('/apply-online', [
+                                    'submitted' => 1,
+                                    'from' => 'Apply-Online'
+                                ]);?>">
                                     <div class="row">
                                         <div class="col-md-6 col-sm-12 mb-20 mb-md-10">
                                             <label>First Name</label>
@@ -77,7 +80,7 @@
                             <?php endif; ?>
                         </div>
                     </div>
-                    
+
                 </div>
             </section>
             @stop
@@ -129,6 +132,6 @@
            		});
             	amcMaskPhone('#phone','(999) 999-9999');
                 <?php endif; ?>
-        	}); 
+        	});
             </script>
             @stop

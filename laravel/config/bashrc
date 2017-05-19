@@ -27,6 +27,7 @@ alias s-mb='s3cmd --acl-public put $1 s3://mktapts/images/164MTB/$2'    #martini
 alias s-lyric='s3cmd --acl-public put $1 s3://mktapts/images/181LYR/$2' #lyriclv
 alias gr='lar ; grunt --gruntfile ./Gruntfile'
 alias rechown="sudo chown amcllc:www-data -R $LAR/storage; sudo chmod 770 -R $LAR/storage/"
+alias autossh_alias='autossh -M 5512 -fN -R 1433:192.168.1.139:1433 amcllc@brady.dev' #5512 needs to be different for each instance of autossh . Ports 5512 and 5513 are used for autossh, so choose something else
 alias dev='source $LAR/config/bashrc-dev'
 alias live='source $LAR/config/bashrc'
 

@@ -15,7 +15,7 @@ class MaterialTemplateInsertRecord extends Migration
     {
         //
         $templates = app()->make('App\Template');
-        if(count($templates->where('name','material')->get())){
+        if (count($templates->where('name', 'material')->get())) {
             echo "Material template already in db...exiting" . PHP_EOL;
             return;
         }

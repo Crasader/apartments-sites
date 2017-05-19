@@ -20,6 +20,7 @@ use App\System\Session;
 use App\Mailer\MultiContact;
 use App\Structures\Mail as StructMail;
 use App\Mailer\Queue;
+use App\Util\UrlHelpers;
 
 class PostController extends Controller
 {
@@ -331,6 +332,15 @@ class PostController extends Controller
         $siteData['data']['sent'] = true;
 
         $siteData['data']['redirectConfig'] = $this->_fillApplyOnlineRedirectData();
+        Util::data(compact('siteData'));
+        if ($req->method() == 'POST') {
+            flash('Thanks! We will be in touch Soon!');
+            $url = UrlHelpers::getUrl('/', [
+                'submitted' => 1,
+                'from' => 'Schedule']
+            );
+            return redirect($url);
+        };
         return view($siteData['path'], $siteData['data']);
     }
 
@@ -375,6 +385,12 @@ class PostController extends Controller
         $siteData['data']['sent'] = true;
 
         $siteData['data']['redirectConfig'] = $this->_fillApplyOnlineRedirectData();
+        // Util::dd(compact('siteData'));
+        $url = UrlHelpers::getUrl('/', [
+            'submitted' => 1,
+            'from' => 'Schedule'
+        ]);
+        // return view($siteData['path'], $siteData['data']);
         return view($siteData['path'], $siteData['data']);
     }
 
@@ -617,7 +633,7 @@ class PostController extends Controller
 
         $siteData = $this->resolvePageBySite('contact', $data);
         if (Util::isDev()) {
-            $to = 'wmerfalen+1@gmail.com';
+            $to = 'bvfbarten+1@gmail.com';
         } else {
             $to = $data['email'];
         }
@@ -633,7 +649,14 @@ class PostController extends Controller
             'data' => view('layouts/dinapoli/email/user-confirm', $finalArray)
         ]);
         $siteData['data']['sent'] = true;
-        return view($siteData['path'], $siteData['data']);
+        if ($req->method() == 'POST') {
+            flash('Thanks! We will be in touch Soon!');
+            $url = UrlHelpers::getUrl('/', [
+                'submitted' => 1,
+                'from' => 'briefContact']
+            );
+            return redirect($url);
+        };
     }
 
     public function handleContact(Request $req)
@@ -694,6 +717,14 @@ class PostController extends Controller
             'data' => view('layouts/dinapoli/email/user-confirm', $finalArray)
         ]);
         $siteData['data']['sent'] = true;
+        if ($req->method() == 'POST') {
+            flash('Thanks! We will be in touch Soon!');
+            $url = UrlHelpers::getUrl('/contact', [
+                'submitted' => 1,
+                'from' => 'contact']
+            );
+            return redirect($url);
+        };
         return view($siteData['path'], $siteData['data']);
     }
 
