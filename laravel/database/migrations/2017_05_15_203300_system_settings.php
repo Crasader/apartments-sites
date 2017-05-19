@@ -13,7 +13,9 @@ class SystemSettings extends Migration
      */
     public function up()
     {
-        if(Schema::hasTable("system_settings")){ return ; }
+        if (Schema::hasTable("system_settings")) {
+            return ;
+        }
         Schema::create('system_settings', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('fk_property_id');

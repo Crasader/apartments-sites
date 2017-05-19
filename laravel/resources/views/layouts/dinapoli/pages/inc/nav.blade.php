@@ -67,7 +67,8 @@ try {
                         <ul class="clearlist scroll-nav local-scroll">
                             <?php
                                 use App\System\Settings;
-                                $galleryItems = [
+
+$galleryItems = [
                                     [
                                         'li-attributes' => [
                                             'class' => 'active hidden-md hidden-sm',
@@ -115,31 +116,31 @@ try {
                                 $settings = Settings::site($forceGet=true);
                                 $newItems = Settings::addCustomNavItemsToArray($galleryItems);
 
-                                foreach($newItems as $index => $navElement){
+                                foreach ($newItems as $index => $navElement) {
                                     echo "<li";
-                                    if(isset($navElement['li-attributes'])){
-                                        foreach($navElement['li-attributes'] as $attribute => $attributeValue){
-                                            if(empty($attribute) || empty($attributeValue)){
+                                    if (isset($navElement['li-attributes'])) {
+                                        foreach ($navElement['li-attributes'] as $attribute => $attributeValue) {
+                                            if (empty($attribute) || empty($attributeValue)) {
                                                 continue;
                                             }
                                             echo " $attribute=\"$attributeValue\"";
                                         }
                                     }
                                     echo "><a href=\"";
-                                    if(!isset($navElement['href'])){
-                                        echo "/" . strtolower(preg_replace("|[ ]+|","",$navElement['label']));
-                                    }else{
+                                    if (!isset($navElement['href'])) {
+                                        echo "/" . strtolower(preg_replace("|[ ]+|", "", $navElement['label']));
+                                    } else {
                                         echo "/" . $navElement['href'];
                                     }
                                     echo "\"";
-                                    if(isset($navElement['a-attributes'])){
-                                        foreach($navElement['a-attributes'] as $attribute => $attributeValue){
-                                            if(empty($attribute) || empty($attributeValue)){
+                                    if (isset($navElement['a-attributes'])) {
+                                        foreach ($navElement['a-attributes'] as $attribute => $attributeValue) {
+                                            if (empty($attribute) || empty($attributeValue)) {
                                                 continue;
                                             }
                                             echo " $attribute=\"$attributeValue\"";
                                         }
-                                    } 
+                                    }
                                     echo ">{$navElement['label']}</a></li>";
                                 }
                             ?>

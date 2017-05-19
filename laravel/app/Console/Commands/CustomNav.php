@@ -46,17 +46,16 @@ class CustomNav extends Command
         $href = $this->argument("href");
         $after = $this->argument("after");
 
-        $prop = Property::where('url','LIKE',"%$url%")
+        $prop = Property::where('url', 'LIKE', "%$url%")
             ->first();
-        if(!$prop){
+        if (!$prop) {
             echo "Can't find property by that url\n";
             return;
         }
         $_SERVER['SERVER_NAME'] = $url;
         $settings = Settings::site();
         $sObject = new Settings;
-        $sObject->addCustomNav($label,$href,$after);
+        $sObject->addCustomNav($label, $href, $after);
         dd(Settings::site());
     }
-
 }

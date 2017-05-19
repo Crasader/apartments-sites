@@ -63,7 +63,8 @@ class Settings extends Model
         }
         return 1;
     }
-    public static function simplify(string $str){
+    public static function simplify(string $str)
+    {
         return preg_replace("|[^a-z0-9]+|", "", strtolower(strip_tags($str)));
     }
 
@@ -78,7 +79,7 @@ class Settings extends Model
             }
             foreach ($settings[self::CUSTOM_NAV] as $i => $json) {
                 $element = json_decode($json, 1);
-                if(self::simplify($element['after']) == self::simplify($origNav['label'])){
+                if (self::simplify($element['after']) == self::simplify($origNav['label'])) {
                     array_push($newItems, $element);
                 }
             }

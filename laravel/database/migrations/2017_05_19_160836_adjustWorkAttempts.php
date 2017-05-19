@@ -14,7 +14,7 @@ class AdjustWorkAttempts extends Migration
     public function up()
     {
         //
-        Schema::table('jobs', function($table){
+        Schema::table('jobs', function ($table) {
             $table->integer('attempts')
                 ->unsigned()
                 ->change();

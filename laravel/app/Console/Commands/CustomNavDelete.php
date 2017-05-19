@@ -43,15 +43,15 @@ class CustomNavDelete extends Command
         //
         $url = $this->argument("url");
         $index = $this->argument("index");
-        $prop = Property::where('url','LIKE',"%$url%")
+        $prop = Property::where('url', 'LIKE', "%$url%")
             ->first();
-        if(!$prop){
+        if (!$prop) {
             echo "Can't find property by that url\n";
             return;
         }
         $_SERVER['SERVER_NAME'] = $url;
         $settings = Settings::rawSite(true);
-        if($index == "list"){
+        if ($index == "list") {
             dd($settings);
         }
         $sObject = new Settings;
@@ -60,5 +60,4 @@ class CustomNavDelete extends Command
         dd(Settings::rawSite(true));
         return;
     }
-
 }

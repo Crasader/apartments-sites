@@ -1,5 +1,6 @@
 <?php use App\Util\Util;
-    use App\Util\UrlHelpers;
+use App\Util\UrlHelpers;
+
 ?>
 @extends('layouts/dinapoli/main')
             @section('extra-css')

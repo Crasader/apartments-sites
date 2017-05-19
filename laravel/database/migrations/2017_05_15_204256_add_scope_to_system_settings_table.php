@@ -14,8 +14,10 @@ class AddScopeToSystemSettingsTable extends Migration
     public function up()
     {
         //
-        if(Schema::hasColumn('system_settings','scope')){ return; }
-        Schema::table('system_settings',function($table){
+        if (Schema::hasColumn('system_settings', 'scope')) {
+            return;
+        }
+        Schema::table('system_settings', function ($table) {
             $table->string('scope');
         });
     }
