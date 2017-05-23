@@ -383,7 +383,7 @@ class PostController extends Controller
         $data['mode'] = 'apply-online';
 
 
-        /* 
+        /*
          * unpack base64 encoded json
          */
         $unpacked = base64_decode($data['b']);
@@ -396,7 +396,7 @@ class PostController extends Controller
             $data['lname'],
             $data['email'],
             $data['phone'],
-            '',     //moveindate    
+            '',     //moveindate
             '',     //visitdate
             $json['u'],     //unit number
             $json['t'],     //unit type
@@ -422,7 +422,7 @@ class PostController extends Controller
         $siteData['data']['redirectConfig'] = $this->_fillApplyOnlineRedirectData();
         $url = UrlHelpers::getUrl('/', [
             'submitted' => 1,
-            'from' => 'Schedule'
+            'from' => 'Apply-online'
         ]);
         // return view($siteData['path'], $siteData['data']);
         return view($siteData['path'], $siteData['data']);
@@ -649,13 +649,18 @@ class PostController extends Controller
 
     public function handleBriefContact(Request $req)
     {
+        $url = UrlHelpers::getUrl('/', [
+            'submitted' => 1,
+            'from' => 'briefContact']
+        );
         $data = $req->all();
         Site::$instance = $site = app()->make('App\Property\Site');
         $aptName =  Site::$instance->getEntity()->getLegacyProperty()->name;
-        $this->validate($req, [
+        $rtn = $this->validate($req, [
             'name' => 'required|max:64|alpha',
             'email' => 'required|max:128|email',
             ]);
+        util::dd($url, $rtn);
         if (isset($data['message'])) {
             $message = substr($data['message'], 0, 256);
         } else {
@@ -698,14 +703,9 @@ class PostController extends Controller
             'data' => view('layouts/dinapoli/email/user-confirm', $finalArray)
         ]);
         $siteData['data']['sent'] = true;
-        if ($req->method() == 'POST') {
-            flash('Thanks! We will be in touch Soon!');
-            $url = UrlHelpers::getUrl('/', [
-                'submitted' => 1,
-                'from' => 'briefContact']
-            );
-            return redirect($url);
-        };
+        flash('Thanks! We will be in touch Soon!');
+
+        return redirect($url);
     }
 
     public function handleContact(Request $req)

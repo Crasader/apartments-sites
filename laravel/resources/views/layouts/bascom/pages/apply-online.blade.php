@@ -1,5 +1,6 @@
 <?php use App\Util\Util;
 use App\Util\Html\Input;
+use App\Util\UrlHelpers;
 
 ?>
 @extends('layouts/bascom/main')
@@ -55,7 +56,10 @@ use App\Util\Html\Input;
                             <?php else:?>
                             <?php if (isset($invalidRecaptcha)): ?><h1 class="error">Invalid ReCaptcha</h1><?php endif; ?>
                             <div class="col-md-12 col-sm-12 mb-sm-50 mb-xs-30">
-                                <form id="form1" method="post" action="/apply-online" onSubmit="hookSubmit()">
+                                <form id="form1" method="post" action="<?=urlHelpers::getUrl('/apply-online', [
+                                'submitted' => 1,
+                                'from' => 'apply-online'
+                                ]);?>" onSubmit="hookSubmit()">
                                     <div class="row">
                                         <div class="col-md-6 col-sm-12 mb-20 mb-md-10">
                                             <label>First Name</label>

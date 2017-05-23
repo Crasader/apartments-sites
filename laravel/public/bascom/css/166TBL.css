@@ -5225,6 +5225,7 @@ section:hover .small-item-carousel .owl-next {
 
 .alert {
     margin: 0 auto 10px;
+    margin-top:20px;
     padding: 14px 20px;
     box-sizing: border-box;
     border: 1px solid #ddd;
