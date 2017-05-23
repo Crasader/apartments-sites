@@ -50,7 +50,7 @@ use App\Util\Util;
 		<![endif]-->
 		@yield('recaptcha-js')
     </head>
-    <body class="appear-animate">
+    <body class="appear-animate <?=Request::segment(1);?>">
 <?php if (\App\System\Session::isCmsUser()): ?>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
 <!-- Trigger the modal with a button -->
