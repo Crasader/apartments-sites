@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Email;
 use App\EmailAddress;
+use App\Util\Util;
 
 class EmailTest extends TestCase
 {
