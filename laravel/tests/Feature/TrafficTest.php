@@ -65,7 +65,7 @@ class TrafficTest extends TestCase
             'phone' => '(619) 379-2582',
 			'b' => base64_encode(json_encode(['u' => '501','t' => 'the breach']))
         ], []);
-        $this->assertTrue($response->getStatusCode() == 200);
+        $this->assertTrue($response->getStatusCode() == 302,"status code: " . $response->getStatusCode());
 
         $response = $this->call('post', env('PHPUNIT_BASE_URL') . 'unit', $data = [
             'unittype' => 'William',

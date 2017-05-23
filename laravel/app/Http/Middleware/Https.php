@@ -23,7 +23,7 @@ class Https extends BaseVerifier
         if ($this->hostIsException()) {
             return $next($request);
         }
-        
+
         if (!$request->secure()) {
             return redirect()->secure($request->getRequestUri());
         }

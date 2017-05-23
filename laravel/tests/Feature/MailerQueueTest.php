@@ -60,7 +60,7 @@ class MailerQueueTest extends TestCase
             'date' => '01/01/1970'
         ], []);
 
-        $this->assertTrue($response->getStatusCode() == 200, "status code: " . $response->getStatusCode());
+        $this->assertTrue($response->getStatusCode() == 302, "status code: " . $response->getStatusCode());
     }
 /**********************************************************************
  * 			pulled from PostController.php
@@ -129,7 +129,7 @@ class MailerQueueTest extends TestCase
             'phone' => '(619) 379-2582',
             'date' => '01/01/1970'
         ], []);
-        $this->assertTrue($response->getStatusCode() == 200);
+        $this->assertTrue($response->getStatusCode() == 302);
 
 
   ####    ####   #    #  ######  #####   #    #  #       ######
@@ -179,7 +179,7 @@ $this->validate($req, [
             'visitdate' => '01/01/1970',
             'visittime' => '10:00:00 AM',
         ], []);
-        $this->assertTrue($response->getStatusCode() == 200);
+        $this->assertTrue($response->getStatusCode() == 302);
 
    ##    #####   #####   #        #   #
   #  #   #    #  #    #  #         # #
@@ -205,7 +205,7 @@ $this->validate($req, [
             'email' => $weirdEmail,
             'phone' => '(619) 379-2582',
         ], []);
-        $this->assertTrue($response->getStatusCode() == 200);
+        $this->assertTrue($response->getStatusCode() == 302);
 
         //TODO:!phpunit add detection of redirect javascript
 
