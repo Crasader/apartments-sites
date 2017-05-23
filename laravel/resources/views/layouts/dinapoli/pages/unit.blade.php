@@ -10,6 +10,7 @@ $js->setCollection($units);
 $js->generateIDs();
 
 $unitType = $extras['unittype'];
+$parameters = base64_encode(json_encode($_GET));
 
 ?>
 @extends('layouts/dinapoli/main')
@@ -129,7 +130,7 @@ $unitType = $extras['unittype'];
 								</div>
 								<div class="col-md-3 unit-table-btn">
                                 <?php //TODO: do this javascript mess?>
-                                    <a style="cursor:pointer" href='/apply-online' id="<?php echo $js->getGenId($index);?>" class="btn btn-mod btn-brown btn-medium btn-round">Apply Now</a>
+                                    <a style="cursor:pointer" href='/apply-online?u=<?php echo $object->UnitNumber;?>&t=<?php echo urlencode($extras['orig_unittype']);?>' id="<?php echo $js->getGenId($index);?>" class="btn btn-mod btn-brown btn-medium btn-round">Apply Now</a>
 
 
 								</div>
@@ -162,24 +163,7 @@ $unitType = $extras['unittype'];
             <script language="Javascript">
             $(document).ready(function(){
                 var json = <?php echo $js->dumpJSON(); ?>;
-                /*
-                utilBindSubmitterVars(json,{
-                    'unittype': 'UnitType',
-                    'bed': {
-                        'static': "<?php echo floatval($extras['bed']);?>"
-                    },
-                    'bath': {
-                        'static': "<?php echo floatval($extras['bath']);?>"
-                    },
-                    'sqft': {
-                        'static': "<?php echo floatval($extras['sqft']);?>"
-                    },
-                    'unitnumber': 'UnitNumber'
-                },{
-                    'action': "<?php echo '/apply-online';?>",
-                    'form': 'submitUnit'
-                });
-                */
+                
             });
             </script>
 

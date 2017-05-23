@@ -21,6 +21,7 @@ use App\Mailer\MultiContact;
 use App\Structures\Mail as StructMail;
 use App\Mailer\Queue;
 use App\Util\UrlHelpers;
+use App\AIM\Traffic;
 
 class PostController extends Controller
 {
@@ -36,7 +37,7 @@ class PostController extends Controller
         /**********************************************************/
         'unit'          => 'handleUnit',
         'contact'       => 'handleContact',
-        'briefContact' => 'handleBriefContact',
+        'briefContact'  => 'handleBriefContact',
         'schedule'      => 'handleSchedule',
         'apply-online'  => 'handleApplyOnline',
 
@@ -316,6 +317,21 @@ class PostController extends Controller
             $to = $data['email'];
         }
         $data['mode'] = 'schedule-a-tour';
+        /*
+         * Insert data into traffic table
+         */
+        (app()->make('App\AIM\Traffic'))->insertTraffic(
+            $data['firstname'],
+            $data['lastname'],
+            $data['email'],
+            $data['phone'],
+            $data['moveindate'],
+            $data['visitdate'],
+            '',
+            '',
+            $data['mode'],
+            $data['visittime']
+        );
         $finalArray = $this->_prefillArray($data);
         $finalArray['contact'] = $data;
         $this->sendMultiContact('schedule-a-tour', [
@@ -332,16 +348,12 @@ class PostController extends Controller
         $siteData['data']['sent'] = true;
 
         $siteData['data']['redirectConfig'] = $this->_fillApplyOnlineRedirectData();
-        Util::data(compact('siteData'));
-        if ($req->method() == 'POST') {
-            flash('Thanks! We will be in touch Soon!');
-            $url = UrlHelpers::getUrl('/', [
-                'submitted' => 1,
-                'from' => 'Schedule']
-            );
-            return redirect($url);
-        };
-        return view($siteData['path'], $siteData['data']);
+        flash('Thanks! We will be in touch Soon!');
+        $url = UrlHelpers::getUrl('/', [
+            'submitted' => 1,
+            'from' => 'Schedule']
+        );
+        return redirect($url);
     }
 
     public function handleApplyOnline(Request $req)
@@ -369,6 +381,29 @@ class PostController extends Controller
             $to = $data['email'];
         }
         $data['mode'] = 'apply-online';
+
+
+        /* 
+         * unpack base64 encoded json
+         */
+        $unpacked = base64_decode($data['b']);
+        $json = json_decode($unpacked,true);
+        /*
+         * Insert data into traffic table
+         */
+        (app()->make('App\AIM\Traffic'))->insertTraffic(
+            $data['fname'],
+            $data['lname'],
+            $data['email'],
+            $data['phone'],
+            '',     //moveindate    
+            '',     //visitdate
+            $json['u'],     //unit number
+            $json['t'],     //unit type
+            $data['mode'],
+            ''
+        );
+
         $finalArray = $this->_prefillArray($data);
         $finalArray['contact'] = $data;
         $this->sendMultiContact('apply-online', [
@@ -638,6 +673,21 @@ class PostController extends Controller
             $to = $data['email'];
         }
         $finalArray['contact']['mode'] = 'briefContact';
+        /*
+         * Insert data into traffic table
+         */
+        (app()->make('App\AIM\Traffic'))->insertTraffic(
+            $data['name'],
+            $data['name'],
+            $data['email'],
+            '',
+            '',
+            '',
+            '',
+            '',
+            $finalArray['contact']['mode'],
+            ''
+        );
         $this->sendMultiContact('apply-online', [
             'user' => $data['email'],
             'fromName' => $data['name'],
@@ -694,6 +744,21 @@ class PostController extends Controller
         $contact->when = $cleaned['movein'];
         $contact->save();
 
+        /*
+         * Insert data into traffic table
+         */
+        (app()->make('App\AIM\Traffic'))->insertTraffic(
+            $cleaned['fname'],
+            $cleaned['lname'],
+            $cleaned['email'],
+            $cleaned['phone'],
+            $cleaned['movein'],
+            '',
+            '',
+            '',
+            $cleaned['mode'],
+            ''
+        );
         $finalArray = $this->_prefillArray(['mode' => 'contact']);
         $finalArray['contact'] = $cleaned;
 

@@ -14,6 +14,17 @@ class Util
             '^staging\.','^will\.','^brady\.','^\dev\.','^matt\.'
     ];
 
+    public static function remoteIp($default=null){
+        if(isset($_SERVER['REMOTE_ADDR'])){
+            return $_SERVER['REMOTE_ADDR'];
+        }else if($default){
+            return $default;
+        }else{
+            return "127.0.0.1";
+        }
+    }
+
+
     public static function isHttpsException()
     {
         $server = self::serverName();

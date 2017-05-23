@@ -41,7 +41,8 @@ use App\Util\UrlHelpers;
                             <div class="col-md-12 col-sm-12 mb-sm-50 mb-xs-30">
                                 <form id="form1" method="post" action="<?=UrlHelpers::getUrl('/apply-online', [
                                     'submitted' => 1,
-                                    'from' => 'Apply-Online'
+                                    'from' => 'Apply-Online',
+                                    'b' => base64_encode(json_encode($_GET))
                                 ]);?>">
                                     <div class="row">
                                         <div class="col-md-6 col-sm-12 mb-20 mb-md-10">
