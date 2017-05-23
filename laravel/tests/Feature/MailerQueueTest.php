@@ -40,7 +40,6 @@ class MailerQueueTest extends TestCase
     }
 
 
-
     //TODO: exploit the "withSessioN" function to test cms users :)
     //TODO: exploit the "withSession" function to test resident portal
 

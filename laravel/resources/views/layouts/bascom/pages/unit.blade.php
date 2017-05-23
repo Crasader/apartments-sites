@@ -135,7 +135,7 @@ $unitType = $extras['unittype'];
 								</div>
 								<div class="col-md-3 unit-table-btn">
                                 <?php //TODO: do this javascript mess?>
-                                    <a style="cursor:pointer" href='/apply-online' id="<?php echo $js->getGenId($index);?>" class="btn btn-mod btn-brown btn-medium btn-round">Apply Now</a>
+                                    <a style="cursor:pointer" href='/apply-online?u=<?php echo $object->UnitNumber;?>&t=<?php echo urlencode($extras['orig_unittype']);?>' id="<?php echo $js->getGenId($index);?>" class="btn btn-mod btn-brown btn-medium btn-round">Apply Now</a>
 								</div>
 							</div>
                             <?php endforeach; ?>

