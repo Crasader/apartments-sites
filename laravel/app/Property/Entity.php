@@ -28,6 +28,15 @@ class Entity extends Model
     protected $_legacyProperty = null;
 
     //
+    public function getFloorPlanThumbSrc($object)
+    {
+        $uName = Util::transformFloorplanName($object->U_MARKETING_NAME);
+        $rtn = [
+            $this->getWebPublicDirectory('floorplans'),
+            "{$uName}." . array_get($object->image_data, $uName, 'jpg')
+        ];
+        return implode('/', $rtn);
+    }
     public function createNew(array $attributes, LegacyProperty $legacyProperty)
     {
         $foo = $this->where('fk_legacy_property_id', $legacyProperty->id)->get();
@@ -277,13 +286,12 @@ class Entity extends Model
         $fbUri = Util::redisFetchOrUpdate('facebook_uri', function () use ($foo, $type) {
             $temp = PropertyTemplate::select('facebook_url')
                 ->where('property_id', $foo->_legacyProperty->id)
-                ->get()->toArray();
-            if (count($temp) == 0) {
+                ->first()->toArray();
+            if (!$temp) {
                 return null;
             }
-            $data = $temp[0]['facebook_url'];
+            $data = $temp['facebook_url'];
             if (strlen($data) == 0) {
-                \Debugbar::info("facebookrul is Foobar");
                 return null;
             }
             return $data;
@@ -295,9 +303,7 @@ class Entity extends Model
                 if (strpos($p, "~") === false) {
                     continue;
                 }
-                \Debugbar::info("Parts: " . var_export($p, 1));
                 list($var, $value) = explode("~", $p);
-                \Debugbar::info("$var == $value");
                 if ($var == 'facebook' && $type == 'fb') {
                     return $value;
                 }
@@ -320,8 +326,12 @@ class Entity extends Model
                     return $value;
                 }
             }
+        } else {
+            //returns facebook link if not multi
+            if ($type == 'fb') {
+                return $fbUri;
+            }
         }
-        \Debugbar::info("Type: " . var_export($type, 1));
     }
 
     protected function _preprocessAttributes(&$attr)

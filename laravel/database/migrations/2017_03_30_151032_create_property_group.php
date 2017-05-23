@@ -13,16 +13,16 @@ class CreatePropertyGroup extends Migration
      */
     public function up()
     {
-	if(!Schema::hasTable('property_group')){
-        Schema::create('property_group', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('str_identifier',16);
-            $table->string('group_name');
-            $table->boolean('active_status')->default(DB::raw(0));
-            $table->timestamps();
-            $table->softDeletes();
-        });
-	}
+        if (!Schema::hasTable('property_group')) {
+            Schema::create('property_group', function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('str_identifier', 16);
+                $table->string('group_name');
+                $table->boolean('active_status')->default(DB::raw(0));
+                $table->timestamps();
+                $table->softDeletes();
+            });
+        }
     }
 
     /**

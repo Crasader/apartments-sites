@@ -13,16 +13,17 @@ class Specials extends Model
         'specials' => 'WS_SP_MAPTS_GET_WEBSITE_SPECIALS',
     ];
 
-    public function __construct(){
-        DatabaseChanger::changeDb('database.connections.dynamic');        
+    public function __construct()
+    {
+        DatabaseChanger::changeDb('database.connections.dynamic');
         $this->connection = 'dynamic';
     }
-    public function getSpecials(){
-        try{
+    public function getSpecials()
+    {
+        try {
             return \DB::connection($this->connection)->select($this->_procedures['specials']);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return [];
         }
     }
-
 }

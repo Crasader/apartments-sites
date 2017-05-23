@@ -1497,7 +1497,7 @@ a.btn-mod:hover {
     display: table-cell;
     vertical-align: middle;
     max-width: 118px;
-    height: 75px; 
+    height: 75px;
     -webkit-transition: all .27s cubic-bezier(0, 0, .58, 1);
     -moz-transition: all .27s cubic-bezier(0, 0, .58, 1);
     -o-transition: all .27s cubic-bezier(0, 0, .58, 1);

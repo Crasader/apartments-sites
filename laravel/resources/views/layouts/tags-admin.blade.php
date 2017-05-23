@@ -22,7 +22,7 @@
 			<section class="contact-padding page-section" id="contact">
                 <div class="container text-center">
                     <div class="row col-md-offset-4">
-                    <?php if(isset($error)): ?><div class='error col-md-6 text-center border'>Invalid username or password</div><?php endif; ?>
+                    <?php if (isset($error)): ?><div class='error col-md-6 text-center border'>Invalid username or password</div><?php endif; ?>
                     </div>
                     <div class="row col-md-offset-4 col-md-4 border">
                         <form method="post">

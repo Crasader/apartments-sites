@@ -1,13 +1,14 @@
 <?php
     use App\Util\Util;
-    use App\Property\Template as PropertyTemplate;
-    use App\Property\Site;
-    try{
-        $specials = app()->make('App\Property\Specials');
-        $spec = $specials->fetchAllSpecials();
-    }catch(\Exception $e){
-        $spec = null;
-    }
+use App\Property\Template as PropertyTemplate;
+use App\Property\Site;
+
+try {
+    $specials = app()->make('App\Property\Specials');
+    $spec = $specials->fetchAllSpecials();
+} catch (\Exception $e) {
+    $spec = null;
+}
 
 
 ?>
@@ -29,8 +30,8 @@
                         <li>
                             <div class="container">
                                 <div class="slide-title text-shadow">
-                                    <h1><?php echo $entity->getText('home-slideshow-1',['oneshot' => 'The Gateway to Henderson Nevada']);?></h1>
-                                    <h2><?php echo $entity->getText('home-slideshow-1a',['oneshot' => 'Live seconds from shopping, dining, arts & culture.']);?></h2>
+                                    <h1><?php echo $entity->getText('home-slideshow-1', ['oneshot' => 'The Gateway to Henderson Nevada']);?></h1>
+                                    <h2><?php echo $entity->getText('home-slideshow-1a', ['oneshot' => 'Live seconds from shopping, dining, arts & culture.']);?></h2>
                                     <a href="schedule-a-tour" class="btn btn-block btn-mod btn-brown btn-large btn-round">Schedule a Tour</a>
                                 </div>
                             </div>
@@ -40,8 +41,8 @@
                         <li>
                             <div class="container">
                                 <div class="slide-title text-shadow">
-                                    <h1><?php echo $entity->getText('home-slideshow-2',['oneshot'=>'Modern Living in the Heart of the Green Valley']);?></h1>
-                                    <h2><?php echo $entity->getText('home-slideshow-2a',['oneshot' => 'One- and two-bedroom apartment <br>homes in a tree-lined community.']);?></h2>
+                                    <h1><?php echo $entity->getText('home-slideshow-2', ['oneshot'=>'Modern Living in the Heart of the Green Valley']);?></h1>
+                                    <h2><?php echo $entity->getText('home-slideshow-2a', ['oneshot' => 'One- and two-bedroom apartment <br>homes in a tree-lined community.']);?></h2>
                                     <a href="schedule-a-tour" class="btn btn-block btn-mod btn-brown btn-large btn-round">Schedule a Tour</a>
                                 </div>
                             </div>
@@ -51,8 +52,8 @@
                         <li>
                             <div class="container">
                                 <div class="slide-title text-shadow">
-                                    <h1><?php echo $entity->getText('home-slideshow-3',['oneshot' => 'Comfort and Luxuries']);?></h1>
-                                    <h2><?php echo $entity->getText('home-slideshow-3a',['oneshot' => '24 hour town, scenic pool area, <br>and outdoor lounges.']);?></h2>
+                                    <h1><?php echo $entity->getText('home-slideshow-3', ['oneshot' => 'Comfort and Luxuries']);?></h1>
+                                    <h2><?php echo $entity->getText('home-slideshow-3a', ['oneshot' => '24 hour town, scenic pool area, <br>and outdoor lounges.']);?></h2>
                                     <a href="schedule-a-tour" class="btn btn-block btn-mod btn-brown btn-large btn-round">Schedule a Tour</a>
                                 </div>
                             </div>
@@ -74,7 +75,7 @@
                         */?>
                     </ul>
                 </div>
-                <?php if(isset($spec['website'])): ?>
+                <?php if (isset($spec['website'])): ?>
                 <div class="specials-gallery visible-xs visible-sm visible-md visible-lg">
                     <div class="container">
                         <div class="row">
@@ -94,7 +95,7 @@
                 <div class="container relative">
 
                     <h2 class="section-title font-alt mb-40 mb-sm-40">
-                        <?php echo $entity->getText('about-apartment-title',['oneshot' => "About " . $entity->getLegacyProperty()->name]);?>
+                        <?php echo $entity->getText('about-apartment-title', ['oneshot' => "About " . $entity->getLegacyProperty()->name]);?>
                     </h2>
 
                     <div class="container">
@@ -127,10 +128,10 @@
                                         <?php echo $entity->getText('home-neighborhood-description'); ?>
                                         <ul>
                                         <?php
-                                            $features = Util::redisFetchOrUpdate('neighborhood_features',function() use($entity){
+                                            $features = Util::redisFetchOrUpdate('neighborhood_features', function () use ($entity) {
                                                 return $entity->hasNeighborhood()->get()->toArray();
-                                            },true);
-                                            foreach($features as $index => $nFeature):
+                                            }, true);
+                                            foreach ($features as $index => $nFeature):
                                         ?>
                                                 <li><a href="neighborhood"><?php echo strtoupper($nFeature['name']); ?></a></li>
                                         <?php
@@ -163,7 +164,7 @@
                             $features->setFeaturesLimit(['apartment' => 6,'community' => 6]);
                             $features->loadSelectedFeatures(['apartment','community']);
                             $features->setFeaturesFormatter(new App\Util\Formatter('li'));
-                            foreach(['apartment' => 'Apartment Features',
+                            foreach (['apartment' => 'Apartment Features',
                                 'community' => 'Community Features'
                                 ] as $section => $label):
                         ?>
@@ -172,9 +173,9 @@
                                 <div class="col-md-6">
                                      <div class="text">
                                         <ul class='dash-list'>
-                                            <?php echo Util::redisFetchOrUpdate('home_features_section_' . $section,function() use($features,$section){
-                                                return implode('',$features->getEntireFeaturesSection($section));
-                                            },false);
+                                            <?php echo Util::redisFetchOrUpdate('home_features_section_' . $section, function () use ($features, $section) {
+                            return implode('', $features->getEntireFeaturesSection($section));
+                        }, false);
                                             ?>
                                         </ul>
                                     </div>
@@ -275,7 +276,7 @@
                                 <div style="overflow:hidden;height:537px;max-width:100%;">
                                     <div id="map-canvas" style="max-width:100%;"></div>
                                 <div>
-                            @include('layouts/dinapoli/pages/inc/google-maps-script') 
+                            @include('layouts/dinapoli/pages/inc/google-maps-script')
                             @include('layouts/dinapoli/pages/inc/google-maps-apartment-feature')
                         </div>
                     </div>

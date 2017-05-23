@@ -18,26 +18,29 @@ class Https extends BaseVerifier
         'text-tag','text-tag-get','unit','redis','tags-logout'
     ];
 
-    public function handle($request, Closure $next) {
-        if($this->hostIsException()){
+    public function handle($request, Closure $next)
+    {
+        if ($this->hostIsException()) {
             return $next($request);
         }
-        
-		if (!$request->secure()){
-			return redirect()->secure($request->getRequestUri());
-		}
-		return $next($request); 
+
+        if (!$request->secure()) {
+            return redirect()->secure($request->getRequestUri());
+        }
+        return $next($request);
     }
 
-    public function hostIsException(){
-        if(Util::isHttpsException()){
+    public function hostIsException()
+    {
+        if (Util::isHttpsException()) {
             return true;
         }
-        if(file_exists(config_path() . "/https-exceptions.json") == false)
+        if (file_exists(config_path() . "/https-exceptions.json") == false) {
             return false;
-        $foo = json_decode(file_get_contents(config_path() . "/https-exceptions.json"),true);
+        }
+        $foo = json_decode(file_get_contents(config_path() . "/https-exceptions.json"), true);
         $keys = array_keys($foo);
-        $serv = str_replace("www.","",Util::serverName());
-        return in_array($serv,$keys);
+        $serv = str_replace("www.", "", Util::serverName());
+        return in_array($serv, $keys);
     }
 }
