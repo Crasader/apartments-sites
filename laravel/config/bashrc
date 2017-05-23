@@ -3,15 +3,15 @@ PATH="${PATH}:/home/amcllc/bin"
 alias lar='cd $LAR'
 export PATH
 alias art='php7.0 $LAR/artisan $@'
-alias clear='art cache:clear ; art config:clear ; art route:clear ; art view:clear;'
+alias artclear='art cache:clear ; art config:clear ; art route:clear ; art view:clear;'
 alias storage='lar ; cd storage'
 alias log='lar ; cd storage/logs ; tail -f log.log -n 100'
 alias llog='lar ; cd storage/logs ; tail -f laravel.log -n 100'
-alias routes='lar ; cd routes'
+alias routes='lar ; cd routes; vim controllers/domain.php'
 alias admin='lar ; cd resources/views/layouts/admin'
-alias artclear='art cache:clear; art config:clear; art route:clear; art view:clear'
 alias bas='lar ; cd resources/views/layouts/bascom/pages'
 alias t-log='storage ; cd logs; tail -n 1000 -f log.log'
+alias x-log='storage ; cd logs; tail -n 1000 -f log\-$1.log'
 alias pub='lar ; cd public'
 alias vimbash='vim $LAR/config/bashrc'
 alias app='lar ; cd app'
@@ -20,6 +20,23 @@ alias din='lar ; cd resources/views/layouts/dinapoli/pages'
 alias gp='lar ; git pull'
 alias gs='lar ; git status'
 alias mat='lar ; cd resources/views/layouts/material/pages'
+alias live='ssh amcllc@192.168.1.225'
+alias mkt='ssh amcllc@107.170.28.7'
+alias s-gib='s3cmd --acl-public put $1 s3://mktapts/images/166TBL/$2'   #80ongibson
+alias s-mb='s3cmd --acl-public put $1 s3://mktapts/images/164MTB/$2'    #martiniquebay
+alias s-lyric='s3cmd --acl-public put $1 s3://mktapts/images/181LYR/$2' #lyriclv
 alias gr='lar ; grunt --gruntfile ./Gruntfile'
+alias rechown="sudo chown amcllc:www-data -R $LAR/storage; sudo chmod 770 -R $LAR/storage/"
+alias autossh_alias='autossh -M 5512 -fN -R 1433:192.168.1.139:1433 amcllc@brady.dev' #5512 needs to be different for each instance of autossh . Ports 5512 and 5513 are used for autossh, so choose something else
 alias dev='source $LAR/config/bashrc-dev'
 alias live='source $LAR/config/bashrc'
+
+parse_git_branch() {
+                 git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
+market_identifier() {
+    echo $(hostname) | grep marketapts-web2 -i > /dev/null && echo -e "\033[31m\033[1;37m@@@[\033[31mLIVE[\033[1;37m@@@"
+}
+
+export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $(market_identifier)$ "

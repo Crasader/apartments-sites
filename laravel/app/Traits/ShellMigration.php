@@ -1,15 +1,17 @@
 <?php
 namespace App\Traits;
 
-trait ShellMigration {
-    public function updateExec($line){
+trait ShellMigration
+{
+    public function updateExec($line)
+    {
         $fn = 'exec.sh';
-        if(!file_exists($fn)){
+        if (!file_exists($fn)) {
             $fileContents = '';
         } else {
-                $fileContents = file_get_contents($fn);
+            $fileContents = file_get_contents($fn);
         }
-        if(strpos($fileContents, $line) === false){
+        if (strpos($fileContents, $line) === false) {
             $className = get_class($this);
             $date = date('Y-m-d-H-i_s');
             $fileContents .= "
@@ -19,6 +21,5 @@ trait ShellMigration {
             file_put_contents('exec.sh', $fileContents);
         }
         print($line . "\n");
-
     }
 }

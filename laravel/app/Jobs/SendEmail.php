@@ -18,6 +18,7 @@ class SendEmail implements ShouldQueue
      *
      * @return void
      */
+    public $tries = 200;
     public function __construct(Email $email)
     {
         $this->email = $email;
@@ -31,6 +32,7 @@ class SendEmail implements ShouldQueue
      */
     public function handle()
     {
+        echo "Email {$this->email->id} sent\n";
         return($this->email->send());
         //
     }
