@@ -1497,7 +1497,7 @@ a.btn-mod:hover {
     display: table-cell;
     vertical-align: middle;
     max-width: 118px;
-    height: 75px; 
+    height: 75px;
     -webkit-transition: all .27s cubic-bezier(0, 0, .58, 1);
     -moz-transition: all .27s cubic-bezier(0, 0, .58, 1);
     -o-transition: all .27s cubic-bezier(0, 0, .58, 1);
@@ -1552,12 +1552,12 @@ a.logo:hover {
 }
 
 .small-height {
-    height: 55px!important
+    height: 75px!important
 }
 
 .small-height .inner-nav ul li a {
-    height: 55px!important;
-    line-height: 55px!important
+    height: 75px!important;
+    line-height: 75px!important
 }
 
 .inner-nav {
@@ -8255,7 +8255,7 @@ section:hover .small-item-carousel .owl-next {
     }
 }
 
-body { 
+body {
     font-family: "Open Sans", arial, sans-serif;
 }
 
@@ -8271,10 +8271,9 @@ body {
 .dash-list > li:before {
      content: "- ";
       text-indent: -5px;
-       
+
 }
- 
+
 .dash-list > li:after {
       margin-bottom: 10px;
 }
-  
