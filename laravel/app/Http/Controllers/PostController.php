@@ -420,7 +420,6 @@ class PostController extends Controller
         $siteData['data']['sent'] = true;
 
         $siteData['data']['redirectConfig'] = $this->_fillApplyOnlineRedirectData();
-        // Util::dd(compact('siteData'));
         $url = UrlHelpers::getUrl('/', [
             'submitted' => 1,
             'from' => 'Schedule'
