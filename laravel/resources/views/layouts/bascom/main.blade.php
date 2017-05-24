@@ -13,22 +13,25 @@ use App\Util\Util;
         <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 @show
+@section('before-css')
+@show
         <!-- CSS -->
 @section('css')
         <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
         <?php $customSheet = null; ?>
         <?php //TODO: !refactor move this to a library function so we can utilize this code in every template?>
-        <?php foreach (glob(public_path() . "/bascom/css/*.css") as $i => $sheet) {
-    if (preg_match("|bascom/css/([0-9A-Z]{6,}\.css)|", $sheet, $matches)) {
-        if (strcmp($matches[1], $site->getEntity()->getLegacyProperty()->code . ".css") == 0) {
-            $customSheet = "/bascom/css/{$matches[1]}";
+        <?php
+        foreach (glob(public_path() . "/bascom/css/*.css") as $i => $sheet) {
+            if (preg_match("|bascom/css/([0-9A-Z]{6,}\.css)|", $sheet, $matches)) {
+                if (strcmp($matches[1], $site->getEntity()->getLegacyProperty()->code . ".css") == 0) {
+                    $customSheet = "/bascom/css/{$matches[1]}";
+                }
+                continue;
+            }
+            if (preg_match("|/bascom/css/([^\.]*)\.css|", $sheet, $matches) && !strstr($sheet, $site->getEntity()->getLegacyProperty()->code)) {
+                echo "<link rel='stylesheet' href='/bascom/css/{$matches[1]}.css?v={$entity->getAssetsVersion('bascom/css/' . $matches[1] . '.css')}'/>\n\t";
+            }
         }
-        continue;
-    }
-    if (preg_match("|/bascom/css/([^\.]*)\.css|", $sheet, $matches) && !strstr($sheet, $site->getEntity()->getLegacyProperty()->code)) {
-        echo "<link rel='stylesheet' href='/bascom/css/{$matches[1]}.css?v={$entity->getAssetsVersion('bascom/css/' . $matches[1] . '.css')}'/>\n\t";
-    }
-}
         if ($customSheet) {
             echo "<link rel='stylesheet' href='{$customSheet}?v={$entity->getAssetsVersion('$customSheet')}'/>";
         }
@@ -50,7 +53,7 @@ use App\Util\Util;
 		<![endif]-->
 		@yield('recaptcha-js')
     </head>
-    <body class="appear-animate <?=Request::segment(1);?>">
+    <body class="appear-animate page-<?=Request::segment(1);?>">
 <?php if (\App\System\Session::isCmsUser()): ?>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
 <!-- Trigger the modal with a button -->
@@ -99,7 +102,8 @@ use App\Util\Util;
        @section('js')
         <!-- JS -->
         @yield('google-maps-js')
-        <script type="text/javascript" src="/js/build/marketapts.min.js?v=<?php echo uniqid() . time();?>"></script>
+        <!-- <script type="text/javascript" src="/js/build/marketapts.concat.js?v=<?php echo uniqid() . time();?>"></script> -->
+        <script type="text/javascript" src="/js/build/marketapts.concat.js?<?php echo fileatime(public_path() . "/js/build/marketapts.min.js");?>"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <!--[if lt IE 10]><script type="text/javascript" src="js/placeholder.js"></script><![endif]-->
 		@yield('page-specific-js')

@@ -40,7 +40,7 @@ use App\Util\Util;
 		<![endif]-->
 		@yield('recaptcha-js')
     </head>
-    <body class="appear-animate">
+    <body class="appear-animate page-<?=Request::segment(1);?>">
 <!-- Trigger the modal with a button -->
 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" id="mmbutton" data-target="#myModal" style='display:none;'>Open Modal</button>
 <?php //TODO: make this a slot or include it from a file?>
@@ -180,7 +180,7 @@ use App\Util\Util;
        @section('js')
         <!-- JS -->
         @yield('google-maps-js')
-        <script type="text/javascript" src="/js/build/marketapts.min.js?<?php echo fileatime(public_path() . "/js/build/marketapts.min.js");?>"></script>
+        <script type="text/javascript" src="/js/build/marketapts.concat.js?<?php echo fileatime(public_path() . "/js/build/marketapts.min.js");?>"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <!--[if lt IE 10]><script type="text/javascript" src="js/placeholder.js"></script><![endif]-->
 		@yield('page-specific-js')
