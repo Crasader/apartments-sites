@@ -16,4 +16,13 @@
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+
+    # legacy site redirects
+    Redirect 301 /Floor-plans.aspx /floorplans
+    Redirect 301 /Contact.aspx /contact
+    Redirect 301 /Gallery.aspx /gallery
+    Redirect 301 /Amenities.aspx /amenities
+    Redirect 301 /neighborhood.aspx /neighborhood
+
 </IfModule>

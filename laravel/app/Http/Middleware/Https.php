@@ -20,8 +20,10 @@ class Https extends BaseVerifier
 
     public function handle($request, Closure $next)
     {
-        if(!Util::isWwwDomain() && !$this->hostIsException()){
-            return redirect()->secure("www." . Util::serverName() . $request->getRequestUri());
+        //TODO: move this to a route filter
+        if(substr($request->header('host'),0,4) != 'www.' && !$this->hostIsException()){
+            $request->headers->set('host','www.' . $request->header('host'));
+            return redirect()->secure($request->path());
         }
 
         if ($this->hostIsException()) {

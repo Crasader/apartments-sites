@@ -15,7 +15,7 @@ try {
 @extends('layouts/dinapoli/main')
         @section('title-section','')
         @section('content')
-        <!-- Page Wrap -->
+        <!-- Page Wrap 1-->
         <div class="page" id="top">
             <!-- Home Section -->
             <section class="home-section" id="home">
