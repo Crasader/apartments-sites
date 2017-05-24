@@ -73,7 +73,7 @@ $galleryItems = [
                                         'li-attributes' => [
                                             'class' => 'active hidden-md hidden-sm',
                                          ],
-                                         'href' => '/',
+                                         'href' => '',
                                         'label' => 'Home'
                                     ],
                                     [
