@@ -60,19 +60,6 @@ try {
                             <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide3a.jpg" class="visible-md visible-lg">
                             <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide3a-m.jpg" class="visible-xs visible-sm">
                         </li>
-                        <?php /*
-                        <li>
-                            <div class="container">
-                                <div class="slide-title text-shadow">
-                                    <h1><?php echo $entity->getText('home-slideshow-3',['oneshot' => 'Comfort and Luxuries']);?></h1>
-                                    <h2><?php echo $entity->getText('home-slideshow-3a',['oneshot' => '24 hour town, scenic pool area, <br>and outdoor lounges.']);?></h2>
-                                    <a href="schedule-a-tour" class="btn btn-block btn-mod btn-brown btn-large btn-round">Schedule a Tour</a>
-                                </div>
-                            </div>
-                            <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide4a.jpg" class="visible-md visible-lg">
-                            <img src="<?php echo $entity->getWebPublicDirectory('slides');?>/home-top-slide4a-m.jpg" class="visible-xs visible-sm">
-                        </li>
-                        */?>
                     </ul>
                 </div>
                 <?php if (isset($spec['website'])): ?>
@@ -102,7 +89,7 @@ try {
                         <div class="row">
                             <div class="col-md-8 col-md-offset-2">
                                 <div class="section-text align-center mb-40 mb-xs-40">
-                                    <?php echo $entity->getText('home-about'); ?>
+                                    <?php echo $entity->getText('home-about',['oneshot' => $entity->getLegacyProperty()->description]); ?>
                                 </div>
 
                             </div>
