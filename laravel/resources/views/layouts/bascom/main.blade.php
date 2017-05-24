@@ -28,7 +28,6 @@ use App\Util\Util;
             //     }
             //     continue;
             // }
-            print($sheet . "<br>") ;
             if (preg_match("|/bascom/css/([^\.]*)\.css|", $sheet, $matches)
                     &&
                     !strstr($sheet, $site->getEntity()->getLegacyProperty()->code)) {
