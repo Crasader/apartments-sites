@@ -6,6 +6,7 @@
     @stop
     @section('page-title-span','GALLERY')
     @section('content')
+    <!-- lol -->
             <!-- Gallery Section -->
             <section class="page-section pb-0" id="portfolio">
                 <div class="relative">
@@ -56,6 +57,7 @@
                     
                 </div>
             </section>
+            <!-- test -->
             <!-- End Call Action Section -->
 @stop
                  

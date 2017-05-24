@@ -1,9 +1,13 @@
+<?php
+use App\Property\Template as PropertyTemplate;
+
+?>
 @extends('layouts/dinapoli/main')
             @section('extra-css')
                 <!-- Latest compiled and minified CSS -->
                 <link id="bsdp-css" href="css/bootstrap-datepicker3.min.css" rel="stylesheet">
             @stop
-                       @section('page-title-row') 
+                       @section('page-title-row')
                         <div class="col-md-8">
                             <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Contact Us</h1>
                             <div class="hs-line-4 font-alt">
@@ -15,14 +19,14 @@
                         @section('recaptcha-js')
                         <script src="https://www.google.com/recaptcha/api.js"></script>
                         @stop
-            @section('content')        
+            @section('content')
             <!-- Contact Form Section -->
             <section class="page-section pb-0" id="contact-form">
                 <div class="container relative">
                     <div class="section-text mb-50 mb-sm-20">
                         <div class="row">
-                            <?php if(isset($sent)): ?><h1 class="notice">Your contact information has been submitted</h1><?php endif;?>
-                            <?php if(isset($invalidRecaptcha)): ?><h1 class="error">Invalid ReCaptcha</h1><?php endif; ?>
+                            <?php if (isset($sent)): ?><h1 class="notice">Your contact information has been submitted</h1><?php endif;?>
+                            <?php if (isset($invalidRecaptcha)): ?><h1 class="error">Invalid ReCaptcha</h1><?php endif; ?>
                             <div class="col-md-7 col-sm-7 mb-sm-50 mb-xs-30">
                                 <form id="form1" method="post" action="/contact">
                                     <input type="hidden" name="form_id" value="contact"/>
@@ -44,7 +48,7 @@
                                     </div>
                                     <label for="date">Approximate Move-In Date</label>
                                     <div class="mb-20 mb-md-10 input-group date" data-provide="datepicker" id="datediv" style='margin-bottom: 0px;'>
-                                        <input type="text" class="form-control" id="date" name="date" value="" readonly="true" placeholder="Approximate Move-In Date" autocomplete="off" onchange='$("#dateErrorDiv").css("margin-bottom","40px");$("#date\-error").css("display","none");$(this).removeClass("error");'/>
+                                        <input type="text" class="form-control" id="date" name="date" value="" readonly placeholder="Approximate Move-In Date" autocomplete="off" onchange='$("#dateErrorDiv").css("margin-bottom","40px");$("#date\-error").css("display","none");$(this).removeClass("error");'/>
                                         <div class="input-group-addon">
                                             <span class="glyphicon glyphicon-th"></span>
                                         </div>
@@ -56,14 +60,14 @@
                                     <div class="mb-20 mb-md-10 form-group">
                                         <div class="g-recaptcha" id='grecaptcha' data-sitekey="<?php echo $entity->getRecaptchaKey();?>"></div>
                                     </div>
-									
+
                                     <input type="hidden" class="hiddenRecaptcha required" name="hiddenRecaptcha" id="hiddenRecaptcha">
                                     <div class="mb-20 mb-md-10">
                                         <button class="btn btn-mod btn-brown btn-large btn-round" onclick="if($('#datediv').val().length){console.log(1);$('#datediv').css('margin-bottom','40px');}">Submit</button>
                                     </div>
                                 </form>
                             </div>
-                            
+
                             <div class="col-md-5 col-sm-5 mb-sm-50 mb-xs-30 text-center">
                                 <div class="row">
                                 	<div class="col-sm-12">
@@ -71,7 +75,7 @@
                                             <div class="map-block">
                                                 <div class="map">
                                                     <div class="map-container">
-                                                        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+                                                        <?=PropertyTemplate::getGmapKey();?>
                                                         <div style="overflow:hidden;height:537px;max-width:100%;">
                                                             <div id="map-canvas" style="max-width:100%;"></div>
                                                         <div>
@@ -87,17 +91,17 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </section>
-            @stop
             <!-- End About Section -->
+            @stop
             @section('schedule-a-tour','')
             @section('action','')
             @section('page-specific-js')
             <script type="text/javascript">
             $(document).ready(function(){
-			    $("#datediv").datepicker({ format: "mm/dd/yyyy" });	
+			    $("#datediv").datepicker({ format: "mm/dd/yyyy" });
 				amcBindValidate({
 					'form': '#form1',
                     'ignore': '.ignore',

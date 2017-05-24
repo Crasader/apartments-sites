@@ -167,6 +167,7 @@ return [
          * Package Service Providers...
          */
         Laravel\Tinker\TinkerServiceProvider::class,
+        Laracasts\Flash\FlashServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -197,6 +198,11 @@ return [
         * Google places API
         */
        SKAgarwal\GoogleApi\ServiceProvider::class,
+
+       /*
+        * Flash providers
+        */
+        Laracasts\Flash\FlashServiceProvider::class,
     ],
 
     /*

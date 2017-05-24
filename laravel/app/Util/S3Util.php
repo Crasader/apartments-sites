@@ -1,45 +1,48 @@
 <?php
 
 namespace App\Util;
+
 use Redis;
 use App\Property\Entity;
 use App\Property\Site;
 use Illuminate\Http\Request;
 use Aws\S3\S3Client;
+use App\Util\Util;
 
-class S3Util 
+class S3Util
 {
     const IMAGE_BASE = 'photos';
     const FLOORPLAN_BASE = 'floorplans';
-	const BUCKET = 'mktapts';
+    const BUCKET = 'mktapts';
     const LIVE_BASE = 'http://www.amclive/uploads';
-    public static function updatePhotos($site=null){
-        if($site === null){
+    public static function updatePhotos($site=null)
+    {
+        if ($site === null) {
             $site = app()->make('App\Property\Site');
         }
-        $collection['photos'] = \DB::connection('live-mysql')->table('property_photo')->select('image')->where('property_id',$site->getEntity()->fk_legacy_property_id)->get();
+        $collection['photos'] = \DB::connection('live-mysql')->table('property_photo')->select('image')->where('property_id', $site->getEntity()->fk_legacy_property_id)->get();
         //$collection['neighborhood'] = \DB::connection('live-mysql')->table('property_neighborhood')->select('url')->where('property_id',$site->getEntity()->fk_legacy_property_id)->get();
-        $collection['floorplans']  = \DB::connection('live-mysql')->table('property_floorplan')->select('image')->where('property_id',$site->getEntity()->fk_legacy_property_id)->get();
+        $collection['floorplans']  = \DB::connection('live-mysql')->table('property_floorplan')->select('image')->where('property_id', $site->getEntity()->fk_legacy_property_id)->get();
         chdir("/tmp");
-        $serv = preg_replace("|[^a-z+]|","",$_SERVER['SERVER_NAME']);
+        $serv = preg_replace("|[^a-z+]|", "", Util::serverName());
         $dir = "/tmp/$serv";
         @mkdir($dir);
         chdir($dir);
         echo shell_exec("whoami");
         $downloaded = [];
-		$options = [
-			'region'            => 'us-west-2',
-			'version'           => '2006-03-01',
-			'signature_version' => 'v4',
-			'credentials'   => [
+        $options = [
+            'region'            => 'us-west-2',
+            'version'           => '2006-03-01',
+            'signature_version' => 'v4',
+            'credentials'   => [
                 'key' => ENV('AWS_KEY'),
                 'secret' => ENV('AWS_SECRET')
             ]
-		];
+        ];
 
-		$s3Client = new S3Client($options);
+        $s3Client = new S3Client($options);
         shell_exec("rm -rf {$dir}/*");
-        foreach(['photos' => [
+        foreach (['photos' => [
                                 'base' => self::IMAGE_BASE,
                                 'target' => 'gallery'],
             /*
@@ -51,10 +54,9 @@ class S3Util
                 'base' => self::FLOORPLAN_BASE,
                 'target' => 'floorplans'
             ]
-        ] as $type => $base){
-
-            foreach($collection[$type] as $i => $file){
-                if($type == 'neighborhood'){
+        ] as $type => $base) {
+            foreach ($collection[$type] as $i => $file) {
+                if ($type == 'neighborhood') {
                     $file->image = $file->url;
                 }
 
@@ -62,7 +64,7 @@ class S3Util
 
                 shell_exec(
                 $wget = "wget " . self::LIVE_BASE . "/" . $base['base'] . "/{$file->image} --output-file={$file->image}.log");
-                if(file_exists("{$dir}/{$file->image}")){
+                if (file_exists("{$dir}/{$file->image}")) {
                     echo "File exists\n<br>";
                 }
                 echo shell_exec("ls -al {$file->image}");
@@ -70,7 +72,7 @@ class S3Util
                 echo shell_exec("ls -al {$dir}/{$type}_{$file->image}");
                 echo $wget . "\n<br>";
                 echo file_get_contents("{$file->image}.log");
-                try{
+                try {
                     $result = $s3Client->putObject([
                         'Bucket'     => S3Util::BUCKET,
                         'Key'        => "images/" . $site->getEntity()->getTemplateName() . "/" . $site->getEntity()->getLegacyProperty()->code . "/" . $base['target'] . "/{$file->image}",

@@ -11,7 +11,8 @@ class Feature extends Model
     //
     protected $table = 'property_apartment_feature';
 
-    public function hasFeature(){
-        return $this->hasMany('App\Apartment\Feature','id','apartment_feature_id');
+    public function hasFeature()
+    {
+        return $this->hasMany('App\Apartment\Feature', 'id', 'apartment_feature_id');
     }
 }

@@ -1,13 +1,14 @@
 <?php
 use App\Util\Util;
+
 ?>
 <!DOCTYPE html>
 <html lang="">
     <head>
-        <title><?php echo $entity->getText('title_' . Util::baseUri(Request::getRequestUri(),'home'));?><?php //$entity->getCity(); echo $entity->getAbbreviatedState(); Apartments | Luxury Apartments For Rent | <?php echo $entity->getLegacyProperty()->name;?></title>
+        <title><?php echo $entity->getText('title_' . Util::baseUri(Request::getRequestUri(), 'home'));?><?php //$entity->getCity(); echo $entity->getAbbreviatedState(); Apartments | Luxury Apartments For Rent | <?php echo $entity->getLegacyProperty()->name;?></title>
 @section('meta')
-        <meta name="description" content="<?php echo $entity->getMeta('description',$_SERVER['REQUEST_URI']);?>">
-        <meta name="keywords" content="<?php echo $entity->getMeta('keywords',$_SERVER['REQUEST_URI']);?>">
+        <meta name="description" content="<?php echo $entity->getMeta('description', Util::requestUri());?>">
+        <meta name="keywords" content="<?php echo $entity->getMeta('keywords', Util::requestUri());?>">
         <meta charset="utf-8">
         <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -16,11 +17,11 @@ use App\Util\Util;
 @section('css')
         <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
-        <?php foreach(['main','animate.min','owl.carousel','magnific-popup'] as $i => $sheet){
-            echo "<link rel='stylesheet' href='/" . $fsid . "/css/{$sheet}.css?v={$entity->getAssetsVersion($fsid . '/css/' . $sheet . '.css')}'>";
-        }?>
+        <?php foreach (['main','animate.min','owl.carousel','magnific-popup'] as $i => $sheet) {
+    echo "<link rel='stylesheet' href='/" . $fsid . "/css/{$sheet}.css?v={$entity->getAssetsVersion($fsid . '/css/' . $sheet . '.css')}'>";
+}?>
         <?php $extraSheets = $entity->getCustomStyleSheets($page);
-            foreach($extraSheets as $i => $sheet): ?>
+            foreach ($extraSheets as $i => $sheet): ?>
             <link rel="stylesheet" href="<?php echo $sheet;?>">
        <?php endforeach; ?>
 @show
@@ -68,7 +69,7 @@ use App\Util\Util;
             @show
             <!-- End Page Title Section -->
             <div class="row text-center">
-                <?php if(isset($errorGeneric)): ?>
+                <?php if (isset($errorGeneric)): ?>
                 <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">An unexpected error occurred</h1>
                 <?php else: ?>
                 <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Page not found</h1>
@@ -107,7 +108,7 @@ use App\Util\Util;
                                         </div>
                                         <div class="ci-text">
                                             <?php echo strtoupper($entity->getStreet() . "<br>" . $entity->getCity() . ", " .
-                                                $entity->getState() . " " . $entity->getZipCode()); 
+                                                $entity->getState() . " " . $entity->getZipCode());
                                             ?>
                                         </div>
                                     </div>

@@ -38,16 +38,17 @@
                             $features->setFeaturesFormatter(new App\Util\Formatter('li'));
                             $features->setFeaturesChunkCount($rows);
                             $features->loadAllFeatures();
-                            for($i=0;$i < $rows;$i++){
-                        ?>
+                            for ($i=0;$i < $rows;$i++) {
+                                ?>
                     	<div class="col-md-6 mb-40">
                     		<div class="text">
-                    			<ul style="list-style-type:none; line-height: 30px;">
-                                    <?php echo $features->getFeaturesChunk('apartment',$i,'amenities'); ?>
+                    			<ul class='dash-list'>
+                                    <?php echo $features->getFeaturesChunk('apartment', $i, 'amenities'); ?>
                                 </ul>
                     		</div>
                     	</div>
                         <?php
+
                             }   //End for
                         ?>
                     </div>
@@ -59,23 +60,23 @@
                         <?php
                             $rows = 3;
                             $features->setFeaturesChunkCount($rows);
-                            for($i=0; $i < $rows;$i++){
-                        ?>
+                            for ($i=0; $i < $rows;$i++) {
+                                ?>
                     	<div class="col-sm-4 mb-40">
                     		<div class="text">
-                    			<ul style="list-style-type:none; line-height: 30px;">
+                    			<ul class='dash-list'> 
                                     <?php 
-                                        echo $features->getFeaturesChunk('community',$i,'amenities');
-                                    ?>
+                                        echo $features->getFeaturesChunk('community', $i, 'amenities'); ?>
                                 </ul>
                     		</div>
                     	</div>
                         <?php
+
                             }   //End for loop
                         ?>
                     </div>
                     <hr class="mb-40">
-                    <?php //TODO: if other features exist... ?>
+                    <?php //TODO: if other features exist...?>
                     <div class="row">
                     	<div class="col-sm-12 mb-10">
                     		<h2 class="section-title font-alt align-left mb-20 mb-sm-20">Other Features & Services</h2>
@@ -83,16 +84,17 @@
                         <?php
                             $rows = 2;
                             $features->setFeaturesChunkCount($rows);
-                            for($i=0;$i < $rows;$i++){
-                        ?>
+                            for ($i=0;$i < $rows;$i++) {
+                                ?>
                                 <div class="col-sm-4 mb-40">
                                     <div class="text">
-                                        <ul style="list-style-type:none; line-height: 30px;">
-                                            <?php echo $features->getFeaturesChunk('other',$i); ?>
+                                        <ul class='dash-list'>
+                                            <?php echo $features->getFeaturesChunk('other', $i); ?>
                                         </ul>
                                     </div>
                                 </div>
                         <?php
+
                             }   //End for
                         ?>
                     </div>

@@ -14,9 +14,11 @@ class AddMsgSentColumnToMailerQueue extends Migration
     public function up()
     {
         //
-        if(Schema::hasColumn('mailer_queue','msg_sent')){ return; }
-        Schema::table('mailer_queue',function($table){
-            $table->enum('msg_sent',['0','1']);
+        if (Schema::hasColumn('mailer_queue', 'msg_sent')) {
+            return;
+        }
+        Schema::table('mailer_queue', function ($table) {
+            $table->enum('msg_sent', ['0','1']);
         });
     }
 

@@ -20,28 +20,27 @@ class StyleSheetSeeder extends Seeder
             ->select(['fk_legacy_property_id','filesystem_id','fk_template_id'])
             ->get()
             ;
-        foreach($entities as $i => $obj){
+        foreach ($entities as $i => $obj) {
             $template = Template::find($obj->fk_template_id)
                 ->get()
                 ->toArray();
-            if(file_exists($file = public_path() . "/" . $template[0]['filesystem_id'] . "/css/" . 
-                strtoupper(explode("-",$obj->filesystem_id)[0]) . ".css")){
+            if (file_exists($file = public_path() . "/" . $template[0]['filesystem_id'] . "/css/" .
+                strtoupper(explode("-", $obj->filesystem_id)[0]) . ".css")) {
                 echo "FILE EXISTS: $file\n";
-                $find = Assets::select('id')->where('fk_property_id',$obj->fk_legacy_property_id)
+                $find = Assets::select('id')->where('fk_property_id', $obj->fk_legacy_property_id)
                     ->get()
                     ->toArray();
-                if(empty($find)){
+                if (empty($find)) {
                     $assets = app()->make('App\Property\Clientside\Assets');
                     $assets->fk_property_id = $obj->fk_legacy_property_id;
-                    $assets->uri = str_replace(public_path(),"",$file);
+                    $assets->uri = str_replace(public_path(), "", $file);
                     $assets->uri_type = 'css';
                     $assets->save();
                     echo "[*SUCCESS*] Asset saved...\n";
                 }
-            }else{
+            } else {
                 echo "FILE DOESNT EXIST: $file\n";
             }
         }
-
     }
 }

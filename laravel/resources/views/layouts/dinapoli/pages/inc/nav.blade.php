@@ -1,20 +1,25 @@
 <?php 
 use App\Util\Util;
 
-try{
+try {
     $specials = app()->make('App\Property\Specials');
     $foo = $specials->traitGet('specials');
     $data = [];
-    foreach($foo as $index => $object){
+    foreach ($foo as $index => $object) {
         $data[$object->U_MARKETING_NAME] = $object->SPECIAL_TEXT;
     }
-}catch(\Exception $e){
+} catch (\Exception $e) {
     $data = [];
+}
+
+$env = env('ENVIRONMENT');
+if(strlen($env) != 0 && $env != 'live'){
+    echo "<b>$env</b>";
 }
 ?>
 			<!-- Speacials Dropdown -->
-            <?php if(isset($data['SpecialWebsite'])): ?>
-                <?php if(Util::isHome()): ?>
+            <?php if (isset($data['SpecialWebsite'])): ?>
+                <?php if (Util::isHome()): ?>
                 <div id="banner-special">
                 	<div class="container relative">
                 		<div class="row">
@@ -39,7 +44,7 @@ try{
                             <ul class="top-nav-left">
                                 <li class="hidden-sm hidden-xs"><i class="fa fa-phone"></i> <b>Call Today</b> : <?php echo $entity->getPhone(); ?></li>
                                 <li class="hidden-sm hidden-xs"><i class="fa fa-map-marker"></i> <b>Location</b> : <?php echo $entity->getFullAddress();?></li>
-                                <li class="hidden-md hidden-lg"><a href="tel:+<?php echo preg_replace("|[^0-9]+|","",$entity->getPhone());?>" class="gray"><i class="fa fa-phone"></i> Call Us</a></li>
+                                <li class="hidden-md hidden-lg"><a href="tel:+<?php echo preg_replace("|[^0-9]+|", "", $entity->getPhone());?>" class="gray"><i class="fa fa-phone"></i> Call Us</a></li>
                             </ul>
                         </div>
                         <div class="col-xs-6 text-right">
@@ -65,15 +70,85 @@ try{
                     <!-- Main Menu -->
                     <div class="inner-nav desktop-nav">
                         <ul class="clearlist scroll-nav local-scroll">
-                            <li class="active hidden-md hidden-sm"><a href="/">Home</a></li>
-                            <li><a href="/gallery">Gallery</a></li>
-                            <li><a href="/amenities">Amenities</a></li>
-                            <li><a href="/floorplans">Floor Plans</a></li>
-                            <li><a href="/neighborhood">Neighborhood</a></li>
-                            <li class="hidden-md hidden-sm"><a href="/contact">Contact</a></li>
-                            <li class="hidden-md hidden-lg"><a href="/floorplans">Apartment Search</a></li>
-                            <li class="hidden-md hidden-lg"><a href="/resident-portal">Residents</a></li> 
-                            <li><a href="/schedule-a-tour" class="red"><b>Schedule a Tour <i class="fa fa-angle-right"></i></b></a></li>
+                            <?php
+                                use App\System\Settings;
+
+$galleryItems = [
+                                    [
+                                        'li-attributes' => [
+                                            'class' => 'active hidden-md hidden-sm',
+                                         ],
+                                         'href' => '',
+                                        'label' => 'Home'
+                                    ],
+                                    [
+                                        'label' => 'Gallery'
+                                    ],
+                                    [
+                                        'label' => 'Floor Plans'
+                                    ],
+                                    [
+                                        'label' => 'Neighborhood'
+                                    ],
+                                    [
+                                        'li-attributes' => [
+                                            'class' => 'hidden-md hidden-sm'
+                                        ],
+                                        'label' => 'Contact'
+                                    ],
+                                    [
+                                        'li-attributes' => [
+                                            'class' => 'hidden-md hidden-lg'
+                                        ],
+                                        'href' => 'floorplans',
+                                        'label' => 'Apartment Search',
+                                    ],
+                                    [
+                                        'li-attributes' => [
+                                            'class' => 'hidden-md hidden-lg'
+                                        ],
+                                        'href' => 'resident-portal',
+                                        'label' => 'Residents'
+                                    ],
+                                    [
+                                        'a-attributes' => [
+                                            'class' => 'red',
+                                        ],
+                                        'href' => 'schedule-a-tour',
+                                        'label' => '<b>Schedule a Tour <i class="fa fa-angle-right"></i></b>'
+                                    ]
+                                ];
+                                $settings = Settings::site($forceGet=true);
+                                $newItems = Settings::addCustomNavItemsToArray($galleryItems);
+
+                                foreach ($newItems as $index => $navElement) {
+                                    echo "<li";
+                                    if (isset($navElement['li-attributes'])) {
+                                        foreach ($navElement['li-attributes'] as $attribute => $attributeValue) {
+                                            if (empty($attribute) || empty($attributeValue)) {
+                                                continue;
+                                            }
+                                            echo " $attribute=\"$attributeValue\"";
+                                        }
+                                    }
+                                    echo "><a href=\"";
+                                    if (!isset($navElement['href'])) {
+                                        echo "/" . strtolower(preg_replace("|[ ]+|", "", $navElement['label']));
+                                    } else {
+                                        echo "/" . $navElement['href'];
+                                    }
+                                    echo "\"";
+                                    if (isset($navElement['a-attributes'])) {
+                                        foreach ($navElement['a-attributes'] as $attribute => $attributeValue) {
+                                            if (empty($attribute) || empty($attributeValue)) {
+                                                continue;
+                                            }
+                                            echo " $attribute=\"$attributeValue\"";
+                                        }
+                                    }
+                                    echo ">{$navElement['label']}</a></li>";
+                                }
+                            ?>
                         </ul>
                     </div>
                 </div>

@@ -20,21 +20,20 @@ class SpecialsServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-        $this->app->bind('App\Property\Specials',function($app){
-            if(is_object(Site::$instance)){
+        $this->app->bind('App\Property\Specials', function ($app) {
+            if (is_object(Site::$instance)) {
                 return new Specials(Site::$instance);
-            }else{
+            } else {
                 return new Specials($app->make('App\Property\Specials'));
             }
         });
 
         $this->app->when(SpecialsFetcher::class)
             ->needs(IDataFetcher::class)
-            ->give(function($app){
+            ->give(function ($app) {
                 return $app->make(AssetsSoapClient::class);
             }
         );
-        
     }
 
     /**

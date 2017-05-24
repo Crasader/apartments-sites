@@ -1,13 +1,14 @@
 <?php
 use App\Util\Util;
+
 ?>
 <!DOCTYPE html>
 <html lang="">
     <head>
-        <title><?php echo $entity->getText('title_' . Util::baseUri(Request::getRequestUri(),'home'));?><?php //$entity->getCity(); echo $entity->getAbbreviatedState(); Apartments | Luxury Apartments For Rent | <?php echo $entity->getLegacyProperty()->name;?></title>
+        <title><?php echo $entity->getText('title_' . Util::baseUri(Request::getRequestUri(), 'home'));?><?php //$entity->getCity(); echo $entity->getAbbreviatedState(); Apartments | Luxury Apartments For Rent | <?php echo $entity->getLegacyProperty()->name;?></title>
 @section('meta')
-        <meta name="description" content="<?php echo $entity->getMeta('description',$_SERVER['REQUEST_URI']);?>">
-        <meta name="keywords" content="<?php echo $entity->getMeta('keywords',$_SERVER['REQUEST_URI']);?>">
+        <meta name="description" content="<?php echo $entity->getMeta('description', Util::requestUri());?>">
+        <meta name="keywords" content="<?php echo $entity->getMeta('keywords', Util::requestUri());?>">
         <meta charset="utf-8">
         <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -16,12 +17,12 @@ use App\Util\Util;
 @section('css')
         <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
-        <?php foreach(['main','animate.min','owl.carousel','magnific-popup','custom'] as $i => $sheet){
-            echo "<link rel='stylesheet' href='/" . $fsid . "/css/{$sheet}.css?v={$entity->getAssetsVersion($fsid . '/css/' . $sheet . '.css')}'>";
-        }?>
+        <?php foreach (['main','animate.min','owl.carousel','magnific-popup','custom'] as $i => $sheet) {
+    echo "<link rel='stylesheet' href='/" . $fsid . "/css/{$sheet}.css?v={$entity->getAssetsVersion($fsid . '/css/' . $sheet . '.css')}'>";
+}?>
         <?php $extraSheets = $entity->getCustomStyleSheets($page);
-            foreach($extraSheets as $i => $sheet): ?>
-            <link rel="stylesheet" href="<?php echo $sheet;?>">
+            foreach ($extraSheets as $i => $sheet): ?>
+            <link rel="stylesheet" href="<?php echo $sheet . "?v={$entity->getAssetsVersion($sheet)}"; ?>">
        <?php endforeach; ?>
 @show
         <style type='text/css'>
@@ -39,10 +40,10 @@ use App\Util\Util;
 		<![endif]-->
 		@yield('recaptcha-js')
     </head>
-    <body class="appear-animate">
+    <body class="appear-animate page-<?=Request::segment(1);?>">
 <!-- Trigger the modal with a button -->
 <button type="button" class="btn btn-info btn-lg" data-toggle="modal" id="mmbutton" data-target="#myModal" style='display:none;'>Open Modal</button>
-<?php //TODO: make this a slot or include it from a file ?>
+<?php //TODO: make this a slot or include it from a file?>
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -77,10 +78,11 @@ use App\Util\Util;
             <!-- Nav -->
 			@include('layouts/dinapoli/pages/inc/nav')
             <!-- End Nav-->
+            @include('flash::message')
 
             @section('title-section')
             <!-- Page Title Section -->
-            <?php if(Util::isPage('unit')): ?>
+            <?php if (Util::isPage('unit')): ?>
             <section class="page-section bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('img');?>/bgunit.jpg">
             <?php else: ?>
             <section class="page-section bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('img');?>/bg1.jpg">
@@ -136,7 +138,7 @@ use App\Util\Util;
                                         </div>
                                         <div class="ci-text">
                                             <?php echo strtoupper($entity->getStreet() . "<br>" . $entity->getCity() . ", " .
-                                                $entity->getState() . " " . $entity->getZipCode()); 
+                                                $entity->getState() . " " . $entity->getZipCode());
                                             ?>
                                         </div>
                                     </div>
@@ -178,7 +180,7 @@ use App\Util\Util;
        @section('js')
         <!-- JS -->
         @yield('google-maps-js')
-        <script type="text/javascript" src="/js/build/marketapts.min.js"></script>
+        <script type="text/javascript" src="/js/build/marketapts.concat.js?<?php echo fileatime(public_path() . "/js/build/marketapts.min.js");?>"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <!--[if lt IE 10]><script type="text/javascript" src="js/placeholder.js"></script><![endif]-->
 		@yield('page-specific-js')

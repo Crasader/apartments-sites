@@ -1,6 +1,7 @@
         @extends($extends)
         @section('page-title-span','resident portal')
         @section('content')
+       
 		<section class="content">
 			<!-- Content Blocks -->
 			<div class="container">
