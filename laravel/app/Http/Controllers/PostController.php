@@ -383,7 +383,7 @@ class PostController extends Controller
         $data['mode'] = 'apply-online';
 
 
-        /* 
+        /*
          * unpack base64 encoded json
          */
         $unpacked = base64_decode($data['b']);
@@ -396,7 +396,7 @@ class PostController extends Controller
             $data['lname'],
             $data['email'],
             $data['phone'],
-            '',     //moveindate    
+            '',     //moveindate
             '',     //visitdate
             $json['u'],     //unit number
             $json['t'],     //unit type
@@ -620,8 +620,6 @@ class PostController extends Controller
             $siteData['data']['maintenanceError'] = true;
         } else {
             //Send email
-            //TODO: !mailer modify this to submit to the queue
-            //hijack
             $mail = new Mail;
             $mail->from = $this->_getApartmentEmail();
             $mail->cc = ['matt@marketapts.com',$this->_getApartmentEmail()];
@@ -653,7 +651,7 @@ class PostController extends Controller
         Site::$instance = $site = app()->make('App\Property\Site');
         $aptName =  Site::$instance->getEntity()->getLegacyProperty()->name;
         $this->validate($req, [
-            'name' => 'required|max:64|alpha',
+            'name' => 'required|max:64',
             'email' => 'required|max:128|email',
             ]);
         if (isset($data['message'])) {
@@ -717,8 +715,8 @@ class PostController extends Controller
             return $this->invalidCaptcha($this->_page);
         }
         $this->validate($req, [
-            'firstname' => 'required|max:64|alpha',
-            'lastname' => 'required|max:64|alpha',
+            'firstname' => 'required|max:64',
+            'lastname' => 'required|max:64',
             'email' => 'required|max:128|email',
             'phone' => 'required|max:14|regex:~\([0-9]{3}\) [0-9]{3}\-[0-9]{4}~',
             'date'=> 'required|date',
