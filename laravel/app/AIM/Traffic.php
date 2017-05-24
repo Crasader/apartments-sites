@@ -137,10 +137,20 @@ class Traffic extends Model
         try {
             $client = (new SoapClient())->loadClient()['soap'];
             $soapResult = $client->InsertTraffic($data_query);
-            return $soapResult;
+            if(preg_match("|<Traffic TrafficID=\"T[\d]+\" Status=\"([A-Z]+)\"/>|",$soapResult->InsertTrafficResult,$matches)){
+                if($matches[1] == "SUCCESS"){
+                    return ['Status' => 'success','data' => $soapResult];
+                }else{
+                    return ['Status' => 'error','data' => $soapResult];
+                }
+            }
         }catch(\Excception $e){
-            throw $e;
+            return ['Status' => 'error',
+                'exception' => $e,
+                'data' => null
+            ];
         }
-        return null;
+        return ['Status' => 'error',
+            'data' => 'Invalid code path detected'];
     }
 }
