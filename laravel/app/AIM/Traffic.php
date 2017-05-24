@@ -34,60 +34,60 @@ class Traffic extends Model
      * @param visitdate string visit date
      * @param unitNumber string
      * @param unitType string unit type
-     * @param actionRequested string 
-     * @param visitTime string 
+     * @param actionRequested string
+     * @param visitTime string
      */
-    public function insertTraffic(string $firstName,string $lastName,string $email,string $phone,
-        string $moveinDate,string $visitDate,string $unitNumber,string $unitType,
-        string $actionRequested,string $visitTime)
+    public function insertTraffic(string $firstName, string $lastName, string $email, string $phone,
+        string $moveinDate, string $visitDate, string $unitNumber, string $unitType,
+        string $actionRequested, string $visitTime)
     {
         date_default_timezone_set('America/Denver');
         $propertyCode = app()->make('App\Property\Site')->getEntity()->getLegacyProperty()->code;
-        $tempPhone = preg_replace("|[^0-9]+|","",$phone);
-        $phone = "(" . substr($tempPhone,0,3) . ") " . substr($tempPhone,3,3) . "-" . substr($tempPhone,6);
+        $tempPhone = preg_replace("|[^0-9]+|", "", $phone);
+        $phone = "(" . substr($tempPhone, 0, 3) . ") " . substr($tempPhone, 3, 3) . "-" . substr($tempPhone, 6);
         $ipAddress = Util::remoteIp('127.0.0.1');
-        if($visitTime){
-            $visitDate = date("Y-m-d",strtotime($visitDate));
-            $visitDate .= " " . date("H:i:s",strtotime($visitTime));
-        }else{
-            $visitDate = date("Y-m-d H:i:s",strtotime($visitDate));
+        if ($visitTime) {
+            $visitDate = date("Y-m-d", strtotime($visitDate));
+            $visitDate .= " " . date("H:i:s", strtotime($visitTime));
+        } else {
+            $visitDate = date("Y-m-d H:i:s", strtotime($visitDate));
         }
-        $moveinDate = date("Y-m-d H:i:s",strtotime($moveinDate));
+        $moveinDate = date("Y-m-d H:i:s", strtotime($moveinDate));
         try {
-        \DB::connection($this->connection)->insert(
-            "insert into marketapts.dbo.traffic (propertyCode,firstname,lastname,email,phone, " .
-            " moveindate,visitdate,unitnumber,unittype,ActionRequested, " . 
-            " insertDate, ipAddress) " . 
-            " VALUES(" .
-            " :propertyCode, " . //property code
-            " :firstName, " . // Firstname
-            " :lastName, " . //lastname
-            " :email, " . //email
-            " :phone, " . //phone
-            " :moveinDate, " . //moveindate
-            " :visitDate, " . //visitdate
-            " :unitNumber, " . //unitnumber
-            " :unitType, " . //unittype
-            " :actionRequested, " . //ActionRequested
-            " :insertDate, " . //insertDate
-            " :ipAddress) "  //ipaddress
-            ,
-            [
-		        'propertyCode' => $propertyCode,	
-                'firstName' => $firstName,
-                'lastName' => $lastName,
-                'email' => $email,
-                'phone' => $phone,
-                'moveinDate' => $moveinDate,
-                'visitDate' => $visitDate,
-                'unitNumber' => $unitNumber,
-                'unitType' => $unitType,
-                'actionRequested' => $this->_actionsMap[$actionRequested],
-                'insertDate' => date("M d Y h:iA",time()),
-                'ipAddress' => $ipAddress
-            ]
-        );
-        }catch(\Exception $e){
+            \DB::connection($this->connection)->insert(
+                "insert into marketapts.dbo.traffic (propertyCode,firstname,lastname,email,phone, " .
+                " moveindate,visitdate,unitnumber,unittype,ActionRequested, " .
+                " insertDate, ipAddress) " .
+                " VALUES(" .
+                " :propertyCode, " . //property code
+                " :firstName, " . // Firstname
+                " :lastName, " . //lastname
+                " :email, " . //email
+                " :phone, " . //phone
+                " :moveinDate, " . //moveindate
+                " :visitDate, " . //visitdate
+                " :unitNumber, " . //unitnumber
+                " :unitType, " . //unittype
+                " :actionRequested, " . //ActionRequested
+                " :insertDate, " . //insertDate
+                " :ipAddress) "  //ipaddress
+                ,
+                [
+                    'propertyCode' => $propertyCode,
+                    'firstName' => $firstName,
+                    'lastName' => $lastName,
+                    'email' => $email,
+                    'phone' => $phone,
+                    'moveinDate' => $moveinDate,
+                    'visitDate' => $visitDate,
+                    'unitNumber' => $unitNumber,
+                    'unitType' => $unitType,
+                    'actionRequested' => $this->_actionsMap[$actionRequested],
+                    'insertDate' => date("M d Y h:iA", time()),
+                    'ipAddress' => $ipAddress
+                ]
+            );
+        } catch (\Exception $e) {
             throw $e;
         }
         $data_query = new \StdClass();
@@ -137,14 +137,14 @@ class Traffic extends Model
         try {
             $client = (new SoapClient())->loadClient()['soap'];
             $soapResult = $client->InsertTraffic($data_query);
-            if(preg_match("|<Traffic TrafficID=\"T[\d]+\" Status=\"([A-Z]+)\"/>|",$soapResult->InsertTrafficResult,$matches)){
-                if($matches[1] == "SUCCESS"){
+            if (preg_match("|<Traffic TrafficID=\"T[\d]+\" Status=\"([A-Z]+)\"/>|", $soapResult->InsertTrafficResult, $matches)) {
+                if ($matches[1] == "SUCCESS") {
                     return ['Status' => 'success','data' => $soapResult];
-                }else{
+                } else {
                     return ['Status' => 'error','data' => $soapResult];
                 }
             }
-        }catch(\Excception $e){
+        } catch (\Excception $e) {
             return ['Status' => 'error',
                 'exception' => $e,
                 'data' => null
