@@ -139,6 +139,7 @@ class Mailer
 
     public static function queueError($to, $subject, $body, $cc=['matt@marketapts.com'], $from = "error@market2-live")
     {
+        /*
         $mq = app()->make('App\Mailer\Queue');
         $mq->to_address = $to;
         $mq->cc = json_encode($cc);
@@ -148,6 +149,7 @@ class Mailer
         $mq->msg_sent = '0';
         $mq->process_category = Mailer::PROC_CATEGORY_ERROR;
         $mq->save();
+        */
     }
 
     public static function processQueue(string $qName, array $opts) : int
