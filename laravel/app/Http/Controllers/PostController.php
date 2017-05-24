@@ -383,11 +383,11 @@ class PostController extends Controller
         $data['mode'] = 'apply-online';
 
 
-        /* 
+        /*
          * unpack base64 encoded json
          */
         $unpacked = base64_decode($data['b']);
-        $json = json_decode($unpacked,true);
+        $json = json_decode($unpacked, true);
         /*
          * Insert data into traffic table
          */
@@ -396,7 +396,7 @@ class PostController extends Controller
             $data['lname'],
             $data['email'],
             $data['phone'],
-            '',     //moveindate    
+            '',     //moveindate
             '',     //visitdate
             $json['u'],     //unit number
             $json['t'],     //unit type

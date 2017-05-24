@@ -33,13 +33,13 @@ class DatabaseChanger extends Model
                 'prefix' => '',
                 ]);
         }
-        if ($type == 'traffic'){
+        if ($type == 'traffic') {
             //TODO: this is really ugly and probably very inefficient. I DON'T LIKE IT DX
             \Config::set($dbName, [
                 'driver' => 'sqlsrv',
                 'host' => env('TRAFFIC_HOST', '192.168.1.139'),
                 'port' => env('TRAFFIC_PORT', '1433'),
-                'database' => env('TRAFFIC_DB','marketapts'),
+                'database' => env('TRAFFIC_DB', 'marketapts'),
                 'username' => env('TRAFFIC_USER'),
                 'password' => env('TRAFFIC_PASSWORD'),
                 'prefix' => '',
