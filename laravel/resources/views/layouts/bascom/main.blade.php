@@ -31,12 +31,12 @@ use App\Util\Util;
             if (preg_match("|/bascom/css/([^\.]*)\.css|", $sheet, $matches)
                     &&
                     !strstr($sheet, $site->getEntity()->getLegacyProperty()->code)) {
-                echo "<link rel='stylesheet' href='/bascom/css/{$matches[1]}.css?v={$entity->getAssetsVersion('bascom/css/' . $matches[1] . '.css')}'/>\n\t";
+               echo "<link rel='stylesheet' href='/bascom/css/{$matches[1]}.css?v={$entity->getAssetsVersion('bascom/css/' . $matches[1] . '.css')}'/>\n\t";
             }
 
         }
         if ($customSheet) {
-            echo "<link rel='stylesheet' href='{$customSheet}?v={$entity->getAssetsVersion('$customSheet')}'/>";
+            // echo "<link rel='stylesheet' href='{$customSheet}?v={$entity->getAssetsVersion('$customSheet')}'/>";
         }
         ?>
         <?php
