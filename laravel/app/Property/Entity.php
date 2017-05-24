@@ -586,17 +586,6 @@ class Entity extends Model
                     $leg->save();
                 },
                 ],
-            'home-about' => [
-                'schema' => 'property.description',
-                'fetch' => function () use ($foo) {
-                    return $foo->getLegacyProperty()->description;
-                },
-                'set' => function ($val) use ($foo) {
-                    $leg = $foo->getLegacyProperty();
-                    $leg->description = $val;
-                    $leg->save();
-                },
-                ],
             'slogan' => [
                 'fetch' => function () {
                     return 'More than just a place to sleep';
