@@ -88,6 +88,7 @@ class Traffic extends Model
             ]
         );
         } catch (\Exception $e) {
+            Util::log("insert traffic failed: " . $e->getMessage());
             throw $e;
         }
         $data_query = new \StdClass();
@@ -139,6 +140,7 @@ class Traffic extends Model
             $soapResult = $client->InsertTraffic($data_query);
             return $soapResult;
         } catch (\Excception $e) {
+            Util::log("Insert traffic failed (soap): " . $e->getMessage());
             throw $e;
         }
         return null;
