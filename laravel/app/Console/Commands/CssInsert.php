@@ -39,22 +39,26 @@ class CssInsert extends Command
     public function handle()
     {
         //
-        foreach (app()->make('App\Template')->get()->toArray() as $index => $template) {
-            $path = public_path() . '/' . $template['name'] . '/css/*';
+        $templatesArray = app()->make('App\Template')->get()->toArray();
+        foreach ($templatesArray as $index => $template) {
+            $path = public_path() . '/' . $template['name'] . '/css/properties/*';
             foreach (glob($path) as $i => $f) {
                 if (preg_match("|([0-9A-Z]{3,}\.css)|", $f, $matches)) {
                     $prop = app()->make('App\Legacy\Property');
-                    $p = $prop::where('code', str_replace(".css", "", $matches[1]))->get()->toArray();
+                    $code = str_replace(".css", "", $matches[1]);
+                    $p = $prop::where('code', $code)
+                        ->get()
+                        ->toArray();
                     if ($p[0]['code'] . ".css" == $matches[1]) {
                         echo "Css found: " . $template['name'] . "/" . $p[0]['code'] . ": entires in db: " ;
                         $assets = app()->make('App\Property\Clientside\Assets')
-                            ->where('uri', "/" . $template['name'] . "/css/" . $p[0]['code'] . ".css")
+                            ->where('uri', "/" . $template['name'] . "/css/properties/" . $p[0]['code'] . ".css")
                             ->get();
                         if (count($assets) == 0) {
                             echo "0 --[ Inserting : " ;
                             $assets = new \App\Property\Clientside\Assets;
                             $assets->uri_type = "css";
-                            $assets->uri = "/" . $template['name'] . "/css/" . $p[0]['code'] . ".css";
+                            $assets->uri = "/" . $template['name'] . "/css/properties/" . $p[0]['code'] . ".css";
                             $assets->fk_property_id = $p[0]['id'];
                             $assets->save();
                             echo "-- OK]" . PHP_EOL;

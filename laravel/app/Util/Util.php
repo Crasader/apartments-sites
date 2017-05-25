@@ -14,25 +14,27 @@ class Util
             '^staging\.','^will\.','^brady\.','^\dev\.','^matt\.'
     ];
 
-    public static function isWwwDomain(){
+    public static function isWwwDomain()
+    {
         $server = self::serverName();
         foreach (self::$stagingRegex as $i => $k) {
             if (preg_match("|" . $k . "|", $server)) {
                 return false;
             }
         }
-        if(preg_match("|^www\.|",$server)){
+        if (preg_match("|^www\.|", $server)) {
             return true;
         }
         return false;
     }
 
-    public static function remoteIp($default=null){
-        if(isset($_SERVER['REMOTE_ADDR'])){
+    public static function remoteIp($default=null)
+    {
+        if (isset($_SERVER['REMOTE_ADDR'])) {
             return $_SERVER['REMOTE_ADDR'];
-        }else if($default){
+        } elseif ($default) {
             return $default;
-        }else{
+        } else {
             return "127.0.0.1";
         }
     }

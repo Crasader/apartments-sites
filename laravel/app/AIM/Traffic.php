@@ -34,30 +34,30 @@ class Traffic extends Model
      * @param visitdate string visit date
      * @param unitNumber string
      * @param unitType string unit type
-     * @param actionRequested string 
-     * @param visitTime string 
+     * @param actionRequested string
+     * @param visitTime string
      */
-    public function insertTraffic(string $firstName,string $lastName,string $email,string $phone,
-        string $moveinDate,string $visitDate,string $unitNumber,string $unitType,
-        string $actionRequested,string $visitTime)
+    public function insertTraffic(string $firstName, string $lastName, string $email, string $phone,
+        string $moveinDate, string $visitDate, string $unitNumber, string $unitType,
+        string $actionRequested, string $visitTime)
     {
         date_default_timezone_set('America/Denver');
         $propertyCode = app()->make('App\Property\Site')->getEntity()->getLegacyProperty()->code;
-        $tempPhone = preg_replace("|[^0-9]+|","",$phone);
-        $phone = "(" . substr($tempPhone,0,3) . ") " . substr($tempPhone,3,3) . "-" . substr($tempPhone,6);
+        $tempPhone = preg_replace("|[^0-9]+|", "", $phone);
+        $phone = "(" . substr($tempPhone, 0, 3) . ") " . substr($tempPhone, 3, 3) . "-" . substr($tempPhone, 6);
         $ipAddress = Util::remoteIp('127.0.0.1');
-        if($visitTime){
-            $visitDate = date("Y-m-d",strtotime($visitDate));
-            $visitDate .= " " . date("H:i:s",strtotime($visitTime));
-        }else{
-            $visitDate = date("Y-m-d H:i:s",strtotime($visitDate));
+        if ($visitTime) {
+            $visitDate = date("Y-m-d", strtotime($visitDate));
+            $visitDate .= " " . date("H:i:s", strtotime($visitTime));
+        } else {
+            $visitDate = date("Y-m-d H:i:s", strtotime($visitDate));
         }
-        $moveinDate = date("Y-m-d H:i:s",strtotime($moveinDate));
+        $moveinDate = date("Y-m-d H:i:s", strtotime($moveinDate));
         try {
-        \DB::connection($this->connection)->insert(
+            \DB::connection($this->connection)->insert(
             "insert into marketapts.dbo.traffic (propertyCode,firstname,lastname,email,phone, " .
-            " moveindate,visitdate,unitnumber,unittype,ActionRequested, " . 
-            " insertDate, ipAddress) " . 
+            " moveindate,visitdate,unitnumber,unittype,ActionRequested, " .
+            " insertDate, ipAddress) " .
             " VALUES(" .
             " :propertyCode, " . //property code
             " :firstName, " . // Firstname
@@ -73,7 +73,7 @@ class Traffic extends Model
             " :ipAddress) "  //ipaddress
             ,
             [
-		        'propertyCode' => $propertyCode,	
+                'propertyCode' => $propertyCode,
                 'firstName' => $firstName,
                 'lastName' => $lastName,
                 'email' => $email,
@@ -83,11 +83,12 @@ class Traffic extends Model
                 'unitNumber' => $unitNumber,
                 'unitType' => $unitType,
                 'actionRequested' => $this->_actionsMap[$actionRequested],
-                'insertDate' => date("M d Y h:iA",time()),
+                'insertDate' => date("M d Y h:iA", time()),
                 'ipAddress' => $ipAddress
             ]
         );
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
+            Util::log("insert traffic failed: " . $e->getMessage());
             throw $e;
         }
         $data_query = new \StdClass();
@@ -138,7 +139,8 @@ class Traffic extends Model
             $client = (new SoapClient())->loadClient()['soap'];
             $soapResult = $client->InsertTraffic($data_query);
             return $soapResult;
-        }catch(\Excception $e){
+        } catch (\Excception $e) {
+            Util::log("Insert traffic failed (soap): " . $e->getMessage());
             throw $e;
         }
         return null;

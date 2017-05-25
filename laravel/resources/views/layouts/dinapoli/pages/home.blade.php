@@ -89,7 +89,7 @@ try {
                         <div class="row">
                             <div class="col-md-8 col-md-offset-2">
                                 <div class="section-text align-center mb-40 mb-xs-40">
-                                    <?php echo $entity->getText('home-about',['oneshot' => $entity->getLegacyProperty()->description]); ?>
+                                    <?php echo $entity->getText('home-about', ['oneshot' => $entity->getLegacyProperty()->description]); ?>
                                 </div>
 
                             </div>

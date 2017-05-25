@@ -344,9 +344,20 @@ class PostController extends Controller
             ],
             'data' => view('layouts/dinapoli/email/user-confirm', $finalArray)
         ]);
+        
         $siteData = $this->resolvePageBySite('schedule-a-tour', []);
         $siteData['data']['sent'] = true;
 
+        $contact = app()->make('App\Contact');
+        $contact->first_name = $data['firstname'];
+        $contact->last_name = $data['lastname'];
+        $contact->email = $data['email'];
+        $contact->howcontact = var_export(['email'],1);
+        $contact->when = $data['visitdate'] . " " . $data['visittime'];
+        $contact->phone = $data['phone'];
+        $contact->property_id = app()->make('App\Property\Site')->getEntity()->fk_legacy_property_id;
+        $contact->save();
+        
         $siteData['data']['redirectConfig'] = $this->_fillApplyOnlineRedirectData();
         flash('Thanks! We will be in touch Soon!');
         $url = UrlHelpers::getUrl('/', [
@@ -383,11 +394,19 @@ class PostController extends Controller
         $data['mode'] = 'apply-online';
 
 
-        /* 
+        /*
          * unpack base64 encoded json
          */
-        $unpacked = base64_decode($data['b']);
-        $json = json_decode($unpacked,true);
+        if(isset($data['b'])){
+            $unpacked = base64_decode($data['b']);
+            $json = json_decode($unpacked, true);
+        }
+        if(!isset($json['u'])){
+            $json['u'] = '';
+        }
+        if(!isset($json['t'])){
+            $json['t'] = '';
+        }
         /*
          * Insert data into traffic table
          */
@@ -396,13 +415,24 @@ class PostController extends Controller
             $data['lname'],
             $data['email'],
             $data['phone'],
-            '',     //moveindate    
+            '',     //moveindate
             '',     //visitdate
             $json['u'],     //unit number
             $json['t'],     //unit type
             $data['mode'],
             ''
         );
+
+        $contact = app()->make('App\Contact');
+        $contact->first_name = $data['fname'];
+        $contact->last_name = $data['lname'];
+        $contact->email = $data['email'];
+        $contact->howcontact = var_export(['email'],1);
+        //$contact->when = $data['visitdate'] . " " . $data['visittime'];
+        $contact->phone = $data['phone'];
+        $contact->property_id = app()->make('App\Property\Site')->getEntity()->fk_legacy_property_id;
+        $contact->save();
+        
 
         $finalArray = $this->_prefillArray($data);
         $finalArray['contact'] = $data;
@@ -687,6 +717,19 @@ class PostController extends Controller
             $finalArray['contact']['mode'],
             ''
         );
+
+        $contact = app()->make('App\Contact');
+        $contact->first_name = $data['name'];
+        $contact->last_name = $data['name'];
+        $contact->email = $data['email'];
+        $contact->howcontact = var_export(['email'],1);
+        //$contact->when = $data['visitdate'] . " " . $data['visittime'];
+        //$contact->phone = $data['phone'];
+
+        $contact->property_id = app()->make('App\Property\Site')->getEntity()->fk_legacy_property_id;
+        $contact->save();
+        
+
         $this->sendMultiContact('apply-online', [
             'user' => $data['email'],
             'fromName' => $data['name'],
@@ -741,6 +784,7 @@ class PostController extends Controller
         $contact->corporate_group_id = Site::$instance->getEntity()->getLegacyProperty()->corporate_group_id;
         $contact->phone = $cleaned['phone'];
         $contact->when = $cleaned['movein'];
+        $contact->property_id = app()->make('App\Property\Site')->getEntity()->fk_legacy_property_id;
         $contact->save();
 
         /*
