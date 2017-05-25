@@ -1,26 +1,23 @@
+<?php
+if(isset($places)){
+    foreach($places as $i => $row){
+        ${$row['place_type']} = $row['place_id'];
+    }
+}
+?>
 <html>
     <body>
     <h1>Google</h1>
         <form id='form1' method='post' action='/admin/places/placeid'>
             <label for='placeid'>Enter a place id: </label>
-            <input type='text' name='placeid'  value="<?php if (isset($placeId)) {
-    echo $placeId;
-}?>">
-            <input type='submit'>
-            <input type='hidden' name='type' value='<?php echo \App\Reviews::GOOGLE;?>'>
-            {{csrf_field()}}
-         </form>
+            <input type='text' name='google_placeid'  value="<?php if (isset($g)){ echo $g; }?>">
     <hr>
     <a href="https://developers.google.com/places/web-service/place-id" target=_blank>Search for a place ID</a>
     <hr>
     <h1>Yelp</h1>
-        <form id='form1' method='post' action='/admin/places/placeid'>
             <label for='placeid'>Enter a place id: </label>
-            <input type='text' name='placeid' value="<?php if (isset($yelpPlaceId)) {
-    echo $yelpPlaceId;
-}?>">
+            <input type='text' name='yelp_placeid' value="<?php if (isset($y)) { echo $y; }?>">
             <input type='submit'>
-            <input type='hidden' name='type' value='<?php echo \App\Reviews::YELP;?>'>
             {{csrf_field()}}
         </form>
 

@@ -18,6 +18,7 @@ use App\Property\Template as PropertyTemplate;
 use Redis;
 use App\System\Session;
 use App\Reviews\Place;
+use App\Reviews;
 
 class AdminPostController extends PostController
 {
@@ -64,20 +65,28 @@ class AdminPostController extends PostController
         $data = $_POST;
         Site::$instance = $site = app()->make('App\Property\Site');
 
-        $this->validate($req, [
-            'placeid' => 'required|max:64',
-            'type' => 'required|max:1',
-        ]);
-        //
-        $updated = Util::updateIfExists(Place::class, ['fk_legacy_property_id' => Site::$instance->getEntity()->fk_legacy_property_id], [
-            'place_id' => $data['placeid'],
-            'place_type' => $data['type'],
+        $updated = Util::updateIfExists(Place::class, ['fk_legacy_property_id' => Site::$instance->getEntity()->fk_legacy_property_id,
+            'place_type' => Reviews::GOOGLE], [
+            'place_id' => $data['google_placeid'],
+            'place_type' => Reviews::GOOGLE,
             ]);
         if (!$updated) {
             $p = app()->make('App\Reviews\Place');
             $p->fk_legacy_property_id = Site::$instance->getEntity()->fk_legacy_property_id;
-            $p->place_id = $data['placeid'];
-            $p->place_type = $data['type'];
+            $p->place_id = $data['google_placeid'];
+            $p->place_type = Reviews::GOOGLE;
+            $p->save();
+        }
+        $updated = Util::updateIfExists(Place::class, ['fk_legacy_property_id' => Site::$instance->getEntity()->fk_legacy_property_id,
+            'place_type' => Reviews::YELP], [
+            'place_id' => $data['yelp_placeid'],
+            'place_type' => Reviews::YELP,
+            ]);
+        if (!$updated) {
+            $p = app()->make('App\Reviews\Place');
+            $p->fk_legacy_property_id = Site::$instance->getEntity()->fk_legacy_property_id;
+            $p->place_id = $data['yelp_placeid'];
+            $p->place_type = Reviews::YELP;
             $p->save();
         }
         return view('layouts/admin/places', ['status' => 'Place id successfully saved.']);

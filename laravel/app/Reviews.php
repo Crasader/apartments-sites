@@ -43,13 +43,12 @@ class Reviews extends Model
     public static function doOauth($endpoint, $params, $headers=[])
     {
         $curl = curl_init($endpoint);
-        curl_setopt($curl, CURLOPT_HEADER, true);
+        curl_setopt($curl, CURLOPT_HEADER, false);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_POST, true);
+        $ourHeaders = ['cache-control: no-cache'];//,'Content-Type: application/x-www-form-urlencoded'];
         if (count($headers)) {
-            curl_setopt($curl, CURLOPT_HEADER, array_merge($headers, ['Content-Type: application/x-www-form-urlencoded']));
-        } else {
-            curl_setopt($curl, CURLOPT_HEADER, 'Content-Type: application/x-www-form-urlencoded');
+            curl_setopt($curl, CURLOPT_HEADER, array_merge($headers, $ourHeaders));
         }
         $postData = "";
 
@@ -61,6 +60,7 @@ class Reviews extends Model
         $postData = rtrim($postData, '&');
         curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
         $json_response = curl_exec($curl);
+
         $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         // evaluate for success response
         if ($status != 200) {
@@ -86,17 +86,21 @@ class Reviews extends Model
     {
         $this->preamble();
 
-        foreach (['google' => self::GOOGLE,'yelp' => self::YELP] as $type => $id) {
-            $place = $this->getPlace($obj, $id);
-            $deets = [];
-            $$type = $this->getPlace($obj, $id)->first()->place_id;
-            if (strlen($$type) == 0) {
-                throw new SetupException("PLACE ID for this property not setup. [$type]");
+        foreach ($this->getPlace($obj,"") as $index => $row) {
+            if($row->place_type == Reviews::GOOGLE){
+                $google = $row->place_id;
+            }
+            if($row->place_type == Reviews::YELP){
+                $yelp = $row->place_id;
             }
         }
         $deets = $this->_api->placeDetails($google, []);
-        $yelp = $this->doYelpReviewFetch($yelp);
-
+        $yelpToken = $this->yelpGetAccessToken();
+        if($yelpToken === null){
+            throw new \Exception("Could not retrieve access token (yelp)");
+        }
+        $yelpData = $this->doYelpReviewFetch($yelp);
+        dd("Yelp data: ",$yelpData);
         if ($store) {
             if ($clearFirst) {
                 $this->clearForPropertyId($place->first()->fk_legacy_property_id);
@@ -121,21 +125,21 @@ class Reviews extends Model
 
     public function yelpGetAccessToken()
     {
+        //TODO: check if an access token is stored in the db, if there is one, grab it and return it
         $params = array(
-          "client_id" => ENV('YELP_CLIENT_ID'),
-          "client_secret" => ENV('YELP_CLIENT_SECRET'),
+          "client_id" => env('YELP_CLIENT_ID'),
+          "client_secret" => env('YELP_CLIENT_SECRET'),
           "grant_type" => "bearer");
-
         $endpoint = "https://api.yelp.com/oauth2/token";
         $json = json_decode(self::doOauth($endpoint, $params), true);
-        $this->_yelpAccessToken = $json;
+        $this->_yelpAccessToken = $json['access_token'];
         return $json;
     }
 
     public function doYelpReviewFetch($yelpId=null)
     {
         $params = array(
-            'access_token' => $this->_yelpAccessToken['access_token']
+            'access_token' => $this->_yelpAccessToken
         );
         if ($yelpId === null) {
             $businessId = Places::where(
@@ -145,11 +149,14 @@ class Reviews extends Model
                 throw new BaseException("Business center ID has not been setup for this property: " . Site::$instance->getEntity()->getLegacyProperty()->url);
             }
             $businessId = $businessId->first()->place_id;
+        }else{
+            $businessId = $yelpId;
         }
         $endpoint = "https://api.yelp.com/v3/businesses/{id}/reviews";
         $endpoint = str_replace("{id}", $businessId, $endpoint);
-        $json = json_decode(self::doOauth($endpoint, $params, ['Authorization: Bearer ACCESS_TOKEN']), true);
-        dd($json);
+        $json = json_decode(self::doOauth($endpoint, $params, ['Content-Type: application/x-www-form-urlencoded',
+            'Authorization: Bearer ' . $this->_yelpAccessToken]), true);
+        return $json;
     }
 
     public function getPlace($obj, $type)
