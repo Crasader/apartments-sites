@@ -119,6 +119,7 @@ class Mailer
 
     public static function error($to, $subject, $body, $cc=[], $from = 'error@market2-live')
     {
+        /*
         $mail = self::configure();
         try {
             $mail->setFrom('error@amcapartments.com', 'ERROR ERROR');
@@ -135,6 +136,7 @@ class Mailer
             return false;
         }
         return true;
+        */
     }
 
     public static function queueError($to, $subject, $body, $cc=['matt@marketapts.com'], $from = "error@market2-live")
