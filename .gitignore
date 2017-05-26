@@ -1,3 +1,4 @@
 .ftpconfig
 .env
 tags
+laravel/public/*/css/properties/*.css

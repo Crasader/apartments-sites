@@ -21,8 +21,8 @@ class Https extends BaseVerifier
     public function handle($request, Closure $next)
     {
         //TODO: move this to a route filter
-        if(substr($request->header('host'),0,4) != 'www.' && !$this->hostIsException()){
-            $request->headers->set('host','www.' . $request->header('host'));
+        if (substr($request->header('host'), 0, 4) != 'www.' && !$this->hostIsException()) {
+            $request->headers->set('host', 'www.' . $request->header('host'));
             return redirect()->secure($request->path());
         }
 

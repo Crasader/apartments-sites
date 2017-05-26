@@ -54,7 +54,7 @@ class Entity extends Model
 
         $this->fk_legacy_property_id = $legacyProperty->id;
         try {
-            $templateName = $this->grabTemplateId(Util::serverName());
+            $templateName = $this->grabTemplateId(Util::realServerName());
             if ($templateName === null) {
                 throw new BaseException("Unable to find template for property");
             }
@@ -223,7 +223,8 @@ class Entity extends Model
     public function getCustomStyleSheets($page)
     {
         //return Util::redisFetchOrUpdate('clientside_assets_' . $page, function(){
-            $foo =  app()->make('App\Property\Clientside\Assets')->getStyleSheets(Site::$instance);
+            $foo =  app()->make('App\Property\Clientside\Assets')->
+                getStyleSheets(Site::$instance);
         return $foo;
         //    },true);
     }

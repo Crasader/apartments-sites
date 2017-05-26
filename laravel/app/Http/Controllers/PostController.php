@@ -387,7 +387,7 @@ class PostController extends Controller
          * unpack base64 encoded json
          */
         $unpacked = base64_decode($data['b']);
-        $json = json_decode($unpacked,true);
+        $json = json_decode($unpacked, true);
         /*
          * Insert data into traffic table
          */
@@ -547,6 +547,7 @@ class PostController extends Controller
         $data = $soap->findUser(Site::$instance->getEntity()->getLegacyProperty()->code, $data['email'], $data['unit']);
         \Debugbar::info($data);
         $siteData = $this->resolvePageBySite('/resident-portal/find-userid', ['resident-portal' => true]);
+        $siteData['data']['from'] = 'findUserId';
         if ($data['status'] == 'error') {
             $siteData['data']['userIdNotFound'] = true;
         } else {
@@ -568,6 +569,7 @@ class PostController extends Controller
         $data = $soap->resetPassword($data, $data['txtUserId']);
         \Debugbar::info($data);
         $siteData = $this->resolvePageBySite('/resident-portal/reset-password', ['resident-portal' => true]);
+        $siteData['data']['from'] = 'resetPassword';
         if ($data['status'] == 'error') {
             $siteData['data']['userIdNotFound'] = true;
         } else {
@@ -844,8 +846,9 @@ class PostController extends Controller
         }
         if ($result[0] === 'True') {
             $siteData['data']['residentInfo'] = $result;
+            return redirect('/resident-portal/portal-center');
         } else {
-            $siteData['data']['residentfailed'] = true;
+            $siteData['data']['residentFailed'] = true;
         }
         \Debugbar::info($siteData);
         return view($siteData['path'], $siteData['data']);

@@ -16,10 +16,7 @@ Homestead.yaml
 ../test.wsdl
 storage/*
 tests/Feature/.php_cs.cache
-public/bascom/
-public/dinapoli/
 public/js/build/
-public/material/
 nohup.out
 node/
 node-v*

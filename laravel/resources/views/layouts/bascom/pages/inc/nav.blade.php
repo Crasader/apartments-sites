@@ -1,9 +1,10 @@
 <?php 
 use App\Util\Util;
+
 $env = env('ENVIRONMENT');
-   if(strlen($env) != 0 && $env != 'live'){
-             echo "<b>$env</b>";
-           }
+   if (strlen($env) != 0 && $env != 'live') {
+       echo "<b>$env</b>";
+   }
 ?>
             <!-- Home Section -->
         <section class="home-section bg-dark-alfa-30 parallax-2" data-background="<?php echo $entity->getWebPublicDirectory('')?>/slide1.jpg" id="home">

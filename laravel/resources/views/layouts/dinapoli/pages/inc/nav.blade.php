@@ -13,7 +13,7 @@ try {
 }
 
 $env = env('ENVIRONMENT');
-if(strlen($env) != 0 && $env != 'live'){
+if (strlen($env) != 0 && $env != 'live') {
     echo "<b>$env</b>";
 }
 ?>
