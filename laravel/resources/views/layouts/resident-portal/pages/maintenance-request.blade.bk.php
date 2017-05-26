@@ -9,10 +9,6 @@
         @section('content')
 		<!-- Content -->
 		<section class="content">
-                                <link rel="stylesheet" href="/bascom/css/bootstrap-date-picker3.min.css" />
-                                <script
-                                src="/js/src/jquery-1.11.2.min.js"></script>
-                                <script src="/js/src/bootstrap-datepicker.js"></script>
 			<!-- Content Blocks -->
 			<div class="container">
                 <?php
@@ -35,26 +31,24 @@
                     }
                 ?>
 				<div class="row">
-					<div class="col-md-8 col-md-push-2">
+					<div class="col-md-12">
 						<div class="page-title">
-							<h1 class="section-heading">Maintenance Request</h1>
+							<h1>Maintenance Request</h1>
 							<div class="divder-teal"></div>
 						</div>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-8 col-md-push-2">
-                        <p class="section-text">
-    						Have an issue in your apartment? Complete a request for maintenance and a member of our team will service your apartment as quickly as possible.<br><br>
-    						To ensure that your issue is resolved promptly, please do not submit emergency service requests via the resident portal.
-                            If you are experiencing a maintenance emergency, please call our office at <?php echo $entity->getPhone(); ?> and select the emergency maintenance line.
-                        </p>
-						<div class="col-md-12 schedule-a-tour-form form-container section-text">
+					<div class="col-md-6">
+						<p>Have an issue in your apartment? Complete a request for maintenance and a member of our team will service your apartment as quickly as possible.<br><br>
+						To ensure that your issue is resolved promptly, please do not submit emergency service requests via the resident portal.
+                        If you are experiencing a maintenance emergency, please call our office at <?php echo $entity->getPhone(); ?> and select the emergency maintenance line.</p>
+						<div class="schedule-a-tour-form form-container">
 							<form class="form-horizontal" id='form1' action="/resident-portal/maintenance-request" name="form1_<?php echo uniqid();?>" method="post">
 								<div class="form-group">
 									<label>Name</label>
 									<input type="hidden" name="maintenance_mtype" id="maintenance_mtype" value="Website - To Be Determined">
-									<input type="text" class="form-control required required" name="ResidentName" id="ResidentName" value="<?php echo $residentName;?>" required>
+									<input type="text" class="form-control required" name="ResidentName" id="ResidentName" value="<?php echo $residentName;?>" required>
 								</div>
 
 								<div class="form-group">
@@ -72,22 +66,19 @@
 								<div class="form-group">
 									<label><input name='perm2entercb' id='perm2enter' type="checkbox">&nbsp;Permission To Enter</label>
 								</div>
-								<div class="form-group">
-									<label>Permission To Enter Given By</label>
-									<input type="text" class="form-control required" name="maintenance_name" id="maintenance_name" required>
+								<div id='perm' style='display:none;'>
+									<div class="form-group">
+										<label>Permission To Enter Given By</label>
+										<input type="text" class="form-control required" name="maintenance_name" id="maintenance_name" required>
+									</div>
+									<label for="date">Permission to enter on this Date</label>
+									<div class="mb-20 mb-md-10 input-group date" data-provide="datepicker" id="datediv" >
+										<input type="text" class="form-control required" id="PermissionToEnterDate" name="PermissionToEnterDate" readonly="true" placeholder="Maintenance Entry Date" />
+										<div class="input-group-addon">
+											<span class="glyphicon glyphicon-th"></span>
+										</div>
+									</div>
 								</div>
-
-                                <div class="form-group">
-                                    <label for="date">Permission to enter on this Date</label>
-                                    <div class="mb-20 mb-md-10 input-group date"
-                                        date-provide="datepicker" id="datediv">
-                                        <input type="text" class="form-control required" id="PermissionToEnterDate" name="PermissionToEnterDate" readonly="true" placeholder="Maintenance Entry Date" />
-
-                                        <div class="input-group-addon">
-                                            <span class="glyphicon glyphicon-th"></span>
-                                        </div>
-                                    </div>
-                                </div>
                                 {{csrf_field()}}
 								<div class="form-group">
 									<label>Describe the Problem</label><br>

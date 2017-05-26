@@ -270,6 +270,7 @@ class PostController extends Controller
         $finalArray = $this->_prefillArray($data);
         $finalArray['contact'] = $data;
         $aptName = Site::$instance->getEntity()->getLegacyProperty()->name;
+        // Util::dd(compact('data', 'to', 'finalArray'));
         $this->sendMultiContact('contact-request', [
             'user' => $to,
             'fromName' => $data['fname'] . " " . $data['lname'],
@@ -278,7 +279,10 @@ class PostController extends Controller
                 'property' => 'Resident Portal Contact Request for property: ' . $aptName,
                 'user' => 'Thank you for contacting '  . $aptName . ' Apartments',
             ],
-            'data' => view('layouts/resident-portal/email/contact', $finalArray),//TODO: Dynamically grab the layouts/<TEMPLATE_DIR>
+            'data' => view(
+                'layouts/resident-portal/email/contact',
+                $finalArray
+            ),//TODO: Dynamically grab the layouts/<TEMPLATE_DIR>
         ]);
         $siteData['data']['sent'] = true;
         $siteData['data']['name'] = $req->input('name');
@@ -827,8 +831,13 @@ class PostController extends Controller
         $pass = substr($data['pass'], 0, 64);
 
         $soap = app()->make('App\Assets\SoapClient');
+        Util::monoLog(
+            "Resident portal return: " .      print_r(compact('user', 'pass', 'soap'), 1)
+        );
         $result = $soap->residentPortal($user, $pass);
-        Util::log("Resident portal return: " . var_export($result, 1));
+        Util::monoLog(
+            "Resident portal result: " .      print_r(compact('result'), 1)
+        );
         if ($result[0] === 'True' || $user == 'foobar' && $pass == 'foobar') {
             $page = 'resident-portal/portal-center';
             //TODO: !refactor !organization make this a function to be called to login a user

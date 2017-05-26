@@ -1,6 +1,5 @@
 <?php
 use App\Util\Util;
-
 ?>
 <!DOCTYPE html>
 <html lang="">
@@ -20,10 +19,12 @@ use App\Util\Util;
         <?php foreach (['main','animate.min','owl.carousel','magnific-popup','custom'] as $i => $sheet) {
     echo "<link rel='stylesheet' href='/" . $fsid . "/css/{$sheet}.css?v={$entity->getAssetsVersion($fsid . '/css/' . $sheet . '.css')}'>";
 }?>
-        <?php $extraSheets = $entity->getCustomStyleSheets($page);
+        <?php
+        $extraSheets = $entity->getCustomStyleSheets($page);
             foreach ($extraSheets as $i => $sheet): ?>
             <link rel="stylesheet" href="<?php echo $sheet . "?v={$entity->getAssetsVersion($sheet)}"; ?>">
-       <?php endforeach; ?>
+       <?php
+   endforeach; ?>
 @show
         <style type='text/css'>
             .exitpop-inner {

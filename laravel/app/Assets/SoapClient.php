@@ -82,7 +82,7 @@ class SoapClient implements IDataFetcher
         }
         throw new LogicException("Code reached unexpected point (resetPassword)");
     }
-            
+
 
     public function maintenanceRequest(array $postData)
     {
@@ -107,7 +107,7 @@ class SoapClient implements IDataFetcher
             if (preg_match("|<Error ErrorDescription=\"([^\"]+)\"|", $arrResult, $matches)) {
                 throw new BaseException($matches);
             }
-            
+
             if (preg_match("|<WorkOrder WorkOrderNumber=\"([0-9]+)\" Status=\"([^\"]+)\"/>|", $arrResult, $matches)) {
                 return [
                     'WorkOrderNumber' => $matches[1],
@@ -139,7 +139,7 @@ class SoapClient implements IDataFetcher
         } catch (SoapFault $e) {
             throw new BaseExcveption($e);
         }
-        \Debugbar::info($arrResult);
+        \Debugbar::info(compact('arrResult'));
         return $arrResult;
     }
 
