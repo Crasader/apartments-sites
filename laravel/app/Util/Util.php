@@ -7,6 +7,7 @@ use App\Property\Entity;
 use App\Property\Site;
 use Illuminate\Http\Request;
 use App\Mailer;
+use Illuminate\Support\Facades\Log;
 
 class Util
 {
@@ -14,6 +15,50 @@ class Util
             '^staging\.','^will\.','^brady\.','^\dev\.','^matt\.'
     ];
 
+    /**
+     *   Function arrayGet: Processes laravel's array_get, if default is returned, logs it
+     *   @param $array array
+     *   @param $item string
+     *   @param $default string|number|null
+     *   $type options
+     *     'emergency';
+     *     'alert';
+     *     'critical';
+     *     'error';
+     *     'warning';
+     *     'notice'; DEFAULT
+     *     'info';
+     *     'debug';
+    **/
+    public static function arrayGet($array, $item, $default = null){
+        $rtn = array_get($array, $item, $default);
+        if($default === $rtn){
+            $info = Util::getPrevLineFile(2);
+            extract($info); //grab line, file
+            Util::monoLog("arrayGet returned default at {$file}:{$line}");
+        }
+        return $rtn;
+    }
+    /**
+     *   Function MonoLog: simple wrapper around Laravel's MonoLog
+     *   @param $message string
+     *   @param $type string
+     *   $type options
+     *     'emergency';
+     *     'alert';
+     *     'critical';
+     *     'error';
+     *     'warning';
+     *     'notice'; DEFAULT
+     *     'info';
+     *     'debug';
+    **/
+    public static function monoLog($message, $type = 'notice'){
+        if($message == 'critical'){
+            mail('bvfbarten@gmail.com', 'Critical Alert', $message);
+        }
+        Log::{$type}($message);
+    }
     public static function isWwwDomain()
     {
         $server = self::serverName();
@@ -146,14 +191,18 @@ class Util
             return false;
         }
     }
-
+    public static function getPrevLineFile($depth = 1){
+        $info = debug_backtrace();
+        $line = array_get($info, "{$depth}.line");
+        $file = array_get($info, "{$depth}.file");
+        return compact('line', 'file');
+    }
     public static function dd($item)
     {
         if (env('APP_DEBUG')) {
-            $info = debug_backtrace();
-            $line = array_get($info, "0.line");
-            $file = array_get($info, "0.file");
-            dd(compact('line', 'file', 'item'));
+            $info = util::getPrevLineFile();
+            $info['item'] = $item;
+            dd($info);
         }
     }
     public static function requestUri()
