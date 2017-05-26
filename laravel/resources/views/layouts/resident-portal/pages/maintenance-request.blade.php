@@ -1,8 +1,9 @@
         <?php
+        use App\Util\Util;
         //TODO: fill these in !important
-            $residentName = $residentInfo[4]. " " . $residentInfo[5];
-            $residentUnitNumber =$residentInfo[3];
-            $residentEmail = $residentInfo[7];
+            $residentName = Util::arrayGet($residentInfo,4). " " . Util::arrayGet($residentInfo,5);
+            $residentUnitNumber =Util::arrayGet($residentInfo,3);
+            $residentEmail = Util::arrayGet($residentInfo,7);
         ?>
         @extends($extends)
         @section('page-title-span','Maintenance Request')

@@ -48,7 +48,7 @@ class PostController extends Controller
         /******************************/
         /* Routes for resident portal */
         /******************************/
-        'portal-center' => 'handleResident',
+        'post-portal-center' => 'handleResident',
         'find-userid'   => 'handleFindUserId',
         'reset-password'=> 'handleResetPassword',
 
@@ -813,6 +813,7 @@ class PostController extends Controller
     public function handleResident(Request $req)
     {
         $data = $req->all();
+        Session::residentUserUnset();
         Site::$instance = $site = app()->make('App\Property\Site');
 
         if (Util::isDev() == false && !$this->validateCaptcha($data['g-recaptcha-response'])) {
@@ -827,32 +828,20 @@ class PostController extends Controller
         }
         $user = substr($data['email'], 0, 64);
         $pass = substr($data['pass'], 0, 64);
-
+        \Debugbar::info($user,$pass);
         $soap = app()->make('App\Assets\SoapClient');
         $result = $soap->residentPortal($user, $pass);
         Util::log("Resident portal return: " . var_export($result, 1));
-        if ($result[0] === 'True' || $user == 'foobar' && $pass == 'foobar') {
+        if ($result[0] === 'True' || ($user == 'foobar' && $pass == 'foobar')) {
             $page = 'resident-portal/portal-center';
             //TODO: !refactor !organization make this a function to be called to login a user
             Session::residentUserSet($user . ':' . md5($pass) . "|" . json_encode($result));
             $extra = ['resident-portal' => true];
+            $siteData['data']['residentInfo'] = $result;
+            return redirect('/resident-portal/portal-center')->with('residentInfo',$result);
         } else {
             Session::residentUserUnset();
-            $page = 'resident-portal';
-            $extra = [];
+            return redirect('/resident-portal/')->with('residentFailed',true);
         }
-        $siteData = $this->resolvePageBySite($page, $extra);
-        if (empty($siteData)) {
-            $siteData['path'] = 'resident-portal';
-            $siteData['data'] = [];
-        }
-        if ($result[0] === 'True') {
-            $siteData['data']['residentInfo'] = $result;
-            return redirect('/resident-portal/portal-center');
-        } else {
-            $siteData['data']['residentFailed'] = true;
-        }
-        \Debugbar::info($siteData);
-        return view($siteData['path'], $siteData['data']);
     }
 }

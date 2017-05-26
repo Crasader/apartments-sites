@@ -9,14 +9,32 @@ use App\Property\Site;
 use App\ResidentPortal\Session;
 use App\System\Session as Sesh;
 use App\Util\Util;
+use App\Traits\RedirectHooks;
 
 trait PageResolver
 {
     use TextCache;
+    use RedirectHooks;
     protected $_site = null;
+    protected $_guardedResidentPages = [
+        'maintenance-request',
+        'portal-center',
+        'contact-request',
+    ];
+
+    /*
+     * The following protected variable comes from the App\Trait\RedirectHooks trait 
+     * and is used by $this->resolve()
+    protected $_redirectHooks = [
+        
+    ];
+    */
     public function resolve($page = 'home')
     {
         try {
+            if($this->hasRedirectHooks($page)){
+                return $this->dispatchRedirectHook($page);
+            }
             $data = $this->resolvePageBySite($page);
             return view($data['path'], $data['data']);
         } catch (BaseException $e) {
@@ -61,17 +79,32 @@ trait PageResolver
             $data['fsid'] = $templateDir;
             $data['aliased'] = $aliased;
             $data['orig'] = $origPage;
+
             return [
-                'path' => $this->resolveTemplatePath($templateDir, $page, $inData),
+                'path' => $this->resolveTemplatePath($templateDir, $data, $page, $inData),
                 'data' => $this->resolveTemplateData($templateDir, $page, $inData, $data),
             ];
         }
         return [];
     }
 
-    public function resolveTemplatePath($templateDir, $page, $inData)
+    public function isGuarded($data,$inData){
+        $page = str_replace('/resident-portal/','',$data['page']);
+        if(in_array($page,array_keys($this->_guardedResidentPages)) && Sesh::get(Sesh::RESIDENT_USER_KEY) == null){
+            return false;
+        }
+        return true;
+    }
+
+    public function resolveTemplatePath($templateDir, $data,$page, $inData)
     {
         if (isset($inData['resident-portal'])) {
+            if(!$this->isGuarded($data,$inData)){
+                return 'layouts/' . $data['fsid'] . '/pages/resident-portal';
+            }
+            if(Sesh::get(Sesh::RESIDENT_USER_KEY) !== null && preg_match("|/portal\-center|",$data['page'])){
+                return 'layouts/' . $data['fsid'] . '/pages/resident-portal/portal-center';
+            }
             return 'layouts/resident-portal/pages/' . str_replace('resident-portal/', "", $page);
         }
         return "layouts/$templateDir/pages/$page";
@@ -86,5 +119,4 @@ trait PageResolver
             $data['extends'] = "layouts/$templateDir/main";
         }
         return $data;
-    }
-}
+    }}
