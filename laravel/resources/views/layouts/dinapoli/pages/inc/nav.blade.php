@@ -82,6 +82,9 @@ $galleryItems = [
                                         'label' => 'Home'
                                     ],
                                     [
+                                        'label' => 'Amenities'
+                                    ],
+                                    [
                                         'label' => 'Gallery'
                                     ],
                                     [
