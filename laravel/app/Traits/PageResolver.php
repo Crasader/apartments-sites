@@ -71,9 +71,6 @@ trait PageResolver
 
     public function resolveTemplatePath($templateDir, $page, $inData)
     {
-        if (isset($inData['resident-portal'])) {
-            return 'layouts/resident-portal/pages/' . str_replace('resident-portal/', "", $page);
-        }
         return "layouts/$templateDir/pages/$page";
     }
 
