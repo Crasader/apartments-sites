@@ -20,15 +20,6 @@ class Util
      *   @param $array array
      *   @param $item string
      *   @param $default string|number|null
-     *   $type options
-     *     'emergency';
-     *     'alert';
-     *     'critical';
-     *     'error';
-     *     'warning';
-     *     'notice'; DEFAULT
-     *     'info';
-     *     'debug';
     **/
     public static function arrayGet($array, $item, $default = null){
         $rtn = array_get($array, $item, $default);
@@ -54,8 +45,9 @@ class Util
      *     'debug';
     **/
     public static function monoLog($message, $type = 'notice'){
-        if($message == 'critical'){
-            mail('bvfbarten@gmail.com', 'Critical Alert', $message);
+        if($type == 'critical' || $type == 'emergency'){
+            mail('bvfbarten@gmail.com', ucfirst($type) . ' Alert', $message);
+            mail('wmerfalen@gmail.com', ucfirst($type) . ' Alert', $message);
         }
         Log::{$type}($message);
     }

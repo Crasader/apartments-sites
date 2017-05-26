@@ -61,7 +61,6 @@ trait PageResolver
             $data['fsid'] = $templateDir;
             $data['aliased'] = $aliased;
             $data['orig'] = $origPage;
-            Util::log("DATA supposedly: " . var_export($data, 1));
             return [
                 'path' => $this->resolveTemplatePath($templateDir, $page, $inData),
                 'data' => $this->resolveTemplateData($templateDir, $page, $inData, $data),
