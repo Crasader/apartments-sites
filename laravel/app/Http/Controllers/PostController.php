@@ -119,7 +119,13 @@ class PostController extends Controller
             $to = MultiContact::getPropertyEmail();
             $email->to = array_shift($to);
             $email->subject = $details['subject']['property'];
-            $email->html_body = MultiContact::getPropertyViewHtml('layouts/dinapoli/email/property-contact', $details['data']);
+
+            $site = app()->make('App\Property\Site');
+            $entity = $site->getEntity();
+            $path = Layout::getEmailTemplatePath($entity,'property-contact');
+
+            $email->html_body = MultiContact::getPropertyViewHtml(
+                'layouts/dinapoli/email/property-contact', $details['data']);
             $email->from = $details['user'];
             $email->cc = MultiContact::getCcPropertyEmail();
             $email->save();
@@ -281,7 +287,7 @@ class PostController extends Controller
                 'property' => 'Resident Portal Contact Request for property: ' . $aptName,
                 'user' => 'Thank you for contacting '  . $aptName . ' Apartments',
             ],
-            'data' => 
+            'data' =>
 Layout::getEmailTemplateView(
                 $finalArray['entity'],
                 'resident-portal/contact',
@@ -701,7 +707,7 @@ Layout::getEmailTemplateView(
                 'property' => 'User would like to schedule a tour [front page] property: ' . $aptName,
                 'user' => 'Schedule a tour Confirmation for '  . $aptName . ' Apartments',
             ],
-            'data' => view('layouts/dinapoli/email/user-confirm', $finalArray)
+            'data' => Layout::getEmailTemplateView($finalArray['template'], 'user-confirm', $finalArray)
         ]);
         $siteData['data']['sent'] = true;
         if ($req->method() == 'POST') {
@@ -718,7 +724,9 @@ Layout::getEmailTemplateView(
     {
         $data = $req->all();
         Site::$instance = $site = app()->make('App\Property\Site');
-        $aptName =  Site::$instance->getEntity()->getLegacyProperty()->name;
+        $aptName =  Site::$instance->getEntity()
+            ->getLegacyProperty()
+            ->name;
         if (!Util::isDev() && !$this->validateCaptcha($data['g-recaptcha-response'])) {
             return $this->invalidCaptcha($this->_page);
         }
@@ -784,7 +792,9 @@ Layout::getEmailTemplateView(
                 'property' => 'Contact Form Submission at ' . $aptName,
                 'user' => 'Contact Us Confirmation for '  . $aptName . ' Apartments',
             ],
-            'data' => view('layouts/dinapoli/email/user-confirm', $finalArray)
+            'data' =>
+                Layout::getEmailTemplateView(Site::$instance->getEntity(),
+                'user-confirm', $finalArray)
         ]);
         $siteData['data']['sent'] = true;
         if ($req->method() == 'POST') {
