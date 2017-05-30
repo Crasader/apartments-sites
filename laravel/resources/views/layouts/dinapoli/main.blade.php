@@ -31,7 +31,7 @@ use App\Util\Util;
                 background: url(<?php echo $entity->getWebPublicDirectory('popup');?>/popup.jpg);
             }
         </style>
-        <?php if(env('ENVIRONMENT') == 'live'):?>
+        <?php if (env('ENVIRONMENT') == 'live'):?>
              <?php echo $entity->getGoogleAnalytics(); ?>
         <?php endif; ?>
         @yield('extra-css')

@@ -1,12 +1,9 @@
         <?php
-            use App\Property\Template as PropertyTemplate;
             $residentName = "john doe"; //TODO  !launch
             $residentEmail = "foo@gmail.com"; //TODO !launch
             ?>
         @extends($extends)
-
         @section('content')
-
 		<!-- Content -->
 		<section class="content">
 			<!-- Content Blocks -->
@@ -29,18 +26,25 @@
                                 <form id="form1" method="post" action="/resident-portal/resident-contact-mailer">
                                     <div class="mb-20 mb-md-10 form-group">
                                         <label>Name</label>
-                                        <input type="text" name="name" id="ResidentName" class="input-md form-control" maxlength="100">
+                                        <input type="text" name="name" id="ResidentName"
+                                        data-msg-required="Please Enter your Name"
+                                        class="input-md form-control" maxlength="100">
                                     </div>
                                     <div class="mb-20 mb-md-10 form-group">
                                         <label>Email</label>
-                                        <input type="text" name="email" id="email" class="input-md form-control" maxlength="100">
+                                        <input type="text" name="email" id="email" class="input-md form-control"
+                                        data-msg-required="Please Enter Your Email"
+                                        maxlength="100">
                                     </div>
                                     <div class="mb-20 mb-md-10 form-group">
                                         <label>Phone</label>
-                                        <input type="text" name="phone" id="phone" class="input-md form-control" maxlength="100">
+                                        <input type="text" name="phone" id="phone" class="input-md form-control"
+                                        data-msg-required="Please Enter The Best Phone Number to Reach You"
+                                         maxlength="100">
                                     </div>
                                     <label for="date">Memo</label>
                                     <textarea name="memo" id="memo" class="form-control"
+                                        data-msg-required="Please Enter A Brief Description Of The Issue"
                                         cols="70" rows="10"></textarea>
                                     <div style='margin-bottom:0px;' id='dateErrorDiv'>
                                          <label id="date-error" class="error" for="date" style='margin-bottom:20px;'></label>
@@ -82,7 +86,7 @@
                     </div>
 		</section>
         @stop
-
+        
         @section('page-specific-js')
 		<script type='text/javascript'>
         $(document).ready(function() {

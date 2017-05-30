@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Legacy\State;
 use App\Util\Util;
 use App\Traits\LoadableByArray;
+use App\Property\Entity;
 
 class Property extends Model
 {
@@ -44,5 +45,20 @@ class Property extends Model
         return Util::redisFetchOrUpdate('property_state', function () use ($foo) {
             return State::select('name')->where('id', $foo->state_id)->get()->pluck('name')->toArray()[0];
         });
+    }
+    /**
+    * @return returns a phone number based on entity given
+    * @param $entity | \App\Property\Entity
+    */
+    public static function getPhoneByEntity(Entity $entity)
+    {
+        return Util::redisFetchOrUpdate(
+            'legacy-phone',
+            function () use ($entity) {
+                $property = Property
+                ::find($entity->fk_legacy_property_id);
+                return ($property->phone);
+            }
+        );
     }
 }
