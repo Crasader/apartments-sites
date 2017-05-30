@@ -22,6 +22,7 @@ use App\Structures\Mail as StructMail;
 use App\Mailer\Queue;
 use App\Util\UrlHelpers;
 use App\AIM\Traffic;
+use App\Template as Layout;
 
 class PostController extends Controller
 {
@@ -270,6 +271,8 @@ class PostController extends Controller
         $finalArray = $this->_prefillArray($data);
         $finalArray['contact'] = $data;
         $aptName = Site::$instance->getEntity()->getLegacyProperty()->name;
+
+        $templateName = array_get($siteData, 'data.fsid');
         $this->sendMultiContact('contact-request', [
             'user' => $to,
             'fromName' => $data['fname'] . " " . $data['lname'],
@@ -278,7 +281,7 @@ class PostController extends Controller
                 'property' => 'Resident Portal Contact Request for property: ' . $aptName,
                 'user' => 'Thank you for contacting '  . $aptName . ' Apartments',
             ],
-            'data' => view('layouts/resident-portal/email/contact', $finalArray),//TODO: Dynamically grab the layouts/<TEMPLATE_DIR>
+            'data' => view(Layout::getEmailTemplatePath($templateName, 'resident-portal/contact'), $finalArray),
         ]);
         $siteData['data']['sent'] = true;
         $siteData['data']['name'] = $req->input('name');
@@ -622,27 +625,25 @@ class PostController extends Controller
             $siteData['data']['maintenanceError'] = true;
         } else {
             //Send email
-            $mail = new Mail;
+            $finalArray = $this->_prefillArray(['mode' => 'maintenance']);
+            $finalArray['contact'] = $data;
+
+            $mail = new Email;
             $mail->from = $this->_getApartmentEmail();
             $mail->cc = ['matt@marketapts.com',$this->_getApartmentEmail()];
             $mail->to = $to;
-            $mail->html_body = view('layouts/dinapoli/email/user-confirm', $finalArray);
+            // util::dd(compact('finalArray'));
+            // $mail->html_body = view('layouts/dinapoli/email/user-confirm', $finalArray);
+            $mail->html_body = Layout::getEmailTemplateView(
+                $finalArray['entity'],
+                'user-confirm',
+                $finalArray
+            );
             $mail->subject = "Maintanance";
             $mail->save();
             $mail->addQueue();
-
-            // (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
-            //     'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
-            //     'to' => $to,
-            //     'contact' => ['fname' => explode(" ",$data['ResidentName'])[0],
-            //         'lname' => explode(" ",$data['ResidentName'])[0],
-            //         'from' => $this->_getApartmentEmail(),
-            //     ],
-            //     'data' => view('layouts/dinapoli/email/user-confirm',$finalArray)
-            // ]);
         }
-        Util::log('Apparently the email has been sent: schedule-a-tour', ['log'=>'mailer']);
-        $siteData = $this->resolvePageBySite('schedule-a-tour', $cleaned);
+        $siteData = $this->resolvePageBySite('resident-portal/portal-center', $finalArray);
         $siteData['data']['sent'] = true;
         return view($siteData['path'], $siteData['data']);
     }
@@ -782,7 +783,7 @@ class PostController extends Controller
         ]);
         $siteData['data']['sent'] = true;
         if ($req->method() == 'POST') {
-            flash('Thanks! We will be in touch Soon!');
+            // flash('Thanks! We will be in touch Soon!');
             $url = UrlHelpers::getUrl('/contact', [
                 'submitted' => 1,
                 'from' => 'contact']

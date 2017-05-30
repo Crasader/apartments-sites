@@ -10,16 +10,32 @@
 <div class=row><div class=col-md-12><div class=page-title><h1>Your submission was received!</h1><div class=divder-teal></div></div></div></div>
 
 <?php if ($mode == 'briefContact'): ?>
-<div class=row><div class=col-md-5><p>Thank you <?php echo $contact['name']; ?> for your interest in <?php echo $apartmentName;?> Apartments. 
+<div class=row><div class=col-md-5><p>Thank you <?php echo $contact['name']; ?> for your interest in <?php echo $apartmentName;?> Apartments.
 <?php elseif ($mode == 'schedule-a-tour'): ?>
-<div class=row><div class=col-md-6><p>Thank you <?php echo $contact['firstname']; ?> <?php echo $contact['lastname']; ?> for your interest in <?php echo $apartmentName;?> Apartments. 
+<div class=row><div class=col-md-6><p>Thank you <?php echo $contact['firstname']; ?> <?php echo $contact['lastname']; ?> for your interest in <?php echo $apartmentName;?> Apartments.
+<?php elseif ($mode == 'maintenance'): ?>
+<div class=row><div class=col-md-6><p>Thank you <?php echo array_get($contact, 'residentName'); ?>  for this request.
 <?php else: ?>
-<div class=row><div class=col-md-6><p>Thank you <?php echo $contact['fname']; ?> <?php echo $contact['lname']; ?> for your interest in <?php echo $apartmentName;?> Apartments. 
+<div class=row><div class=col-md-6><p>Thank you <?php echo $contact['fname']; ?> <?php echo $contact['lname']; ?> for your interest in <?php echo $apartmentName;?> Apartments.
 <?php endif; ?>
 Our team will quickly review your submission and get back to you as soon as possible. </p>
 <p>For questions, give us a call:&nbsp;<span class=teal><?php echo $entity->getPhone(); ?></span></p></div></div>
 <div class=row><div class=col-md-6><p>Sincerely, <br><?php echo $apartmentName;?> Apartments Management Team</p></div></div>
 <div class=row><div class=col-md-6><p>The following was submitted:</p><p>
+
+<?php if ($mode == 'maintenance'): ?>
+Resident Name: <?php echo $contact['ResidentName']; ?><br>
+email: <?php echo $contact['email']; ?><br>
+Maintenance Phone: <?php echo $contact['maintenance_phone']; ?><br>
+Maintenance Unit: <?php echo $contact['maintenance_unit']; ?><br>
+permission To Enter: <?php echo $contact['permissionToEnter']; ?><br>
+Permission To Enter Date: <?php echo $contact['PermissionToEnterDate']; ?><br>
+Permission Given By: <?php echo $contact['maintenance_name']; ?><br>
+Request Summary: <?php echo $contact['maintenance_mrequest']; ?><br>
+
+Action Requested: Maintenance Request
+<?php endif;?>
+
 <?php if ($mode == 'briefContact'): ?>
 Name: <?php echo $contact['name']; ?><br>
 
