@@ -16,11 +16,11 @@ class UpdateCssInserts extends Migration
     {
         //
         $assets = Assets::get();
-        foreach($assets as $asset){
-            if(strpos($asset->uri, 'bascom')){
+        foreach ($assets as $asset) {
+            if (strpos($asset->uri, 'bascom')) {
                 $line = str_replace('/bascom/css/properties/', '/bascom/css/', $asset->uri);
                 $asset->uri = str_replace('/bascom/css/', '/bascom/css/properties/', $line);
-            } else if(strpos($asset->uri, 'dinapoli')){
+            } elseif (strpos($asset->uri, 'dinapoli')) {
                 $line = str_replace('/dinapoli/css/properties/', '/dinapoli/css/', $asset->uri);
                 $asset->uri = str_replace('/dinapoli/css/', '/dinapoli/css/properties/', $line);
             }
@@ -37,10 +37,10 @@ class UpdateCssInserts extends Migration
     {
         //
         $assets = Assets::get();
-        foreach($assets as $asset){
-            if(strpos($asset->uri, 'bascom')){
+        foreach ($assets as $asset) {
+            if (strpos($asset->uri, 'bascom')) {
                 $asset->uri = str_replace('/bascom/css/properties/', '/bascom/css/', $asset->uri);
-            } else if(strpos($asset->uri, 'dinapoli')){
+            } elseif (strpos($asset->uri, 'dinapoli')) {
                 $asset->uri = str_replace('/dinapoli/css/properties/', '/dinapoli/css/', $asset->uri);
             }
             $asset->save();

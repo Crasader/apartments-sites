@@ -21,9 +21,10 @@ class Util
      *   @param $item string
      *   @param $default string|number|null
     **/
-    public static function arrayGet($array, $item, $default = null){
+    public static function arrayGet($array, $item, $default = null)
+    {
         $rtn = array_get($array, $item, $default);
-        if($default === $rtn){
+        if ($default === $rtn) {
             $info = Util::getPrevLineFile(2);
             extract($info); //grab line, file
             Util::monoLog("arrayGet returned default at {$file}:{$line}");
@@ -44,8 +45,9 @@ class Util
      *     'info';
      *     'debug';
     **/
-    public static function monoLog($message, $type = 'notice'){
-        if(is_array($type)){
+    public static function monoLog($message, $type = 'notice')
+    {
+        if (is_array($type)) {
             $args = $type;
             $type = array_get($type, 'type', 'notice');
         } else {
@@ -55,7 +57,7 @@ class Util
             array_get($args, 'log', 'monolog')
         );
         $message = strtoupper($heading . ': ' . $message);
-        if($type == 'critical' || $type == 'emergency'){
+        if ($type == 'critical' || $type == 'emergency') {
             mail('bvfbarten@gmail.com', ucfirst($type) . ' Alert', $message);
             mail('wmerfalen@gmail.com', ucfirst($type) . ' Alert', $message);
         }
@@ -193,7 +195,8 @@ class Util
             return false;
         }
     }
-    public static function getPrevLineFile($depth = 1){
+    public static function getPrevLineFile($depth = 1)
+    {
         $info = debug_backtrace();
         $line = array_get($info, "{$depth}.line");
         $file = array_get($info, "{$depth}.file");

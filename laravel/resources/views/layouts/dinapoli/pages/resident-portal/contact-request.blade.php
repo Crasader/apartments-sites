@@ -1,6 +1,7 @@
         <?php
             use App\Property\Template as PropertyTemplate;
-            $residentName = "john doe"; //TODO  !launch
+
+$residentName = "john doe"; //TODO  !launch
             $residentEmail = "foo@gmail.com"; //TODO !launch
             ?>
         @extends($extends)

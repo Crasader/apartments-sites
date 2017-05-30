@@ -1,6 +1,7 @@
 <?php
 use App\Property\Site;
 use App\Legacy\Property;
+
 ?>@extends('layouts/bascom/main')
             @section('before-css')
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
