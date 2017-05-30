@@ -1,7 +1,7 @@
         @extends($extends)
         @section('page-title-span','resident portal')
         @section('content')
-       
+        <script>alert("LOL");</script>
 		<section class="content">
 			<!-- Content Blocks -->
 			<div class="container">

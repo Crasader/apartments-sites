@@ -23,6 +23,7 @@ use App\Mailer\Queue;
 use App\Util\UrlHelpers;
 use App\AIM\Traffic;
 
+
 class PostController extends Controller
 {
     use PageResolver;
@@ -55,8 +56,8 @@ class PostController extends Controller
         /*==========================================================*/
         /* Routes that require authentication (done via middleware) */
         /*==========================================================*/
-        'resident-contact-mailer'   => 'handleResidentContact',
-        'maintenance-request'       => 'handleMaintenance',
+        'post-resident-contact-mailer'   => 'handleResidentContact',
+        'post-maintenance-request'       => 'handleMaintenance',
     ];
     protected $_translations = [];
     //
@@ -78,18 +79,7 @@ class PostController extends Controller
 
     public function sendMultiContact(string $mode, array $details)
     {
-        //hijack
-        $struct = new StructMail;
-        $queue = new Queue;
         try {
-            //TODO: !mailer modify this to use brady's queue
-            // $struct->to = $details['user'];
-            // $struct->subject = $details['subject']['user'];
-            // $struct->htmlBody = $details['data'];
-            // $struct->from =  MultiContact::getPropertyEmail();
-            // $struct->from = array_shift($struct->from);
-            // $struct->cc = json_encode([]);
-            // $queue->queueItem($struct);
             $email = new Email;
             $email->to = $details['user'];
             $email->subject = $details['subject']['user'];
@@ -104,16 +94,6 @@ class PostController extends Controller
         }
 
         try {
-            //TODO: !mailer modify this to use brady's queue
-            // $struct = new StructMail;
-            // $struct->to = MultiContact::getPropertyEmail();
-            // $struct->to = array_shift($struct->to);
-            // $struct->subject = $details['subject']['property'];
-            // $struct->htmlBody = MultiContact::getPropertyViewHtml('layouts/dinapoli/email/property-contact',$details['data']);
-            // $struct->from = $details['user'];
-            // $struct->cc = json_encode(MultiContact::getCcPropertyEmail());
-            // $queue->queueItem($struct);
-
             $email = new Email;
             $to = MultiContact::getPropertyEmail();
             $email->to = array_shift($to);
@@ -623,7 +603,6 @@ class PostController extends Controller
     public function handleMaintenance(Request $req)
     {
         $data = $req->all();
-        $data = $req->all();
         Site::$instance = $this->_site = app()->make('App\Property\Site');
         if (Session::residentUserLoggedIn() === false) {
             return $this->residentNotLoggedIn();
@@ -652,31 +631,15 @@ class PostController extends Controller
             $siteData['data']['maintenanceError'] = true;
         } else {
             //Send email
-            //TODO: !mailer modify this to submit to the queue
-            //hijack
-            $mail = new Mail;
+            $mail = new StructMail; 
             $mail->from = $this->_getApartmentEmail();
-            $mail->cc = ['matt@marketapts.com',$this->_getApartmentEmail()];
+            $mail->cc = $this->_getApartmentEmail();
             $mail->to = $to;
-            $mail->html_body = view('layouts/dinapoli/email/user-confirm', $finalArray);
-            $mail->subject = "Maintanance";
-            $mail->save();
-            $mail->addQueue();
-
-            // (new \App\Mailer())->send(['from' => $this->_getApartmentEmail(),
-            //     'cc' => ['matt@marketapts.com',$this->_getApartmentEmail()],
-            //     'to' => $to,
-            //     'contact' => ['fname' => explode(" ",$data['ResidentName'])[0],
-            //         'lname' => explode(" ",$data['ResidentName'])[0],
-            //         'from' => $this->_getApartmentEmail(),
-            //     ],
-            //     'data' => view('layouts/dinapoli/email/user-confirm',$finalArray)
-            // ]);
+            $mail->htmlBody = view('layouts/dinapoli/email/maintenance-request',$this->_prefillArray(['contact' => $data]))->render();
+            $mail->subject = "Maintanance request received";
+            (new Queue)->queueItem($mail);
         }
-        Util::log('Apparently the email has been sent: schedule-a-tour', ['log'=>'mailer']);
-        $siteData = $this->resolvePageBySite('schedule-a-tour', $cleaned);
-        $siteData['data']['sent'] = true;
-        return view($siteData['path'], $siteData['data']);
+        return redirect('/resident-portal/maintenance-request')->with('sent','1');
     }
 
     public function handleBriefContact(Request $req)

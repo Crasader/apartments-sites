@@ -15,6 +15,15 @@ class Util
             '^staging\.','^will\.','^brady\.','^\dev\.','^matt\.'
     ];
 
+
+    /**
+     * Returns a script tag to redirect the user to the specified page
+     * @param $page string URI to redirect to
+     */
+    public static function scriptRedirect(string $page){
+        return '<script type="text/javascript">location.href="' . $page . '";</script>';
+    }
+
     /**
      *   Function arrayGet: Processes laravel's array_get, if default is returned, logs it
      *   @param $array array
