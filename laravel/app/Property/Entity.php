@@ -37,11 +37,14 @@ class Entity extends Model
         ];
         return implode('/', $rtn);
     }
+    /**
+     * createsNew Entity
+    */
     public function createNew(array $attributes, LegacyProperty $legacyProperty)
     {
-        $foo = $this->where('fk_legacy_property_id', $legacyProperty->id)->get();
-        if (count($foo)) {
-            foreach ($foo[0]->attributes as $i => $value) {
+        $foo = $this->where('fk_legacy_property_id', $legacyProperty->id)->first();
+        if ($foo) {
+            foreach ($foo->attributes as $i => $value) {
                 $this->$i = $value;
             }
             return $this;
@@ -223,8 +226,9 @@ class Entity extends Model
     public function getCustomStyleSheets($page)
     {
         //return Util::redisFetchOrUpdate('clientside_assets_' . $page, function(){
-        $foo =  app()->make('App\Property\Clientside\Assets')
-            ->getStyleSheets(Site::$instance);
+            $foo =  app()
+                ->make('App\Property\Clientside\Assets')
+                ->getStyleSheets(Site::$instance);
         return $foo;
         //    },true);
     }
@@ -586,7 +590,7 @@ class Entity extends Model
                     $leg->name = $val;
                     $leg->save();
                 },
-            ],
+                ],
             'slogan' => [
                 'fetch' => function () {
                     return 'More than just a place to sleep';
@@ -594,7 +598,7 @@ class Entity extends Model
                 'set' => function ($val) use ($foo) { /* Temporarily ignored; */
                 },
                 'schema' => 'property.foo',
-            ],
+                ],
         ];
     }
     /** checks to see if needs to store in symphony tables, if yay, then store, if nay, then well...
