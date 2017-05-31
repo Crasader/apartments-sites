@@ -20,7 +20,12 @@ trait ShellMigration
 # {$date}: {$className}
 {$lines}
 ";
+        $sudo = (
+            strpos($fileContents, 'sudo') !== false,
+            'sudo ',
+            ''
+        );
         file_put_contents($fn, $fileContents);
-        print("\nbash {$fn}\n\n");
+        print("\n{$sudo}bash {$fn}\n\n");
     }
 }
