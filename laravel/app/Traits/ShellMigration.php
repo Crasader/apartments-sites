@@ -21,7 +21,6 @@ trait ShellMigration
 {$lines}
 ";
         file_put_contents($fn, $fileContents);
-        print("bash {$fn}\n");
-        // print($fileContents);
+        print("\nbash {$fn}\n\n");
     }
 }
