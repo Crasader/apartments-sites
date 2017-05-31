@@ -16,8 +16,7 @@
             <script>
             $(function(){
                 var mainDate = $('#PermissionToEnterDate');
-                mainDate.datepicker();
-                console.log('foo')
+                mainDate.datepicker( { format: 'mm/dd/yyyy' });
 
             })
             </script>
@@ -123,7 +122,7 @@
 							</form>
 						</div>
 					</div>
-					
+
 				</div>
 			</div>
 		</section>
@@ -134,7 +133,7 @@
             $(".nav-main-right a").on("click", function(){
                $(".nav-main-right").find(".active").removeClass("active");
                $(this).parent().addClass("active");
-                        
+
             });
             amcBindValidate({
                 'form': '#form1',
@@ -147,53 +146,19 @@
                     },
                     maintenance_phone: {
                         required: true
+                    },
+                },
+                errorPlacement: function(error, element) {
+                    if(element.prop('name') == 'PermissionToEnterDate'){
+                        error.insertAfter(element.parent());
+                    } else {
+                        console.log(element.prop('name'));
+                        error.insertAfter( element);
                     }
                 }
             });
             amcMaskPhone('#maintenance_phone','(999) 999-9999');
 		    $("#date").datepicker({'format': 'mm/dd/yyyy'});
-            $("#perm2enter").bind("click",function(){
-                if($(this).is(":checked")){
-                    $("#perm").slideDown(); 
-                    amcBindValidate({
-                        'form': '#form1',
-                        'rules': {
-                            ResidentName: 'required',
-                            maintenance_unit: 'required',
-                            email: {
-                                required: true,
-                                email: true,
-                            },
-                            maintenance_phone: {
-                                required: true
-                            },
-                            maintenance_name: {
-                                required: true
-                            },
-                            'PermissionToEnterDate': {
-                                required: true,
-                                'date': true
-                            }
-                        }
-                    });
-                }else{
-                    $("#perm").slideUp();
-                    amcBindValidate({
-                        'form': '#form1',
-                        'rules': {
-                            ResidentName: 'required',
-                            maintenance_unit: 'required',
-                            email: {
-                                required: true,
-                                email: true,
-                            },
-                            maintenance_phone: {
-                                required: true
-                            }
-                        }
-                    });
-                }
-            });
         });
         </script>
         @stop
