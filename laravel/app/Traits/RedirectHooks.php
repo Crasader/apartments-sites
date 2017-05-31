@@ -33,21 +33,14 @@ trait RedirectHooks
              * if the user is logged in and they came from the portal center page, don't redirect them.
              * instead, let them see the resident login page
              */
-            if(Sesh::residentUserLoggedIn() && preg_match("|/resident\-center/|",$_SERVER['HTTP_REFERER'])){
-                \Debugbar::info("User is logged in and referred from resident center");
+            if(Sesh::residentUserLoggedIn() && preg_match("|/resident\-center/|",Util::arrayGet($_SERVER,'HTTP_REFERER',null))){
                 return false;
-            }
-
-            if(Sesh::residentUserLoggedIn()){
-                return true;
             }
 
             /*
              * If the user is not logged in, don't redirect them anywhere, just let them see the resident portal login
              */
-            if(!Sesh::residentUserLoggedIn()){
-                return false;
-            }
+            return Sesh::residentUserLoggedIn();
         }
         /*
          * Dispatch mode is where we return the redirect. We have to return a redirect, or atleast 

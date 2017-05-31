@@ -22,6 +22,7 @@ use App\Structures\Mail as StructMail;
 use App\Mailer\Queue;
 use App\Util\UrlHelpers;
 use App\AIM\Traffic;
+use App\Template as Layout;
 
 
 class PostController extends Controller
@@ -244,29 +245,34 @@ class PostController extends Controller
 
         $siteData = $this->resolvePageBySite('/resident-portal/contact-request', ['resident-portal' => true]);
         $to = $data['email'];
-        $data['mode'] = 'resident-contact';
-        $data['fname'] = explode(" ", $data['name'])[0];
-        $data['lname'] = explode(" ", $data['name'])[1];
-        $finalArray = $this->_prefillArray($data);
         $finalArray['contact'] = $data;
         $aptName = Site::$instance->getEntity()->getLegacyProperty()->name;
-        $this->sendMultiContact('contact-request', [
-            'user' => $to,
-            'fromName' => $data['fname'] . " " . $data['lname'],
-            'contact' => $data,
-            'subject' => [
-                'property' => 'Resident Portal Contact Request for property: ' . $aptName,
-                'user' => 'Thank you for contacting '  . $aptName . ' Apartments',
-            ],
-            'data' => view('layouts/resident-portal/email/contact', $finalArray),//TODO: Dynamically grab the layouts/<TEMPLATE_DIR>
-        ]);
+
+        $templateName = array_get($siteData, 'data.fsid');
         $siteData['data']['sent'] = true;
         $siteData['data']['name'] = $req->input('name');
         $siteData['data']['email'] = $req->input('email');
         $siteData['data']['phone'] =  (isset($data['phone']) && strlen($data['phone'])) ? $data['phone'] : "No phone number supplied";
         $siteData['data']['memo'] = (isset($data['memo']) && strlen($data['memo'])) ? $data['memo'] : "no memo supplied";
+        $finalArray = $this->_prefillArray($siteData);
+        $finalArray['mode'] = 'resident-contact';
+        $this->sendMultiContact('contact-request', [
+            'user' => $to,
+            'fromName' => $data['name'],
+            'contact' => $data,
+            'subject' => [
+                'property' => 'Resident Portal Contact Request for property: ' . $aptName,
+                'user' => 'Thank you for contacting '  . $aptName . ' Apartments',
+            ],
+            'data' => 
+                Layout::getEmailTemplateView(
+                $finalArray['entity'],
+                'resident-portal/contact',
+                $finalArray
+            ),
+        ]);
 
-        return view($siteData['path'], $siteData['data']);
+        return redirect('/resident-portal/contact-request')->with('sent','1');
     }
 
     public function handleSchedule(Request $req)
@@ -613,7 +619,7 @@ class PostController extends Controller
             'email' => 'required|max:128|email',
             'maintenance_phone' => 'required|max:14|regex:~\([0-9]{3}\) [0-9]{3}\-[0-9]{4}~',
             'maintenance_name' => 'max:64',
-            'PermissionToEnterDate' => 'date',
+            'PermissionToEnterDate' => 'max:15',
             'maintenance_mrequest' => 'required'
             ]);
 
@@ -631,15 +637,25 @@ class PostController extends Controller
             $siteData['data']['maintenanceError'] = true;
         } else {
             //Send email
-            $mail = new StructMail; 
+            $finalArray = $this->_prefillArray(['mode' => 'maintenance']);
+            $finalArray['contact'] = $data;
+
+            $mail = new Email;
             $mail->from = $this->_getApartmentEmail();
             $mail->cc = $this->_getApartmentEmail();
             $mail->to = $to;
-            $mail->htmlBody = view('layouts/dinapoli/email/maintenance-request',$this->_prefillArray(['contact' => $data]))->render();
-            $mail->subject = "Maintanance request received";
-            (new Queue)->queueItem($mail);
+            // util::dd(compact('finalArray'));
+            // $mail->html_body = view('layouts/dinapoli/email/user-confirm', $finalArray);
+            $mail->html_body = Layout::getEmailTemplateView(
+                $finalArray['entity'],
+                'maintenance-request',
+                $finalArray
+            );
+            $mail->subject = "Maintanance";
+            $mail->save();
+            $mail->addQueue();
         }
-        return redirect('/resident-portal/maintenance-request')->with('sent','1');
+        return redirect('/resident-portal/portal-center')->with('maint-sent','1');
     }
 
     public function handleBriefContact(Request $req)
@@ -648,7 +664,7 @@ class PostController extends Controller
         Site::$instance = $site = app()->make('App\Property\Site');
         $aptName =  Site::$instance->getEntity()->getLegacyProperty()->name;
         $this->validate($req, [
-            'name' => 'required|max:64|alpha',
+            'name' => 'required|max:64',
             'email' => 'required|max:128|email',
             ]);
         if (isset($data['message'])) {
@@ -725,8 +741,8 @@ class PostController extends Controller
             return $this->invalidCaptcha($this->_page);
         }
         $this->validate($req, [
-            'firstname' => 'required|max:64|alpha',
-            'lastname' => 'required|max:64|alpha',
+            'firstname' => 'required|max:64',
+            'lastname' => 'required|max:64',
             'email' => 'required|max:128|email',
             'phone' => 'required|max:14|regex:~\([0-9]{3}\) [0-9]{3}\-[0-9]{4}~',
             'date'=> 'required|date',
@@ -791,7 +807,7 @@ class PostController extends Controller
         ]);
         $siteData['data']['sent'] = true;
         if ($req->method() == 'POST') {
-            flash('Thanks! We will be in touch Soon!');
+            // flash('Thanks! We will be in touch Soon!');
             $url = UrlHelpers::getUrl('/contact', [
                 'submitted' => 1,
                 'from' => 'contact']
@@ -837,9 +853,14 @@ class PostController extends Controller
         $pass = substr($data['pass'], 0, 64);
         \Debugbar::info($user,$pass);
         $soap = app()->make('App\Assets\SoapClient');
+        Util::monoLog(
+            "Resident portal return: " .      print_r(compact('user', 'pass', 'soap'), 1)
+        );
         $result = $soap->residentPortal($user, $pass);
-        Util::log("Resident portal return: " . var_export($result, 1));
-        if ($result[0] === 'True' || ($user == 'foobar' && $pass == 'foobar')) {
+        Util::monoLog(
+            "Resident portal result: " .      print_r(compact('result'), 1)
+        );
+        if ($result[0] === 'True' || $user == 'foobar' && $pass == 'foobar') {
             $page = 'resident-portal/portal-center';
             //TODO: !refactor !organization make this a function to be called to login a user
             Session::residentUserSet($user . ':' . md5($pass) . "|" . json_encode($result));

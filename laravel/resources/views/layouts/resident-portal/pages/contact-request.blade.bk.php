@@ -24,14 +24,14 @@
 							<form class="form-horizontal" action="resident-contact-mailer" name="form1" method="post">
 								<div class="form-group">
 									<label>Name</label>
-									<input type="text" class="form-control" name="name" id="ResidentName" value="">
 									<span class="required">*</span>
+									<input type="text" class="form-control" name="name" id="ResidentName" value="">
 								</div>
-							
+
 								<div class="form-group">
 									<label>Email</label>
+                                    <span class="required">*</span>
 									<input type="text" class="form-control" name="email" id="email" value="">
-									<span class="required">*</span>
 								</div>
 								<div class="form-group">
 									<label>Phone</label>
@@ -39,10 +39,12 @@
 								</div>
 								<div class="form-group">
 									<label>Memo</label><br>
-									<textarea name="memo" id="memo"></textarea>
+									<textarea name="memo" id="memo" class="form-control" cols="70" rows="10"></textarea>
 								</div>
                                 {{csrf_field()}}
-								<input type="submit" value="Submit" class="btn submit-btn">
+                                <div class="form-group">
+    								<input type="submit" value="Submit" class="btn submit-btn">
+                                </div>
 							</form>
 						</div>
 					</div>
@@ -84,7 +86,7 @@
 			</div>
 		</section>
         @stop
-        
+
         @section('page-specific-js')
 		<script type='text/javascript'>
         $(document).ready(function() {

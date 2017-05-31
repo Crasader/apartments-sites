@@ -30,9 +30,10 @@ class Util
      *   @param $item string
      *   @param $default string|number|null
     **/
-    public static function arrayGet($array, $item, $default = null){
+    public static function arrayGet($array, $item, $default = null)
+    {
         $rtn = array_get($array, $item, $default);
-        if($default === $rtn){
+        if ($default === $rtn) {
             $info = Util::getPrevLineFile(2);
             extract($info); //grab line, file
             Util::monoLog("arrayGet returned default at {$file}:{$line}");
@@ -53,8 +54,19 @@ class Util
      *     'info';
      *     'debug';
     **/
-    public static function monoLog($message, $type = 'notice'){
-        if($type == 'critical' || $type == 'emergency'){
+    public static function monoLog($message, $type = 'notice')
+    {
+        if (is_array($type)) {
+            $args = $type;
+            $type = array_get($type, 'type', 'notice');
+        } else {
+            $args = [];
+        }
+        $heading = array_get($args, 'heading',
+            array_get($args, 'log', 'monolog')
+        );
+        $message = strtoupper($heading . ': ' . $message);
+        if ($type == 'critical' || $type == 'emergency') {
             mail('bvfbarten@gmail.com', ucfirst($type) . ' Alert', $message);
             mail('wmerfalen@gmail.com', ucfirst($type) . ' Alert', $message);
         }
@@ -192,7 +204,8 @@ class Util
             return false;
         }
     }
-    public static function getPrevLineFile($depth = 1){
+    public static function getPrevLineFile($depth = 1)
+    {
         $info = debug_backtrace();
         $line = array_get($info, "{$depth}.line");
         $file = array_get($info, "{$depth}.file");
@@ -370,18 +383,9 @@ class Util
         Redis::set(self::redisKey($foo), $bar);
     }
 
-    public static function log(string $foo, $opts = null)
+    public static function log(string $foo, $opts = [])
     {
-        if (isset($opts['log'])) {
-            $file = storage_path() . "/logs/log-" . $opts['log'] . ".log";
-            if (!file_exists($file)) {
-                shell_exec("touch $file");
-                shell_exec("chmod 755 $file");
-            }
-        } else {
-            $file = storage_path() . "/logs/log.log";
-        }
-        file_put_contents($file, date("Y-m-d H:i:s") . "::" . Util::serverName() . "::{$foo}\n", FILE_APPEND);
+        self::monoLog($foo, $opts);
     }
 
     public static function serverName()

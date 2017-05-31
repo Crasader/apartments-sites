@@ -1,0 +1,37 @@
+
+    .marker_container{ text-align: center; }
+    .city{      color: #333;
+    font-size: 12px;
+    font-family: "Open Sans", Arial, sans-serif;}
+    .state{     color: #333;
+    font-size: 12px;
+    font-family: "Open Sans", Arial, sans-serif;}
+    .zip{   color: #333;
+    font-size: 12px;
+    font-family: "Open Sans", Arial, sans-serif;}
+    .website{  color: #999999;;
+    font-size: 12px;
+    font-family: "Open Sans", Arial, sans-serif; padding-right: 5px; }    
+    .website:hover{ text-decoration: underline;}
+    .direction{ color: #999999;;
+    font-size: 12px;
+    font-family: "Open Sans", Arial, sans-serif;     padding-left: 5px;}     
+     .direction:hover{ text-decoration: underline;}
+     .divider{  color: #999999;;
+    font-size: 12px;
+    font-family: "Open Sans", Arial, sans-serif;}
+
+    .overlay {
+    width: 100%;
+    bottom: .1rem;
+    left: -1px;
+    position: absolute;
+    background: rgba(8, 8, 8, 0.65);
+    height: 100%;
+}
+.thumbnail{ border:0px solid #000; margin-bottom :0px; background-color: rgba(0, 0, 0, 0); }
+/*.m-10p{ margin-left: 10px; }*/
+.blank-w{ border-bottom: 0px solid #fff; }
+.nav .nav-tabs .row{margin-right: -15px;
+    margin-left: -15px;
+}

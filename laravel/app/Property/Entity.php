@@ -223,8 +223,8 @@ class Entity extends Model
     public function getCustomStyleSheets($page)
     {
         //return Util::redisFetchOrUpdate('clientside_assets_' . $page, function(){
-            $foo =  app()->make('App\Property\Clientside\Assets')->
-                getStyleSheets(Site::$instance);
+        $foo =  app()->make('App\Property\Clientside\Assets')
+            ->getStyleSheets(Site::$instance);
         return $foo;
         //    },true);
     }
@@ -586,7 +586,7 @@ class Entity extends Model
                     $leg->name = $val;
                     $leg->save();
                 },
-                ],
+            ],
             'slogan' => [
                 'fetch' => function () {
                     return 'More than just a place to sleep';
@@ -594,7 +594,7 @@ class Entity extends Model
                 'set' => function ($val) use ($foo) { /* Temporarily ignored; */
                 },
                 'schema' => 'property.foo',
-                ],
+            ],
         ];
     }
     /** checks to see if needs to store in symphony tables, if yay, then store, if nay, then well...
@@ -634,7 +634,11 @@ class Entity extends Model
             $text = null;
             $textTypes = TextType::select(['id'])->where('str_key', $name)->pluck('id')->toArray();
             if (count($textTypes)) {
-                $a = PropertyText::select('string_value')->where('property_text_type_id', $textTypes[0])->get()->pluck('string_value')->toArray();
+                $a = PropertyText::select('string_value')
+                    ->where('property_text_type_id', $textTypes[0])
+                    ->get()
+                    ->pluck('string_value')
+                    ->toArray();
                 $text = array_pop($a);
             }
             if (strlen($text) == 0 && isset($opts['oneshot'])) {
