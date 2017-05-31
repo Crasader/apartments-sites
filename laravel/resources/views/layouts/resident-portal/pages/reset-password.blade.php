@@ -1,6 +1,6 @@
         @extends($extends)
         @section('page-title-row')
-            @include('layouts/dinapoli/pages/resident-portal/inc/header')
+            @include('layouts/resident-portal/pages/inc/header')
         @stop
         @section('page-title-span','Resident / Reset Password')
         @section('content')
@@ -34,7 +34,7 @@
                                 <?php endif;?>
 								<div class="form-group">
                                     <label><i class="fa fa-user"></i> User Id</label>
-									<input type="text" class="form-control" name="txtUserId" data-validate="required" data-message-required="User ID is a required field."/>
+									<input type="text" class="form-control" name="txtUserId" data-validate="required" required data-msg-required="User ID is a required field."/>
 								</div>
                                 <div class='form-grou'>
                                     <a class='section-text-nullify resident-links' href='/resident-portal/find-userid'>Need User Id?</a>
@@ -59,7 +59,15 @@
             $(".nav-main-right a").on("click", function(){
    $(".nav-main-right").find(".active").removeClass("active");
    $(this).parent().addClass("active");
-});
+        });
+            amcBindValidate({
+                'form': '#form1',
+                'rules': {
+                    txtUserId: {
+                        required: true
+                    }
+                }
+            });
         
         });
         </script>

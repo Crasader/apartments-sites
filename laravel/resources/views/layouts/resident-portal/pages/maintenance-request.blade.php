@@ -3,6 +3,19 @@
             $residentName = Util::arrayGet($residentInfo,4). " " . Util::arrayGet($residentInfo,5);
             $residentUnitNumber = Util::arrayGet($residentInfo,3);
             $residentEmail = Util::arrayGet($residentInfo,7);
+            if(strlen(trim($residentName)) == 0){
+                if(env('ENVIRONMENT') == 'live'){
+                    Util::monoLog('Resident unit number is invalid for : ' . var_export($_SERVER,1) . '::' . var_export(get_defined_vars(),1), 'error');
+                }
+                $residentName = "";
+            }
+            if(strlen(trim($residentUnitNumber)) == 0){
+                if(env('ENVIRONMENT') == 'live'){
+                    Util::monoLog('Resident unit number is invalid for : ' . var_export($_SERVER,1) . '::' . var_export(get_defined_vars(),1), 'error');
+                }
+                $residentUnitNumber = "n/a";
+            }
+
         ?>
         @extends($extends)
         @section('page-title-span','Maintenance Request')
@@ -71,6 +84,7 @@
 								<div class="form-group">
 									<label>Unit Number</label>
 									<input type="text" class="form-control required"
+                                    readonly
                                     data-msg-required="Please Enter Your Unit Number"
                                     name="maintenance_unit" id="maintenance_unit" value="<?php echo $residentUnitNumber;?>" required>
 								</div>
