@@ -41,15 +41,15 @@
 				</div>
 				<div class="row">
 					<div class="col-md-6">
-						<p>Have an issue in your apartment? Complete a request for maintenance and a member of our team will service your apartment as quickly as possible.<br><br> 
-						To ensure that your issue is resolved promptly, please do not submit emergency service requests via the resident portal. 
+						<p>Have an issue in your apartment? Complete a request for maintenance and a member of our team will service your apartment as quickly as possible.<br><br>
+						To ensure that your issue is resolved promptly, please do not submit emergency service requests via the resident portal.
                         If you are experiencing a maintenance emergency, please call our office at <?php echo $entity->getPhone(); ?> and select the emergency maintenance line.</p>
 						<div class="schedule-a-tour-form form-container">
 							<form class="form-horizontal" id='form1' action="/resident-portal/maintenance-request" name="form1_<?php echo uniqid();?>" method="post">
 								<div class="form-group">
 									<label>Name</label>
 									<input type="hidden" name="maintenance_mtype" id="maintenance_mtype" value="Website - To Be Determined">
-									<input type="text" class="form-control required required" name="ResidentName" id="ResidentName" value="<?php echo $residentName;?>" required>
+									<input type="text" class="form-control required" name="ResidentName" id="ResidentName" value="<?php echo $residentName;?>" required>
 								</div>
 
 								<div class="form-group">
@@ -83,13 +83,15 @@
                                 {{csrf_field()}}
 								<div class="form-group">
 									<label>Describe the Problem</label><br>
-									<textarea name="maintenance_mrequest" id="maintenance_mrequest" cols=70 rows=10 required></textarea>
+									<textarea name="maintenance_mrequest" id="maintenance_mrequest" class="form-control" cols=70 rows=10 required></textarea>
 								</div>
-								<input type="submit" value="Submit" class="btn submit-btn">
+                                <div class="form-group">
+    								<input type="submit" value="Submit" class="btn submit-btn">
+                                </div>
 							</form>
 						</div>
 					</div>
-					
+
 				</div>
 			</div>
 		</section>
@@ -100,7 +102,7 @@
             $(".nav-main-right a").on("click", function(){
                $(".nav-main-right").find(".active").removeClass("active");
                $(this).parent().addClass("active");
-                        
+
             });
             amcBindValidate({
                 'form': '#form1',
@@ -120,7 +122,7 @@
 		    $("#date").datepicker({'format': 'mm/dd/yyyy'});
             $("#perm2enter").bind("click",function(){
                 if($(this).is(":checked")){
-                    $("#perm").slideDown(); 
+                    $("#perm").slideDown();
                     amcBindValidate({
                         'form': '#form1',
                         'rules': {
