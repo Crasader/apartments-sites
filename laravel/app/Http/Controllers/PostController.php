@@ -650,8 +650,6 @@ class PostController extends Controller
             $mail->from = $this->_getApartmentEmail();
             $mail->cc = $this->_getApartmentEmail();
             $mail->to = $to;
-            // util::dd(compact('finalArray'));
-            // $mail->html_body = view('layouts/dinapoli/email/user-confirm', $finalArray);
             $mail->html_body = Layout::getEmailTemplateView(
                 $finalArray['entity'],
                 'maintenance-request',
@@ -661,7 +659,9 @@ class PostController extends Controller
             $mail->save();
             $mail->addQueue();
         }
-        return redirect('/resident-portal/portal-center')->with('maint-sent','1');
+        return redirect('/resident-portal/portal-center')->with('maint-sent','1')
+            ->with('maint-workorder',Util::arrayGet($response,'WorkOrderNumber'))
+            ->with('maint-soapresponse',$response);
     }
 
     public function handleBriefContact(Request $req)

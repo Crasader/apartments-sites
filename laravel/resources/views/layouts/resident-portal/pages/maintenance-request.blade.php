@@ -116,7 +116,6 @@
 								<div class="form-group">
 									<label>Describe the Problem</label><br>
 									<textarea
-
                                     data-msg-required="Please Give A Brief Description Of The Problem"
                                     name="maintenance_mrequest" id="maintenance_mrequest" class="form-control" cols=70 rows=10 required></textarea>
 								</div>
@@ -152,7 +151,16 @@
                     maintenance_phone: {
                         required: true
                     }
+                },
+                errorPlacement: function(error, element) {
+                            if(element.prop('name') == 'PermissionToEnterDate'){
+                                 error.insertAfter(element.parent());
+                            } else {
+                                        console.log(element.prop('name'));
+                               error.insertAfter( element);
+                            }
                 }
+
             });
             amcMaskPhone('#maintenance_phone','(999) 999-9999');
 		    $("#date").datepicker({'format': 'mm/dd/yyyy'});

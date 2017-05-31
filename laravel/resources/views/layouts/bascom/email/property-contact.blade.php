@@ -1,3 +1,12 @@
+<?php //dd(get_defined_vars()); 
+use App\Util\Util as U;
+if(!isset($contact)){
+    $contact = U::arrayGet($data,'contact');
+}
+if(!isset($mode)){
+    U::monoLog('No mode in property-contact.blade.php!','error');
+}
+?>
 <!DOCTYPE html><html xmlns=http://www.w3.org/1999/xhtml><head><meta http-equiv=Content-Type content=text/html; charset=utf-8>
 <link href=http://www.400rhett.com/css/jquery-ui.min.css rel=stylesheet>
 <?php
@@ -106,6 +115,18 @@ Phone: <?php echo $contact['phone'];?> <br>
 Preferred floor plan: <?php echo $contact['floorplan'];?> <br>
 
 Action Requested: PRE-APPLICATION<br>
+<?php endif; ?>
+
+<?php if ($mode == 'resident-contact'): ?>
+Resident Name: <?php echo $contact['name'];?> <br>
+
+Email: <?php echo $contact['email'];?> <br>
+
+Phone: <?php echo $contact['phone'];?> <br>
+
+Memo: <?php echo $contact['memo'];?> <br>
+
+Action Requested: RESIDENT-CONTACT<br>
 <?php endif; ?>
 
 <br><br>
