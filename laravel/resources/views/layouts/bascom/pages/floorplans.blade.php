@@ -187,7 +187,6 @@ $displayOptions['dont-show-contact-details'] = 1;
 
                 </div>
             </section>
-            @include('layouts/bascom/pages/inc/epop')
         @stop
 
 

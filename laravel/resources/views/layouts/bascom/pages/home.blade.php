@@ -224,7 +224,7 @@ $displayOptions['dont-show-contact-details'] = true;
                              'filters' => ['community','main']
                         ];
                      ?>
-                    @include('layouts/dinapoli/pages/inc/gallery')
+                    @include('layouts/bascom/pages/inc/gallery')
                 </div>
             </section>
             <!-- End Gallery Section -->
@@ -254,14 +254,15 @@ $displayOptions['dont-show-contact-details'] = true;
                         <div style="overflow:hidden;max-width:100%;">
                             <div id="map-canvas"></div>
                         <div>
-                        @include('layouts/dinapoli/pages/inc/google-maps-script')
+                        @include('layouts/bascom/pages/inc/google-maps-script')
                     </div>
                 </div>
              </section>
             <!-- End Google Map -->
             @include('layouts/bascom/pages/inc/contact-details')
+            @include('layouts/bascom/pages/inc/epop')
         @stop
-
+        
 
         @section('schedule-a-tour')
             @include('layouts/bascom/pages/inc/schedule-a-tour')

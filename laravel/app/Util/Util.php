@@ -496,11 +496,12 @@ class Util
 
     public static function isHome()
     {
+        $req = self::requestUri();
         return (
-            preg_match("|^/index|", self::requestUri()) ||
-            preg_match("|^/home|", self::requestUri()) ||
-            self::requestUri() == '/' ||
-            strlen(self::requestUri()) == 0
+            preg_match("|^/index|", $req) ||
+            preg_match("|^/home|", $req) ||
+            preg_match("|^/[\\?]+|",$req)  ||
+            strlen($req) == 0
         );
     }
 
