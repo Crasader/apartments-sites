@@ -510,6 +510,7 @@ class Util
             preg_match("|^/index|", $req) ||
             preg_match("|^/home|", $req) ||
             preg_match("|^/[\\?]+|",$req)  ||
+            preg_match("|^/$|",$req) || 
             strlen($req) == 0
         );
     }
