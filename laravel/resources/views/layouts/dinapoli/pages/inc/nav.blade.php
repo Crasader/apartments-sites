@@ -11,6 +11,11 @@ try {
 } catch (\Exception $e) {
     $data = [];
 }
+
+$env = env('ENVIRONMENT');
+if (strlen($env) != 0 && $env != 'live') {
+    echo "<b>$env</b>";
+}
 ?>
 			<!-- Speacials Dropdown -->
             <?php if (isset($data['SpecialWebsite'])): ?>

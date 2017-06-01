@@ -19,7 +19,7 @@ class TrafficTest extends TestCase
     {
         $traffic = app()->make('App\AIM\Traffic');
         $exception = false;
-        try{
+        try {
             $traffic->insertTraffic("william",//first name
                 "merfalen", //last name
                 "william@marketapts.com",
@@ -31,12 +31,13 @@ class TrafficTest extends TestCase
                 "schedule-a-tour",
                 "10:00AM"
             );
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             $exception = true;
         }
     }
 
-	public function testTrafficIsInsertedFromContactForms(){
+    public function testTrafficIsInsertedFromContactForms()
+    {
         $response = $this->call('post', env('PHPUNIT_BASE_URL') . 'contact', $data = [
             'firstname' => 'William',
             'lastname' => 'Merfalen',
@@ -63,9 +64,9 @@ class TrafficTest extends TestCase
             'lname' => 'Merfalen',
             'email' => 'william@marketapts.com',
             'phone' => '(619) 379-2582',
-			'b' => base64_encode(json_encode(['u' => '501','t' => 'the breach']))
+            'b' => base64_encode(json_encode(['u' => '501','t' => 'the breach']))
         ], []);
-        $this->assertTrue($response->getStatusCode() == 302,"status code: " . $response->getStatusCode());
+        $this->assertTrue($response->getStatusCode() == 302, "status code: " . $response->getStatusCode());
 
         $response = $this->call('post', env('PHPUNIT_BASE_URL') . 'unit', $data = [
             'unittype' => 'William',
@@ -75,7 +76,5 @@ class TrafficTest extends TestCase
             'orig_unittype' => 'the studio',
         ], []);
         $this->assertTrue($response->exception == null);
-
-	}
-
+    }
 }

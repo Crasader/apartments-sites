@@ -61,7 +61,6 @@ trait PageResolver
             $data['fsid'] = $templateDir;
             $data['aliased'] = $aliased;
             $data['orig'] = $origPage;
-            Util::log("DATA supposedly: " . var_export($data, 1));
             return [
                 'path' => $this->resolveTemplatePath($templateDir, $page, $inData),
                 'data' => $this->resolveTemplateData($templateDir, $page, $inData, $data),
@@ -72,9 +71,6 @@ trait PageResolver
 
     public function resolveTemplatePath($templateDir, $page, $inData)
     {
-        if (isset($inData['resident-portal'])) {
-            return 'layouts/resident-portal/pages/' . str_replace('resident-portal/', "", $page);
-        }
         return "layouts/$templateDir/pages/$page";
     }
 

@@ -37,11 +37,14 @@ class Entity extends Model
         ];
         return implode('/', $rtn);
     }
+    /**
+     * createsNew Entity
+    */
     public function createNew(array $attributes, LegacyProperty $legacyProperty)
     {
-        $foo = $this->where('fk_legacy_property_id', $legacyProperty->id)->get();
-        if (count($foo)) {
-            foreach ($foo[0]->attributes as $i => $value) {
+        $foo = $this->where('fk_legacy_property_id', $legacyProperty->id)->first();
+        if ($foo) {
+            foreach ($foo->attributes as $i => $value) {
                 $this->$i = $value;
             }
             return $this;
@@ -54,7 +57,7 @@ class Entity extends Model
 
         $this->fk_legacy_property_id = $legacyProperty->id;
         try {
-            $templateName = $this->grabTemplateId(Util::serverName());
+            $templateName = $this->grabTemplateId(Util::realServerName());
             if ($templateName === null) {
                 throw new BaseException("Unable to find template for property");
             }
@@ -223,7 +226,9 @@ class Entity extends Model
     public function getCustomStyleSheets($page)
     {
         //return Util::redisFetchOrUpdate('clientside_assets_' . $page, function(){
-            $foo =  app()->make('App\Property\Clientside\Assets')->getStyleSheets(Site::$instance);
+            $foo =  app()
+                ->make('App\Property\Clientside\Assets')
+                ->getStyleSheets(Site::$instance);
         return $foo;
         //    },true);
     }
@@ -633,7 +638,11 @@ class Entity extends Model
             $text = null;
             $textTypes = TextType::select(['id'])->where('str_key', $name)->pluck('id')->toArray();
             if (count($textTypes)) {
-                $a = PropertyText::select('string_value')->where('property_text_type_id', $textTypes[0])->get()->pluck('string_value')->toArray();
+                $a = PropertyText::select('string_value')
+                    ->where('property_text_type_id', $textTypes[0])
+                    ->get()
+                    ->pluck('string_value')
+                    ->toArray();
                 $text = array_pop($a);
             }
             if (strlen($text) == 0 && isset($opts['oneshot'])) {

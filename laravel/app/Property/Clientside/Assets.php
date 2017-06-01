@@ -29,7 +29,10 @@ class Assets extends Model
         if ($site === null) {
             $site = app()->make('App\Property\Site');
         }
-        $all = $this->select('uri')->where('fk_property_id', $site->getEntity()->fk_legacy_property_id)
+        $all = $this
+            ->distinct()
+            ->select('uri')
+            ->where('fk_property_id', $site->getEntity()->fk_legacy_property_id)
             ->get()
             ->pluck('uri')
             ->toArray()
