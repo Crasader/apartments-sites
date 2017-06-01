@@ -678,7 +678,7 @@ class PostController extends Controller
             $mail->to = $to;
             $mail->html_body = Layout::getEmailTemplateView(
                 $finalArray['entity'],
-                'maintenance-request',
+                'resident-portal/maintenance-request',
                 $finalArray
             );
             $mail->subject = "Maintanance";
