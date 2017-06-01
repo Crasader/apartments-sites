@@ -72,7 +72,12 @@
                             If you are experiencing a maintenance emergency, please call our office at <?php echo $entity->getPhone(); ?> and select the emergency maintenance line.
                         </p>
 						<div class="col-md-12 schedule-a-tour-form form-container section-text">
-							<form class="form-horizontal" id='form1' action="/resident-portal/post-maintenance-request" name="form1_<?php echo uniqid();?>" method="post">
+							<form class="form-horizontal"
+                                id='form1'
+                                action="/resident-portal/post-maintenance-request"
+                                name="form1_<?php echo uniqid();?>"
+                                enctype="multipart/form-data"
+                                method="post">
 								<div class="form-group">
 									<label>Name</label>
 									<input type="hidden" name="maintenance_mtype" id="maintenance_mtype" value="Website - To Be Determined">
@@ -134,9 +139,33 @@
                                     name="maintenance_mrequest" id="maintenance_mrequest" class="form-control" cols=70 rows=10 required></textarea>
 								</div>
                                 <div class="form-group">
-    								<input type="submit" value="Submit" class="btn submit-btn">
+                                    <label class="btn btn-success" for="form-image">
+                                        <img id="form-image-prev" src="">
+                                        <span class="removable">
+                                            Add an Image
+                                        </span>
+                                    </label>
+                                    <input type="file" name="image[]" class="hidden" id="form-image">
+                                </div>
+                                <div class="form-group">
+    								<input type="submit" value="Submit" class="btn btn-success">
                                 </div>
 							</form>
+                            <script>
+                            function readURL(input) {
+                                if (input.files && input.files[0]) {
+                                    var reader = new FileReader();
+                                    reader.onload = function (e) {
+                                        $('#form-image-prev').attr('src', e.target.result);
+                                    }
+                                    reader.readAsDataURL(input.files[0]);
+                                }
+                            }
+                            $("#form-image").change(function(){
+                                $('.removable').remove();
+                                readURL(this);
+                            });
+                            </script>
 						</div>
 					</div>
 

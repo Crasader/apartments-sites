@@ -15,6 +15,19 @@ class S3Util
     const FLOORPLAN_BASE = 'floorplans';
     const BUCKET = 'mktapts';
     const LIVE_BASE = 'http://www.amclive/uploads';
+    public static function getS3Client(){
+        $options = [
+            'region'            => 'us-west-2',
+            'version'           => '2006-03-01',
+            'signature_version' => 'v4',
+            'credentials'   => [
+                'key' => ENV('AWS_KEY'),
+                'secret' => ENV('AWS_SECRET')
+            ]
+        ];
+
+        return new S3Client($options);
+    }
     public static function updatePhotos($site=null)
     {
         if ($site === null) {
@@ -30,18 +43,9 @@ class S3Util
         chdir($dir);
         echo shell_exec("whoami");
         $downloaded = [];
-        $options = [
-            'region'            => 'us-west-2',
-            'version'           => '2006-03-01',
-            'signature_version' => 'v4',
-            'credentials'   => [
-                'key' => ENV('AWS_KEY'),
-                'secret' => ENV('AWS_SECRET')
-            ]
-        ];
-
-        $s3Client = new S3Client($options);
+        $s3Client = self::getS3Client();
         shell_exec("rm -rf {$dir}/*");
+
         foreach (['photos' => [
                                 'base' => self::IMAGE_BASE,
                                 'target' => 'gallery'],

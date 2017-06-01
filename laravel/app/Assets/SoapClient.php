@@ -98,7 +98,7 @@ class SoapClient implements IDataFetcher
         $data_query->PermissionToEnterData = $postData['PermissionToEnterDate'];
 
         if (Utility::isDev()) {
-            return [ 'Status' => 'SUCCESS', 'WorkOrderNumber' => '1234TEST4321' ];
+            return [ 'Status' => 'SUCCESS', 'WorkOrderNumber' => 'TEST' . rand(1000, 9999) ];
         }
 
         try {

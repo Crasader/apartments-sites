@@ -23,6 +23,7 @@ use App\Mailer\Queue;
 use App\Util\UrlHelpers;
 use App\AIM\Traffic;
 use App\Template as Layout;
+use App\MaintenanceRequest;
 
 
 class PostController extends Controller
@@ -270,7 +271,7 @@ class PostController extends Controller
                 'property' => 'Resident Portal Contact Request for property: ' . $aptName,
                 'user' => 'Thank you for contacting '  . $aptName . ' Apartments',
             ],
-            'data' => 
+            'data' =>
                 Layout::getEmailTemplateView(
                 $finalArray['entity'],
                 'resident-portal/contact',
@@ -336,7 +337,7 @@ class PostController extends Controller
             ],
             'data' => view('layouts/dinapoli/email/user-confirm', $finalArray)
         ]);
-        
+
         $siteData = $this->resolvePageBySite('schedule-a-tour', []);
         $siteData['data']['sent'] = true;
 
@@ -349,7 +350,7 @@ class PostController extends Controller
         $contact->phone = $data['phone'];
         $contact->property_id = app()->make('App\Property\Site')->getEntity()->fk_legacy_property_id;
         $contact->save();
-        
+
         $siteData['data']['redirectConfig'] = $this->_fillApplyOnlineRedirectData();
         flash('Thanks! We will be in touch Soon!');
         $url = UrlHelpers::getUrl('/', [
@@ -424,7 +425,7 @@ class PostController extends Controller
         $contact->phone = $data['phone'];
         $contact->property_id = app()->make('App\Property\Site')->getEntity()->fk_legacy_property_id;
         $contact->save();
-        
+
 
         $finalArray = $this->_prefillArray($data);
         $finalArray['contact'] = $data;
@@ -630,15 +631,40 @@ class PostController extends Controller
             ]);
 
         $soap = app()->make('App\Assets\SoapClient');
+
+        $maintenanceRequest = new MaintenanceRequest;
+        $maintenanceRequest->resident_name = $data['ResidentName'];
+        $maintenanceRequest->maintenance_unit = $data['maintenance_unit'];
+        $maintenanceRequest->email = $data['email'];
+        $maintenanceRequest->property_code = Site::$instance->getEntity()->getLegacyProperty()->code;
+        $maintenanceRequest->maintenance_phone = $data['maintenance_phone'];
+        $maintenanceRequest->maintenance_name = $data['maintenance_name'];
+        $maintenanceRequest->permission_to_enter_date = $data['PermissionToEnterDate'];
+        $maintenanceRequest->maintenance_unit = $data['maintenance_unit'];
+        $maintenanceRequest->maintenance_mrequest = $data['maintenance_mrequest'];
+        $maintenanceRequest->save();
+        $maintenanceRequest
+            ->addAllmediaFromRequest()
+            ->each(function ($fileAdders) {
+                foreach($fileAdders as $fileAdder){
+                    $fileAdder
+                        ->toMediaCollection();
+                }
+            });
+
         $data = $this->decorateMaintenance($data);
 
-        $siteData = $this->resolvePageBySite('/resident-portal/maintenance-request', ['resident-portal' => true]);
+        $siteData = $this->resolvePageBySite(
+            '/resident-portal/maintenance-request',
+            ['resident-portal' => true]
+        );
         if (Util::isDev()) {
             $to = env("DEV_EMAIL");
         } else {
             $to = $data['email'];
         }
         $response = $soap->maintenanceRequest($data);
+        $maintenanceRequest->processSoapResponse($response);
         if ($response['Status'] == 'error') {
             $siteData['data']['maintenanceError'] = true;
         } else {
@@ -715,7 +741,7 @@ class PostController extends Controller
 
         $contact->property_id = app()->make('App\Property\Site')->getEntity()->fk_legacy_property_id;
         $contact->save();
-        
+
 
         $this->sendMultiContact('apply-online', [
             'user' => $data['email'],
