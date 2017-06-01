@@ -1,8 +1,17 @@
+        <?php use App\Util\Util;
+            /* If residentInfo is not set, that means the session most likely timed out */
+            if(!isset($residentInfo)){
+                die(Util::scriptRedirect('/resident-portal'));
+            }
+        ?>
         @extends($extends)
         @section('page-title-span','resident portal')
         @section('content')
-       
+
 		<section class="content">
+        <meta http-equiv="cache-control" content="private, max-age=0, no-cache">
+        <meta http-equiv="pragma" content="no-cache">
+        <meta http-equiv="expires" content="0">
 			<!-- Content Blocks -->
 			<div class="container">
 				<div class="row">
@@ -10,12 +19,17 @@
 						<div class="page-title">
 							<h1>Resident Portal</h1>
 							<div class="divder-teal"></div>
+                            <?php 
+                                if(session('maint-sent')){
+                                    echo "<h1 class='notice'>Your maintenance request has been successfully submitted</h1>";
+                                }
+                            ?>
 						</div>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-6">
-						<h4>Welcome <?php echo $residentInfo[4] . ' ' . $residentInfo[5];?>!</h4>
+						<h4>Welcome <?php echo Util::arrayGet($residentInfo,4) . ' ' . Util::arrayGet($residentInfo,5);?>!</h4>
 						<br>
 					</div>
 				</div>
@@ -41,6 +55,13 @@
 		                <img src="<?php echo $entity->getWebPublicCommon('amc_icon_contact.png');?>" />  <b>CONTACT THE OFFICE</b> </a>
 		             	<p>How can we help? Contact the leasing team with any questions or concerns.</p>
             			
+            		</div>
+		        </div>
+		        <div class="row">
+					<div class="col-md-6">
+                        <i class='icon-sad'></i>
+		             	<a href="/resident-portal/logout" class="resident_btn"><b>LOGOUT</b></a>
+            			<p>Log out of resident portal</p>
             		</div>
 		        </div>
 			</div>

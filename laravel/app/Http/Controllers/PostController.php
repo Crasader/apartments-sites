@@ -24,6 +24,7 @@ use App\Util\UrlHelpers;
 use App\AIM\Traffic;
 use App\Template as Layout;
 
+
 class PostController extends Controller
 {
     use PageResolver;
@@ -56,8 +57,8 @@ class PostController extends Controller
         /*==========================================================*/
         /* Routes that require authentication (done via middleware) */
         /*==========================================================*/
-        'resident-contact-mailer'   => 'handleResidentContact',
-        'maintenance-request'       => 'handleMaintenance',
+        'post-resident-contact-mailer'   => 'handleResidentContact',
+        'post-maintenance-request'       => 'handleMaintenance',
     ];
     protected $_translations = [];
     //
@@ -79,18 +80,7 @@ class PostController extends Controller
 
     public function sendMultiContact(string $mode, array $details)
     {
-        //hijack
-        $struct = new StructMail;
-        $queue = new Queue;
         try {
-            //TODO: !mailer modify this to use brady's queue
-            // $struct->to = $details['user'];
-            // $struct->subject = $details['subject']['user'];
-            // $struct->htmlBody = $details['data'];
-            // $struct->from =  MultiContact::getPropertyEmail();
-            // $struct->from = array_shift($struct->from);
-            // $struct->cc = json_encode([]);
-            // $queue->queueItem($struct);
             $email = new Email;
             $email->to = $details['user'];
             $email->subject = $details['subject']['user'];
@@ -105,16 +95,6 @@ class PostController extends Controller
         }
 
         try {
-            //TODO: !mailer modify this to use brady's queue
-            // $struct = new StructMail;
-            // $struct->to = MultiContact::getPropertyEmail();
-            // $struct->to = array_shift($struct->to);
-            // $struct->subject = $details['subject']['property'];
-            // $struct->htmlBody = MultiContact::getPropertyViewHtml('layouts/dinapoli/email/property-contact',$details['data']);
-            // $struct->from = $details['user'];
-            // $struct->cc = json_encode(MultiContact::getCcPropertyEmail());
-            // $queue->queueItem($struct);
-
             $email = new Email;
             $to = MultiContact::getPropertyEmail();
             $email->to = array_shift($to);
@@ -271,36 +251,34 @@ class PostController extends Controller
 
         $siteData = $this->resolvePageBySite('/resident-portal/contact-request', ['resident-portal' => true]);
         $to = $data['email'];
-        $data['mode'] = 'resident-contact';
-        $data['fname'] = explode(" ", $data['name'])[0];
-        $data['lname'] = explode(" ", $data['name'])[1];
-        $finalArray = $this->_prefillArray($data);
         $finalArray['contact'] = $data;
         $aptName = Site::$instance->getEntity()->getLegacyProperty()->name;
 
         $templateName = array_get($siteData, 'data.fsid');
-        $this->sendMultiContact('contact-request', [
-            'user' => $to,
-            'fromName' => $data['fname'] . " " . $data['lname'],
-            'contact' => $data,
-            'subject' => [
-                'property' => 'Resident Portal Contact Request for property: ' . $aptName,
-                'user' => 'Thank you for contacting '  . $aptName . ' Apartments',
-            ],
-            'data' =>
-Layout::getEmailTemplateView(
-                $finalArray['entity'],
-                'resident-portal/contact',
-                $finalArray
-            ),
-        ]);
         $siteData['data']['sent'] = true;
         $siteData['data']['name'] = $req->input('name');
         $siteData['data']['email'] = $req->input('email');
         $siteData['data']['phone'] =  (isset($data['phone']) && strlen($data['phone'])) ? $data['phone'] : "No phone number supplied";
         $siteData['data']['memo'] = (isset($data['memo']) && strlen($data['memo'])) ? $data['memo'] : "no memo supplied";
+        $finalArray = $this->_prefillArray($siteData);
+        $finalArray['mode'] = 'resident-contact';
+        $this->sendMultiContact('contact-request', [
+            'user' => $to,
+            'fromName' => $data['name'],
+            'contact' => $data,
+            'subject' => [
+                'property' => 'Resident Portal Contact Request for property: ' . $aptName,
+                'user' => 'Thank you for contacting '  . $aptName . ' Apartments',
+            ],
+            'data' => 
+                Layout::getEmailTemplateView(
+                $finalArray['entity'],
+                'resident-portal/contact',
+                $finalArray
+            ),
+        ]);
 
-        return view($siteData['path'], $siteData['data']);
+        return redirect('/resident-portal/contact-request')->with('sent','1');
     }
 
     public function handleSchedule(Request $req)
@@ -637,7 +615,6 @@ Layout::getEmailTemplateView(
     public function handleMaintenance(Request $req)
     {
         $data = $req->all();
-        $data = $req->all();
         Site::$instance = $this->_site = app()->make('App\Property\Site');
         if (Session::residentUserLoggedIn() === false) {
             return $this->residentNotLoggedIn();
@@ -648,7 +625,7 @@ Layout::getEmailTemplateView(
             'email' => 'required|max:128|email',
             'maintenance_phone' => 'required|max:14|regex:~\([0-9]{3}\) [0-9]{3}\-[0-9]{4}~',
             'maintenance_name' => 'max:64',
-            'PermissionToEnterDate' => 'date',
+            'PermissionToEnterDate' => 'max:15',
             'maintenance_mrequest' => 'required'
             ]);
 
@@ -671,22 +648,20 @@ Layout::getEmailTemplateView(
 
             $mail = new Email;
             $mail->from = $this->_getApartmentEmail();
-            $mail->cc = ['matt@marketapts.com',$this->_getApartmentEmail()];
+            $mail->cc = $this->_getApartmentEmail();
             $mail->to = $to;
-            // util::dd(compact('finalArray'));
-            // $mail->html_body = view('layouts/dinapoli/email/user-confirm', $finalArray);
             $mail->html_body = Layout::getEmailTemplateView(
                 $finalArray['entity'],
-                'user-confirm',
+                'maintenance-request',
                 $finalArray
             );
             $mail->subject = "Maintanance";
             $mail->save();
             $mail->addQueue();
         }
-        $siteData = $this->resolvePageBySite('resident-portal/portal-center', $finalArray);
-        $siteData['data']['sent'] = true;
-        return view($siteData['path'], $siteData['data']);
+        return redirect('/resident-portal/portal-center')->with('maint-sent','1')
+            ->with('maint-workorder',Util::arrayGet($response,'WorkOrderNumber'))
+            ->with('maint-soapresponse',$response);
     }
 
     public function handleBriefContact(Request $req)

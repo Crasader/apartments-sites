@@ -1,17 +1,17 @@
         <?php
-            $residentName = "john doe"; //TODO  !launch
-            $residentEmail = "foo@gmail.com"; //TODO !launch
-            ?>
+            use App\Property\Template as PropertyTemplate;
+        ?>
         @extends($extends)
+
         @section('content')
+
 		<!-- Content -->
 		<section class="content">
 			<!-- Content Blocks -->
 			<div class="container">
                     <div class="section-text mb-50 mb-sm-20">
                         <div class="row mt-50">
-                            <?php if (isset($sent)): ?><h1 class="notice">Your contact information has been submitted</h1>
-                            <?php elseif (isset($invalidRecaptcha)): ?><h1 class="error">Invalid ReCaptcha</h1>
+                            <?php if (session('sent')): ?><h1 class="notice">Your contact information has been submitted</h1>
                             <?php else: ?>
                                 <div class="col-md-12">
                                     <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Contact Us</h1>
@@ -23,24 +23,25 @@
                                 </div>
                             <?php endif; ?>
                             <div class="col-md-7 col-sm-7 mb-sm-50 mb-xs-30">
-                                <form id="form1" method="post" action="/resident-portal/resident-contact-mailer">
+                                <form id="form1" method="post" action="/resident-portal/post-resident-contact-mailer">
                                     <div class="mb-20 mb-md-10 form-group">
                                         <label>Name</label>
-                                        <input type="text" name="name" id="ResidentName"
+                                        <input type="text" name="name" id="ResidentName" required
                                         data-msg-required="Please Enter your Name"
-                                        class="input-md form-control" maxlength="100">
+                                        class="input-md form-control" maxlength="100"
+                                        <?php if(isset($residentName)):?> value="<?php echo $residentName;?>"<?php endif;?>>
                                     </div>
                                     <div class="mb-20 mb-md-10 form-group">
                                         <label>Email</label>
                                         <input type="text" name="email" id="email" class="input-md form-control"
-                                        data-msg-required="Please Enter Your Email"
+                                        data-msg-required="Please Enter Your Email" required
                                         maxlength="100">
                                     </div>
                                     <div class="mb-20 mb-md-10 form-group">
                                         <label>Phone</label>
                                         <input type="text" name="phone" id="phone" class="input-md form-control"
                                         data-msg-required="Please Enter The Best Phone Number to Reach You"
-                                         maxlength="100">
+                                         maxlength="100" required>
                                     </div>
                                     <label for="date">Memo</label>
                                     <textarea name="memo" id="memo" class="form-control"
@@ -86,7 +87,7 @@
                     </div>
 		</section>
         @stop
-        
+
         @section('page-specific-js')
 		<script type='text/javascript'>
         $(document).ready(function() {
@@ -94,6 +95,15 @@
                $(".nav-main-right").find(".active").removeClass("active");
                $(this).parent().addClass("active");
             });
+            amcBindValidate({
+                'form': '#form1',
+                'rules': {
+                    'ResidentName': 'required',
+                    'email': 'required',
+                    'phone': 'required'
+                }
+            });
+            amcMaskPhone('#phone','(999) 999-9999');
         });
         </script>
         @stop

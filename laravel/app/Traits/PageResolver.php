@@ -22,12 +22,13 @@ trait PageResolver
         'contact-request',
     ];
 
+    protected $_redirect = null;
+
     /*
      * The following protected variable comes from the App\Trait\RedirectHooks trait 
      * and is used by $this->resolve()
-    protected $_redirectHooks = [
-        
-    ];
+     * protected $_redirectHooks = [
+     * ];
     */
     public function resolve($page = 'home')
     {
@@ -36,13 +37,17 @@ trait PageResolver
                 return $this->dispatchRedirectHook($page);
             }
             $data = $this->resolvePageBySite($page);
-            return view($data['path'], $data['data']);
+            if(Util::arrayGet($data,'redirect')){
+                return redirect(Util::arrayGet($data,'redirect'));
+            }
+            return view(Util::arrayGet($data,'path'), $data['data']);
         } catch (BaseException $e) {
             return view("404");
         }
     }
-    public function resolvePageBySite(string $page, $inData = null) : array
+    public function resolvePageBySite(string $page, $inData = null)
     {
+        $this->_redirect = null;
         $this->_site = app()->make('App\Property\Site');
         if (!$this->_site->id) {
             $this->_site = app()->make("App\Property\Site");
@@ -79,33 +84,41 @@ trait PageResolver
             $data['fsid'] = $templateDir;
             $data['aliased'] = $aliased;
             $data['orig'] = $origPage;
-
+            
             return [
                 'path' => $this->resolveTemplatePath($templateDir, $data, $page, $inData),
                 'data' => $this->resolveTemplateData($templateDir, $page, $inData, $data),
+                'redirect' => $this->_redirect,
             ];
         }
         return [];
     }
 
-    public function isGuarded($data,$inData){
+
+    public function isGuarded($data,$inData) : bool{
         $page = str_replace('/resident-portal/','',$data['page']);
-        if(in_array($page,array_keys($this->_guardedResidentPages)) && Sesh::get(Sesh::RESIDENT_USER_KEY) == null){
-            return false;
-        }
-        return true;
+        return in_array($page,$this->_guardedResidentPages);
     }
 
     public function resolveTemplatePath($templateDir, $data,$page, $inData)
     {
         if (isset($inData['resident-portal'])) {
-            if(!$this->isGuarded($data,$inData)){
-                return 'layouts/' . $data['fsid'] . '/pages/resident-portal';
+            /*
+             * If the particular page should be guarded (user has to be authenticated), and the user is not authenticated, 
+             * then return them to the resident portal
+             */
+            if($this->isGuarded($data,$inData) && Sesh::residentUserLoggedIn() == false){
+                $this->_redirect = '/resident-portal';
+                return null;
             }
+            /*
+             * If the user is logged in and they are attempting to access the portal center
+             */
             if(Sesh::get(Sesh::RESIDENT_USER_KEY) !== null && preg_match("|/portal\-center|",$data['page'])){
-                return 'layouts/' . $data['fsid'] . '/pages/resident-portal/portal-center';
+                return "layouts/$templateDir/pages/resident-portal/portal-center";
             }
-            return 'layouts/resident-portal/pages/' . str_replace('resident-portal/', "", $page);
+            return "layouts/$templateDir/pages/resident-portal/" . str_replace('resident-portal/', "", $page);
+
         }
         return "layouts/$templateDir/pages/$page";
     }

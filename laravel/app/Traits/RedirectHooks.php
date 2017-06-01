@@ -33,10 +33,14 @@ trait RedirectHooks
              * if the user is logged in and they came from the portal center page, don't redirect them.
              * instead, let them see the resident login page
              */
-            if(preg_match("|/resident\-center/|",$_SERVER['HTTP_REFERER']) && Sesh::residentUserSet()){
+            if(Sesh::residentUserLoggedIn() && preg_match("|/resident\-center/|",Util::arrayGet($_SERVER,'HTTP_REFERER',null))){
                 return false;
             }
-            return true;
+
+            /*
+             * If the user is not logged in, don't redirect them anywhere, just let them see the resident portal login
+             */
+            return Sesh::residentUserLoggedIn();
         }
         /*
          * Dispatch mode is where we return the redirect. We have to return a redirect, or atleast 
@@ -48,12 +52,24 @@ trait RedirectHooks
 
     }
 
-    public function hasRedirectHooks(string $page){
-        if(isset($this->_redirectHooks[$page]) == false){
+    public function hasRedirectHooks($page){
+        $strPage = null;
+        if(is_object($page) && method_exists($page,"getPathInfo")){
+            $strPage = $page->getPathInfo();
+        }
+        if(is_string($page)){
+            $strPage = $page;
+        }
+        if(!$strPage){
+            Util::monolog("hasRedirectHooks caught possible invalid page type: " . gettype($page),'warning');
             return false;
         }
-        return $this->{$this->_redirectHooks[$page]}('determine');
+        if(!isset($this->_redirectHooks[$strPage])){
+            return false;
+        }
+        return $this->{$this->_redirectHooks[$strPage]}('determine');
     }
+            
 
     public function dispatchRedirectHook(string $page){
         return $this->{$this->_redirectHooks[$page]}('dispatch');

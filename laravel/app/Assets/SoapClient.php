@@ -120,7 +120,10 @@ class SoapClient implements IDataFetcher
                     ];
             }
         } catch (SoapFault $e) {
-            die($e->getMessage());
+            return ['Status' => 'error',
+                'data' => $e->getMessage(),
+                'exception' => true
+            ];
         }
         \Debugbar::info($arrResult);
     }
@@ -151,7 +154,6 @@ class SoapClient implements IDataFetcher
         if (Mock::get(Mock::PROPERTY_CODE) !== null) {
             $propertyCode = Mock::get(Mock::PROPERTY_CODE);
         }
-        echo $propertyCode;
         $data_query->PropertyCode = $propertyCode;
         $data_query->EmailAddress = $email;
         $data_query->UnitNumber = $unit;
