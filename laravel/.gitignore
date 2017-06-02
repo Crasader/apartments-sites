@@ -31,4 +31,5 @@ composer.phar
 config/will.pub
 config/dinapoli-domains.txt
 phpctags
-
+config/https-exceptions.json
+config/server-template-file.json
