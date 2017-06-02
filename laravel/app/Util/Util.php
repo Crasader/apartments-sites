@@ -20,7 +20,8 @@ class Util
      * Returns a script tag to redirect the user to the specified page
      * @param $page string URI to redirect to
      */
-    public static function scriptRedirect(string $page){
+    public static function scriptRedirect(string $page)
+    {
         return '<script type="text/javascript">location.href="' . $page . '";</script>';
     }
 
@@ -509,8 +510,8 @@ class Util
         return (
             preg_match("|^/index|", $req) ||
             preg_match("|^/home|", $req) ||
-            preg_match("|^/[\\?]+|",$req)  ||
-            preg_match("|^/$|",$req) || 
+            preg_match("|^/[\\?]+|", $req)  ||
+            preg_match("|^/$|", $req) ||
             strlen($req) == 0
         );
     }

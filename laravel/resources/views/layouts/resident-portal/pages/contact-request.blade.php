@@ -1,6 +1,7 @@
         <?php
             use App\Property\Template as PropertyTemplate;
-        ?>
+
+?>
         @extends($extends)
 
         @section('content')
@@ -29,7 +30,7 @@
                                         <input type="text" name="name" id="ResidentName" required
                                         data-msg-required="Please Enter your Name"
                                         class="input-md form-control" maxlength="100"
-                                        <?php if(isset($residentName)):?> value="<?php echo $residentName;?>"<?php endif;?>>
+                                        <?php if (isset($residentName)):?> value="<?php echo $residentName;?>"<?php endif;?>>
                                     </div>
                                     <div class="mb-20 mb-md-10 form-group">
                                         <label>Email</label>

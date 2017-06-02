@@ -15,7 +15,8 @@ class S3Util
     const FLOORPLAN_BASE = 'floorplans';
     const BUCKET = 'mktapts';
     const LIVE_BASE = 'http://www.amclive/uploads';
-    public static function getS3Client(){
+    public static function getS3Client()
+    {
         $options = [
             'region'            => 'us-west-2',
             'version'           => '2006-03-01',

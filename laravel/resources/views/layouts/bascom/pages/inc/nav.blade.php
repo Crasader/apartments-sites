@@ -62,7 +62,7 @@ $env = env('ENVIRONMENT');
                 </div>
             </div>
             <?php
-            if(!Util::isHome()){
+            if (!Util::isHome()) {
                 echo "</section>";
             }
             ?>
@@ -94,7 +94,7 @@ $env = env('ENVIRONMENT');
             </nav>
             <!-- End Nav-->
             @yield('after-nav')
-            <?php if(Util::isHome()){
+            <?php if (Util::isHome()) {
                 echo "</section>";
             }
             ?>

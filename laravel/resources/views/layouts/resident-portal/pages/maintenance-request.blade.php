@@ -1,17 +1,18 @@
         <?php use App\Util\Util;
-        //TODO: fill these in !important
-            $residentName = Util::arrayGet($residentInfo,4). " " . Util::arrayGet($residentInfo,5);
-            $residentUnitNumber = Util::arrayGet($residentInfo,3);
-            $residentEmail = Util::arrayGet($residentInfo,7);
-            if(strlen(trim($residentName)) == 0){
-                if(env('ENVIRONMENT') == 'live'){
-                    Util::monoLog('Resident unit number is invalid for : ' . var_export($_SERVER,1) . '::' . var_export(get_defined_vars(),1), 'error');
+
+//TODO: fill these in !important
+            $residentName = Util::arrayGet($residentInfo, 4). " " . Util::arrayGet($residentInfo, 5);
+            $residentUnitNumber = Util::arrayGet($residentInfo, 3);
+            $residentEmail = Util::arrayGet($residentInfo, 7);
+            if (strlen(trim($residentName)) == 0) {
+                if (env('ENVIRONMENT') == 'live') {
+                    Util::monoLog('Resident unit number is invalid for : ' . var_export($_SERVER, 1) . '::' . var_export(get_defined_vars(), 1), 'error');
                 }
                 $residentName = "";
             }
-            if(strlen(trim($residentUnitNumber)) == 0){
-                if(env('ENVIRONMENT') == 'live'){
-                    Util::monoLog('Resident unit number is invalid for : ' . var_export($_SERVER,1) . '::' . var_export(get_defined_vars(),1), 'error');
+            if (strlen(trim($residentUnitNumber)) == 0) {
+                if (env('ENVIRONMENT') == 'live') {
+                    Util::monoLog('Resident unit number is invalid for : ' . var_export($_SERVER, 1) . '::' . var_export(get_defined_vars(), 1), 'error');
                 }
                 $residentUnitNumber = "n/a";
             }
@@ -43,7 +44,7 @@
                     if (isset($workOrder)) {
                         if ($workOrder['Status'] == "SUCCESS") {
                             echo "<h1 class='notice'>Your work order was successfully submited</h1>";
-                            echo "<div class='info'>Your Work Order Number is: " . Util::arrayGet($workOrder,'WorkOrderNumber') . "</div>";
+                            echo "<div class='info'>Your Work Order Number is: " . Util::arrayGet($workOrder, 'WorkOrderNumber') . "</div>";
                         } else {
                             echo "<h1 class='error'>We were unable to process your work order.</h1>";
                             echo "<div class='error'>If this problem persists, please contact us</div>";
@@ -52,7 +53,7 @@
                     if (isset($error)) {
                         echo "<h1 class='error'>$error</h1>";
                     }
-                    if(session('maint-sent')){
+                    if (session('maint-sent')) {
                         echo "<h1 class='notice'>Your maintenance request has been successfully submitted</h1>";
                     }
                 ?>

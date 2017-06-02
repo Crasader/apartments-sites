@@ -12,7 +12,8 @@ class MaintenanceRequest extends Model implements HasMedia
 {
     use HasMediaTrait;
     use S3Media;
-    public function getS3Path(){
+    public function getS3Path()
+    {
         $sessionInfo = explode('|', Sesh::get(Sesh::RESIDENT_USER_KEY));
         $sessionInfo = json_decode($sessionInfo[1]);
         $residentId = $sessionInfo[2];
@@ -25,8 +26,8 @@ class MaintenanceRequest extends Model implements HasMedia
         ];
         return implode('/', $rtn);
     }
-    public function processSoapResponse($response){
-
+    public function processSoapResponse($response)
+    {
         $this->status = array_get($response, 'Status');
         $this->work_order_number = array_get($response, 'WorkOrderNumber');
         $this->save();
