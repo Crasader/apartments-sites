@@ -23,17 +23,18 @@ trait RedirectHooks
         'resident-portal' => 'rh_residentPortal',
     ];
 
-    private function rh_residentPortal(string $mode){
+    private function rh_residentPortal(string $mode)
+    {
         /*
-         * If the mode is 'determine' then this is the chance for this redirect hook function to 
+         * If the mode is 'determine' then this is the chance for this redirect hook function to
          * determine if we indeed have redirects for the given page
          */
-        if($mode == 'determine'){
+        if ($mode == 'determine') {
             /*
              * if the user is logged in and they came from the portal center page, don't redirect them.
              * instead, let them see the resident login page
              */
-            if(Sesh::residentUserLoggedIn() && preg_match("|/resident\-center/|",Util::arrayGet($_SERVER,'HTTP_REFERER',null))){
+            if (Sesh::residentUserLoggedIn() && preg_match("|/resident\-center/|", Util::arrayGet($_SERVER, 'HTTP_REFERER', null))) {
                 return false;
             }
 
@@ -43,35 +44,36 @@ trait RedirectHooks
             return Sesh::residentUserLoggedIn();
         }
         /*
-         * Dispatch mode is where we return the redirect. We have to return a redirect, or atleast 
+         * Dispatch mode is where we return the redirect. We have to return a redirect, or atleast
          * a view. So return redirect() or return view()
          */
-        if($mode == 'dispatch'){
+        if ($mode == 'dispatch') {
             return redirect('/resident-portal/portal-center');
         }
-
     }
 
-    public function hasRedirectHooks($page){
+    public function hasRedirectHooks($page)
+    {
         $strPage = null;
-        if(is_object($page) && method_exists($page,"getPathInfo")){
+        if (is_object($page) && method_exists($page, "getPathInfo")) {
             $strPage = $page->getPathInfo();
         }
-        if(is_string($page)){
+        if (is_string($page)) {
             $strPage = $page;
         }
-        if(!$strPage){
-            Util::monolog("hasRedirectHooks caught possible invalid page type: " . gettype($page),'warning');
+        if (!$strPage) {
+            Util::monolog("hasRedirectHooks caught possible invalid page type: " . gettype($page), 'warning');
             return false;
         }
-        if(!isset($this->_redirectHooks[$strPage])){
+        if (!isset($this->_redirectHooks[$strPage])) {
             return false;
         }
         return $this->{$this->_redirectHooks[$strPage]}('determine');
     }
             
 
-    public function dispatchRedirectHook(string $page){
+    public function dispatchRedirectHook(string $page)
+    {
         return $this->{$this->_redirectHooks[$page]}('dispatch');
     }
 }

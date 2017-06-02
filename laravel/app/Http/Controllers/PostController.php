@@ -25,7 +25,6 @@ use App\AIM\Traffic;
 use App\Template as Layout;
 use App\MaintenanceRequest;
 
-
 class PostController extends Controller
 {
     use PageResolver;
@@ -103,7 +102,7 @@ class PostController extends Controller
 
             $site = app()->make('App\Property\Site');
             $entity = $site->getEntity();
-            $path = Layout::getEmailTemplatePath($entity,'property-contact');
+            $path = Layout::getEmailTemplatePath($entity, 'property-contact');
 
             $email->html_body = MultiContact::getPropertyViewHtml(
                 'layouts/dinapoli/email/property-contact', $details['data']);
@@ -279,7 +278,7 @@ class PostController extends Controller
             ),
         ]);
 
-        return redirect('/resident-portal/contact-request')->with('sent','1');
+        return redirect('/resident-portal/contact-request')->with('sent', '1');
     }
 
     public function handleSchedule(Request $req)
@@ -345,7 +344,7 @@ class PostController extends Controller
         $contact->first_name = $data['firstname'];
         $contact->last_name = $data['lastname'];
         $contact->email = $data['email'];
-        $contact->howcontact = var_export(['email'],1);
+        $contact->howcontact = var_export(['email'], 1);
         $contact->when = $data['visitdate'] . " " . $data['visittime'];
         $contact->phone = $data['phone'];
         $contact->property_id = app()->make('App\Property\Site')->getEntity()->fk_legacy_property_id;
@@ -390,14 +389,14 @@ class PostController extends Controller
         /*
          * unpack base64 encoded json
          */
-        if(isset($data['b'])){
+        if (isset($data['b'])) {
             $unpacked = base64_decode($data['b']);
             $json = json_decode($unpacked, true);
         }
-        if(!isset($json['u'])){
+        if (!isset($json['u'])) {
             $json['u'] = '';
         }
-        if(!isset($json['t'])){
+        if (!isset($json['t'])) {
             $json['t'] = '';
         }
         /*
@@ -420,7 +419,7 @@ class PostController extends Controller
         $contact->first_name = $data['fname'];
         $contact->last_name = $data['lname'];
         $contact->email = $data['email'];
-        $contact->howcontact = var_export(['email'],1);
+        $contact->howcontact = var_export(['email'], 1);
         //$contact->when = $data['visitdate'] . " " . $data['visittime'];
         $contact->phone = $data['phone'];
         $contact->property_id = app()->make('App\Property\Site')->getEntity()->fk_legacy_property_id;
@@ -646,7 +645,7 @@ class PostController extends Controller
         $maintenanceRequest
             ->addAllmediaFromRequest()
             ->each(function ($fileAdders) {
-                foreach($fileAdders as $fileAdder){
+                foreach ($fileAdders as $fileAdder) {
                     $fileAdder
                         ->toMediaCollection();
                 }
@@ -685,9 +684,9 @@ class PostController extends Controller
             $mail->save();
             $mail->addQueue();
         }
-        return redirect('/resident-portal/portal-center')->with('maint-sent','1')
-            ->with('maint-workorder',Util::arrayGet($response,'WorkOrderNumber'))
-            ->with('maint-soapresponse',$response);
+        return redirect('/resident-portal/portal-center')->with('maint-sent', '1')
+            ->with('maint-workorder', Util::arrayGet($response, 'WorkOrderNumber'))
+            ->with('maint-soapresponse', $response);
     }
 
     public function handleBriefContact(Request $req)
@@ -735,7 +734,7 @@ class PostController extends Controller
         $contact->first_name = $data['name'];
         $contact->last_name = $data['name'];
         $contact->email = $data['email'];
-        $contact->howcontact = var_export(['email'],1);
+        $contact->howcontact = var_export(['email'], 1);
         //$contact->when = $data['visitdate'] . " " . $data['visittime'];
         //$contact->phone = $data['phone'];
 
@@ -887,7 +886,7 @@ class PostController extends Controller
         }
         $user = substr($data['email'], 0, 64);
         $pass = substr($data['pass'], 0, 64);
-        \Debugbar::info($user,$pass);
+        \Debugbar::info($user, $pass);
         $soap = app()->make('App\Assets\SoapClient');
         Util::monoLog(
             "Resident portal return: " .      print_r(compact('user', 'pass', 'soap'), 1)
@@ -902,10 +901,10 @@ class PostController extends Controller
             Session::residentUserSet($user . ':' . md5($pass) . "|" . json_encode($result));
             $extra = ['resident-portal' => true];
             $siteData['data']['residentInfo'] = $result;
-            return redirect('/resident-portal/portal-center')->with('residentInfo',$result);
+            return redirect('/resident-portal/portal-center')->with('residentInfo', $result);
         } else {
             Session::residentUserUnset();
-            return redirect('/resident-portal/')->with('residentFailed',true);
+            return redirect('/resident-portal/')->with('residentFailed', true);
         }
     }
 }

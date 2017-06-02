@@ -84,7 +84,7 @@ Route::get('/s3', function () {
 
 Route::get('/{page}', 'SiteController@resolve')->middleware('https');
 Route::get('/', 'SiteController@resolve')->middleware('https');
-Route::get('/resident-portal/logout',function(){
+Route::get('/resident-portal/logout', function () {
     \App\System\Session::residentUserUnset();
     return redirect('/resident-portal/');
 });

@@ -23,16 +23,16 @@ class SiteController extends Controller
     public function resolveResident(Request $req)
     {
         try {
-            if($this->hasRedirectHooks($req)){
+            if ($this->hasRedirectHooks($req)) {
                 return $this->dispatchRedirectHooks($req);
             }
             Util::log("Resolved page by site", ['log' => 'sitecontroller']);
             $data = $this->resolvePageBySite($req->getRequestUri(), ['resident-portal' => true]);
             Util::log("Resolved page by site: " . var_export($data, 1), ['log' => 'sitecontroller']);
-            if($data['redirect']){
-                return redirect(Util::arrayGet($data,'redirect'));
+            if ($data['redirect']) {
+                return redirect(Util::arrayGet($data, 'redirect'));
             }
-            return view(Util::arrayGet($data,'path'), $data['data']);
+            return view(Util::arrayGet($data, 'path'), $data['data']);
         } catch (Exception $e) {
             //TODO: catch this !launch
             Util::log('EXCEPTION CAUGHT: ' . $e->getMessage(), ['log' => 'sitecontroller']);

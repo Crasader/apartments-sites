@@ -1,6 +1,7 @@
         <?php use App\Util\Util;
-            /* If residentInfo is not set, that means the session most likely timed out */
-            if(!isset($residentInfo)){
+
+/* If residentInfo is not set, that means the session most likely timed out */
+            if (!isset($residentInfo)) {
                 die(Util::scriptRedirect('/resident-portal'));
             }
         ?>
@@ -20,7 +21,7 @@
 							<h1>Resident Portal</h1>
 							<div class="divder-teal"></div>
                             <?php 
-                                if(session('maint-sent')){
+                                if (session('maint-sent')) {
                                     echo "<h1 class='notice'>Your maintenance request has been successfully submitted</h1>";
                                 }
                             ?>
@@ -29,7 +30,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-6">
-						<h4>Welcome <?php echo Util::arrayGet($residentInfo,4) . ' ' . Util::arrayGet($residentInfo,5);?>!</h4>
+						<h4>Welcome <?php echo Util::arrayGet($residentInfo, 4) . ' ' . Util::arrayGet($residentInfo, 5);?>!</h4>
 						<br>
 					</div>
 				</div>

@@ -50,8 +50,8 @@
                     OUR SPECIAL
             </div>
             <div class="epop-message">
-            <h1 id="epop-message-h1"><?php echo $entity->getText('epopup-message-1',['oneshot' => 'Awesome new special goes here :)']);?></h1>
-            <h3 id="epop-message-h3"><?php echo $entity->getText('epopup-message-2',['oneshot' => 'Sub text goes here']);?></h3>
+            <h1 id="epop-message-h1"><?php echo $entity->getText('epopup-message-1', ['oneshot' => 'Awesome new special goes here :)']);?></h1>
+            <h3 id="epop-message-h3"><?php echo $entity->getText('epopup-message-2', ['oneshot' => 'Sub text goes here']);?></h3>
             </div>
             <div class="epop-button">
                 <a href="/apply-online" class="btn btn-brown btn-mod btn-block">See Floorplans</a>
