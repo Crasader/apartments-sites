@@ -111,7 +111,7 @@
                                                 <div class="map">
                                                     <div class="map-container">
                                                         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script> 
-                                                        <div style="height:537px;overflow:hidden;max-width:100%;">
+                                                        <div style="overflow:hidden;max-width:100%;">
                                                             <div id="map-canvas" style="max-width:100%;"></div>
                                                         <div>
                                                     @include('layouts/bascom/pages/inc/google-maps-script')
