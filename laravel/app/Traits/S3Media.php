@@ -15,14 +15,19 @@ trait S3Media
         foreach($medias as $media){
             $path = $this->getS3Path();
             $file_name = "{$path}/{$media->file_name}";
-            $s3Client = $s3Client->putObject( [
+            $sourceFile = $media->getPath();
+            $s3Client = $s3Client->putObject([
                 'Bucket' => S3Util::BUCKET,
                 'Key' => $file_name,
-                'sourceFile' => $media->file_name,
+                'SourceFile' => $sourceFile,
                 'ACL' => 'public-read',
             ]);
             $media->file_name = $file_name;
             $media->save();
+            $sourceFile = $media->getPath();
+            $media->disk="s3";
+            $media->save();
+            unlink($sourceFile);
         }
     }
 }

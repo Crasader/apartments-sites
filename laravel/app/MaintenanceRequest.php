@@ -31,5 +31,6 @@ class MaintenanceRequest extends Model implements HasMedia
         $this->work_order_number = array_get($response, 'WorkOrderNumber');
         $this->save();
         $this->sendMediaToS3();
+        // die('test');
     }
 }
