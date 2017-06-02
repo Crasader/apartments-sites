@@ -7,6 +7,7 @@ use App\Property\Entity;
 use App\Property\Site;
 use Illuminate\Http\Request;
 use App\Mailer;
+use Illuminate\Support\Facades\Log;
 
 class Util
 {
@@ -14,6 +15,63 @@ class Util
             '^staging\.','^will\.','^brady\.','^\dev\.','^matt\.'
     ];
 
+
+    /**
+     * Returns a script tag to redirect the user to the specified page
+     * @param $page string URI to redirect to
+     */
+    public static function scriptRedirect(string $page){
+        return '<script type="text/javascript">location.href="' . $page . '";</script>';
+    }
+
+    /**
+     *   Function arrayGet: Processes laravel's array_get, if default is returned, logs it
+     *   @param $array array
+     *   @param $item string
+     *   @param $default string|number|null
+    **/
+    public static function arrayGet($array, $item, $default = null)
+    {
+        $rtn = array_get($array, $item, $default);
+        if ($default === $rtn) {
+            $info = Util::getPrevLineFile(2);
+            extract($info); //grab line, file
+            Util::monoLog("arrayGet returned default at {$file}:{$line}");
+        }
+        return $rtn;
+    }
+    /**
+     *   Function MonoLog: simple wrapper around Laravel's MonoLog
+     *   @param $message string
+     *   @param $type string
+     *   $type options
+     *     'emergency';
+     *     'alert';
+     *     'critical';
+     *     'error';
+     *     'warning';
+     *     'notice'; DEFAULT
+     *     'info';
+     *     'debug';
+    **/
+    public static function monoLog($message, $type = 'notice')
+    {
+        if (is_array($type)) {
+            $args = $type;
+            $type = array_get($type, 'type', 'notice');
+        } else {
+            $args = [];
+        }
+        $heading = array_get($args, 'heading',
+            array_get($args, 'log', 'monolog')
+        );
+        $message = strtoupper($heading . ': ' . $message);
+        if ($type == 'critical' || $type == 'emergency') {
+            mail('bvfbarten@gmail.com', ucfirst($type) . ' Alert', $message);
+            mail('wmerfalen@gmail.com', ucfirst($type) . ' Alert', $message);
+        }
+        Log::{$type}($message);
+    }
     public static function isWwwDomain()
     {
         $server = self::serverName();
@@ -146,14 +204,19 @@ class Util
             return false;
         }
     }
-
+    public static function getPrevLineFile($depth = 1)
+    {
+        $info = debug_backtrace();
+        $line = array_get($info, "{$depth}.line");
+        $file = array_get($info, "{$depth}.file");
+        return compact('line', 'file');
+    }
     public static function dd($item)
     {
         if (env('APP_DEBUG')) {
-            $info = debug_backtrace();
-            $line = array_get($info, "0.line");
-            $file = array_get($info, "0.file");
-            dd(compact('line', 'file', 'item'));
+            $info = util::getPrevLineFile();
+            $info['item'] = $item;
+            dd($info);
         }
     }
     public static function requestUri()
@@ -320,18 +383,9 @@ class Util
         Redis::set(self::redisKey($foo), $bar);
     }
 
-    public static function log(string $foo, $opts = null)
+    public static function log(string $foo, $opts = [])
     {
-        if (isset($opts['log'])) {
-            $file = storage_path() . "/logs/log-" . $opts['log'] . ".log";
-            if (!file_exists($file)) {
-                shell_exec("touch $file");
-                shell_exec("chmod 755 $file");
-            }
-        } else {
-            $file = storage_path() . "/logs/log.log";
-        }
-        file_put_contents($file, date("Y-m-d H:i:s") . "::" . Util::serverName() . "::{$foo}\n", FILE_APPEND);
+        self::monoLog($foo, $opts);
     }
 
     public static function serverName()
@@ -451,11 +505,13 @@ class Util
 
     public static function isHome()
     {
+        $req = self::requestUri();
         return (
-            preg_match("|^/index|", self::requestUri()) ||
-            preg_match("|^/home|", self::requestUri()) ||
-            self::requestUri() == '/' ||
-            strlen(self::requestUri()) == 0
+            preg_match("|^/index|", $req) ||
+            preg_match("|^/home|", $req) ||
+            preg_match("|^/[\\?]+|",$req)  ||
+            preg_match("|^/$|",$req) || 
+            strlen($req) == 0
         );
     }
 

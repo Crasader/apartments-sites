@@ -134,7 +134,7 @@
                                 <div style="overflow:hidden;height:537px;max-width:100%;">
                                     <div id="map-canvas" style="max-width:100%;"></div>
                                 <div>
-                                @include('layouts/dinapoli/pages/inc/google-maps-script')
+                                @include('layouts/bascom/pages/inc/google-maps-script')
                             </div>
                             <?php //@include('layouts/dinapoli/pages/inc/google-maps-apartment-feature')?>
                         </div>

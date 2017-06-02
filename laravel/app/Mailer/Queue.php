@@ -23,7 +23,7 @@ class Queue extends Model
     public function queueItem(StructMail $m)
     {
         $ret = $m->validateMemberVariables();
-        if ($ret == StructMail::VALIDATE_OKAY) {
+        if ($ret == \App\Traits\Constants::VALIDATE_OKAY) {
             $queue = new self();
             $queue->to_address = $m->to;
             $queue->from_address= $m->from;
@@ -36,6 +36,7 @@ class Queue extends Model
             $queue->save();
             return true;
         } else {
+            dd($m);
             throw new ParameterException("Validating member variables failed: " . var_export($m, 1));
         }
     }

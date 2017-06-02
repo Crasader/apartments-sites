@@ -1,0 +1,903 @@
+[
+	{
+		
+		"pois": {
+			"119451": {
+				"href": "http://seaworldparks.com/en/aquatica-sandiego",
+				"state": "CA",
+				"address": "2052 Entertainment Cir",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2052+Entertainment+Cir,+Chula+Vista,+CA+91910"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41924,
+				"name": "Aquatic Sea World",
+				"image_path_marker": "images/markers/1.png",
+				"id": 119451
+			},
+			"119452": {
+				"href": "http://www.thelivingcoast.org/",
+				"state": "CA",
+				"address": "1000 Gunpowder Point Dr",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "1000+Gunpowder+Point+Dr,+Chula+Vista,+CA+91910"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41924,
+				"name": "Living Coast Discovery Center",
+				"image_path_marker": "images/markers/5.png",
+				"id": 119452
+			},
+			"119453": {
+				"href": "http://amctheatres.com",
+				"state": "CA",
+				"address": "555 Broadway #2050",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "555+Broadway+%232050,+Chula+Vista,+CA+91910"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41927,
+				"name": "AMC Chula Vista 10",
+				"image_path_marker": "images/markers/1.png",
+				"id": 119453
+			},
+			"119454": {
+				"href": "https://thelotent.com/index.php/site/page?view=venueLibertyStation",
+				"state": "CA",
+				"address": "2620 Truxtun Rd",
+				"zip": "92106",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "San Diego",
+				"geocode_address": true,
+				"location_id": 41927,
+				"name": "THE LOT Liberty Station",
+				"image_path_marker": "images/markers/8.png",
+				"id": 119454
+			},
+			"119455": {
+				"href": "http://www.chulavistacenter.com/",
+				"state": "CA",
+				"address": "555 Broadway #1019",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41926,
+				"name": "Chula Vista Center",
+				"image_path_marker": "images/markers/2.png",
+				"id": 119455
+			},
+			"119456": {
+				"href": "http://www.terranovaplaza.com/",
+				"state": "CA",
+				"address": "394 E H St & East H St",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": false,
+				"location_id": 41926,
+				"name": "Terra Nova Plaza",
+				"image_path_marker": "images/markers/9.png",
+				"id": 119456
+			},
+			"119457": {
+				"href": "http://www.tacoselgordobc.com/",
+				"state": "CA",
+				"address": "689 H St",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": false,
+				"location_id": 41923,
+				"name": "Tacos El Gordo",
+				"image_path_marker": "images/markers/8.png",
+				"id": 119457
+			},
+			"119458": {
+				"href": "http://labellapizza.com/",
+				"state": "CA",
+				"address": "373 Third Ave",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41923,
+				"name": "La Bella Pizza Garden",
+				"image_path_marker": "images/markers/6.png",
+				"id": 119458
+			},
+			"119459": {
+				"href": "http://www.ucsd.edu/",
+				"state": "CA",
+				"address": "9500 Gilman Dr",
+				"zip": "92093",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "La Jolla",
+				"geocode_address": true,
+				"location_id": 41925,
+				"name": "University of California San Diego",
+				"image_path_marker": "images/markers/8.png",
+				"id": 119459
+			},
+			"119460": {
+				"href": "http://www.sandiego.edu/",
+				"state": "CA",
+				"address": "5998 Alcala Park",
+				"zip": "92110",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "San Diego",
+				"geocode_address": true,
+				"location_id": 41925,
+				"name": "University of San Diego",
+				"image_path_marker": "images/markers/9.png",
+				"id": 119460
+			},
+			"119668": {
+				"href": "http://www.bjsrestaurants.com/locations/ca/chula-vista",
+				"state": "CA",
+				"address": "555 Broadway #1019",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41923,
+				"name": "BJs Restaurant and Brewhouse",
+				"image_path_marker": "images/markers/2.png",
+				"id": 119668
+			},
+			"119669": {
+				"href": "http://www.thegalleyatthemarina.com/",
+				"state": "CA",
+				"address": "550 Marina Pkwy",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41923,
+				"name": "Gallery at the Marina",
+				"image_path_marker": "images/markers/5.png",
+				"id": 119669
+			},
+			"119670": {
+				"href": "http://www.zorbasgreekbuffet.com/",
+				"state": "CA",
+				"address": "100 Broadway",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41923,
+				"name": "Zorbas Greek Cuisine",
+				"image_path_marker": "images/markers/9.png",
+				"id": 119670
+			},
+			"119671": {
+				"href": "http://www.realcheesepizza.com/",
+				"state": "CA",
+				"address": "82 Broadway",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41923,
+				"name": "Filippis Pizza Grotto",
+				"image_path_marker": "images/markers/4.png",
+				"id": 119671
+			},
+			"119672": {
+				"href": null,
+				"state": "CA",
+				"address": "625 E St",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41923,
+				"name": "La Quinta Grill Mexican",
+				"image_path_marker": "images/markers/7.png",
+				"id": 119672
+			},
+			"119673": {
+				"href": "http://www.aquiestexcoco.com/",
+				"state": "CA",
+				"address": "1043 Broadway",
+				"zip": "91911",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41923,
+				"name": "Aqui Es Texoco",
+				"image_path_marker": "images/markers/1.png",
+				"id": 119673
+			},
+			"119674": {
+				"href": null,
+				"state": "CA",
+				"address": "1096 Broadway #105",
+				"zip": "91911",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41923,
+				"name": "El Huevo Estrellado",
+				"image_path_marker": "images/markers/3.png",
+				"id": 119674
+			},
+			"119675": {
+				"href": "http://www.otayranchtowncenter.com/",
+				"state": "CA",
+				"address": "2015 Birch Rd",
+				"zip": "91915",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41926,
+				"name": "Otay Ranch Town Center",
+				"image_path_marker": "images/markers/6.png",
+				"id": 119675
+			},
+			"119676": {
+				"href": "http://www.southbaybikes.com/",
+				"state": "CA",
+				"address": "250 3rd Ave",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41926,
+				"name": "South Bay Bicycles",
+				"image_path_marker": "images/markers/8.png",
+				"id": 119676
+			},
+			"119677": {
+				"href": "http://www.calstatecrew.com/",
+				"state": "CA",
+				"address": "555 Broadway",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41926,
+				"name": "Cal State Crew",
+				"image_path_marker": "images/markers/1.png",
+				"id": 119677
+			},
+			"119678": {
+				"href": "http://ca.chulavista.sees.com/chocolate_shops_chula-vista_ca_1ca063.html",
+				"state": "CA",
+				"address": "555 Broadway",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41926,
+				"name": "Sees Candies Chocolate Shops",
+				"image_path_marker": "images/markers/7.png",
+				"id": 119678
+			},
+			"119679": {
+				"href": null,
+				"state": "CA",
+				"address": "204 Broadway",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41926,
+				"name": "E Smoke Shop",
+				"image_path_marker": "images/markers/5.png",
+				"id": 119679
+			},
+			"119680": {
+				"href": "http://chulavistavideogames.com/",
+				"state": "CA",
+				"address": "424 Broadway",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41926,
+				"name": "Chula Vista Video Games",
+				"image_path_marker": "images/markers/4.png",
+				"id": 119680
+			},
+			"119681": {
+				"href": "http://www.chulavistacoins.com/",
+				"state": "CA",
+				"address": "397 3rd Ave",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41926,
+				"name": "Chula Vista Coins and Stamps",
+				"image_path_marker": "images/markers/3.png",
+				"id": 119681
+			},
+			"119682": {
+				"href": "http://www.cvesd.org/",
+				"state": "CA",
+				"address": "980 Buena Vista Way",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41925,
+				"name": "Chula Vista Hills Elementary School",
+				"image_path_marker": "images/markers/2.png",
+				"id": 119682
+			},
+			"119683": {
+				"href": "http://www.cvesd.org/",
+				"state": "CA",
+				"address": "1100 Camino Biscay",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41925,
+				"name": "Discovery Charter Elementry",
+				"image_path_marker": "images/markers/3.png",
+				"id": 119683
+			},
+			"119684": {
+				"href": "http://www.cvesd.org/",
+				"state": "CA",
+				"address": "84 E J St",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41925,
+				"name": "Chula Vista Elementary School District",
+				"image_path_marker": "images/markers/1.png",
+				"id": 119684
+			},
+			"119685": {
+				"href": "http://www.cvesd.org/",
+				"state": "CA",
+				"address": "1220 S Greensview Dr",
+				"zip": "91915",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41925,
+				"name": "Olympic View Elementary School",
+				"image_path_marker": "images/markers/6.png",
+				"id": 119685
+			},
+			"119686": {
+				"href": "http://schools.cvesd.org/schools/feaster/Pages/default.aspx",
+				"state": "CA",
+				"address": "670 Flower St",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41925,
+				"name": "Feaster Charter School",
+				"image_path_marker": "images/markers/4.png",
+				"id": 119686
+			},
+			"119687": {
+				"href": "http://www.cvesd.org/",
+				"state": "CA",
+				"address": "1550 Magdalena Ave",
+				"zip": "91913",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41925,
+				"name": "Veterans Elementary School",
+				"image_path_marker": "images/markers/10.png",
+				"id": 119687
+			},
+			"119688": {
+				"href": "http://www.cvesd.org/",
+				"state": "CA",
+				"address": "80 Flower St",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41925,
+				"name": "Rosebank Elementary School",
+				"image_path_marker": "images/markers/7.png",
+				"id": 119688
+			},
+			"119689": {
+				"href": "http://www.cvesd.org/",
+				"state": "CA",
+				"address": "30 Murray St",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41925,
+				"name": "Hilltop Drive Elementary School",
+				"image_path_marker": "images/markers/5.png",
+				"id": 119689
+			},
+			"119690": {
+				"href": null,
+				"state": "CA",
+				"address": "656 E St",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41927,
+				"name": "On the Rocks Cocktails",
+				"image_path_marker": "images/markers/5.png",
+				"id": 119690
+			},
+			"119691": {
+				"href": null,
+				"state": "CA",
+				"address": "247 Broadway",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41927,
+				"name": "Wild Woolys Saloon",
+				"image_path_marker": "images/markers/10.png",
+				"id": 119691
+			},
+			"119692": {
+				"href": null,
+				"state": "CA",
+				"address": "1322 3rd Ave",
+				"zip": "91911",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41927,
+				"name": "Mr Ds Cocktail",
+				"image_path_marker": "images/markers/4.png",
+				"id": 119692
+			},
+			"119693": {
+				"href": null,
+				"state": "CA",
+				"address": "33 Broadway",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41927,
+				"name": "Star Gazer Club",
+				"image_path_marker": "images/markers/7.png",
+				"id": 119693
+			},
+			"119694": {
+				"href": null,
+				"state": "CA",
+				"address": "341 3rd Ave",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41927,
+				"name": "Silver Dollar",
+				"image_path_marker": "images/markers/6.png",
+				"id": 119694
+			},
+			"119695": {
+				"href": null,
+				"state": "CA",
+				"address": "1073 3rd Ave",
+				"zip": "91911",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41927,
+				"name": "Mi Barra Bar",
+				"image_path_marker": "images/markers/3.png",
+				"id": 119695
+			},
+			"119696": {
+				"href": null,
+				"state": "CA",
+				"address": "840 Broadway",
+				"zip": "91911",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41927,
+				"name": "Formosa Club",
+				"image_path_marker": "images/markers/2.png",
+				"id": 119696
+			},
+			"119697": {
+				"href": "http://www.manhattanbar91910.com/",
+				"state": "CA",
+				"address": "400 Broadway",
+				"zip": "91910",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Chula Vista",
+				"geocode_address": true,
+				"location_id": 41927,
+				"name": "The Manhattan",
+				"image_path_marker": "images/markers/9.png",
+				"id": 119697
+			},
+			"119782": {
+				"href": "http://www.mtrp.org/",
+				"state": "CA",
+				"address": "Father Junipero Serra Trail",
+				"zip": "92119",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "San Diego",
+				"geocode_address": true,
+				"location_id": 41924,
+				"name": "Mission Trails Regional Park",
+				"image_path_marker": "images/markers/6.png",
+				"id": 119782
+			},
+			"119783": {
+				"href": null,
+				"state": "CA",
+				"address": "5180 Tecolote Rd",
+				"zip": "92110",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "San Diego",
+				"geocode_address": true,
+				"location_id": 41924,
+				"name": "Tecolote Canyon Natural Park",
+				"image_path_marker": "images/markers/10.png",
+				"id": 119783
+			},
+			"119784": {
+				"href": "http://www.sandiego.gov/lifeguards/beaches/cove.shtml",
+				"state": "CA",
+				"address": "Coast Blvd",
+				"zip": "92037",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "San Diego",
+				"geocode_address": true,
+				"location_id": 41924,
+				"name": "La Jolla Cove",
+				"image_path_marker": "images/markers/3.png",
+				"id": 119784
+			},
+			"119785": {
+				"href": "http://www.sandiegocoastlife.com/san-diego-beaches/beaches-south-mission-beach.html",
+				"state": "CA",
+				"address": "N Jetty Rd",
+				"zip": "92109",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "San Diego",
+				"geocode_address": true,
+				"location_id": 41924,
+				"name": "South Mission Beach",
+				"image_path_marker": "images/markers/9.png",
+				"id": 119785
+			},
+			"119786": {
+				"href": null,
+				"state": "CA",
+				"address": "Coast Blvd",
+				"zip": "92037",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "San Diego",
+				"geocode_address": true,
+				"location_id": 41924,
+				"name": "La Jolla Shores",
+				"image_path_marker": "images/markers/4.png",
+				"id": 119786
+			},
+			"119787": {
+				"href": "http://www.parks.ca.gov/?page_id=654",
+				"state": "CA",
+				"address": "5000 CA-75",
+				"zip": "92118",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "Coronado",
+				"geocode_address": true,
+				"location_id": 41924,
+				"name": "Silver Strand State Beach",
+				"image_path_marker": "images/markers/8.png",
+				"id": 119787
+			},
+			"119788": {
+				"href": "http://www.sandiego.gov/lifeguards/beaches/ob.shtml",
+				"state": "CA",
+				"address": "Ocean Beach Bike Path",
+				"zip": "92109",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "San Diego",
+				"geocode_address": true,
+				"location_id": 41924,
+				"name": "Ocean Beach Dog Beach",
+				"image_path_marker": "images/markers/7.png",
+				"id": 119788
+			},
+			"119789": {
+				"href": "http://www.belmontpark.com/",
+				"state": "CA",
+				"address": "3146 Mission Blvd",
+				"zip": "92109",
+				"description": "",
+				"href_directions": {
+					"sourceAddress": "440+East+H+Street,+Chula+Vista,+CA+91910",
+					"destAddress" : "2620+Truxtun+Rd,+San+Diego,+CA+92106"
+				},
+				"city": "San Diego",
+				"geocode_address": true,
+				"location_id": 41924,
+				"name": "Belmont Park",
+				"image_path_marker": "images/markers/2.png",
+				"id": 119789
+			}
+		},
+		"locations": {
+			"41923": {
+				"poi_id": [
+					119673,
+					119668,
+					119674,
+					119671,
+					119669,
+					119458,
+					119672,
+					119457,
+					119670
+				],
+				"name": "Restaurants",
+				"id": 41923
+			},
+			"41924": {
+				"poi_id": [
+					119451,
+					119789,
+					119784,
+					119786,
+					119452,
+					119782,
+					119788,
+					119787,
+					119785,
+					119783
+				],
+				"name": "Outdoors",
+				"id": 41924
+			},
+			"41925": {
+				"poi_id": [
+					119684,
+					119682,
+					119683,
+					119686,
+					119689,
+					119685,
+					119688,
+					119459,
+					119460,
+					119687
+				],
+				"name": "Schools",
+				"id": 41925
+			},
+			"41926": {
+				"poi_id": [
+					119677,
+					119455,
+					119681,
+					119680,
+					119679,
+					119675,
+					119678,
+					119676,
+					119456
+				],
+				"name": "Shopping",
+				"id": 41926
+			},
+			"41927": {
+				"poi_id": [
+					119453,
+					119696,
+					119695,
+					119692,
+					119690,
+					119694,
+					119693,
+					119454,
+					119697,
+					119691
+				],
+				"name": "Entertainment",
+				"id": 41927
+			}
+		}
+	}
+]

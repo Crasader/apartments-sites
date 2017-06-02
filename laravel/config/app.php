@@ -202,6 +202,10 @@ return [
         * Flash providers
         */
         Laracasts\Flash\FlashServiceProvider::class,
+        /*
+        * medialibrary
+        */
+        Spatie\MediaLibrary\MediaLibraryServiceProvider::class,
     ],
 
     /*

@@ -7,9 +7,11 @@ exec.sh
 /vendor
 /.idea
 /.vagrant
+/shell-migrations/*
 /laravel/public/js/build/*
 Homestead.json
 Homestead.yaml
+foo
 .env
 ../logs/
 ../repo/

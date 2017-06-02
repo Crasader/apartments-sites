@@ -1,4 +1,8 @@
-@extends('layouts/bascom/main')
+<?php
+use App\Property\Site;
+use App\Legacy\Property;
+
+?>@extends('layouts/bascom/main')
             @section('before-css')
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
             @stop
@@ -42,49 +46,66 @@
                 <div class="container relative">
                     <div class="section-text mb-50 mb-sm-20">
                         <div class="row">
-                            <?php if (isset($sent)): ?><h1 class="notice">Your contact information has been submitted</h1><?php endif;?>
-                            <?php if (isset($invalidRecaptcha)): ?><h1 class="error">Invalid ReCaptcha</h1><?php endif; ?>
-                            <div class="col-md-7 col-sm-7 mb-sm-50 mb-xs-30">
-                                <form id="form1" method="post" action="/contact">
-                                    <input type="hidden" name="form_id" value="contact"/>
-                                    <div class="mb-20 mb-md-10 form-group">
-                                        <label>First Name</label>
-                                        <input type="text" name="firstname" id="first_name" class="input-md form-control" maxlength="100">
+                            @if(isset($_GET['submitted']))
+
+                                <div class="col-md-7 col-sm-7 mb-sm-50 mb-xs-30">
+                                    <h1 class=" notice">
+                                        Your contact information has been submitted
+                                    </h1>
+                                    <div>
+                                        Your message has been sent. A leasing agent will be contacting you shortly.
+
+                                        For questions, give us a call:
+                                        <?=Property::getPhoneByEntity($entity);?>
+
+
                                     </div>
-                                    <div class="mb-20 mb-md-10 form-group">
-                                        <label>Last Name</label>
-                                        <input type="text" name="lastname" id="last_name" class="input-md form-control" maxlength="100">
-                                    </div>
-                                    <div class="mb-20 mb-md-10 form-group">
-                                        <label>Email</label>
-                                        <input type="text" name="email" id="email" class="input-md form-control" maxlength="100">
-                                    </div>
-                                    <div class="mb-20 mb-md-10 form-group">
-                                        <label>Phone</label>
-                                        <input type="text" name="phone" id="phone" class="input-md form-control" maxlength="100">
-                                    </div>
-                                    <label for="date">Approximate Move-In Date</label>
-                                    <div class="mb-20 mb-md-10 input-group date" data-provide="datepicker" id="datediv" style='margin-bottom: 0px;'>
-                                        <input type="text" class="form-control" id="date" name="date" value="" readonly placeholder="Approximate Move-In Date" autocomplete="off" onchange='$("#dateErrorDiv").css("margin-bottom","40px");$("#date\-error").css("display","none");$(this).removeClass("error");'/>
-                                        <div class="input-group-addon">
-                                            <span class="glyphicon glyphicon-th"></span>
+
+                                </div>
+                            @else
+                                <?php if (isset($invalidRecaptcha)): ?><h1 class="error">Invalid ReCaptcha</h1><?php endif; ?>
+                                <div class="col-md-7 col-sm-7 mb-sm-50 mb-xs-30">
+                                    <form id="form1" method="post" action="/contact">
+                                        <input type="hidden" name="form_id" value="contact"/>
+                                        <div class="mb-20 mb-md-10 form-group">
+                                            <label>First Name</label>
+                                            <input type="text" name="firstname" id="first_name" class="input-md form-control" maxlength="100">
                                         </div>
-                                    </div>
-                                    <div style='margin-bottom:0px;' id='dateErrorDiv'>
-                                         <label id="date-error" class="error" for="date" style='margin-bottom:20px;'></label>
-                                    </div>
-                                    {{csrf_field()}}
-                                    <div class="mb-20 mb-md-10 form-group">
-                                        <div class="g-recaptcha" id='grecaptcha' data-sitekey="<?php echo $entity->getRecaptchaKey();?>"></div>
-                                    </div>
+                                        <div class="mb-20 mb-md-10 form-group">
+                                            <label>Last Name</label>
+                                            <input type="text" name="lastname" id="last_name" class="input-md form-control" maxlength="100">
+                                        </div>
+                                        <div class="mb-20 mb-md-10 form-group">
+                                            <label>Email</label>
+                                            <input type="text" name="email" id="email" class="input-md form-control" maxlength="100">
+                                        </div>
+                                        <div class="mb-20 mb-md-10 form-group">
+                                            <label>Phone</label>
+                                            <input type="text" name="phone" id="phone" class="input-md form-control" maxlength="100">
+                                        </div>
+                                        <label for="date">Approximate Move-In Date</label>
+                                        <div class="mb-20 mb-md-10 input-group date" data-provide="datepicker" id="datediv" style='margin-bottom: 0px;'>
+                                            <input type="text" class="form-control" id="date" name="date" value="" readonly="true" placeholder="Approximate Move-In Date" autocomplete="off" onchange='$("#dateErrorDiv").css("margin-bottom","40px");$("#date\-error").css("display","none");$(this).removeClass("error");'/>
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-th"></span>
+                                            </div>
+                                        </div>
+                                        <div style='margin-bottom:0px;' id='dateErrorDiv'>
+                                             <label id="date-error" class="error" for="date" style='margin-bottom:20px;'></label>
+                                        </div>
+                                        {{csrf_field()}}
+                                        <div class="mb-20 mb-md-10 form-group">
+                                            <div class="g-recaptcha" id='grecaptcha' data-sitekey="<?php echo $entity->getRecaptchaKey();?>"></div>
+                                        </div>
 
-                                    <input type="hidden" class="hiddenRecaptcha required" name="hiddenRecaptcha" id="hiddenRecaptcha">
-                                    <div class="mb-20 mb-md-10">
-                                        <button class="btn btn-mod btn-brown btn-large btn-round" onclick="if($('#datediv').val().length){console.log(1);$('#datediv').css('margin-bottom','40px');}">Submit</button>
-                                    </div>
-                                </form>
-                            </div>
+                                        <input type="hidden" class="hiddenRecaptcha required" name="hiddenRecaptcha" id="hiddenRecaptcha">
+                                        <div class="mb-20 mb-md-10">
+                                            <button class="btn btn-mod btn-brown btn-large btn-round" onclick="if($('#datediv').val().length){console.log(1);$('#datediv').css('margin-bottom','40px');}">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
 
+                            @endif
                             <div class="col-md-5 col-sm-5 mb-sm-50 mb-xs-30 text-center">
                                 <div class="row">
                                 	<div class="col-sm-12">
@@ -119,7 +140,6 @@
             <script type="text/javascript">
             $(document).ready(function(){
 			    $("#datediv").datepicker({ format: "mm/dd/yyyy" });
-
 				amcBindValidate({
 					'form': '#form1',
                     'ignore': '.ignore',
