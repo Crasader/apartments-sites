@@ -22,7 +22,7 @@ $env = env('ENVIRONMENT');
                 $data = [];
             }
             ?>
-            <?php if (isset($data['SpecialWebsite'])): ?>
+            <?php if (isset($data['SpecialWebsite']) && strlen(trim($data['SpecialWebsite']))): ?>
                 <?php if (Util::isHome()): ?>
 			<div id="banner-special" style="display: block;"> 
 				<div class="container relative">

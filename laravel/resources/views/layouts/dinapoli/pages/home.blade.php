@@ -62,7 +62,7 @@ try {
                         </li>
                     </ul>
                 </div>
-                <?php if (isset($spec['website'])): ?>
+                <?php if (isset($spec['website']) && strlen(trim($spec['website']))): ?>
                 <div class="specials-gallery visible-xs visible-sm visible-md visible-lg">
                     <div class="container">
                         <div class="row">
