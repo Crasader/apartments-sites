@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\System;
 
@@ -26,9 +26,12 @@ class Session // extends Model
         }
         self::log("Call static session: $method(" . var_export($args, 1) . ")");
         if (session_status() == PHP_SESSION_NONE) {
+            /*
+            This was breaking the admin piece.. so I removed it, if it breaks more stuff add it back (thanks brady) -anonymous dev
             ini_set('session.cache_limiter', 'public');
             session_cache_limiter("private_no_expire");
             self::log("Starting session");
+            */
             @session_start();
         }
         self::log("Session data: " . var_export($_SESSION, 1));

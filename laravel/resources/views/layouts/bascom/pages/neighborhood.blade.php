@@ -8,7 +8,7 @@
             <div class="row">
                 
                 <div class="col-md-8">
-                    <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Eat•Play•Shop</h1>
+                    <h1 class="hs-line-11 font-alt mb-20 mb-xs-0"><?php echo $entity->getText('neighborhood-title',['oneshot' => 'Eat•Play•Shop']);?></h1>
                     <div class="hs-line-4 font-alt">
 			            <?php echo $entity->getText('neighborhood-text', ['oneshot' => 'Everything in your own backyard...']);?>
                     </div>
