@@ -145,7 +145,7 @@
                                             Add an Image
                                         </span>
                                     </label>
-                                    <input type="file" name="image[]" class="hidden" id="form-image">
+                                    <input type="file" name="image" class="hidden" id="form-image">
                                 </div>
                                 <div class="form-group">
     								<input type="submit" value="Submit" class="btn btn-success">

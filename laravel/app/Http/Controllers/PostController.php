@@ -353,7 +353,7 @@ class PostController extends Controller
 
         $siteData['data']['redirectConfig'] = $this->_fillApplyOnlineRedirectData();
         flash('Thanks! We will be in touch Soon!');
-        $url = UrlHelpers::getUrl('/', [
+        $url = UrlHelpers::getUrl('schedule-a-tour', [
             'submitted' => 1,
             'from' => 'Schedule']
         );
@@ -631,7 +631,7 @@ class PostController extends Controller
             ]);
 
         $soap = app()->make('App\Assets\SoapClient');
-
+        // dd($req->file('image'));
         $maintenanceRequest = new MaintenanceRequest;
         $maintenanceRequest->resident_name = $data['ResidentName'];
         $maintenanceRequest->maintenance_unit = $data['maintenance_unit'];
@@ -644,6 +644,7 @@ class PostController extends Controller
         $maintenanceRequest->maintenance_mrequest = $data['maintenance_mrequest'];
         $maintenanceRequest->save();
         $maintenanceRequest
+            // ->addMediaFromRequest('image')
             ->addAllmediaFromRequest()
             ->each(function ($fileAdders) {
                 foreach($fileAdders as $fileAdder){
