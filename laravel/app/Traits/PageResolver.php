@@ -25,7 +25,7 @@ trait PageResolver
     protected $_redirect = null;
 
     /*
-     * The following protected variable comes from the App\Trait\RedirectHooks trait 
+     * The following protected variable comes from the App\Trait\RedirectHooks trait
      * and is used by $this->resolve()
      * protected $_redirectHooks = [
      * ];
@@ -33,14 +33,14 @@ trait PageResolver
     public function resolve($page = 'home')
     {
         try {
-            if($this->hasRedirectHooks($page)){
+            if ($this->hasRedirectHooks($page)) {
                 return $this->dispatchRedirectHook($page);
             }
             $data = $this->resolvePageBySite($page);
-            if(Util::arrayGet($data,'redirect')){
-                return redirect(Util::arrayGet($data,'redirect'));
+            if (Util::arrayGet($data, 'redirect')) {
+                return redirect(Util::arrayGet($data, 'redirect'));
             }
-            return view(Util::arrayGet($data,'path'), $data['data']);
+            return view(Util::arrayGet($data, 'path'), $data['data']);
         } catch (BaseException $e) {
             return view("404");
         }
@@ -95,30 +95,30 @@ trait PageResolver
     }
 
 
-    public function isGuarded($data,$inData) : bool{
-        $page = str_replace('/resident-portal/','',$data['page']);
-        return in_array($page,$this->_guardedResidentPages);
+    public function isGuarded($data, $inData) : bool
+    {
+        $page = str_replace('/resident-portal/', '', $data['page']);
+        return in_array($page, $this->_guardedResidentPages);
     }
 
-    public function resolveTemplatePath($templateDir, $data,$page, $inData)
+    public function resolveTemplatePath($templateDir, $data, $page, $inData)
     {
         if (isset($inData['resident-portal'])) {
             /*
-             * If the particular page should be guarded (user has to be authenticated), and the user is not authenticated, 
+             * If the particular page should be guarded (user has to be authenticated), and the user is not authenticated,
              * then return them to the resident portal
              */
-            if($this->isGuarded($data,$inData) && Sesh::residentUserLoggedIn() == false){
+            if ($this->isGuarded($data, $inData) && Sesh::residentUserLoggedIn() == false) {
                 $this->_redirect = '/resident-portal';
                 return null;
             }
             /*
              * If the user is logged in and they are attempting to access the portal center
              */
-            if(Sesh::get(Sesh::RESIDENT_USER_KEY) !== null && preg_match("|/portal\-center|",$data['page'])){
+            if (Sesh::get(Sesh::RESIDENT_USER_KEY) !== null && preg_match("|/portal\-center|", $data['page'])) {
                 return "layouts/$templateDir/pages/resident-portal/portal-center";
             }
             return "layouts/$templateDir/pages/resident-portal/" . str_replace('resident-portal/', "", $page);
-
         }
         return "layouts/$templateDir/pages/$page";
     }
@@ -132,4 +132,5 @@ trait PageResolver
             $data['extends'] = "layouts/$templateDir/main";
         }
         return $data;
-    }}
+    }
+}

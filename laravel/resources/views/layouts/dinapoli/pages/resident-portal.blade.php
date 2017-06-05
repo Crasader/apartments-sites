@@ -1,4 +1,6 @@
-<?php use App\Util\Util; ?>
+<?php use App\Util\Util;
+
+?>
 @extends('layouts/dinapoli/main')            
                         @section('page-title-row') 
                         <div class="col-md-8">

@@ -1,4 +1,6 @@
-<?php use App\Util\Util; ?>
+<?php use App\Util\Util;
+
+?>
 <!DOCTYPE html><html xmlns=http://www.w3.org/1999/xhtml><head><meta http-equiv=Content-Type content=text/html; charset=utf-8>
 <link href=http://www.400rhett.com/css/jquery-ui.min.css rel=stylesheet>
 <?php foreach ($styleSheets as $index => $href): ?>
@@ -13,11 +15,11 @@
 <p>For questions, give us a call:&nbsp;<span class=teal><?php echo $entity->getPhone(); ?></span></p></div></div>
 <div class=row><div class=col-md-6><p>Sincerely, <br><?php echo $apartmentName;?> Apartments Management Team</p></div></div>
 <div class=row><div class=col-md-6><p>The following was submitted:</p><p>
-Name: <?php echo Util::arrayGet($contact,'ResidentName'); ?><br>
+Name: <?php echo Util::arrayGet($contact, 'ResidentName'); ?><br>
 
-Unit: <?php echo Util::arrayGet($contact,'maintenance_unit');?><br>
+Unit: <?php echo Util::arrayGet($contact, 'maintenance_unit');?><br>
 
-You have told us the best way to contact you is at: <b><?php echo Util::arrayGet($contact,'maintenance_phone');?></b><br>
+You have told us the best way to contact you is at: <b><?php echo Util::arrayGet($contact, 'maintenance_phone');?></b><br>
 
 We will be in touch with you shortly.
 

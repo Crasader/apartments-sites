@@ -8,11 +8,12 @@ use App\Util\S3Util;
 trait S3Media
 {
     //requires getS3Path as a function
-    function sendMediaToS3(){
+    public function sendMediaToS3()
+    {
         $medias = $this->getMedia();
         $that = $this;
         $s3Client = S3Util::getS3Client();
-        foreach($medias as $media){
+        foreach ($medias as $media) {
             $path = $this->getS3Path();
             $file_name = "{$path}/{$media->file_name}";
             $sourceFile = $media->getPath();

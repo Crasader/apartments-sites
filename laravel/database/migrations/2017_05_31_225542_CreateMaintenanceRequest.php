@@ -13,7 +13,7 @@ class CreateMaintenanceRequest extends Migration
      */
     public function up()
     {
-        Schema::create('maintenance_requests', function(Blueprint $table){
+        Schema::create('maintenance_requests', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('resident_name');
             $table->string('maintenance_unit');

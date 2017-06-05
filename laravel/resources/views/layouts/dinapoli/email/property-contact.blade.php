@@ -1,10 +1,11 @@
-<?php //dd(get_defined_vars()); 
+<?php //dd(get_defined_vars());
 use App\Util\Util as U;
-if(!isset($contact)){
-    $contact = U::arrayGet($data,'contact');
+
+if (!isset($contact)) {
+    $contact = U::arrayGet($data, 'contact');
 }
-if(!isset($mode)){
-    U::monoLog('No mode in property-contact.blade.php!','error');
+if (!isset($mode)) {
+    U::monoLog('No mode in property-contact.blade.php!', 'error');
 }
 ?>
 <!DOCTYPE html><html xmlns=http://www.w3.org/1999/xhtml><head><meta http-equiv=Content-Type content=text/html; charset=utf-8>

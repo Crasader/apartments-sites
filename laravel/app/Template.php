@@ -7,20 +7,20 @@ use App\Property\Site;
 
 class Template extends Model
 {
-    public static function getTemplateName($template_dir_name){
+    public static function getTemplateName($template_dir_name)
+    {
         if (!is_string($template_dir_name)) {
-            if(!$template_dir_name){
+            if (!$template_dir_name) {
                 //if null, add entity
                 $site = app()->make('App\Property\Site');
                 $template_dir_name = $site->getEntity();
             }
-            if($template_dir_name){
+            if ($template_dir_name) {
                 //assuming that this is actually an entity.
                 $template_dir_name = $template_dir_name->getTemplateName();
             }
         }
         return $template_dir_name;
-
     }
     //
     protected $table = 'templates';
