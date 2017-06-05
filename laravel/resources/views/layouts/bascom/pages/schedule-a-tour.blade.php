@@ -19,9 +19,9 @@ use App\Legacy\Property;
             <div class="row">
 
                 <div class="col-md-8">
-                    <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Schedule a tour</h1>
+                    <h1 class="hs-line-11 font-alt mb-20 mb-xs-0"><?php echo $entity->getText('schedule-a-tour-title',['oneshot' => 'Schedule a tour']);?></h1>
                     <div class="hs-line-4 font-alt">
-						<?php echo $entity->getText('schedule-a-tour-title', ['oneshot' => 'Schedule a tour']);?>
+						<?php echo $entity->getText('schedule-a-tour-description', ['oneshot' => 'Schedule a tour']);?>
                     </div>
                 </div>
 

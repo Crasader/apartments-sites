@@ -53,7 +53,7 @@
 		        <div class="row">
 					<div class="col-md-6">
 		             	<a href="/resident-portal/contact-request" class="resident_btn">  
-		                <img src="<?php echo $entity->getWebPublicCommon('amc_icon_contact.png');?>" />  <b>CONTACT THE OFFICE</b> </a>
+		                <img src="<?php echo $entity->getWebPublicDirectory('common') . '/amc_icon_contact.png';?>" />  <b>CONTACT THE OFFICE</b> </a>
 		             	<p>How can we help? Contact the leasing team with any questions or concerns.</p>
             			
             		</div>
