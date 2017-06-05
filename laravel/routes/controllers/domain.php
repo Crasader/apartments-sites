@@ -50,11 +50,15 @@ Route::get('/places/{page}', function ($page) {
             try {
                 $deets = $rev->fetchDetails(app()->make('App\Property\Site'));
             } catch (\Exception $e) {
-                echo $e->getFile();
-                echo $e->getLine();
-                die("Cannot refresh reviews.. it is possible that the PLACE ID has not been setup yet: " . var_export($e->getMessage(), 1));
+                die(json_encode(['status' => 'error', 'exception' => true,
+                    'file' => $e->getFile(), 'line' => $e->getLine(),
+                    'message' => "Cannot refresh reviews.. it is possible that the PLACE ID has not been setup yet: " . var_export($e->getMessage(), 1),
+                    'die' => 'slowly'
+                    ])
+                );
             }
-            echo "<h1>" . count($deets) . " records have been inserted into the db for this property</h1><a href='/places/index'>Go back</a><br>";
+            //echo "<h1>" . count($deets) . " records have been inserted into the db for this property</h1><a href='/places/index'>Go back</a><br>";
+            die(json_encode(['status' => 'ok','deets' => $deets]));
             break;
         case 'view-reviews':
             $rev = Reviews::where('fk_legacy_property_id', app()->make('App\Property\Site')->getEntity()->fk_legacy_property_id)->get();
@@ -70,6 +74,11 @@ Route::get('/places/{page}', function ($page) {
             break;
     }
 })->middleware(['https']);
+
+/* Facebook API stuff */
+Route::get('/facebook/{page}','FacebookController@resolve')->middleware('https');
+Route::post('/facebook/post/{page}','FacebookController@post')->middleware('https');
+
 Route::post('/admin/{page}/{subpage}', 'AdminPostController@handle');
 
 Route::get('/admin', 'SiteController@tagsAdmin')->middleware('https');

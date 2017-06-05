@@ -23,6 +23,7 @@ trait PageResolver
             return view("404");
         }
     }
+
     public function resolvePageBySite(string $page, $inData = null) : array
     {
         $this->_site = app()->make('App\Property\Site');

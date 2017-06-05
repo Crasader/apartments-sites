@@ -13,6 +13,6 @@ class VerifyCsrfToken extends BaseVerifier
      */
     protected $except = [
         //
-        'text-tag','text-tag-get','unit','redis','tags-logout','contact','briefContact',
+        'text-tag','text-tag-get','unit','redis','tags-logout','contact','briefContact','/facebook/post/saveAccessToken'
     ];
 }
