@@ -19,7 +19,7 @@ use App\Legacy\Property;
             <div class="row">
 
                 <div class="col-md-8">
-                    <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Contact us</h1>
+                    <h1 class="hs-line-11 font-alt mb-20 mb-xs-0"><?php echo $entity->getText('contact-us-title',['oneshot' => 'Contact us']);?></h1>
                     <div class="hs-line-4 font-alt">
 						<?php echo $entity->getText('contact-header', ['oneshot'=>'Have a question? Reach out to our helpful staff 24/7']);?>
                     </div>
