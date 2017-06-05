@@ -11,6 +11,7 @@ use App\Property\Entity;
 class Property extends Model
 {
     use LoadableByArray;
+    public $timestamps = false;
     //
     protected $fillable = [
         'code',            //code               | varchar(50)      | NO   |     | NULL    |                |

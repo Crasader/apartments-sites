@@ -14,6 +14,8 @@ $env = env('ENVIRONMENT');
             try {
                 $specials = app()->make('App\Property\Specials');
                 $foo = $specials->traitGet('specials');
+                \Debugbar::info("Foo is: ");
+                \Debugbar::info($foo);
                 $data = [];
                 foreach ($foo as $index => $object) {
                     $data[$object->U_MARKETING_NAME] = $object->SPECIAL_TEXT;
