@@ -8,6 +8,7 @@ use App\Util\Util;
 class Template extends Model
 {
     //
+    public $timestamps = false;
     protected $table = 'property_template';
     public static function getGMapKey($siteInstance = null)
     {
