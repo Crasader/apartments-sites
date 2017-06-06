@@ -21,7 +21,8 @@ class FloorPlans extends Model
     }
     public function getFloorPlans()
     {
-        $foo =  \DB::connection($this->connection)->select($this->_procedures['floor-plans']);
+        $foo =  \DB::connection($this->connection)
+            ->select($this->_procedures['floor-plans']);
         \Debugbar::info("floor plans: " . var_export($foo, 1));
         return $foo;
     }

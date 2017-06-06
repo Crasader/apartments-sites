@@ -1,11 +1,22 @@
 <?php
 use App\Util\Util;
+use Jenssegers\Agent\Agent;
+$agent = new Agent();
 
 ?>
 <!DOCTYPE html>
 <html lang="">
     <head>
         <title><?php echo $entity->getText('title_' . Util::baseUri(Request::getRequestUri(), 'home'));?><?php //$entity->getCity(); echo $entity->getAbbreviatedState(); Apartments | Luxury Apartments For Rent | <?php echo $entity->getLegacyProperty()->name;?></title>
+        <script>
+        window.isMobile = function(){
+            var mobile = "<?=($agent->isMobile() ? 1 : '');?>";
+            if (mobile == 1){
+                return true;
+            }
+            return false;
+        }
+        </script>
 @section('meta')
         <meta name="description" content="<?php echo $entity->getMeta('description', Util::requestUri());?>">
         <meta name="keywords" content="<?php echo $entity->getMeta('keywords', Util::requestUri());?>">

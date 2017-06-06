@@ -7,6 +7,15 @@ $agent = new Agent();
 <html lang="">
     <head>
         <title><?php echo $entity->getCity();?> <?php echo $entity->getAbbreviatedState();?> Apartments | Luxury Apartments For Rent | <?php echo $entity->getLegacyProperty()->name;?>></title>
+        <script>
+        window.isMobile = function(){
+            var mobile = "<?=($agent->isMobile() ? 1 : '');?>";
+            if (mobile == 1){
+                return true;
+            }
+            return false;
+        }
+        </script>
 @section('meta')
         <meta name="description" content="<?php echo $entity->getMeta('description', $_SERVER['REQUEST_URI']);?>">
         <meta name="keywords" content="<?php echo $entity->getMeta('keywords', $_SERVER['REQUEST_URI']);?>">
@@ -20,16 +29,6 @@ $agent = new Agent();
 @section('css')
         <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
         <?php $customSheet = null; ?>
-        <script>
-        window.isMobile() = function(){
-            var mobile = "<?=($agent->isMobile() ? 1 : '');?>";
-            if (mobile == 1){
-                return true;
-            }
-            return false;
-        }
-
-        </script>
         <?php //TODO: !refactor move this to a library function so we can utilize this code in every template?>
         <?php
         foreach (glob(public_path() . "/bascom/css/*.css") as $i => $sheet) {
