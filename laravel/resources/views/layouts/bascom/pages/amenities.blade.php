@@ -7,9 +7,9 @@
                     <div class="row">
 
                         <div class="col-md-8">
-                            <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Live Better</h1>
+                            <h1 class="hs-line-11 font-alt mb-20 mb-xs-0"><?php echo $entity->getText('amenities-title',['oneshot' => 'Live Better']);?></h1>
                             <div class="hs-line-4 font-alt">
-                                More than just a place to sleep
+                                <?php echo $entity->getText('amenities-description',['oneshot' => 'More than just a place to sleep']);?>
                             </div>
                         </div>
 
@@ -139,7 +139,7 @@
                         <div class="col-sm-6">
                             <div class="mt-70 mt-lg-70 mb-70 mb-lg-70 mb-sm-30">
                                 <div class="banner-content">
-                                    <h3 class="banner-heading font-alt text-shadow mt-sm-70 mt-xs-70"><b>Join Our community</b></h3>
+                                    <h3 class="banner-heading font-alt text-shadow mt-sm-70 mt-xs-70"><b><?php echo $entity->getText('amenities-banner-heading',['oneshot' => 'Join Our community']);?></b></h3>
 									<div class="banner-decription">
 										<?php echo $entity->getText('join-community-description');?>
 									</div>

@@ -3,23 +3,29 @@ namespace App\Traits;
 
 trait ShellMigration
 {
-    public function updateExec($line)
+    public function updateExec($lines)
     {
-        $fn = 'exec.sh';
-        if (!file_exists($fn)) {
-            $fileContents = '';
-        } else {
-            $fileContents = file_get_contents($fn);
+        $date = date('Y-m-d-H-i-s');
+        $shellMigrationsDir = 'shell-migrations';
+        $className = get_class($this);
+        if (!is_dir($shellMigrationsDir)) {
+            mkdir($shellMigrationsDir);
         }
-        if (strpos($fileContents, $line) === false) {
-            $className = get_class($this);
-            $date = date('Y-m-d-H-i_s');
-            $fileContents .= "
+        $fn = "{$shellMigrationsDir}/{$date}-{$className}.sh";
+
+        if (is_array($lines)) {
+            $lines = implode("\n", $lines);
+        }
+        $fileContents = "
 # {$date}: {$className}
-{$line}
+{$lines}
 ";
-            file_put_contents('exec.sh', $fileContents);
-        }
-        print($line . "\n");
+        $sudo = (
+            (strpos($fileContents, 'sudo') !== false) ?
+            'sudo ' :
+            ''
+        );
+        file_put_contents($fn, $fileContents);
+        print("\n{$sudo}bash {$fn}\n\n");
     }
 }

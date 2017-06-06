@@ -41,7 +41,7 @@ $displayOptions['dont-show-contact-details'] = true;
                             </div>
                         </div>
                     </div>
-                    @include('layouts/dinapoli/pages/inc/gallery')
+                    @include('layouts/bascom/pages/inc/gallery')
             </section>
             <!-- End Gallery Section -->
 

@@ -82,7 +82,7 @@ class SoapClient implements IDataFetcher
         }
         throw new LogicException("Code reached unexpected point (resetPassword)");
     }
-            
+
 
     public function maintenanceRequest(array $postData)
     {
@@ -98,7 +98,7 @@ class SoapClient implements IDataFetcher
         $data_query->PermissionToEnterData = $postData['PermissionToEnterDate'];
 
         if (Utility::isDev()) {
-            return [ 'Status' => 'SUCCESS', 'WorkOrderNumber' => '1234TEST4321' ];
+            return [ 'Status' => 'SUCCESS', 'WorkOrderNumber' => 'TEST' . rand(1000, 9999) ];
         }
 
         try {
@@ -107,7 +107,7 @@ class SoapClient implements IDataFetcher
             if (preg_match("|<Error ErrorDescription=\"([^\"]+)\"|", $arrResult, $matches)) {
                 throw new BaseException($matches);
             }
-            
+
             if (preg_match("|<WorkOrder WorkOrderNumber=\"([0-9]+)\" Status=\"([^\"]+)\"/>|", $arrResult, $matches)) {
                 return [
                     'WorkOrderNumber' => $matches[1],
@@ -120,7 +120,10 @@ class SoapClient implements IDataFetcher
                     ];
             }
         } catch (SoapFault $e) {
-            die($e->getMessage());
+            return ['Status' => 'error',
+                'data' => $e->getMessage(),
+                'exception' => true
+            ];
         }
         \Debugbar::info($arrResult);
     }
@@ -139,7 +142,7 @@ class SoapClient implements IDataFetcher
         } catch (SoapFault $e) {
             throw new BaseExcveption($e);
         }
-        \Debugbar::info($arrResult);
+        \Debugbar::info(compact('arrResult'));
         return $arrResult;
     }
 
@@ -151,7 +154,6 @@ class SoapClient implements IDataFetcher
         if (Mock::get(Mock::PROPERTY_CODE) !== null) {
             $propertyCode = Mock::get(Mock::PROPERTY_CODE);
         }
-        echo $propertyCode;
         $data_query->PropertyCode = $propertyCode;
         $data_query->EmailAddress = $email;
         $data_query->UnitNumber = $unit;

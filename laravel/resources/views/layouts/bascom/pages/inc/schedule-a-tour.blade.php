@@ -7,7 +7,7 @@
                             <div class="col-md-8 col-md-offset-2">
 
                                 <div class="newsletter-label font-alt">
-                                   Reserve Your New Home Now - Ask Us A Question
+                                   <?php echo $entity->getText('schedule-a-tour', ['oneshot' => 'Reserve Your New Home Now - Ask Us A Question']);?>
                                 </div>
 
                                 <div class="mb-20">
