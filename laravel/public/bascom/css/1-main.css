@@ -8277,3 +8277,16 @@ body {
 .dash-list > li:after {
       margin-bottom: 10px;
 }
+
+/* Exit pop Banner */
+        .exitpop-content {position: fixed; height: 600px; width: 908px; margin: -200px 0px 0px -454px; top: 30%; left: 50%; text-align: left; padding: 0px; border: none; z-index: 2147483647;}
+        .exitpopup-overlay { background: rgba(0, 0, 0, 0.6); height: 100%; left: 0; position: fixed; top: 0; width: 100%; z-index: 2147483647; display: none; }
+        .exitpop-content img { display: block; margin: 0 auto; position: relative; text-align: center; max-width: 100%; height: auto; }
+        .exitpop-inner { display: block; margin: 0 auto; position: relative; text-align: center; background:url('epop-bg.jpg') top center; background-size:cover;}
+        .exitpop-inner .epop-title {font-family: Dosis, arial, sans-serif; letter-spacing: .5em; background:#b37059; color:#fff; padding:15px; font-size:40px;}
+        .exitpop-inner .epop-message {color:#000;}
+        .exitpop-inner .epop-message h1 {font-family: Dosis, arial, sans-serif; font-size:70px; font-weight: 600; margin:40px 0px 0px 0px; padding:0px; letter-spacing: .5em; line-height: 1.8; text-transform:uppercase;}
+        .exitpop-inner .epop-message p {font-family: Dosis, arial, sans-serif; font-size:24px; padding: 0px 40px;}
+        .exitpop-inner .epop-button {padding:30px;}
+        .exitpop-inner .epop-button .btn { padding:15px 30px; font-size:20px;}
+        #epop-close {text-align: center; position: absolute; font-size: 30px; top: 20px; left: 20px; color: #fff; text-decoration: none; background: none; border-radius: 0px; padding: 0px;}

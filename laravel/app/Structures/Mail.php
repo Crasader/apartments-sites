@@ -3,10 +3,12 @@ namespace App\Structures;
 
 use Validator;
 use App\Traits\AttributeValidator;
+use App\Traits\Constants;
 
 class Mail
 {
     use AttributeValidator;
+    const VALIDATE_OKAY = Constants::VALIDATE_OKAY;
     public $to = null;
     public $subject = null;
     public $htmlBody = null;

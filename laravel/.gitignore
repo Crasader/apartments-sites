@@ -1,3 +1,4 @@
+
 tags
 exec.sh
 /node_modules
@@ -7,9 +8,11 @@ exec.sh
 /vendor
 /.idea
 /.vagrant
+/shell-migrations/*
 /laravel/public/js/build/*
 Homestead.json
 Homestead.yaml
+foo
 .env
 ../logs/
 ../repo/
@@ -31,4 +34,5 @@ composer.phar
 config/will.pub
 config/dinapoli-domains.txt
 phpctags
-
+config/https-exceptions.json
+config/server-template-file.json

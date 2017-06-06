@@ -22,3 +22,4 @@ class Group extends Model
         return substr($cleaned, 0, 16);
     }
 }
+//mysql -u amcapartments -h 192.168.1.140 -pUm5AvWNV amcapartments_com > amcapartments_com.sql

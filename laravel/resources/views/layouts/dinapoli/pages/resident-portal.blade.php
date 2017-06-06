@@ -22,8 +22,8 @@
                     <div class="section-text mb-50 mb-sm-20">
                         <div class="row">
                             <div class="col-md-6 col-sm-6 col-md-offset-3 mb-sm-50 mb-xs-30">
-                                <?php if (isset($residentFailed)): ?><h1 class="error">Invalid Username/Password</h1><?php endif;?>
-                                <form action="/resident-portal/portal-center" method="post" id='form1'>
+                                <?php if (session('residentFailed')): ?><h1 class="error">Invalid Username/Password</h1><?php endif;?>
+                                <form action="/resident-portal/post-portal-center" method="post" id='form1'>
                                     <div class="mb-20 mb-md-10">
                                         <label><i class="fa fa-user"></i> Username or Email</label>
                                         <input type="text" name="email" id="email" class="input-md form-control" maxlength="100">
@@ -59,8 +59,6 @@
         @section('action','')
         
         @section('google-maps-js')
-        <!-- Replace test API Key "AIzaSyAZsDkJFLS0b59q7cmW0EprwfcfUA8d9dg" with your own one below 
-        **** You can get API Key here - https://developers.google.com/maps/documentation/javascript/get-api-key -->
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKPvpp1b3YxfaEfOZQ6ySdzcpkDSfwqs8"></script>
         @stop
 

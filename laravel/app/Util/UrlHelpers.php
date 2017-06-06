@@ -10,7 +10,7 @@ class UrlHelpers
             $param = urlencode($param);
             $getParams[$counter] = "{$counter}={$param}";
         }
-        if(Util::isHttpsException() == false){
+        if (Util::isHttpsException() == false) {
             $url = secure_url($url);
         }
         $getParams = implode("&", $getParams);

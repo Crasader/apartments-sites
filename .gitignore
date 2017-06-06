@@ -2,3 +2,5 @@
 .env
 tags
 laravel/public/*/css/properties/*.css
+laravel/config/https-exceptions.json
+laravel/config/server-template-file.json

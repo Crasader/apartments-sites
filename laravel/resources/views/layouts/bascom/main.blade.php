@@ -31,9 +31,8 @@ use App\Util\Util;
             if (preg_match("|/bascom/css/([^\.]*)\.css|", $sheet, $matches)
                     &&
                     !strstr($sheet, $site->getEntity()->getLegacyProperty()->code)) {
-               echo "<link rel='stylesheet' href='/bascom/css/{$matches[1]}.css?v={$entity->getAssetsVersion('bascom/css/' . $matches[1] . '.css')}'/>\n\t";
+                echo "<link rel='stylesheet' href='/bascom/css/{$matches[1]}.css?v={$entity->getAssetsVersion('bascom/css/' . $matches[1] . '.css')}'/>\n\t";
             }
-
         }
         if ($customSheet) {
             // echo "<link rel='stylesheet' href='{$customSheet}?v={$entity->getAssetsVersion('$customSheet')}'/>";
@@ -49,7 +48,7 @@ use App\Util\Util;
 @show
         <style type='text/css'>
             .exitpop-inner {
-                background: url(<?php echo $entity->getWebPublicDirectory('');?>/popup.jpg);
+                background: url(<?php echo $entity->getWebPublicDirectory('popup');?>/popup.jpg);
             }
         </style>
         <?php echo $entity->getGoogleAnalytics(); ?>
@@ -63,6 +62,7 @@ use App\Util\Util;
 		@yield('recaptcha-js')
     </head>
     <body class="appear-animate page-<?=Request::segment(1);?>">
+        @include('layouts/bascom/pages/inc/nav')
 <?php if (\App\System\Session::isCmsUser()): ?>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
 <!-- Trigger the modal with a button -->
@@ -97,7 +97,6 @@ use App\Util\Util;
         <!-- page warp -->
         <div class="page" id="top">
         <!-- End Page Loader -->
-        @include('layouts/bascom/pages/inc/nav')
         @include('flash::message')
         @yield('content')
             @yield('schedule-a-tour')
