@@ -1,6 +1,7 @@
 <?php
 use App\Util\Util;
-
+use Jenssegers\Agent\Agent;
+$agent = new Agent();
 ?>
 <!DOCTYPE html>
 <html lang="">
@@ -19,6 +20,16 @@ use App\Util\Util;
 @section('css')
         <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
         <?php $customSheet = null; ?>
+        <script>
+        window.isMobile() = function(){
+            var mobile = "<?=($agent->isMobile() ? 1 : '');?>";
+            if (mobile == 1){
+                return true;
+            }
+            return false;
+        }
+
+        </script>
         <?php //TODO: !refactor move this to a library function so we can utilize this code in every template?>
         <?php
         foreach (glob(public_path() . "/bascom/css/*.css") as $i => $sheet) {
