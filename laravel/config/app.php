@@ -202,6 +202,14 @@ return [
         * Flash providers
         */
         Laracasts\Flash\FlashServiceProvider::class,
+        /*
+        * medialibrary
+        */
+        Spatie\MediaLibrary\MediaLibraryServiceProvider::class,
+        /*
+        * mobile detection
+        */
+        Jenssegers\Agent\AgentServiceProvider::class,
     ],
 
     /*
@@ -251,6 +259,10 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        /*
+        * mobile detection
+        */
+        'Agent' => Jenssegers\Agent\Facades\Agent::class,
         /* Debugbar */
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
 

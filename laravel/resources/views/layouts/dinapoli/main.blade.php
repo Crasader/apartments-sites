@@ -1,10 +1,22 @@
 <?php
 use App\Util\Util;
+use Jenssegers\Agent\Agent;
+$agent = new Agent();
+
 ?>
 <!DOCTYPE html>
 <html lang="">
     <head>
         <title><?php echo $entity->getText('title_' . Util::baseUri(Request::getRequestUri(), 'home'));?><?php //$entity->getCity(); echo $entity->getAbbreviatedState(); Apartments | Luxury Apartments For Rent | <?php echo $entity->getLegacyProperty()->name;?></title>
+        <script>
+        window.isMobile = function(){
+            var mobile = "<?=($agent->isMobile() ? 1 : '');?>";
+            if (mobile == 1){
+                return true;
+            }
+            return false;
+        }
+        </script>
 @section('meta')
         <meta name="description" content="<?php echo $entity->getMeta('description', Util::requestUri());?>">
         <meta name="keywords" content="<?php echo $entity->getMeta('keywords', Util::requestUri());?>">
@@ -19,20 +31,21 @@ use App\Util\Util;
         <?php foreach (['main','animate.min','owl.carousel','magnific-popup','custom'] as $i => $sheet) {
     echo "<link rel='stylesheet' href='/" . $fsid . "/css/{$sheet}.css?v={$entity->getAssetsVersion($fsid . '/css/' . $sheet . '.css')}'>";
 }?>
-<!--
-<?php print_r(compact('extraSheets')); ?>
--->
-        <?php $extraSheets = $entity->getCustomStyleSheets($page);
+        <?php
+        $extraSheets = $entity->getCustomStyleSheets($page);
             foreach ($extraSheets as $i => $sheet): ?>
             <link rel="stylesheet" href="<?php echo $sheet . "?v={$entity->getAssetsVersion($sheet)}"; ?>">
-       <?php endforeach; ?>
+       <?php
+   endforeach; ?>
 @show
         <style type='text/css'>
             .exitpop-inner {
                 background: url(<?php echo $entity->getWebPublicDirectory('popup');?>/popup.jpg);
             }
         </style>
-        <?php echo $entity->getGoogleAnalytics(); ?>
+        <?php if (env('ENVIRONMENT') == 'live'):?>
+             <?php echo $entity->getGoogleAnalytics(); ?>
+        <?php endif; ?>
         @yield('extra-css')
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -182,7 +195,7 @@ use App\Util\Util;
        @section('js')
         <!-- JS -->
         @yield('google-maps-js')
-        <script type="text/javascript" src="/js/build/marketapts.concat.js?<?php echo fileatime(public_path() . "/js/build/marketapts.min.js");?>"></script>
+        <script type="text/javascript" src="/js/build/marketapts.min.js?<?php echo fileatime(public_path() . "/js/build/marketapts.min.js");?>"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <!--[if lt IE 10]><script type="text/javascript" src="js/placeholder.js"></script><![endif]-->
 		@yield('page-specific-js')

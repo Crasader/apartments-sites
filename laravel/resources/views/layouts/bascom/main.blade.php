@@ -1,11 +1,21 @@
 <?php
 use App\Util\Util;
-
+use Jenssegers\Agent\Agent;
+$agent = new Agent();
 ?>
 <!DOCTYPE html>
 <html lang="">
     <head>
         <title><?php echo $entity->getCity();?> <?php echo $entity->getAbbreviatedState();?> Apartments | Luxury Apartments For Rent | <?php echo $entity->getLegacyProperty()->name;?>></title>
+        <script>
+        window.isMobile = function(){
+            var mobile = "<?=($agent->isMobile() ? 1 : '');?>";
+            if (mobile == 1){
+                return true;
+            }
+            return false;
+        }
+        </script>
 @section('meta')
         <meta name="description" content="<?php echo $entity->getMeta('description', $_SERVER['REQUEST_URI']);?>">
         <meta name="keywords" content="<?php echo $entity->getMeta('keywords', $_SERVER['REQUEST_URI']);?>">
@@ -31,9 +41,8 @@ use App\Util\Util;
             if (preg_match("|/bascom/css/([^\.]*)\.css|", $sheet, $matches)
                     &&
                     !strstr($sheet, $site->getEntity()->getLegacyProperty()->code)) {
-               echo "<link rel='stylesheet' href='/bascom/css/{$matches[1]}.css?v={$entity->getAssetsVersion('bascom/css/' . $matches[1] . '.css')}'/>\n\t";
+                echo "<link rel='stylesheet' href='/bascom/css/{$matches[1]}.css?v={$entity->getAssetsVersion('bascom/css/' . $matches[1] . '.css')}'/>\n\t";
             }
-
         }
         if ($customSheet) {
             // echo "<link rel='stylesheet' href='{$customSheet}?v={$entity->getAssetsVersion('$customSheet')}'/>";
@@ -49,7 +58,7 @@ use App\Util\Util;
 @show
         <style type='text/css'>
             .exitpop-inner {
-                background: url(<?php echo $entity->getWebPublicDirectory('');?>/popup.jpg);
+                background: url(<?php echo $entity->getWebPublicDirectory('popup');?>/popup.jpg);
             }
         </style>
         <?php echo $entity->getGoogleAnalytics(); ?>
@@ -63,6 +72,7 @@ use App\Util\Util;
 		@yield('recaptcha-js')
     </head>
     <body class="appear-animate page-<?=Request::segment(1);?>">
+        @include('layouts/bascom/pages/inc/nav')
 <?php if (\App\System\Session::isCmsUser()): ?>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
 <!-- Trigger the modal with a button -->
@@ -97,7 +107,6 @@ use App\Util\Util;
         <!-- page warp -->
         <div class="page" id="top">
         <!-- End Page Loader -->
-        @include('layouts/bascom/pages/inc/nav')
         @include('flash::message')
         @yield('content')
             @yield('schedule-a-tour')
@@ -112,7 +121,7 @@ use App\Util\Util;
         <!-- JS -->
         @yield('google-maps-js')
         <!-- <script type="text/javascript" src="/js/build/marketapts.concat.js?v=<?php echo uniqid() . time();?>"></script> -->
-        <script type="text/javascript" src="/js/build/marketapts.concat.js?<?php echo fileatime(public_path() . "/js/build/marketapts.min.js");?>"></script>
+        <script type="text/javascript" src="/js/build/marketapts.min.js?<?php echo fileatime(public_path() . "/js/build/marketapts.min.js");?>"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <!--[if lt IE 10]><script type="text/javascript" src="js/placeholder.js"></script><![endif]-->
 		@yield('page-specific-js')

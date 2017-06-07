@@ -10,7 +10,7 @@ use App\Util\Html\Input;
             @stop
     @section('after-nav')
     <!-- Page Title Section -->
-    <section class="page-section bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('');?>/page-title-bg1.jpg">
+    <section class="page-section page-title bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('');?>/page-title-bg1.jpg">
         <div class="relative container align-left">
 
             <div class="row">
@@ -33,8 +33,8 @@ use App\Util\Html\Input;
         </div>
     </section>
 	@stop
- 
-            @section('content')        
+
+            @section('content')
             <script src="https://www.google.com/recaptcha/api.js"></script>
             <!-- Contact Form Section -->
             <section class="page-section pb-0" id="contact-form">
@@ -95,7 +95,7 @@ use App\Util\Html\Input;
                             <?php endif; ?>
                         </div>
                     </div>
-                    
+
                 </div>
             </section>
             @stop
@@ -150,6 +150,6 @@ use App\Util\Html\Input;
            		});
             	amcMaskPhone('#phone','(999) 999-9999');
                 <?php endif; ?>
-        	}); 
+        	});
             </script>
             @stop

@@ -96,19 +96,19 @@ function submitEditTag(){
     });
 }
 function edit_tag(name){
-  if(location.href.match(/floorplans$/))
-    $("#epop-close").trigger("click");
     editTagName = name;
     $.ajax({
         'url': '/text-tag-get',
         'data': {
-            'tag': editTagName
+            'tag': name
         },
         'type': 'POST'
     }).done(function(response){
         var json = $.parseJSON(response);
         $("#editMe").val(json.body);
         $("#mmbutton").trigger("click");
+        $("#epop-close").trigger("click");
+        $("#banner-special").slideUp();
     });
 }
 

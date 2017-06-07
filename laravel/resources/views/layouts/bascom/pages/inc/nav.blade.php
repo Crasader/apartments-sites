@@ -14,6 +14,8 @@ $env = env('ENVIRONMENT');
             try {
                 $specials = app()->make('App\Property\Specials');
                 $foo = $specials->traitGet('specials');
+                \Debugbar::info("Foo is: ");
+                \Debugbar::info($foo);
                 $data = [];
                 foreach ($foo as $index => $object) {
                     $data[$object->U_MARKETING_NAME] = $object->SPECIAL_TEXT;
@@ -24,7 +26,7 @@ $env = env('ENVIRONMENT');
             ?>
             <?php if (isset($data['SpecialWebsite']) && strlen(trim($data['SpecialWebsite']))): ?>
                 <?php if (Util::isHome()): ?>
-			<div id="banner-special" style="display: block;"> 
+			<div id="banner-special" style="display: hidden;"> 
 				<div class="container relative">
             		<div class="row">
         				<div class="col-md-12 text-center">
@@ -61,6 +63,11 @@ $env = env('ENVIRONMENT');
                     </div>
                 </div>
             </div>
+            <?php
+            if (!Util::isHome()) {
+                echo "</section>";
+            }
+            ?>
             <nav id="nav" class="main-nav dark js-stick">
                 <div class="full-wrapper relative clearfix">
                     <div class="nav-logo-wrap local-scroll">
@@ -89,5 +96,8 @@ $env = env('ENVIRONMENT');
             </nav>
             <!-- End Nav-->
             @yield('after-nav')
-            </section>
+            <?php if (Util::isHome()) {
+                echo "</section>";
+            }
+            ?>
             <!-- End Home Section -->

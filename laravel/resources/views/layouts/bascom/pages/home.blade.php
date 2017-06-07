@@ -45,18 +45,24 @@ $displayOptions['dont-show-contact-details'] = true;
         @section('content')
             <section class="page-section" id="about">
                 <div class="container relative">
-                    
+
                     <h2 class="section-title font-alt align-left mb-70 mb-sm-40">
                         <?php echo $entity->getText('home-page-about', ['oneshot' => 'About 80 on Gibson']); ?>
                     </h2>
-                    
+
                     <div class="section-text mb-50 mb-sm-20">
                         <div class="row">
                             <div class="col-md-8 col-sm-6 mb-sm-50 mb-xs-30">
-                                <?php echo $entity->getText('home-page-about-description', ['oneshot' => "<p>Live better at 80 On Gibson Apartments For Rent in Henderson, Nevada. Indulged by a pristine community greenbelt and overlooking Henderson's best sweeping valley views...there is no other place to call home! Striking finishes, abundant storage, elegant cabinetry, gas heat, fireplaces in select homes and spacious nine foot ceilings give you all the comforts of home, the pleasures of a resort and the appeal of the Henderson community. Work hard. Play harder. </p> 
-                                <p>80 On Gibson's Henderson location and pet-friendly community gives you the most out of your day with restaurants, parks, and shopping within minutes and golfing just moments away! Make time to unwind in the spa, work out in the fitness room or play a game of racquetball in our indoor gym. Enjoy a cup of coffee in our resident lounge or take in the breathtaking views from your private deck. At 80 On Gibson, you are surrounded by life's many pleasures!</p>"]);?>
+                                <?php echo $entity->getText(
+                                    'home-page-about-description',
+                                    [
+                                        'oneshot' =>
+                                        "<p>Live better at 80 On Gibson Apartments For Rent in Henderson, Nevada. Indulged by a pristine community greenbelt and overlooking Henderson's best sweeping valley views...there is no other place to call home! Striking finishes, abundant storage, elegant cabinetry, gas heat, fireplaces in select homes and spacious nine foot ceilings give you all the comforts of home, the pleasures of a resort and the appeal of the Henderson community. Work hard. Play harder. </p> 
+                                        <p>80 On Gibson's Henderson location and pet-friendly community gives you the most out of your day with restaurants, parks, and shopping within minutes and golfing just moments away! Make time to unwind in the spa, work out in the fitness room or play a game of racquetball in our indoor gym. Enjoy a cup of coffee in our resident lounge or take in the breathtaking views from your private deck. At 80 On Gibson, you are surrounded by life's many pleasures!</p>"
+                                    ]
+                                );?>
                             </div>
-                            
+
                             <div class="col-md-4 col-sm-6 mb-sm-50 mb-xs-30">
                                 <ul class='dash-list'>
                         <?php
@@ -77,7 +83,7 @@ $displayOptions['dont-show-contact-details'] = true;
                 </div>
             </section>
             <!-- End About Section -->
-            
+
 
             <!-- Community Section -->
             <section class="page-section pt-0 pb-30 banner-section bg-dark" data-background="<?php echo $entity->getWebPublicDirectory('slides');?>/bg2.jpg" id="community">
@@ -159,7 +165,7 @@ $displayOptions['dont-show-contact-details'] = true;
             </section>
             <!-- End Other Features Section -->
 
-           
+
             <!-- Call Action Section -->
             <section class="page-section pt-0 pb-0 banner-section bg-dark" data-background="<?php echo $entity->getWebPublicDirectory('slides');?>/bg1.jpg">
                 <div class="container relative">
@@ -218,7 +224,7 @@ $displayOptions['dont-show-contact-details'] = true;
                              'filters' => ['community','main']
                         ];
                      ?>
-                    @include('layouts/dinapoli/pages/inc/gallery')
+                    @include('layouts/bascom/pages/inc/gallery')
                 </div>
             </section>
             <!-- End Gallery Section -->
@@ -248,19 +254,20 @@ $displayOptions['dont-show-contact-details'] = true;
                         <div style="overflow:hidden;max-width:100%;">
                             <div id="map-canvas"></div>
                         <div>
-                        @include('layouts/dinapoli/pages/inc/google-maps-script')
+                        @include('layouts/bascom/pages/inc/google-maps-script')
                     </div>
                 </div>
              </section>
             <!-- End Google Map -->
-            @include('layouts/bascom/pages/inc/contact-details')    
+            @include('layouts/bascom/pages/inc/contact-details')
+            @include('layouts/bascom/pages/inc/epop')
         @stop
-
+        
 
         @section('schedule-a-tour')
             @include('layouts/bascom/pages/inc/schedule-a-tour')
         @stop
-            
+
         @section('page-specific-js')
         <!--[if lt IE 10]><script type="text/javascript" src="js/placeholder.js"></script><![endif]-->
         <script type="text/javascript">
@@ -268,11 +275,15 @@ $displayOptions['dont-show-contact-details'] = true;
         </script>
         <script type="text/javascript">
             $(function(){
+                if(localStorage.getItem('#banner-special') != 'closed'){
+                    $("#banner-special").css("display","block");
                 $("#banner-special").slideDown(500);
                 $("#banner-special-close").click(function(e) {
                     e.preventDefault();
                     $("#banner-special").slideUp();
+                    localStorage.setItem('#banner-special','closed');
                 });
+                }
             });
         </script>
         @stop

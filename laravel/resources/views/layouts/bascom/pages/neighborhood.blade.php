@@ -2,26 +2,26 @@
 
     @section('after-nav')
     <!-- Page Title Section -->
-    <section class="page-section bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('');?>/page-title-bg1.jpg">
+    <section class="page-section page-title bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('');?>/page-title-bg1.jpg">
         <div class="relative container align-left">
-            
+
             <div class="row">
-                
+
                 <div class="col-md-8">
-                    <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Eat•Play•Shop</h1>
+                    <h1 class="hs-line-11 font-alt mb-20 mb-xs-0"><?php echo $entity->getText('neighborhood-title',['oneshot' => 'Eat•Play•Shop']);?></h1>
                     <div class="hs-line-4 font-alt">
 			            <?php echo $entity->getText('neighborhood-text', ['oneshot' => 'Everything in your own backyard...']);?>
                     </div>
                 </div>
-                
+
                 <div class="col-md-4 mt-30">
                     <div class="mod-breadcrumbs font-alt align-right">
                         <a href="/">Home</a>&nbsp;/&nbsp;<span>NEIGHBORHOOD</span>
                     </div>
-                    
+
                 </div>
             </div>
-            
+
         </div>
     </section>
     <!-- End Page Title Section -->
@@ -71,7 +71,7 @@
                 </div>
             </section>
             <!-- End About Section -->
-            
+
 
                        <!-- Call Action Section -->
             <section class="page-section pt-0 pb-0 banner-section bg-dark" data-background="<?php echo $entity->getWebPublicDirectory('');?>/bg1.jpg">
@@ -116,16 +116,16 @@
                                 <?php echo $entity->getText('commute-text'); ?>
                                 </div>
                             </div>
-                    
+
                         </div>
 	                </div>
             	</div>
             </section>
- 
-            
+
+
             <!-- Google Map -->
             <section class="page-section pb-0">
-                <div class="relative"> 
+                <div class="relative">
                     <!-- Google Map -->
                     <div class="map-block">
                         <div class="map">
@@ -134,7 +134,7 @@
                                 <div style="overflow:hidden;height:537px;max-width:100%;">
                                     <div id="map-canvas" style="max-width:100%;"></div>
                                 <div>
-                                @include('layouts/dinapoli/pages/inc/google-maps-script')
+                                @include('layouts/bascom/pages/inc/google-maps-script')
                             </div>
                             <?php //@include('layouts/dinapoli/pages/inc/google-maps-apartment-feature')?>
                         </div>
@@ -205,13 +205,13 @@
 
                 </div>
             <!-- </section> -->
- 
+
              @stop
-            
+
         <?php $displayOptions['dont-show-contact-details'] = true; ?>
 
         @section('google-maps-js')
-        <!-- Replace test API Key "AIzaSyAZsDkJFLS0b59q7cmW0EprwfcfUA8d9dg" with your own one below 
+        <!-- Replace test API Key "AIzaSyAZsDkJFLS0b59q7cmW0EprwfcfUA8d9dg" with your own one below
         **** You can get API Key here - https://developers.google.com/maps/documentation/javascript/get-api-key -->
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo $entity->getText('google-map-key', ['nodecorate'=>1]);?>"></script>
         @stop
@@ -221,5 +221,5 @@
                 @include('layouts/bascom/pages/inc/schedule-a-tour')
             <!-- End Schedule a Tour Section -->
             @stop
-        
+
         @section('contact','')

@@ -37,15 +37,15 @@ $displayOptions['dont-show-contact-details'] = 1;
     @extends('layouts/bascom/main')
     @section('after-nav')
     <!-- Page Title Section -->
-    <section class="page-section bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('');?>/page-title-bg3.jpg">
+    <section class="page-section page-title bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('');?>/page-title-bg3.jpg">
         <div class="relative container align-left">
 
             <div class="row">
 
                 <div class="col-md-8">
-                    <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Floor Plans & Availablity</h1>
+                    <h1 class="hs-line-11 font-alt mb-20 mb-xs-0"><?php echo $entity->getText('floorplans-title',['oneshot' => 'Floor Plans & Availablity']);?></h1>
                     <div class="hs-line-4 font-alt">
-                        Floor Plans at <?php echo $entity->getLegacyProperty()->name;?> Apartments in <?php echo $entity->getCity();?>, <?php echo $entity->getAbbreviatedState();?>
+                        <?php echo $entity->getText('floorplans-description',['oneshot' => "Floor Plans at {$entity->getLegacyProperty()->name} Apartments in {$entity->getCity()}, {$entity->getAbbreviatedState()}"]);?>
                     </div>
                 </div>
 
@@ -187,7 +187,6 @@ $displayOptions['dont-show-contact-details'] = 1;
 
                 </div>
             </section>
-            @include('layouts/bascom/pages/inc/epop')
         @stop
 
 

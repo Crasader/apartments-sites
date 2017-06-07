@@ -10,13 +10,18 @@
         "barryvdh/laravel-debugbar": "^2.3",
         "doctrine/dbal": "^2.5",
         "graham-campbell/htmlmin": "^4.5",
+        "intervention/imagecache": "^2.3",
+        "jenssegers/agent": "^2.5",
         "laracasts/flash": "^3.0",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
+        "league/flysystem-aws-s3-v3": "^1.0",
         "league/oauth2-client": "^2.2",
+        "php-ffmpeg/php-ffmpeg": "^0.9.3",
         "phpmailer/phpmailer": "^5.2",
         "predis/predis": "^1.1",
-        "skagarwal/google-places-api": "^1.0"
+        "skagarwal/google-places-api": "^1.0",
+        "spatie/laravel-medialibrary": "^5.0.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

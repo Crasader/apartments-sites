@@ -1,11 +1,11 @@
 <?php use App\Util\Util;
 
 ?>
-@extends('layouts/bascom/main')            
+@extends('layouts/bascom/main')
            	@section('after-nav')
 
             <!-- Page Title Section -->
-            <section class="page-section bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('');?>/page-title-bg5.jpg">
+            <section class="page-section page-title bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('');?>/page-title-bg5.jpg">
                 <div class="relative container align-left">
 
                     <div class="row">
@@ -29,7 +29,7 @@
 
 
 
-			@stop 
+			@stop
             @section('content')
                         <script src="https://www.google.com/recaptcha/api.js"></script>
             <!-- Resident Login Form Section -->
@@ -39,7 +39,7 @@
                         <div class="row">
                             <div class="col-md-6 col-sm-6 col-md-offset-3 mb-sm-50 mb-xs-30">
                                 <?php if (isset($residentfailed)): ?><h1 class="error">Invalid Username/Password</h1><?php endif;?>
-                                <form action="/resident-portal/portal-center" method="post" id='form1'>
+                                <form action="/resident-portal/post-portal-center" method="post" id='form1'>
                                     <div class="mb-20 mb-md-10">
                                         <label><i class="fa fa-user"></i> Username or Email</label>
                                         <input type="text" name="email" id="email" class="input-md form-control" maxlength="100">
@@ -66,16 +66,16 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </section>
             <!-- End About Section -->
             @stop
         @section('contact','')
         @section('action','')
-        
+
         @section('google-maps-js')
-        <!-- Replace test API Key "AIzaSyAZsDkJFLS0b59q7cmW0EprwfcfUA8d9dg" with your own one below 
+        <!-- Replace test API Key "AIzaSyAZsDkJFLS0b59q7cmW0EprwfcfUA8d9dg" with your own one below
         **** You can get API Key here - https://developers.google.com/maps/documentation/javascript/get-api-key -->
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo $entity->getText('google-map-key', ['nodecorate'=>1]);?>"></script>
         @stop

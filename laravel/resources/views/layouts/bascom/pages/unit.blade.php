@@ -158,7 +158,7 @@ $unitType = $extras['unittype'];
 			
             @section('schedule-a-tour')
 			<!-- Schedule a Tour Section -->
-                @include('layouts/dinapoli/pages/inc/schedule-a-tour')
+                @include('layouts/bascom/pages/inc/schedule-a-tour')
             <!-- End Schedule a Tour Section -->
             @stop
             @section('contact','')

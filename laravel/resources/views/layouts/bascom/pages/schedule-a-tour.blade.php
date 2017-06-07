@@ -1,26 +1,27 @@
 <?php use App\Util\Util;
+use App\Legacy\Property;
 
 ?>
 @extends('layouts/bascom/main')
             @section('before-css')
-             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" /> 
+             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
             @stop
             @section('extra-css')
             <link rel="stylesheet" href="css/bootstrap-datepicker3.min.css"/>
-            <link rel="stylesheet" href="/css/neon-forms.css"/> 
+            <link rel="stylesheet" href="/css/neon-forms.css"/>
             @stop
 
             @section('after-nav')
     <!-- Page Title Section -->
-    <section class="page-section bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('');?>/page-title-bg3.jpg">
+    <section class="page-section page-title bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('');?>/page-title-bg3.jpg">
         <div class="relative container align-left">
 
             <div class="row">
 
                 <div class="col-md-8">
-                    <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Schedule a tour</h1>
+                    <h1 class="hs-line-11 font-alt mb-20 mb-xs-0"><?php echo $entity->getText('schedule-a-tour-title',['oneshot' => 'Schedule a tour']);?></h1>
                     <div class="hs-line-4 font-alt">
-						<?php echo $entity->getText('schedule-a-tour-title', ['oneshot' => 'Schedule a tour']);?>
+						<?php echo $entity->getText('schedule-a-tour-description', ['oneshot' => 'Schedule a tour']);?>
                     </div>
                 </div>
 
@@ -36,7 +37,7 @@
     </section>
     <!-- End Page Title Section -->
     @stop
- 
+
             @section('content')
             <script src="https://www.google.com/recaptcha/api.js"></script>
              <!-- Schedule Form Section -->
@@ -51,8 +52,25 @@
                     ?>
                     <div class="section-text mb-50 mb-sm-20">
                         <div class="row">
-                            
+
                             <div class="col-md-7 col-sm-7 mb-sm-50 mb-xs-30">
+                                @if(isset($_GET['submitted']))
+
+                                <div class="col-md-7 col-sm-7 mb-sm-50 mb-xs-30">
+                                    <h1 class=" notice">
+                                        We have received your Schedule Request.
+                                    </h1>
+                                    <div>
+                                        Your message has been sent. We will be contacting you shortly.
+
+                                        For questions, give us a call:
+                                        <?=Property::getPhoneByEntity($entity);?>
+
+
+                                    </div>
+
+                                </div>
+                                @else
                                 <form role="form" id="form1" name="form1" method="post" class="validate" action="/schedule">
                                     <?php //TODO: Find a form helper for laravel that will do this for us?>
                                     <div class="mb-20 mb-md-10 form-group">
@@ -101,8 +119,9 @@
                                         <button type="submit" style='margin-top: 5px;' class="btn btn-mod btn-brown btn-large btn-round submit-btn">Submit</button>
                                     </div>
                                 </form>
+                                @endif
                             </div>
-                            
+
                             <div class="col-md-5 col-sm-5 mb-sm-50 mb-xs-30 text-center">
                                 <div class="row">
                                 	<div class="col-sm-12">
@@ -110,11 +129,11 @@
                                             <div class="map-block">
                                                 <div class="map">
                                                     <div class="map-container">
-                                                        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script> 
+                                                        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
                                                         <div style="height:537px;overflow:hidden;max-width:100%;">
                                                             <div id="map-canvas" style="max-width:100%;"></div>
                                                         <div>
-                                                    @include('layouts/dinapoli/pages/inc/google-maps-script')
+                                                    @include('layouts/bascom/pages/inc/google-maps-script')
                                                     </div>
                                                 </div>
                                             </div>
@@ -123,7 +142,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </section>
             <!-- End Schedule Section -->
@@ -132,12 +151,12 @@
             @section('contact')
             <section class="page-section pt-0" id="contact">
                 <div class="container relative">
-                    
+
                     <div class="row">
-                        
+
                         <div class="col-md-10 col-md-offset-1">
                             <div class="row">
-                                
+
                                 <!-- Phone -->
                                 <div class="col-sm-6 col-lg-4 pt-20 pb-20 pb-xs-20">
                                     <div class="contact-item">
@@ -153,7 +172,7 @@
                                     </div>
                                 </div>
                                 <!-- End Phone -->
-                                
+
                                 <!-- Address -->
                                 <div class="col-sm-6 col-lg-4 pt-20 pb-20 pb-xs-20">
                                     <div class="contact-item">
@@ -169,7 +188,7 @@
                                     </div>
                                 </div>
                                 <!-- End Address -->
-                                
+
                                 <!-- Office Hours -->
                                 <div class="col-sm-6 col-lg-4 pt-20 pb-20 pb-xs-20">
                                     <div class="contact-item">
@@ -188,7 +207,7 @@
                             </div>
                         </div>
                     </div>
-            	</div>        
+            	</div>
             </section>
             @stop
 
@@ -202,9 +221,9 @@
                  */
             ?>
             $("#timepicker").timepicker({});
-            $("#datepicker").datepicker({format: 'mm/dd/yyyy'});	
-            $("#moveindatediv").datepicker({format: 'mm/dd/yyyy'});	
-            amcBindValidate({ 
+            $("#datepicker").datepicker({format: 'mm/dd/yyyy'});
+            $("#moveindatediv").datepicker({format: 'mm/dd/yyyy'});
+            amcBindValidate({
                 'form': '#form1',
                 'ignore': '.ignore',
                 'rules': {
@@ -243,6 +262,6 @@
             });
             amcMaskPhone('#phone','(999) 999-9999');
 		});	//End document.ready
-		
+
 	</script>
 		@stop

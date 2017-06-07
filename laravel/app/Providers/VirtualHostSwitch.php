@@ -32,9 +32,9 @@ class VirtualHostSwitch extends ServiceProvider
             }
             if ($entity === null) {
                 $prop = new PropertyEntity;
-                $legacy = LegacyProperty::where('url', 'like', '%' . Util::serverName() . '%')->get()->first();
+                $legacy = LegacyProperty::where('url', 'like', '%' . Util::realServerName() . '%')->get()->first();
                 if ($legacy === null) {
-                    $legacy = LegacyProperty::where('devurl', 'like', '%' . Util::serverName() . '%')->get()->first();
+                    $legacy = LegacyProperty::where('devurl', 'like', '%' . Util::realServerName() . '%')->get()->first();
                 }
                 $cbCounter = 5;
                 $fileSystemId = $prop->generateFilesystemId($legacy, function () use ($cbCounter) {
@@ -83,7 +83,7 @@ class VirtualHostSwitch extends ServiceProvider
     public function newCommandLineSite()
     {
         if (!isset($_SERVER['SERVER_NAME'])) {
-            $_SERVER['SERVER_NAME'] = Util::serverName();
+            $_SERVER['SERVER_NAME'] = Util::realServerName();
         }
         $entity = PropertyEntity::where('fk_legacy_property_id', $this->_resolveSiteId())->get()->first();
         if ($entity === null) {

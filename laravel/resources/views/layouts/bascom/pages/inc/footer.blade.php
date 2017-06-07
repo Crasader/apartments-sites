@@ -148,9 +148,9 @@
 
                         <!-- Copyright -->
 						<div class="footer-copy font-alt">
-                            <img src="https://s3-us-west-2.amazonaws.com/mktapts/images/dinapoli/164MTB/logo/hudimg.png" alt="Equal Housing" title="Equal Housing" class="eq-house-img" width="30" height="20"> <?php //TODO: !common put this in common images folder?>
-                            <img src="https://s3-us-west-2.amazonaws.com/mktapts/images/dinapoli/164MTB/logo/pet.png" alt="Pet Friendly" title="Pet Friendly" class="eq-house-img" width="30" height="20">
-                            <img src="https://s3-us-west-2.amazonaws.com/mktapts/images/dinapoli/164MTB/logo/disabled.png" alt="Disability Access" title="Disability Access" class="eq-house-img" width="30" height="20">
+                            <img src="<?php echo $entity->getWebPublicDirectory('common') . "/hudimg.png";?>" alt="Equal Housing" title="Equal Housing" class="eq-house-img" width="30" height="20"> <?php //TODO: !common put this in common images folder?>
+                            <img src="<?php echo $entity->getWebPublicDirectory('common') . "/pet.png";?>" alt="Pet Friendly" title="Pet Friendly" class="eq-house-img" width="30" height="20">
+                            <img src="<?php echo $entity->getWebPublicDirectory('common') . "/disabled.png";?>" alt="Disability Access" title="Disability Access" class="eq-house-img" width="30" height="20">
                         </div>
                         <div class="footer-made">
                             Copyright © <?php echo date("Y");?><br>
