@@ -119,7 +119,7 @@ $js->generateIDs();
                                                     <li>Sq Feet: <b><span><?php echo $object->SQFT; ?></span></b></li>
                                                     <li>Bedrooms: <b><span><?php echo $object->BED; ?></span></b></li>
                                                     <li>Bathrooms: <b><span><?php echo $object->BATH;?></span></b></li>
-                                                    <li>Deposit: <b><span>$100</span></b></li>
+                                                    <li>Deposit: <b><span>$<?=$object->DEPOSIT;?></span></b></li>
                                                 </ul>
                                             </div>
 
