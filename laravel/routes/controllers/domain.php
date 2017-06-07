@@ -103,3 +103,5 @@ Route::get('/resident-portal/{page}', 'SiteController@resolveResident')->middlew
 Route::post('/tags-logout', 'SiteController@tagsLogout')->middleware('https');
 Route::post('/{page}', 'PostController@handle')->middleware('https');
 Route::post('/resident-portal/{page}', 'PostController@handle')->middleware(['https']);
+
+include(dirname(__FILE__) . '/../api/reviews.php');

@@ -82,17 +82,22 @@ class Reviews extends Model
     private function preamble()
     {
         if ($this->_api === null) {
-            throw new \Exception("API Key not set");
+            $this->_api = env('GOOGLE_PLACES_API_KEY');
         }
     }
 
-    public function fetchDetails($obj, $store=true, $clearFirst=true)
+    public function fetchDetails($obj, $store=true, $clearFirst=true,$fetchOnly=[])
     {
         $this->preamble();
 
         $googleDeets = $yelpDeets = $facebookDeets = [];
         foreach ($this->getPlace($obj,"") as $index => $row) {
             if($row->place_type == Reviews::GOOGLE){
+                if(!empty($fetchOnly) && !in_array($row->place_type,$fetchOnly)){
+                    continue;
+                }else{
+                    echo "IN ARRAY: GOOGLE";
+                }
                 $google = $row->place_id;
                 $googleDeets = $this->_api->placeDetails($google, []);
                 if($store){
@@ -103,11 +108,12 @@ class Reviews extends Model
                         if($this->isGoodReview($review,Reviews::GOOGLE) == false){
                             continue; //Kinda scumbaggish thing to do
                         }
+                        $imageData = $this->doGoogleUploadUserImageToS3($review);
                         $rev = new self();
                         $rev->fk_legacy_property_id = $row->fk_legacy_property_id;
                         $rev->rating = Util::arrayGet($review,'rating');
                         $rev->author_name = Util::arrayGet($review,'author_name');
-                        $rev->author_url = Util::arrayGet($review,'author_url');
+                        $rev->author_url = Util::arrayGet($imageData,'url',Util::arrayGet($review,'author_url'));
                         $rev->language = Util::arrayGet($review,'language');
                         $rev->relative_time_description = Util::arrayGet($review,'relative_time_description');
                         $rev->post_time = date("Y-m-d H:i:s", Util::arrayGet($review,'time'));
@@ -118,6 +124,11 @@ class Reviews extends Model
                 }
             }
             if($row->place_type == Reviews::YELP){
+                if(!empty($fetchOnly) && !in_array($row->place_type,$fetchOnly)){
+                    continue;
+                }else{
+                    echo "IN ARRAY YELP";
+                }
                 $yelp = $row->place_id;
                 $yelpToken = $this->yelpGetAccessToken();
                 if($yelpToken === null){
@@ -132,11 +143,12 @@ class Reviews extends Model
                         if($this->isGoodReview($review,Reviews::YELP) == false){
                             continue; 
                         }
+                        $imageData = $this->doYelpUploaderUserImageToS3($review);
                         $rev = new self();
                         $rev->fk_legacy_property_id = $row->fk_legacy_property_id;
                         $rev->rating = Util::arrayGet($review,'rating');
                         $rev->author_name = Util::arrayGet($review,'user.name');
-                        $rev->author_url = Util::arrayGet($review,'user.image_url');
+                        $rev->author_url = Util::arrayGet($imageData,'url',Util::arrayGet($review,'user.image_url'));
                         $rev->language = 'en';
                         $rev->relative_time_description = '';
                         $rev->post_time = date("Y-m-d H:i:s", Util::arrayGet($review,'time'));
@@ -147,6 +159,11 @@ class Reviews extends Model
                 }
             }
             if($row->place_type == Reviews::FACEBOOK){
+                if(!empty($fetchOnly) && !in_array($row->place_type,$fetchOnly)){
+                    continue;
+                }else{
+                    echo "IN ARRAY FACEBOOK";
+                }
                 $facebookDeets = $this->doFacebookReviewFetch();
                 if(Util::arrayGet($facebookDeets,'status') == 'ok'){
                     if($store){
@@ -213,6 +230,36 @@ class Reviews extends Model
                 break;
         }
         return false;
+    }
+
+    public function generateS3Url($userId,string $type){
+        //
+        $image = trim($userId) . '.jpg';
+        return [
+            's3_path' => 'mktapts/reviews/' . trim($type) . '/' . trim($image)
+        ];
+    }
+
+    public function doGoogleUploadUserImageToS3($reviewData){
+        try{
+            $targetFile = "/tmp/" . uniqid() . "-google.jpg";
+            file_put_contents($targetFile,file_get_contents($url = Util::arrayGet($reviewData,'profile_photo_url')));
+            $result = $this->s3Put($targetFile,Util::arrayGet($this->generateS3Url(uniqid(),Reviews::GOOGLE),'s3_path'));
+        }catch(\Exception $e){
+            return ['status' => 'error','exception' => $e->getMessage()];
+        }
+        return ['status' => 'ok','url' => Util::arrayGet($result,'result')->get('ObjectURL')];
+    }
+
+    public function doYelpUploaderUserImageToS3($reviewData){
+        try{
+            $targetFile = "/tmp/" . uniqid() . "-yelp.jpg";
+            file_put_contents($targetFile,file_get_contents($url = Util::arrayGet($reviewData,'user.image_url')));
+            $result = $this->s3Put($targetFile,Util::arrayGet($this->generateS3Url(uniqid(),Reviews::YELP),'s3_path'));
+        }catch(\Exception $e){
+            return ['status' => 'error','exception' => $e->getMessage()];
+        }
+        return ['status' => 'ok','url' => Util::arrayGet($result,'result')->get('ObjectURL')];
     }
 
     public function yelpGetAccessToken()
@@ -284,14 +331,6 @@ class Reviews extends Model
         }
     }
 
-    public function doFacebookGenerateS3Url(int $userId){
-        //
-        $image = trim($userId) . '.jpg';
-        return [//'web_url' => env('WEB_PUBLIC_BASE') . 'facebook/reviews/' . trim($image), 
-            's3_path' => 's3://mktapts/facebook/reviews/' . trim($image)
-        ];
-    }
-
     /* !curl downloads an image from facebook 
      * !curl posts an image to s3
      */
@@ -302,7 +341,7 @@ class Reviews extends Model
         $code = $legacyProperty->code;
 
         //TODO: generate the path where the image should go
-        $targets = $this->doFacebookGenerateS3Url($userId);
+        $targets = $this->generateS3Url($userId,Reviews::FACEBOOK);
         //TODO: download the image from facebook
         /* !curl_call here - downloads image from facebook */
         $foo = file_get_contents(Util::arrayGet($userData,'url'));
