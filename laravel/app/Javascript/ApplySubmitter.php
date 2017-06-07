@@ -2,6 +2,7 @@
 namespace App\Javascript;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Util\Util;
 
 class ApplySubmitter extends Model
 {
@@ -20,6 +21,7 @@ class ApplySubmitter extends Model
         foreach ($this->_collection as $key => $object) {
             $this->_generatedIDs[$key . '_' . uniqid()] = $key;
         }
+
     }
 
     public function getGenId($key)

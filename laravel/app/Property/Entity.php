@@ -282,6 +282,8 @@ class Entity extends Model
                 return $base . "images/{$this->getTemplateName()}/{$this->getLegacyCode()}";
             case 'common':
                 return $base . "images/common";
+            case 'template-common':
+                return $base . "images/{$this->getTemplateName()}/common";
             default:
                 return $base . "images/{$this->getTemplateName()}/{$this->getLegacyCode()}";
         }

@@ -119,7 +119,7 @@ class PostController extends Controller
     public function handle(Request $request, string $page)
     {
         Util::log(var_export($request, 1));
-
+        Util::dd(compact('request', 'page'));
         $inPage = in_array($page, array_keys($this->_allowed));
         $inPath = in_array($request->getPathInfo(), array_keys($this->_allowed));
         if (!$inPage && !$inPath) {
@@ -477,6 +477,7 @@ class PostController extends Controller
             'sqft' => intval($data['sqft']),
             'orig_unittype' => $data['unittype'],
         ];
+
 
 
         $siteData = $this->resolvePageBySite('unit', $cleaned);

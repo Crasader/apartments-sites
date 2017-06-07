@@ -133,8 +133,7 @@ function init_map() {
 			position: new google.maps.LatLng(<?php echo "$lat,$long"; ?>),
 			gestureHandling: 'cooperative',
 			map: map,
-			icon: '<?php echo $entity->getWebPublicDirectory('
-			common ');?>/custom-marker.png'
+			icon: '<?php echo $entity->getWebPublicDirectory('template-common');?>/custom-marker.png'
 	});
 	infowindow = new google.maps.InfoWindow({
 			content: '<?php echo "<strong>" . $entity->getLegacyProperty()->name . "</strong><br>" . $entity->getFullAddress();?>'
