@@ -4,7 +4,7 @@ ExitPop
 function exitPopup(){
     // Show the exit popup
     if(isMobile()){
-        return;
+        console.log('');
     }
     window.isCmsUser = function() {
         var dataAttribute = $("#exitpopup-overlay").data('localstorage');
