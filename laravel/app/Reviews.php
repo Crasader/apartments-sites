@@ -21,6 +21,7 @@ use App\System\Session;
 use App\Exceptions\ParameterException;
 use App\Reviews\Place;
 use Facebook\Facebook as FB;
+use Aws\S3\S3Client as S3;
 
 
 /* Google places API wrapper */
@@ -90,8 +91,6 @@ class Reviews extends Model
         $this->preamble();
 
         $googleDeets = $yelpDeets = $facebookDeets = [];
-        $facebookDeets = $this->doFacebookReviewFetch();
-        dd($facebookDeets);
         foreach ($this->getPlace($obj,"") as $index => $row) {
             if($row->place_type == Reviews::GOOGLE){
                 $google = $row->place_id;
@@ -101,10 +100,10 @@ class Reviews extends Model
                         $this->clear(Reviews::GOOGLE);
                     }
                     foreach(Util::arrayGet($googleDeets,'result.reviews') as $i => $review){
-                        $rev = new self();
                         if($this->isGoodReview($review,Reviews::GOOGLE) == false){
                             continue; //Kinda scumbaggish thing to do
                         }
+                        $rev = new self();
                         $rev->fk_legacy_property_id = $row->fk_legacy_property_id;
                         $rev->rating = Util::arrayGet($review,'rating');
                         $rev->author_name = Util::arrayGet($review,'author_name');
@@ -133,6 +132,7 @@ class Reviews extends Model
                         if($this->isGoodReview($review,Reviews::YELP) == false){
                             continue; 
                         }
+                        $rev = new self();
                         $rev->fk_legacy_property_id = $row->fk_legacy_property_id;
                         $rev->rating = Util::arrayGet($review,'rating');
                         $rev->author_name = Util::arrayGet($review,'user.name');
@@ -147,30 +147,30 @@ class Reviews extends Model
                 }
             }
             if($row->place_type == Reviews::FACEBOOK){
-                $yelp = $row->place_id;
-                $yelpToken = $this->yelpGetAccessToken();
-                if($yelpToken === null){
-                    throw new \Exception("Could not retrieve access token (yelp)");
-                }
-                $facebookDeets = $this->doFacebookReviewFetch($yelp);
-                if($store){
-                    if($clearFirst){
-                        $this->clear(Reviews::FACEBOOK);
-                    }
-                    foreach(Util::arrayGet($yelpDeets,'reviews') as $i => $review){
-                        if($this->isGoodReview($review,Reviews::FACEBOOK) == false){
-                            continue; 
+                $facebookDeets = $this->doFacebookReviewFetch();
+                if(Util::arrayGet($facebookDeets,'status') == 'ok'){
+                    if($store){
+                        if($clearFirst){
+                            $this->clear(Reviews::FACEBOOK);
                         }
-                        $rev->fk_legacy_property_id = $row->fk_legacy_property_id;
-                        $rev->rating = Util::arrayGet($review,'rating');
-                        $rev->author_name = Util::arrayGet($review,'user.name');
-                        $rev->author_url = Util::arrayGet($review,'user.image_url');
-                        $rev->language = 'en';
-                        $rev->relative_time_description = '';
-                        $rev->post_time = date("Y-m-d H:i:s", Util::arrayGet($review,'time'));
-                        $rev->text_body = Util::arrayGet($review,'text');
-                        $rev->place_type = Reviews::YELP;
-                        $rev->save();
+                        $reviews = Util::arrayGet(Util::arrayGet($facebookDeets,'FacebookResponse')->getDecodedBody(),'data',[]);
+                        foreach($reviews as $i => $review){
+                            if($this->isGoodReview($review,Reviews::FACEBOOK) == false){
+                                continue; 
+                            }
+                            $rev = new self();
+                            $review = $this->doFacebookDecorateReview($review);
+                            $rev->fk_legacy_property_id = $row->fk_legacy_property_id;
+                            $rev->rating = Util::arrayGet($review,'data.rating');
+                            $rev->author_name = Util::arrayGet($review,'data.reviewer.name') . "|" . Util::arrayGet($review,'data.reviewer.id');
+                            $rev->author_url = Util::arrayGet($review,'data.s3_image.url');
+                            $rev->language = 'en';
+                            $rev->relative_time_description = '';   //TODO: it'd be nice if we could come up with our own relative time description .. packagist? hmm...
+                            $rev->post_time = date("Y-m-d H:i:s", strtotime(Util::arrayGet($review,'data.created_time')));
+                            $rev->text_body = Util::arrayGet($review,'data.review_text','-noreview-');
+                            $rev->place_type = Reviews::FACEBOOK;
+                            $rev->save();
+                        }
                     }
                 }
             }
@@ -201,8 +201,16 @@ class Reviews extends Model
                     return false;
                 }
                 break;
+            case Reviews::FACEBOOK:
+                if(Util::arrayGet($review,'rating',0) == 5){
+                    return true;
+                }else{
+                    return false;
+                }
+                break;
             default: 
                 throw new \Exception("Unknown review type: $type");
+                break;
         }
         return false;
     }
@@ -240,6 +248,15 @@ class Reviews extends Model
         return $json;
     }
 
+
+ ######    ##     ####   ######  #####    ####    ####   #    #
+  #        #  #   #    #  #       #    #  #    #  #    #  #   #
+   #####   #    #  #       #####   #####   #    #  #    #  ####
+    #       ######  #       #       #    #  #    #  #    #  #  #
+     #       #    #  #    #  #       #    #  #    #  #    #  #   #
+      #       #    #   ####   ######  #####    ####    ####   #    #
+
+
     public function getFacebookAppId(){
         return '1941089599495744'; 
     }
@@ -253,54 +270,95 @@ class Reviews extends Model
     }
 
     public function isStaleFacebookToken(Place $place){
-        /* If the timestamp is null, then yes it is a stale token */
-        $expiration = Util::arrayGet($place->pluck('page_access_token_expiration'),0);
-        if($expiration === null){
-            return true;
-        }
-
-        /* 
-         * If the timestamp is an integer check to see if the updated_at field is set.
+        /* The following three lines basically deprecate the page_access_token_expiration column
+         * in the mysql db. This is the most reliable way to check if the token is stale or not
+         * Return !data.is_valid
          */
-        $updatedAt = Util::arrayGet($place->pluck('updated_at'),0);
-        if($updatedAt === null){
-            /* If the timestamp is set on the created_at field, then do the calculation to see if
-             * the token is stale. 
-             *
-             * This situation occurs when the token has been inserted into review_place table, but it
-             * not updated (in which case updated_at would have a valid value and not null).
-             */
-            $createdAt = Util::arrayGet($place->pluck('created_at'),0);
-            if($createdAt === NULL){
-                /* If the created_at field is null, then we really don't have anything to go on. We can't
-                 * do the calculation to see if the token is expired. Return true (token is stale)
-                 */
-                return true;
-            }else{
-                $baseTime = $createdAt->timestamp;
-            }
-        }else{
-            /* In this case, the updated_at field is set to a timestamp meaning that we recently updated the field.
-             * Use this field's value as the base time for calculation expiration
-             */
-            $baseTime = $updatedAt->timestamp;
-        }
-        $now = (new \Carbon\Carbon)->now()->timestamp;
-        if($now < ($baseTime + $expiration)){
-            /* This means that the token is still valid, therefore it is *not* stale 
-             */
-            return false;
-        }else{
-            /* Token is indeed stale */
+        try{
+            $info = $this->doFacebookTokenInfo(Util::arrayGet($place->pluck('page_access_token'),0),Util::arrayGet($place->pluck('page_access_token'),0));
+            $body = json_decode(Util::arrayGet($info,'info')->getBody(),true);
+            return !Util::arrayGet($body,'data.is_valid');
+        }catch(\Exception $e){
+            Util::monoLog("isStaleFacebookToken caught exception: {$e->getMessage()}",'error');
             return true;
         }
     }
 
+    public function doFacebookGenerateS3Url(int $userId){
+        //
+        $image = trim($userId) . '.jpg';
+        return [//'web_url' => env('WEB_PUBLIC_BASE') . 'facebook/reviews/' . trim($image), 
+            's3_path' => 's3://mktapts/facebook/reviews/' . trim($image)
+        ];
+    }
+
+    /* !curl downloads an image from facebook 
+     * !curl posts an image to s3
+     */
+    public function doUploadUserImageToS3(int $userId,$userData){
+        //TODO: grab the property for the current site
+        $place = $this->getPlace(app()->make('App\Property\Site'),Reviews::FACEBOOK);
+        $legacyProperty = LegacyProperty::select('code')->where('id', Util::arrayGet($place->pluck('fk_legacy_property_id'),0))->first();
+        $code = $legacyProperty->code;
+
+        //TODO: generate the path where the image should go
+        $targets = $this->doFacebookGenerateS3Url($userId);
+        //TODO: download the image from facebook
+        /* !curl_call here - downloads image from facebook */
+        $foo = file_get_contents(Util::arrayGet($userData,'url'));
+        $targetFile = "/tmp/" . uniqid() . "-{$userId}.jpg";
+        file_put_contents($targetFile,$foo);
+        if(filesize($targetFile) == 0){
+            Util::monoLog("Target file is zero length after retrieving from facebook: " . Util::arrayGet($userData,'url'),'warning');
+            throw new \Exception("File size of retrieved image ($userId) is zero!");
+        }
+
+        try{
+            $result = $this->s3Put($targetFile,Util::arrayGet($targets,'s3_path'));
+        }catch(\Exception $e){
+            return ['status' => 'error','exception' => $e->getMessage()];
+        }
+        return ['status' => 'ok','s3result' => $result,'url' => Util::arrayGet($result,'result')->get('ObjectURL') ];
+    }
+
+    /* Returns the url of the user's image on facebook */
+    public function doFacebookUserImageFetch(int $userId){
+        try{
+            $fb = $this->doBuildRawFacebookObject();
+            $place = $this->getPlace(app()->make('App\Property\Site'),Reviews::FACEBOOK);
+            $pageAccessToken = Util::arrayGet($place->pluck('page_access_token'),0);
+            $pix = Util::arrayGet($fb,'fb')->get(implode("/",['',$userId,'picture']) . '?redirect=false',$pageAccessToken);
+            $url = Util::arrayGet($pix->getDecodedBody(),'data.url');
+        }catch(\Exception $e){
+            return ['status' => 'error','exception' => $e->getMessage()];
+        }
+        return ['status' => 'ok','data' => $pix,'url' => $url];
+    }
+
+    /*
+     * !curl - Performs HTTP request to see if the user's image exists on S3
+     * !curl - Performs HTTP request to Facebook to grab image url from graph api
+     * !curl - Performs HTTP upload to S3 to upload the facebook user's image to S3
+     */
+    public function doFacebookDecorateReview($review){
+        //TODO: grab the user's image url :)
+        try{
+            /* !curl_call here */
+            $imageData = $this->doFacebookUserImageFetch(Util::arrayGet($review,'reviewer.id'));
+            $review['s3_image'] = $this->doUploadUserImageToS3(Util::arrayGet($review,'reviewer.id'),$imageData);
+        }catch(\Exception $e){
+            Util::monoLog("doFacebookDecorateReview doFacebookUserImageFetch failed with exception: {$e->getMessage()}",'error');
+            return ['status' => 'error','exception' => $e->getMessage()];
+        }
+        return ['status' => 'ok','data' => $review];
+
+        //TODO: Detect if it's a hot chick using facial recogniztion/detection and advanced AI
+    }
 
 //TODO: It would be *really* nice if we could add a scope to this class so that fk_legacy_property_id is always the current site
-    public function doFacebookReviewFetch(){ 
+    public function doFacebookReviewFetch($forceTokenRefresh=false){ 
         try{
-            $fb = $this->doBuildFacebookObject();
+            $fb = $this->doBuildFacebookObject($forceTokenRefresh);
         }catch(BaseException $e){
             return ['status' => 'error','exception' => $e];
         }
@@ -310,11 +368,40 @@ class Reviews extends Model
             return ['status' => 'error','error_data' => $accountData];
         }
         $ratings = $fb['fb']->get("/" . Util::arrayGet($accountData,'id') . "/ratings",Util::arrayGet($accountData,'pageAccessToken'));
-        dd($ratings);
+        return ['status' => 'ok','FacebookResponse' => $ratings];
     }
+   
+    public function doFacebookTokenInfo($inputToken,$appAccessToken){
+        try{
+            $fb = Util::arrayGet($this->doBuildRawFacebookObject(),'fb');
+            $info = $fb->get('/debug_token?input_token=' . trim($inputToken) . '&access_token=' . trim($appAccessToken));
+        }catch(\Exception $e){
+            return ['status' => 'error','exception' => $e->getMessage()];
+        }
+        $statusCode = $info->getHttpStatusCode();
+        if($statusCode == 200){
+            return ['status' => 'ok','info' => $info];
+        }else{
+            Util::monoLog("facebook token info returned an invalid http status code: $statusCode","warning");
+            return ['status' => 'error','info' => $info];
+        }
     
+    }
 
-    public function doBuildFacebookObject(){
+    /* No fancy shit, just give me the object */
+    public function doBuildRawFacebookObject(){
+        return ['status' => 'ok', 
+            'fb' => new FB([
+                'app_id' => $this->getFacebookAppId(),
+                'app_secret' => $this->getFacebookAppSecret(),
+                'default_graph_version' => $this->getFacebookGraphVersion()
+            ]),
+        ];
+    }
+
+    /* !curl Makes HTTP call to check if an access token is stale. graph api on facebook.com 
+     */
+    public function doBuildFacebookObject($forceTokenRefresh=false){
         /* This code should probably be in it's own function... it essentially builds a facebook request */
         $log = [];
         $facebookData = Place::where('fk_legacy_property_id',app()->make('App\Property\Site')->getEntity()->fk_legacy_property_id)
@@ -323,18 +410,38 @@ class Reviews extends Model
             return ['status' => 'error', 'message' => 'No facebook id associated with this property'];
         }
         $log[] = "Found facebook row for current property";
-        $tempAccessToken = $facebookData->pluck('access_token');
+        $tempAccessToken = Util::arrayGet($facebookData->pluck('access_token'),0);
         $pageAccessToken = $facebookData->pluck('page_access_token');
 
-        if($this->isStaleFacebookToken($facebookData)){
+        if($forceTokenRefresh || $this->isStaleFacebookToken($facebookData)){
             /* Perform necessary steps to grab the extended page access token */
-            $json = self::curl('https://graph.facebook.com/v2.9/oauth/access_token?grant_type=fb_exchange_token&client_id=' . 
-                $this->getFacebookId() . '&client_secret=' . 
-                $this->getFacebookSecret() . '&fb_exchange_token=' . 
-                $this->getFacebookCleanToken($tempAccessToken),null,[],'get');
-            $data = json_decode($json);
             /* We will update the page access token :) */
-            $facebookData->page_access_token_expiration = $data->expires_in;
+            $json = self::curl('https://graph.facebook.com/v2.9/oauth/access_token?grant_type=fb_exchange_token&client_id=' . 
+                $this->getFacebookAppId() . '&client_secret=' . 
+                $this->getFacebookAppSecret() . '&fb_exchange_token=' . 
+                $tempAccessToken,null,[],'get');
+            $data = json_decode($json);
+
+            /* 
+             * If the expires_in token isn't present, then we call our token info function to grab the
+             * expiration time
+             */
+            $expires = Util::arrayGet($data,'expires_in',null);
+            if($expires === null){
+                /* Grab the token info */
+                $tokenInfo = $this->doFacebookTokenInfo($data->access_token,$tempAccessToken);
+                if(Util::arrayGet($tokenInfo,'status') == 'ok'){
+                    $expires = Util::arrayGet($tokenInfo,'expiration');
+                }else{
+                    if(isset($tokenInfo['exception'])){
+                        Util::monoLog("Error getting token info: " . Util::arrayGet($tokenInfo,'exception'),'error');
+                    }
+                    if(isset($tokenInfo['info'])){
+                        Util::monoLog("Token info follow-up info: ". Util::arrayGet($tokenInfo,'info'),'info');
+                    }
+                }
+            }
+            $facebookData->page_access_token_expiration = $expires;
             $pageAccessToken = $facebookData->page_access_token = $data->access_token;
             $facebookData->updated_at = (new \Carbon\Carbon)->now()->timestamp;
             $facebookData->save();
@@ -367,9 +474,6 @@ class Reviews extends Model
         return compact('id','name','pageAccessToken','data','status');
     }
 
-    public function getFacebookCleanToken(string $token) : string{
-        return preg_replace("|[\\[\"\\]]+|","",$token);
-    }
 
     public function getPlace($obj, $type)
     {
@@ -390,5 +494,30 @@ class Reviews extends Model
     {
         echo "deleting..";
         self::where('fk_legacy_property_id', $propId)->delete();
+    }
+
+    public function s3Put($src,$dest,$bucket = 'mktapts'){
+        // TODO: !organization create a very generic S3 trait that will allow us to fetch an s3 object with credentials already filled in like below
+        $options = [
+            'region'            => 'us-west-2',
+            'version'           => '2006-03-01',
+            'signature_version' => 'v4',
+            'credentials'   => [
+                'key' => env('AWS_KEY'),
+                'secret' => env('AWS_SECRET')
+            ]
+        ];
+        $s3Client = new S3($options);
+        try {
+            $result = $s3Client->putObject([
+                'Bucket'     => $bucket,
+                'Key'        => $dest,
+                'SourceFile' => $src,
+                'ACL' => 'public-read',
+            ]);
+        } catch (S3Exception $e) {
+            throw new \Exception($e);
+        }
+        return ['status' => 'ok','result' => $result];
     }
 }
