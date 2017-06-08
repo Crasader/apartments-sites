@@ -43,6 +43,8 @@ $agent = new Agent();
                     &&
                     !strstr($sheet, $site->getEntity()->getLegacyProperty()->code)) {
                 echo "<link rel='stylesheet' href='/bascom/css/{$matches[1]}.css?v={$entity->getAssetsVersion('bascom/css/' . $matches[1] . '.css')}'/>\n\t";
+            } else {
+                echo "<link rel='stylesheet' href='/bascom/css/166TBL.css?v={$entity->getAssetsVersion('bascom/css/166TBL.css')}'/>\n\t";
             }
         }
         if ($customSheet) {
