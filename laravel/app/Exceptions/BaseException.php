@@ -5,8 +5,9 @@ namespace App\Exceptions;
 class BaseException extends \Exception
 {
     protected $_logFilePath = '';
-    public function __construct()
+    public function __construct($message,long  $code = null,throwable $previous = null )
     {
+        parent::__construct( $message, $code, $previous);
         $this->_logFilePath = realpath(storage_path() . '/' . ENV('EXCEPTION_LOG') . '_' . date("Y-m-d") . ".log");
     }
     public function log(string $class)
