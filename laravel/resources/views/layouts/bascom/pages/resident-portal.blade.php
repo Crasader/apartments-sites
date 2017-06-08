@@ -5,6 +5,7 @@
            	@section('after-nav')
 
             <!-- Page Title Section -->
+            <div class="page-title"></div>
             <section class="page-section page-title bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('');?>/page-title-bg5.jpg">
                 <div class="relative container align-left">
 
