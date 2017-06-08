@@ -57,7 +57,7 @@ class Entity extends Model
 
         $this->fk_legacy_property_id = $legacyProperty->id;
         try {
-            $templateName = $this->grabTemplateId(Util::realServerName());
+            $templateName = env('DEFAULT_TEMPLATE_ID');
             if ($templateName === null) {
                 throw new BaseException("Unable to find template for property");
             }
@@ -85,6 +85,7 @@ class Entity extends Model
         return ENV("RECAPTCHA_KEY");
     }
 
+    //this is deprecated
     public function grabTemplateId(string $serv)
     {
         if (strlen(ENV("SERVER_TEMPLATE_FILE")) == 0) {
@@ -282,6 +283,8 @@ class Entity extends Model
                 return $base . "images/{$this->getTemplateName()}/{$this->getLegacyCode()}";
             case 'common':
                 return $base . "images/common";
+            case 'template-common':
+                return $base . "images/{$this->getTemplateName()}/common";
             default:
                 return $base . "images/{$this->getTemplateName()}/{$this->getLegacyCode()}";
         }

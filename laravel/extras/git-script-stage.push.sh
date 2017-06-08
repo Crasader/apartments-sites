@@ -1,6 +1,5 @@
 git add --all
-git commit --all -m "automated updates"
-git push origin staging
+git commit -m "automated updates"
 git checkout master
 git merge staging
 git push origin master

@@ -124,11 +124,9 @@ class PostController extends Controller
     public function handle(Request $request, string $page)
     {
         Util::log(var_export($request, 1));
-
         $inPage = in_array($page, array_keys($this->_allowed));
         $inPath = in_array($request->getPathInfo(), array_keys($this->_allowed));
         if (!$inPage && !$inPath) {
-            Util::log("Not in page or path: " . $request->getPathInfo());
             throw new \App\Exceptions\BaseException("Invalid path : " . $request->getPathInfo());
         }
         if ($this->_site === null) {
@@ -489,6 +487,7 @@ class PostController extends Controller
             'sqft' => intval($data['sqft']),
             'orig_unittype' => $data['unittype'],
         ];
+
 
 
         $siteData = $this->resolvePageBySite('unit', $cleaned);
@@ -915,7 +914,7 @@ class PostController extends Controller
         if (!isset($data['pass'])) {
             return $this->invalidPassword();
         }
-        
+
         $user = substr($data['email'], 0, 64);
         $pass = substr($data['pass'], 0, 64);
         \Debugbar::info($user, $pass);

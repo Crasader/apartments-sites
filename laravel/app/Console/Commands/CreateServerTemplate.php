@@ -37,6 +37,8 @@ class CreateServerTemplate extends Command
      */
     public function handle()
     {
+        print("This has been deprecated, the site should bootstrap automatically based on the default template");
+        exit();
         //
         $template = $this->argument("template");
         $url  = $this->argument('url');

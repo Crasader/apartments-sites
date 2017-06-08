@@ -140,7 +140,7 @@
                                     name="maintenance_mrequest" id="maintenance_mrequest" class="form-control" cols=70 rows=10 required></textarea>
 								</div>
                                 <div class="form-group">
-                                    <label class="btn btn-success" for="form-image">
+                                    <label class="btn btn-mod btn-brown btn-large btn-round" for="form-image">
                                         <img id="form-image-prev" src="">
                                         <span class="removable">
                                             Add an Image
@@ -149,7 +149,7 @@
                                     <input type="file" name="image" class="hidden" id="form-image">
                                 </div>
                                 <div class="form-group">
-    								<input type="submit" value="Submit" class="btn btn-success">
+    								<input type="submit" value="Submit" class="btn btn-mod btn-brown btn-large btn-round">
                                 </div>
 							</form>
                             <script>

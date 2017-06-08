@@ -3,8 +3,10 @@ ExitPop
 --------------------------------------------- */
 function exitPopup(){
     // Show the exit popup
-    if(isMobile()){
-        console.log('');
+    if(isMobile() 
+        && (!(window._template == 2))){
+        console.log('no modal');
+        return;
     }
     window.isCmsUser = function() {
         var dataAttribute = $("#exitpopup-overlay").data('localstorage');

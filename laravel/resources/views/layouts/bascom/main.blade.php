@@ -8,6 +8,7 @@ $agent = new Agent();
     <head>
         <title><?php echo $entity->getCity();?> <?php echo $entity->getAbbreviatedState();?> Apartments | Luxury Apartments For Rent | <?php echo $entity->getLegacyProperty()->name;?>></title>
         <script>
+        window._template = 2;
         window.isMobile = function(){
             var mobile = "<?=($agent->isMobile() ? 1 : '');?>";
             if (mobile == 1){
@@ -42,6 +43,8 @@ $agent = new Agent();
                     &&
                     !strstr($sheet, $site->getEntity()->getLegacyProperty()->code)) {
                 echo "<link rel='stylesheet' href='/bascom/css/{$matches[1]}.css?v={$entity->getAssetsVersion('bascom/css/' . $matches[1] . '.css')}'/>\n\t";
+            } else {
+                echo "<link rel='stylesheet' href='/bascom/css/166TBL.css?v={$entity->getAssetsVersion('bascom/css/166TBL.css')}'/>\n\t";
             }
         }
         if ($customSheet) {

@@ -136,7 +136,7 @@ $displayOptions['dont-show-contact-details'] = 1;
                                                     <li>Sq Feet: <b><span><?php echo $object->SQFT; ?></span></b></li>
                                                     <li>Bedrooms: <b><span><?php echo $object->BED; ?></span></b></li>
                                                     <li>Bathrooms: <b><span><?php echo $object->BATH;?></span></b></li>
-                                                    <li>Deposit: <b><span>$100</span></b></li>
+                                                    <li>Deposit: <b><span>$<?=object_get($object, 'DEPOSIT', '100.00');?></span></b></li>
                                                 </ul>
                                             </div>
 
