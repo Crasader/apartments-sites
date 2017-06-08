@@ -20,6 +20,35 @@
         ?>
         @extends($extends)
         @section('page-title-span','Maintenance Request')
+
+       	@section('after-nav')
+
+        <!-- Page Title Section -->
+        <section class="page-section page-title bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('');?>/page-title-bg5.jpg">
+            <div class="relative container align-left">
+
+                <div class="row">
+
+                    <div class="col-md-8">
+                        <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Maintenance Request</h1>
+                        <div class="hs-line-4 font-alt">
+							<?php echo $entity->getText('resident-portal-maintenance-request:sub-header', ['oneshot' =>'
+    						Have an issue in your apartment? Complete a request for maintenance and a member of our team will service your apartment as quickly as possible.
+']);?>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mt-30">
+                        <div class="mod-breadcrumbs font-alt align-right">
+                            <a href="/">Home</a>&nbsp;/&nbsp;<a href="/resident-portal">Resident Portal</a>&nbsp;/&nbsp;<span>Maintenance Request</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End Page Title Section -->
+
+		@stop
         @section('content')
 		<!-- Content -->
 		<section class="content">
@@ -60,7 +89,7 @@
 				<div class="row">
 					<div class="col-md-8 col-md-push-2">
 						<div class="page-title">
-							<h1 class="section-heading">Maintenance Request</h1>
+							<!-- <h1 class="section-heading">Maintenance Request</h1> -->
 							<div class="divder-teal"></div>
 						</div>
 					</div>
@@ -68,7 +97,6 @@
 				<div class="row">
 					<div class="col-md-8 col-md-push-2">
                         <p class="section-text">
-    						Have an issue in your apartment? Complete a request for maintenance and a member of our team will service your apartment as quickly as possible.<br><br>
     						To ensure that your issue is resolved promptly, please do not submit emergency service requests via the resident portal.
                             If you are experiencing a maintenance emergency, please call our office at <?php echo $entity->getPhone(); ?> and select the emergency maintenance line.
                         </p>

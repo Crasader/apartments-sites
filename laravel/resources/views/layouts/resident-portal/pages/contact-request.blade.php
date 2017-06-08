@@ -8,8 +8,37 @@
 ?>
         @extends($extends)
 
+       	@section('after-nav')
+
+        <!-- Page Title Section -->
+        <section class="page-section page-title bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('');?>/page-title-bg5.jpg">
+            <div class="relative container align-left">
+
+                <div class="row">
+
+                    <div class="col-md-8">
+                        <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Contact Request</h1>
+                        <div class="hs-line-4 font-alt">
+							<?php echo $entity->getText('resident-portal-contact-request-sub-header', ['oneshot' =>'Contact the property and we will get your concern taken care of as quickly as possible.
+']);?>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mt-30">
+                        <div class="mod-breadcrumbs font-alt align-right">
+                            <a href="/">Home</a>&nbsp;/&nbsp;<a href="/resident-portal">Resident Portal</a>&nbsp;/&nbsp;<span>Contact Request</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End Page Title Section -->
+
+		@stop
         @section('content')
 
+        <div class="page-title">
+        </div>
 		<!-- Content -->
 		<section class="content">
 			<!-- Content Blocks -->
@@ -18,14 +47,14 @@
                         <div class="row mt-50">
                             <?php if (session('sent')): ?><h1 class="notice">Your contact information has been submitted</h1>
                             <?php else: ?>
-                                <div class="col-md-push-2 col-md-8">
+                                <!-- <div class="col-md-push-2 col-md-8">
                                     <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Contact Us</h1>
                                     <div class="row">
                                         <div class="col-sm-12">
                                             Contact the property and we will get your concern taken care of as quickly as possible.
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             <?php endif; ?>
                             <div class="col-md-8 col-md-push-2 mb-sm-50 mb-xs-30">
                                 <form id="form1" method="post" action="/resident-portal/post-resident-contact-mailer">
@@ -62,29 +91,6 @@
                                     </div>
                                 </form>
                             </div>
-                            <?php /*
-                            <div class="col-md-5 col-sm-5 mb-sm-50 mb-xs-30 text-center">
-                                <div class="row">
-                                	<div class="col-sm-12">
-                                		<!-- Google Map -->
-                                            <div class="map-block">
-                                                <div class="map">
-                                                    <div class="map-container">
-                                                        <?=PropertyTemplate::getGmapKey();?>
-                                                        <div style="overflow:hidden;height:537px;max-width:100%;">
-                                                            <div id="map-canvas" style="max-width:100%;"></div>
-                                                        <div>
-                                                        @include('layouts/dinapoli/pages/inc/google-maps-script')
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        </div>
-                                	</div>
-                                </div>
-
-                            </div>
-                            */?>
                         </div>
                     </div>
 		</section>
