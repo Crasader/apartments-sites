@@ -1,6 +1,6 @@
 
     <?php if (!isset($displayOptions['dont-show-contact-details'])): ?>
-         <section class="contact-padding page-section" id="contact">
+         <section class="contact-padding page-section pb-0" id="contact">
                 <div class="container relative">
 
                     <div class="row">

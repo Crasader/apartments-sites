@@ -7,6 +7,33 @@
         ?>
         @extends($extends)
         @section('page-title-span','resident portal')
+
+       	@section('after-nav')
+
+        <!-- Page Title Section -->
+        <section class="page-section page-title bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('');?>/page-title-bg5.jpg">
+            <div class="relative container align-left">
+
+                <div class="row">
+
+                    <div class="col-md-8">
+                        <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Portal Center</h1>
+                        <div class="hs-line-4 font-alt">
+							<?php echo $entity->getText('resident-portal', ['oneshot' =>'With convenient 24/7 access, the resident portal makes it easy for you to request maintenance service and pay your rent online. Login to get started!']);?>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mt-30">
+                        <div class="mod-breadcrumbs font-alt align-right">
+                            <a href="/">Home</a>&nbsp;/&nbsp;<a href="/resident-portal">Resident Portal</a>&nbsp;&nbsp;<span>Portal Center</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End Page Title Section -->
+
+		@stop
         @section('content')
 
 		<section class="content">
@@ -18,7 +45,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="page-title">
-							<h1>Resident Portal</h1>
+							<!-- <h1>Resident Portal</h1> -->
 							<div class="divder-teal"></div>
                             <?php
                                 if (session('maint-sent')) {

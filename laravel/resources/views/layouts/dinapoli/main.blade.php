@@ -122,7 +122,7 @@ $agent = new Agent();
         	@yield('content')
             @yield('action')
             @section('contact')
-            <section class="contact-padding page-section" id="contact">
+            <section class="contact-padding page-section pb-0" id="contact">
                 <div class="container relative">
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1">

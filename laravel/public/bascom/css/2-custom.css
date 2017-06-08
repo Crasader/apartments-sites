@@ -53,6 +53,9 @@ text-align: center;}
 
 .contact-padding{padding:80px 0;}
 
+.page-resident-portal .page-title {
+    margin-bottom: -130px;
+}
 /** Media Queries **/
 
 /* Large Devices, Wide Screens */
@@ -93,7 +96,7 @@ text-align: center;}
 
 }
 
-/* Extra Small Devices, Phones */ 
+/* Extra Small Devices, Phones */
 @media only screen and (max-width : 480px) {
 
 	.unit-table-btn {width: 100%; float: none; display: block; text-align: center;  margin-top: 20px;}
@@ -101,7 +104,7 @@ text-align: center;}
 
 }
 
-/* Custom, iPhone Retina */ 
+/* Custom, iPhone Retina */
 @media only screen and (max-width : 320px) {
-    
+
 }
