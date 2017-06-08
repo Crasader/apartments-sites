@@ -20,7 +20,7 @@
 						<div class="page-title">
 							<h1>Resident Portal</h1>
 							<div class="divder-teal"></div>
-                            <?php 
+                            <?php
                                 if (session('maint-sent')) {
                                     echo "<h1 class='notice'>Your maintenance request has been successfully submitted</h1>";
                                 }
@@ -39,30 +39,31 @@
                 		<a href="https://www.amcrentpay.com/Account/Loginx" target="_blank" class="resident_btn">
                 		<img src="<?php echo $entity->getWebPublicCommon('amc_icon_pay.png');?>" />   <b>MAKE A PAYMENT</b> </a>
                         <p>Pay your rent or schedule automatic payments quickly and securely.</p>
-            		           			
+
             		</div>
           		</div>
 		        <div class="row">
 					<div class="col-md-6">
-		             	<a href="/resident-portal/maintenance-request" class="resident_btn">  
+		             	<a href="/resident-portal/maintenance-request" class="resident_btn">
 		                <img src="<?php echo $entity->getWebPublicCommon('amc_icon_maintenance.png');?>" />  <b>SUBMIT A MAINTENANCE REQUEST</b> </a>
 		             	<p>Have an issue in your apartment? Complete a request for maintenance and a member of our team will service your apartment as quickly as possible.</p>
-            			
+
             		</div>
 		        </div>
 		        <div class="row">
 					<div class="col-md-6">
-		             	<a href="/resident-portal/contact-request" class="resident_btn">  
+		             	<a href="/resident-portal/contact-request" class="resident_btn">
 		                <img src="<?php echo $entity->getWebPublicDirectory('common') . '/amc_icon_contact.png';?>" />  <b>CONTACT THE OFFICE</b> </a>
 		             	<p>How can we help? Contact the leasing team with any questions or concerns.</p>
-            			
+
             		</div>
 		        </div>
 		        <div class="row">
 					<div class="col-md-6">
-                        <i class='icon-sad'></i>
-		             	<a href="/resident-portal/logout" class="resident_btn"><b>LOGOUT</b></a>
-            			<p>Log out of resident portal</p>
+		             	<a href="/resident-portal/logout" class="resident_btn">
+		                <img src="<?php echo $entity->getWebPublicDirectory('common') . '/amc_icon_logout.png';?>" />  <b>LOGOUT</b> </a>
+		             	<p>Log out of resident portal</p>
+
             		</div>
 		        </div>
 			</div>
