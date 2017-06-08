@@ -15,6 +15,7 @@ class Traffic extends Model
         'apply-online' => 'Application - Apply Online',
         'briefContact' => 'Reserve Your New Home - Home Page',
         'contact' => 'Contact',
+        'more' => 'Request For More Information',
 
     ];
 

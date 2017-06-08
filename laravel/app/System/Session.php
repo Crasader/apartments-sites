@@ -13,6 +13,7 @@ class Session // extends Model
     const USER_LOGIN_KEY = 'amc-userid';
     const CMS_USER_KEY = 'cms-userid';
     const RESIDENT_USER_KEY = 'res-userid';
+    const CONTACT_US_LIMITED_AVAILABILITY = 'contact-us-limited-avail';
     private static $dummy = [];
 
     public static function log(string $a)
@@ -25,17 +26,21 @@ class Session // extends Model
             return self::cmdMock($method, $args);
         }
         self::log("Call static session: $method(" . var_export($args, 1) . ")");
-        if (session_status() == PHP_SESSION_NONE) {
+        if(!isset($_SESSION)){
+            @session_start();
+            $_SESSION['mkt-start'] = 1;
+        }
             /*
             This was breaking the admin piece.. so I removed it, if it breaks more stuff add it back (thanks brady) -anonymous dev
             ini_set('session.cache_limiter', 'public');
             session_cache_limiter("private_no_expire");
             self::log("Starting session");
             */
-            @session_start();
-        }
         self::log("Session data: " . var_export($_SESSION, 1));
         switch ($method) {
+            case "dump":
+                Util::dd($_SESSION);
+                return;
             case "log":
                 self::log($args[0]);
                 return;
@@ -67,9 +72,15 @@ class Session // extends Model
                 return isset($_SESSION[Session::RESIDENT_USER_KEY]) && $_SESSION[Session::RESIDENT_USER_KEY] !== null;
             case "key":
                 return $_SESSION[$args[0]] = $args[1];
+            case 'set':
+                return $_SESSION[$args[0]] = $args[1];
             case "get":
                 self::log("GET: args:" . var_export($args[0], 1));
-                return isset($_SESSION[$args[0]]) ? $_SESSION[$args[0]] : null;
+                if(isset($_SESSION) == false){
+                    self::log("Session not set while trying to grab : " . $args[1]);
+                    return null;
+                }
+                return Util::arrayGet($_SESSION,$args[0],null);
             case "stop":
                 return session_write_close();
             default:

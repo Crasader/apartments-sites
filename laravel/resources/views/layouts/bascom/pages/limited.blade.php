@@ -3,14 +3,6 @@ use App\Property\Site;
 use App\Legacy\Property;
 use App\System\Session as Sesh;
 $limited = Sesh::get(Sesh::CONTACT_US_LIMITED_AVAILABILITY);
-if(strlen($limited)){
-    try{
-        $json = base64_decode($limited);
-        $limited = json_decode($json,true);
-    }catch(\Exception $e){
-        $limited = null;
-    }
-}
 \Debugbar::info("LIMITED AVAIL: ",$limited);
 ?>@extends('layouts/bascom/main')
             @section('before-css')
@@ -107,10 +99,10 @@ if(strlen($limited)){
                                         <div class="mb-20 mb-md-10 form-group">
                                             <div class="g-recaptcha" id='grecaptcha' data-sitekey="<?php echo $entity->getRecaptchaKey();?>"></div>
                                         </div>
-                                        <?php if(session('limitedRequest')): ?>
-                                            <input type='hidden' name='limitedRequest' value="<?php echo base64_encode(json_encode(session('limitedRequest')));?>">
+                                        <?php if($limited): ?>
+                                            <input type='hidden' name='limitedRequest' value="<?php echo $limited; ?>">
                                         <?php endif;?>
-
+                                        <input type="hidden" name="mode" value="more">
 
                                         <input type="hidden" class="hiddenRecaptcha required" name="hiddenRecaptcha" id="hiddenRecaptcha">
                                         <div class="mb-20 mb-md-10">
