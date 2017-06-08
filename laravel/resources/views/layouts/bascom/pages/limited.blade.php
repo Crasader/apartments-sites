@@ -3,14 +3,6 @@ use App\Property\Site;
 use App\Legacy\Property;
 use App\System\Session as Sesh;
 $limited = Sesh::get(Sesh::CONTACT_US_LIMITED_AVAILABILITY);
-if(strlen($limited)){
-    try{
-        $json = base64_decode($limited);
-        $limited = json_decode($json,true);
-    }catch(\Exception $e){
-        $limited = null;
-    }
-}
 \Debugbar::info("LIMITED AVAIL: ",$limited);
 ?>@extends('layouts/bascom/main')
             @section('before-css')
