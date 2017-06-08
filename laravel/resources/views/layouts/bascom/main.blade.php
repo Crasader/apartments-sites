@@ -8,6 +8,7 @@ $agent = new Agent();
     <head>
         <title><?php echo $entity->getCity();?> <?php echo $entity->getAbbreviatedState();?> Apartments | Luxury Apartments For Rent | <?php echo $entity->getLegacyProperty()->name;?>></title>
         <script>
+        window._template = 2;
         window.isMobile = function(){
             var mobile = "<?=($agent->isMobile() ? 1 : '');?>";
             if (mobile == 1){
