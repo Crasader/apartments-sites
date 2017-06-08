@@ -43,6 +43,11 @@ class PostController extends Controller
         'schedule'      => 'handleSchedule',
         'apply-online'  => 'handleApplyOnline',
 
+        /* 
+         * This route is for when the user clicks on a floorplan that says "limited availability" 
+        */
+        'post-limited'  => 'handleLimited',
+
         /* Administrative/CMS routes */
         'text-tag'      => 'handleTextTag',
         'text-tag-get'  => 'handleGetTextTag',
@@ -278,6 +283,13 @@ class PostController extends Controller
 
         return redirect('/resident-portal/contact-request')->with('sent', '1');
     }
+
+    public function handleLimited(Request $req){
+        //Grab the unit data from the post request and give that to the contact page
+        Session::set(Session::CONTACT_US_LIMITED_AVAILABILITY,base64_encode(json_encode($req->all())));
+        return redirect('/limited')->with('limitedRequest',$req->all()); 
+    }
+
 
     public function handleSchedule(Request $req)
     {
@@ -786,8 +798,24 @@ class PostController extends Controller
             'email' => $data['email'],
             'phone' => $data['phone'],
             'movein' => $data['date'],
-            'mode' => 'contact'
+            'mode' => Util::arrayGet($data,'mode','contact')
         ];
+
+        $limitedRequest = Util::arrayGet($data,'limitedRequest',[]);
+        if($limitedRequest){
+            try{
+                $json = base64_decode($limitedRequest);
+                $limitedRequest = json_decode($json,true);
+                $cleaned['limited'] = $limitedRequest;
+            }catch(\Exception $e){
+                Util::monoLog("Invalid limitedRequest: " . var_export($req,1),'warning');
+                $limitedRequest = []; 
+            }
+        }
+
+        if(empty($limitedRequest) && $limitedRequest = Session::get(Session::CONTACT_US_LIMITED_AVAILABILITY)){
+            $cleaned['limited'] = $limitedRequest;
+        }
 
         $contact = app()->make('App\Contact');
         $contact->first_name = $cleaned['fname'];
@@ -812,11 +840,11 @@ class PostController extends Controller
             $cleaned['movein'],
             '',
             '',
-            '',
-            $cleaned['mode'],
+            Util::arrayGet($limitedRequest,'unittype',''),
+            Util::arrayGet($data,'mode','contact'),
             ''
         );
-        $finalArray = $this->_prefillArray(['mode' => 'contact']);
+        $finalArray = $this->_prefillArray(['mode' => Util::arrayGet($data,'mode','contact')]);
         $finalArray['contact'] = $cleaned;
 
         $siteData = $this->resolvePageBySite('contact', $cleaned);
@@ -825,6 +853,8 @@ class PostController extends Controller
         } else {
             $to = $cleaned['email'];
         }
+        $finalArray['limited'] = $data['limited'] = $limitedRequest;
+        
         $email = new Email();
         $email->fromName = "{$cleaned['fname']} {$cleaned['lname']}";
         $email->subject =
@@ -841,8 +871,8 @@ class PostController extends Controller
                 'user-confirm', $finalArray)
         ]);
         $siteData['data']['sent'] = true;
+        Session::set(Session::CONTACT_US_LIMITED_AVAILABILITY,null);
         if ($req->method() == 'POST') {
-            // flash('Thanks! We will be in touch Soon!');
             $url = UrlHelpers::getUrl('/contact', [
                 'submitted' => 1,
                 'from' => 'contact']

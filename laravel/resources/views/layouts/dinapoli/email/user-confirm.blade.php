@@ -1,3 +1,4 @@
+<?php use App\Util\Util as U; ?>
 <!DOCTYPE html><html xmlns=http://www.w3.org/1999/xhtml><head><meta http-equiv=Content-Type content=text/html; charset=utf-8>
 <link href=http://www.400rhett.com/css/jquery-ui.min.css rel=stylesheet>
 <?php foreach ($styleSheets as $index => $href): ?>
@@ -29,6 +30,32 @@ Message: <?php echo $contact['message']; ?><br>
 
 Action Requested: SCHEDULE A TOUR (From Front Page )
 <?php endif;?>
+
+<?php if ($mode == 'more'): ?>
+
+First Name: <?php echo $contact['fname'];?> <br>
+
+Last Name: <?php echo $contact['lname'];?><br>
+
+Email: <?php echo $contact['email'];?> <br>
+
+Phone: <?php echo $contact['phone'];?> <br>
+
+Move-in date: <?php echo $contact['movein'];?> <br>
+<?php if(U::arrayGet($contact,'limited.unittype')): ?>
+<br>
+<b>You are interested in this unit:</b><br>
+Unit Type: <?php echo U::arrayGet($contact,'limited.unittype','--no unit type specified--');?><br>
+
+Bed: <?php echo U::arrayGet($contact,'limited.bed','--not available--');?><br>
+
+Bath: <?php echo U::arrayGet($contact,'limited.bath','--not available--');?><br>
+
+Square Feet: <?php echo U::arrayGet($contact,'limited.sqft','--not available--');?><br>
+<?php endif;?>
+
+Action Requested: Request For More Information<br>
+<?php endif; ?>
 
 <?php if ($mode == 'contact'): ?>
 

@@ -65,16 +65,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.28.9",
+            "version": "3.29.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "983a73400bb9a922275a6750327f43eac1f96e7d"
+                "reference": "ad2206be87d722de5a52b3d1b0d6549fe2980fc7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/983a73400bb9a922275a6750327f43eac1f96e7d",
-                "reference": "983a73400bb9a922275a6750327f43eac1f96e7d",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/ad2206be87d722de5a52b3d1b0d6549fe2980fc7",
+                "reference": "ad2206be87d722de5a52b3d1b0d6549fe2980fc7",
                 "shasum": ""
             },
             "require": {
@@ -141,7 +141,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-06-05T20:28:39+00:00"
+            "time": "2017-06-07T22:44:10+00:00"
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1243,16 +1243,16 @@
         },
         {
             "name": "jaybizzle/crawler-detect",
-            "version": "v1.2.44",
+            "version": "v1.2.45",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JayBizzle/Crawler-Detect.git",
-                "reference": "dd14c05b3aed6ca75acfc77fbd864e37d83777bc"
+                "reference": "fa55dc49376dbc4b4786e49113faa8bdea8250a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/dd14c05b3aed6ca75acfc77fbd864e37d83777bc",
-                "reference": "dd14c05b3aed6ca75acfc77fbd864e37d83777bc",
+                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/fa55dc49376dbc4b4786e49113faa8bdea8250a1",
+                "reference": "fa55dc49376dbc4b4786e49113faa8bdea8250a1",
                 "shasum": ""
             },
             "require": {
@@ -1287,7 +1287,7 @@
                 "crawlerdetect",
                 "php crawler detect"
             ],
-            "time": "2017-06-03T10:19:31+00:00"
+            "time": "2017-06-07T20:58:57+00:00"
         },
         {
             "name": "jenssegers/agent",
@@ -1452,16 +1452,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.4.24",
+            "version": "v5.4.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "ec8548db26c1b147570f661128649e98f3ac0f29"
+                "reference": "6bcc9b1f542b3deed16d51f6aa1fe318ab407c2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/ec8548db26c1b147570f661128649e98f3ac0f29",
-                "reference": "ec8548db26c1b147570f661128649e98f3ac0f29",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/6bcc9b1f542b3deed16d51f6aa1fe318ab407c2a",
+                "reference": "6bcc9b1f542b3deed16d51f6aa1fe318ab407c2a",
                 "shasum": ""
             },
             "require": {
@@ -1577,7 +1577,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-05-30T12:44:32+00:00"
+            "time": "2017-06-07T13:35:12+00:00"
         },
         {
             "name": "laravel/tinker",

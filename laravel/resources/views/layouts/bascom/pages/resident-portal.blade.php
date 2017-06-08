@@ -50,8 +50,8 @@
                                     </div>
                                     {{csrf_field()}}
                                     <p>
-                                        <a class='section-text-nullify resident-links' href="/resident-portal/reset-password">Forgot your password?</a><br>
-                                        <a class='section-text-nullify resident-links' href="/resident-portal/find-userid">Need User Id?</a>
+                                        <a class='section-text-nullify resident-links text-uppercase' href="/resident-portal/reset-password"><b>Forgot your password?</b></a><br>
+                                        <a class='section-text-nullify resident-links text-uppercase' href="/resident-portal/find-userid"><b>Need User Id?</b></a>
                                     </p>
                                     <div class="mb-20 mb-md-10">
                                         <button type="submit" class="btn btn-mod btn-brown btn-large btn-round">Login</button>
