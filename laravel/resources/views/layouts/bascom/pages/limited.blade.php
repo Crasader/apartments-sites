@@ -107,10 +107,10 @@ if(strlen($limited)){
                                         <div class="mb-20 mb-md-10 form-group">
                                             <div class="g-recaptcha" id='grecaptcha' data-sitekey="<?php echo $entity->getRecaptchaKey();?>"></div>
                                         </div>
-                                        <?php if(session('limitedRequest')): ?>
-                                            <input type='hidden' name='limitedRequest' value="<?php echo base64_encode(json_encode(session('limitedRequest')));?>">
+                                        <?php if($limited): ?>
+                                            <input type='hidden' name='limitedRequest' value="<?php echo $limited; ?>">
                                         <?php endif;?>
-
+                                        <input type="hidden" name="mode" value="more">
 
                                         <input type="hidden" class="hiddenRecaptcha required" name="hiddenRecaptcha" id="hiddenRecaptcha">
                                         <div class="mb-20 mb-md-10">

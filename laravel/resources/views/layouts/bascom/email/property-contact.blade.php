@@ -42,6 +42,33 @@ Message: <?php echo $contact['message']; ?><br>
 Action Requested: SCHEDULE A TOUR (From Front Page )
 <?php endif;?>
 
+<?php if ($mode == 'more'): ?>
+
+First Name: <?php echo $contact['fname'];?> <br>
+
+Last Name: <?php echo $contact['lname'];?><br>
+
+Email: <?php echo $contact['email'];?> <br>
+
+Phone: <?php echo $contact['phone'];?> <br>
+
+Move-in date: <?php echo $contact['movein'];?> <br>
+
+<?php if(U::arrayGet($contact,'limited.unittype')): ?>
+<br>
+<b>User is interested in this unit:</b><br>
+Unit Type: <?php echo U::arrayGet($contact,'limited.unittype','--no unit type specified--');?><br>
+
+Bed: <?php echo U::arrayGet($contact,'limited.bed','--not available--');?><br>
+
+Bath: <?php echo U::arrayGet($contact,'limited.bath','--not available--');?><br>
+
+Square Feet: <?php echo U::arrayGet($contact,'limited.sqft','--not available--');?><br>
+<?php endif;?>
+
+Action Requested: Request For More Information<br>
+<?php endif; ?>
+
 <?php if ($mode == 'contact'): ?>
 
 First Name: <?php echo $contact['fname'];?> <br>

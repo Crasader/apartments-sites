@@ -1,9 +1,19 @@
 <?php
 use App\Property\Template as PropertyTemplate;
 use App\Util\Util as U;
-use App\Legacy\Property;
+use App\System\Session as Sesh;
+
+$limited = Sesh::get(Sesh::CONTACT_US_LIMITED_AVAILABILITY);
+\Debugbar::info("Limited avail",$limited);
 ?>
 @extends('layouts/dinapoli/main')
+                        @section('page-title-row')
+                        <div class="col-md-8">
+                            <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Request For More Information</h1>
+                        </div>
+                        @stop
+                        @section('page-title-span','Let’s get started with a little information about yourself, so our team can assist you.')
+ 
             @section('extra-css')
                 <!-- Latest compiled and minified CSS -->
                 <link id="bsdp-css" href="css/bootstrap-datepicker3.min.css" rel="stylesheet">
@@ -26,24 +36,7 @@ use App\Legacy\Property;
                 <div class="container relative">
                     <div class="section-text mb-50 mb-sm-20">
                         <div class="row">
-							@if(isset($_GET['submitted']))
-
-                                <div class="col-md-7 col-sm-7 mb-sm-50 mb-xs-30">
-                                    <h1 class=" notice">
-                                        Your contact information has been submitted
-                                    </h1>
-                                    <div>
-                                        Your message has been sent. A leasing agent will be contacting you shortly.
-
-                                        For questions, give us a call:
-                                        <?=Property::getPhoneByEntity($entity);?>
-
-
-                                    </div>
-
-                                </div>
-                            @else
-
+                            <?php if (isset($sent)): ?><h1 class="notice">Your contact information has been submitted</h1><?php endif;?>
                             <?php if (isset($invalidRecaptcha)): ?><h1 class="error">Invalid ReCaptcha</h1><?php endif; ?>
                             <div class="col-md-7 col-sm-7 mb-sm-50 mb-xs-30">
                                 <form id="form1" method="post" action="/contact">
@@ -78,13 +71,17 @@ use App\Legacy\Property;
                                     <div class="mb-20 mb-md-10 form-group">
                                         <div class="g-recaptcha" id='grecaptcha' data-sitekey="<?php echo $entity->getRecaptchaKey();?>"></div>
                                     </div>
-
+									<?php if($limited): ?>
+										<input type='hidden' name='limitedRequest' value="<?php echo $limited;?>">
+									<?php endif;?>
+									<input type="hidden" name="mode" value="more">
                                     <input type="hidden" class="hiddenRecaptcha required" name="hiddenRecaptcha" id="hiddenRecaptcha">
                                     <div class="mb-20 mb-md-10">
                                         <button class="btn btn-mod btn-brown btn-large btn-round" onclick="if($('#datediv').val().length){console.log(1);$('#datediv').css('margin-bottom','40px');}">Submit</button>
                                     </div>
                                 </form>
                             </div>
+
                             <div class="col-md-5 col-sm-5 mb-sm-50 mb-xs-30 text-center">
                                 <div class="row">
                                 	<div class="col-sm-12">
@@ -104,7 +101,7 @@ use App\Legacy\Property;
                                         </div>
                                 	</div>
                                 </div>
-							@endif
+
                             </div>
                         </div>
                     </div>

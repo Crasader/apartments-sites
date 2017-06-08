@@ -14,7 +14,7 @@ foreach ($fpData as $index => $object) {
     $uniqueId = uniqid() . "_" . $object->BED;
     $object->uniqid = $uniqueId;
     if (intval($object->AVAIL) == 0) {
-        $object->ACTION = 'contact';
+        $object->ACTION = 'post-limited';
         $object->TEXT = 'Limited | MORE INFO';
     } elseif (intval($object->AVAIL) == 1) {
         $object->TEXT = 'Unit Available';
