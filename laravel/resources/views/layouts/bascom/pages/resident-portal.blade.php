@@ -49,12 +49,6 @@
                                         <input type="password" name="pass" id="pass" class="input-md form-control" maxlength="100">
                                     </div>
                                     {{csrf_field()}}
-                                    <?php if (Util::isDev() == false): ?>
-									<div class="mb-20 mb-md-10 form-group">
-                                        <div class="g-recaptcha" id='grecaptcha' data-sitekey="<?php echo $entity->getRecaptchaKey();?>"></div>
-                                    </div>
-									<input class="hiddenRecaptcha required" name="hiddenRecaptcha" id="hiddenRecaptcha" aria-required="true" type="hidden">
-                                    <?php endif; ?>
                                     <p>
                                         <a class='section-text-nullify resident-links' href="/resident-portal/reset-password">Forgot your password?</a><br>
                                         <a class='section-text-nullify resident-links' href="/resident-portal/find-userid">Need User Id?</a>
