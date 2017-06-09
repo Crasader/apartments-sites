@@ -21,37 +21,16 @@
         @extends($extends)
         @section('page-title-span','Maintenance Request')
 
-       	@section('after-nav')
+        @include("/layouts/{$entity->template->filesystem_id}/pages/inc/resident-portal-header", [
+            'bread_crumbs' => [['Home', '/'], [ 'Resident Portal', '/resident-portal'], ['Maintenance Request']],
+            'header' => 'Maintenance Request',
+            'sub_header_one_shot_key' => 'resident-portal-maintenance-request:sub-header',
+            'sub_header_one_shot' => 'Have an issue in your apartment? Complete a request for maintenance and a member of our team will service your apartment as quickly as possible.'
+        ])
 
-        <!-- Page Title Section -->
-        <section class="page-section page-title bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('');?>/page-title-bg5.jpg">
-            <div class="relative container align-left">
-
-                <div class="row">
-
-                    <div class="col-md-8">
-                        <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Maintenance Request</h1>
-                        <div class="hs-line-4 font-alt">
-							<?php echo $entity->getText('resident-portal-maintenance-request:sub-header', ['oneshot' =>'
-    						Have an issue in your apartment? Complete a request for maintenance and a member of our team will service your apartment as quickly as possible.
-']);?>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 mt-30">
-                        <div class="mod-breadcrumbs font-alt align-right">
-                            <a href="/">Home</a>&nbsp;/&nbsp;<a href="/resident-portal">Resident Portal</a>&nbsp;/&nbsp;<span>Maintenance Request</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- End Page Title Section -->
-
-		@stop
         @section('content')
 		<!-- Content -->
-		<section class="content">
+		<section class="content mt-50">
             <link rel="stylesheet" href="/bascom/css/bootstrap-date-picker3.min.css" />
             <script
             src="/js/src/jquery-1.11.2.min.js"></script>

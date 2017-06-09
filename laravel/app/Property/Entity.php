@@ -27,6 +27,12 @@ class Entity extends Model
     protected $table = 'property_entity';
     protected $_legacyProperty = null;
 
+    public function Template(){
+        return $this->belongsTo(
+            'App\Template',
+            'fk_template_id'
+        );
+    }
     //
     public function getFloorPlanThumbSrc($object)
     {
