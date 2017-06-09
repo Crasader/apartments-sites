@@ -904,9 +904,6 @@ class PostController extends Controller
         Session::residentUserUnset();
         Site::$instance = $site = app()->make('App\Property\Site');
 
-        if (Util::isDev() == false && !$this->validateCaptcha($data['g-recaptcha-response'])) {
-            return $this->invalidCaptcha($this->_page);
-        }
         if (!isset($data['email'])) {
             //TODO fail validation properly
             return $this->invalidUsername();
