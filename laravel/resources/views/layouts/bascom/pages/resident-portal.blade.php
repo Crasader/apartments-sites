@@ -67,17 +67,6 @@
                         pass: {
                             required: true
                         }
-                        <?php if (Util::isDev() == false): ?>
-                        ,hiddenRecaptcha: {
-                            required: function () {
-                                if (grecaptcha.getResponse() == '') {
-                                    return true;
-                                } else {
-                                    return false;
-                                }
-                            }
-                        }
-                        <?php endif;?>
                     } /* End RULES */
                 });
             }); //End document.ready
