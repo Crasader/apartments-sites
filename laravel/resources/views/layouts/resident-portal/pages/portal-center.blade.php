@@ -6,10 +6,9 @@
             }
         ?>
         @extends($extends)
-        @section('page-title-span','resident portal')
 
         @include("/layouts/{$entity->template->filesystem_id}/pages/inc/resident-portal-header", [
-            'bread_crumbs' => [['Home', '/'], [ 'Resident Portal', '/resident-portal'], ['Portal Center']],
+            'bread_crumbs' => [['Home', '/'], [ 'Resident Portal', '/resident-portal'], ['Portal Center', '/resident-portal/portal-center']],
             'header' => 'Portal Center',
             'sub_header_one_shot_key' => 'resident-portal:sub-header',
             'sub_header_one_shot' => 'With convenient 24/7 access, the resident portal makes it easy for you to request maintenance service and pay your rent online. Login to get started!'

@@ -3,7 +3,6 @@ use App\Property\Site;
 use App\Legacy\Property;
 use App\System\Session as Sesh;
 $limited = Sesh::get(Sesh::CONTACT_US_LIMITED_AVAILABILITY);
-\Debugbar::info("LIMITED AVAIL: ",$limited);
 ?>@extends('layouts/bascom/main')
             @section('before-css')
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
@@ -21,9 +20,9 @@ $limited = Sesh::get(Sesh::CONTACT_US_LIMITED_AVAILABILITY);
             <div class="row">
 
                 <div class="col-md-8">
-                    <h1 class="hs-line-11 font-alt mb-20 mb-xs-0"><?php echo $entity->getText('contact-us-title',['oneshot' => 'Contact us']);?></h1>
+                    <h1 class="hs-line-11 font-alt mb-20 mb-xs-0"><?php echo $entity->getText('limited:title',['oneshot' => 'Request for More Information']);?></h1>
                     <div class="hs-line-4 font-alt">
-						<?php echo $entity->getText('contact-header', ['oneshot'=>'Have a question? Reach out to our helpful staff 24/7']);?>
+						<?php echo $entity->getText('limited:contact-header', ['oneshot'=>'Let’s get started with a little information about yourself, so our team can assist you.']);?>
                     </div>
                 </div>
 
