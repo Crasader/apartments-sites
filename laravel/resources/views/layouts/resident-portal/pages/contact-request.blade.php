@@ -8,33 +8,12 @@
 ?>
         @extends($extends)
 
-       	@section('after-nav')
-
-        <!-- Page Title Section -->
-        <section class="page-section page-title bg-dark-alfa-30" data-background="<?php echo $entity->getWebPublicDirectory('');?>/page-title-bg5.jpg">
-            <div class="relative container align-left">
-
-                <div class="row">
-
-                    <div class="col-md-8">
-                        <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Contact Request</h1>
-                        <div class="hs-line-4 font-alt">
-							<?php echo $entity->getText('resident-portal-contact-request-sub-header', ['oneshot' =>'Contact the property and we will get your concern taken care of as quickly as possible.
-']);?>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 mt-30">
-                        <div class="mod-breadcrumbs font-alt align-right">
-                            <a href="/">Home</a>&nbsp;/&nbsp;<a href="/resident-portal">Resident Portal</a>&nbsp;/&nbsp;<span>Contact Request</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- End Page Title Section -->
-
-		@stop
+        @include("/layouts/{$entity->template->filesystem_id}/pages/inc/resident-portal-header", [
+            'bread_crumbs' => [['Home', '/'], [ 'Resident Portal', '/resident-portal'], ['Contact Request']],
+            'header' => 'Contact Request',
+            'sub_header_one_shot_key' => 'resident-portal-contact-request:sub-header',
+            'sub_header_one_shot' => 'Contact the property and we will get your concern taken care of as quickly as possible.'
+        ])
         @section('content')
 
         <div class="page-title">

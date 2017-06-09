@@ -2,18 +2,13 @@
 
 ?>
 @extends('layouts/dinapoli/main')
-                        @section('page-title-row')
-                        <div class="col-md-8">
-                            <h1 class="hs-line-11 font-alt mb-20 mb-xs-0">Resident Portal</h1>
-                            <div class="hs-line-4 font-alt">
-                                With convenient 24/7 access, the resident portal makes it easy for you to request maintenance service and pay your rent online. Login to get started!
-                            </div>
-                        </div>
-                        @stop
-                        @section('page-title-span','RESIDENT PORTAL')
-			            @section('recaptcha-js')
-                        <script src="https://www.google.com/recaptcha/api.js"></script>
-                        @stop
+
+        @include("/layouts/{$entity->template->filesystem_id}/pages/inc/resident-portal-header", [
+            'bread_crumbs' => [['Home', '/'], [ 'Resident Portal', '/resident-portal'], ['Portal Center']],
+            'header' => 'Resident Portal',
+            'sub_header_one_shot_key' => 'resident-portal:sub-header',
+            'sub_header_one_shot' => 'With convenient 24/7 access, the resident portal makes it easy for you to request maintenance service and pay your rent online. Login to get started!'
+        ])
 
             @section('content')
             <!-- Resident Login Form Section -->
