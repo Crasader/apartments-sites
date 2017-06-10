@@ -96,14 +96,20 @@ class SoapClient implements IDataFetcher
         $data_query->Phone = $postData['maintenance_phone'];
         $data_query->PermissionToEnterGivenBy = $postData['maintenance_name'];
         $data_query->PermissionToEnterData = $postData['PermissionToEnterDate'];
-
+        //Utility::dd(compact('data_query','postData'));
+        /*
         if (Utility::isDev()) {
             return [ 'Status' => 'SUCCESS', 'WorkOrderNumber' => 'TEST' . rand(1000, 9999) ];
         }
+        */
+        
 
         try {
             $soapResult = $client->InsertWorkOrder($data_query);
+            //file_put_contents('soapResult.txt', Utility::var_dump_str(compact('soapResult')));
             $arrResult = $soapResult->InsertWorkOrderResult;
+            //file_put_contents('arrResult.txt', Utility::var_dump_str(compact('arrResult')));
+
             if (preg_match("|<Error ErrorDescription=\"([^\"]+)\"|", $arrResult, $matches)) {
                 throw new BaseException($matches);
             }

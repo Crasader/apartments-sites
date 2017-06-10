@@ -26,6 +26,20 @@ class Util
     }
 
     /**
+    * @return string | a var dump
+    * @param mixed | variable to be dumped
+    * $param pretty | wraps in pre tags if pretty
+    */
+    static function var_dump_str($mixed = null, $pretty = 0) {
+        ob_start();
+        echo '<pre>';
+        var_dump($mixed);
+        echo '</pre>';
+        $content = ob_get_contents();
+        ob_end_clean();
+        return $content;
+    }
+    /**
      *   Function arrayGet: Processes laravel's array_get, if default is returned, logs it
      *   @param $array array
      *   @param $item string
