@@ -108,9 +108,17 @@ class PostController extends Controller
             $site = app()->make('App\Property\Site');
             $entity = $site->getEntity();
             $path = Layout::getEmailTemplatePath($entity, 'property-contact');
+            $data = $details['data']->getData();
+            foreach($data as $key => $value){
+                if($key !== 'data' && !isset($details[$key])){
+                    $details[$key] = $value;
+                }
+            }
+            $email->html_body = view($path)->with($details);
+            /*
             $email->html_body = MultiContact::getPropertyViewHtml(
                 'layouts/dinapoli/email/property-contact', $details['data']);
-            Util::dd($details['data']);
+             */
             $email->from = $details['user'];
             $email->cc = MultiContact::getCcPropertyEmail();
             $email->save();

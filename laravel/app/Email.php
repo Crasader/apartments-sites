@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Jobs\SendEmail;
 use App\Mail\DefaultEmail;
 
+use App\Util\Util;
 use App\Util\CollectionHelpers;
 
 class Email extends Model
