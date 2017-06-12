@@ -22,7 +22,12 @@ class FacebookController extends Controller
     }
 
     public function resolveTemplatePath($templateDir,$page,$inData){
-        return "layouts/$templateDir/pages/social-media/facebook/$page";
+        if(is_array($page)){
+            $targetPage = Util::arrayGet($page,'page');
+        }else{
+            $targetPage = $page;
+        }
+        return "layouts/$templateDir/pages/social-media/facebook/$targetPage";
     }
 
     public function dumpJson($status,array $data){

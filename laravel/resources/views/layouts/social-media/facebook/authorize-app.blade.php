@@ -1,12 +1,11 @@
     <?php 
-        $appId = '1941089599495744';
+        $appId = env('FACEBOOK_APP_ID','1941089599495744');
     ?>
 @extends("layouts/$fsid/main")
 @section('content')
 <script type='text/javascript'>
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
-    console.log('statusChangeCallback');
     console.log(response);
     // The response object is returned with a status field that lets the
     // app know the current login status of the person.
@@ -17,8 +16,7 @@
       testAPI();
     } else {
       // The person is not logged into your app or we are unable to tell.
-      document.getElementById('status').innerHTML = 'Please log ' +
-        'into this app.';
+      document.getElementById('login-notice').innerHTML = '<h3>Please click the "Log In" button to link your Facebook page to the Marketapts.com Reviews app. <br>*You must log in with a Facebook account that has ADMIN access to the apartment property\'s Facebook page.*</h3>';
     }
   }
 
@@ -66,7 +64,14 @@
                     'replace': 'y'
                 }
             }).done(function(msg){
-                $("#status").append(msg);
+                var json = $.parseJSON(msg);
+                $("#status").append("<hr>");
+                if(json.data.status == 'ok'){
+                    $("#status").append('<b class="success">We have saved your credentials. You may close this window now.</b>');
+                }else{
+                    $("#status").append('<b class="notice">An error occurred: ' + json.data + '</b>');
+                }
+                console.log(msg);
             });
 		}
   });
@@ -94,16 +99,20 @@
     });
   }
 </script>
-
-<!--
-  Below we include the Login Button social plugin. This button uses
-  the JavaScript SDK to present a graphical Login button that triggers
-  the FB.login() function when clicked.
--->
-
-<fb:login-button scope="public_profile,email,manage_pages" onlogin="checkLoginState();">
-</fb:login-button>
-
-<div id="status">
+<div class='container relative'>
+    <div class='facebook-authorize-app main-content'>
+        <!--
+          Below we include the Login Button social plugin. This button uses
+          the JavaScript SDK to present a graphical Login button that triggers
+          the FB.login() function when clicked.
+        -->
+        <div class="login-notice" id="login-notice"></div>
+        <div class="center" style='text-align: center;'>
+            <fb:login-button scope="public_profile,email,manage_pages" onlogin="checkLoginState();" id='fb_login_btn'>
+            </fb:login-button>
+        </div>
+        <div id="status">
+        </div>
+    </div>
 </div>
 @stop

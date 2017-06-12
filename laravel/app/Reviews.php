@@ -95,8 +95,6 @@ class Reviews extends Model
             if($row->place_type == Reviews::GOOGLE){
                 if(!empty($fetchOnly) && !in_array($row->place_type,$fetchOnly)){
                     continue;
-                }else{
-                    echo "IN ARRAY: GOOGLE";
                 }
                 $google = $row->place_id;
                 $googleDeets = $this->_api->placeDetails($google, []);
@@ -126,8 +124,6 @@ class Reviews extends Model
             if($row->place_type == Reviews::YELP){
                 if(!empty($fetchOnly) && !in_array($row->place_type,$fetchOnly)){
                     continue;
-                }else{
-                    echo "IN ARRAY YELP";
                 }
                 $yelp = $row->place_id;
                 $yelpToken = $this->yelpGetAccessToken();
@@ -161,8 +157,6 @@ class Reviews extends Model
             if($row->place_type == Reviews::FACEBOOK){
                 if(!empty($fetchOnly) && !in_array($row->place_type,$fetchOnly)){
                     continue;
-                }else{
-                    echo "IN ARRAY FACEBOOK";
                 }
                 $facebookDeets = $this->doFacebookReviewFetch();
                 if(Util::arrayGet($facebookDeets,'status') == 'ok'){
@@ -531,7 +525,6 @@ class Reviews extends Model
 
     public function clearForPropertyId($propId)
     {
-        echo "deleting..";
         self::where('fk_legacy_property_id', $propId)->delete();
     }
 
