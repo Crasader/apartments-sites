@@ -794,15 +794,15 @@ class PostController extends Controller
             return $this->invalidCaptcha($this->_page);
         }
         $this->validate($req, [
-            'firstname' => 'required|max:64',
-            'lastname' => 'required|max:64',
+            'first_name' => 'required|max:64',
+            'last_name' => 'required|max:64',
             'email' => 'required|max:128|email',
             'phone' => 'required|max:14|regex:~\([0-9]{3}\) [0-9]{3}\-[0-9]{4}~',
             'date'=> 'required|date',
             ]);
         $cleaned = [
-            'fname' => preg_replace("|[^a-zA-Z \.]+|", "", $data['firstname']),
-            'lname' => preg_replace("|[^a-zA-Z \.]+|", "", $data['lastname']),
+            'first_name' => preg_replace("|[^a-zA-Z \.]+|", "", $data['first_name']),
+            'last_name' => preg_replace("|[^a-zA-Z \.]+|", "", $data['last_name']),
             'email' => $data['email'],
             'phone' => $data['phone'],
             'movein' => $data['date'],
@@ -826,8 +826,8 @@ class PostController extends Controller
         }
 
         $contact = app()->make('App\Contact');
-        $contact->first_name = $cleaned['fname'];
-        $contact->last_name = $cleaned['lname'];
+        $contact->first_name = $cleaned['first_name'];
+        $contact->last_name = $cleaned['last_name'];
         $contact->email = $cleaned['email'];
         $contact->notes = 'no notes';
         $contact->property_id = Site::$instance->getEntity()->fk_legacy_property_id;
@@ -841,8 +841,8 @@ class PostController extends Controller
          * Insert data into traffic table
          */
         (app()->make('App\AIM\Traffic'))->insertTraffic(
-            $cleaned['fname'],
-            $cleaned['lname'],
+            $cleaned['first_name'],
+            $cleaned['last_name'],
             $cleaned['email'],
             $cleaned['phone'],
             $cleaned['movein'],
@@ -852,7 +852,7 @@ class PostController extends Controller
             Util::arrayGet($data,'mode','contact'),
             ''
         );
-        $finalArray = $this->_prefillArray(['mode' => Util::arrayGet($data,'mode','contact')]);
+        $finalArray = $this->_prefillArray(['mode' => Util::arrayGet($cleaned,'mode','contact')]);
         $finalArray['contact'] = $cleaned;
 
         $siteData = $this->resolvePageBySite('contact', $cleaned);
@@ -864,11 +864,12 @@ class PostController extends Controller
         $finalArray['limited'] = $data['limited'] = $limitedRequest;
         
         $email = new Email();
-        $email->fromName = "{$cleaned['fname']} {$cleaned['lname']}";
+        $email->fromName = "{$cleaned['first_name']} {$cleaned['last_name']}";
         $email->subject =
+        $data['movein'] = array_get($data, 'date');
         $this->sendMultiContact('contact', [
             'user' => $cleaned['email'],
-            'fromName' => $cleaned['fname'] . " " . $cleaned['lname'],
+            'fromName' => $cleaned['first_name'] . " " . $cleaned['last_name'],
             'contact' => $data,
             'subject' => [
                 'property' => 'Contact Form Submission at ' . $aptName,

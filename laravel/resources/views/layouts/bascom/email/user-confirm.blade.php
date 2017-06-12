@@ -1,4 +1,4 @@
-<?php use App\Util\Util as U;?>
+<?php use App\Util\Util;?>
 <!DOCTYPE html><html xmlns=http://www.w3.org/1999/xhtml><head><meta http-equiv=Content-Type content=text/html; charset=utf-8>
 <link href=http://www.400rhett.com/css/jquery-ui.min.css rel=stylesheet>
 <?php foreach ($styleSheets as $index => $href): ?>
@@ -17,7 +17,11 @@
 <?php elseif ($mode == 'maintenance'): ?>
 <div class=row><div class=col-md-6><p>Thank you <?php echo array_get($contact, 'residentName'); ?>  for this request.
 <?php else: ?>
-<div class=row><div class=col-md-6><p>Thank you <?php echo $contact['fname']; ?> <?php echo $contact['lname']; ?> for your interest in <?php echo $apartmentName;?> Apartments.
+    <?php if(isset($contact['first_name'])): ?>
+    <div class=row><div class=col-md-6><p>Thank you <?php echo $contact['first_name']; ?> <?php echo $contact['last_name']; ?> for your interest in <?php echo $apartmentName;?> Apartments. 
+    <?php else: ?>
+    <div class=row><div class=col-md-6><p>Thank you <?php echo $contact['fname']; ?> <?php echo $contact['lname']; ?> for your interest in <?php echo $apartmentName;?> Apartments. 
+    <?php endif; ?>
 <?php endif; ?>
 Our team will quickly review your submission and get back to you as soon as possible. </p>
 <p>For questions, give us a call:&nbsp;<span class=teal><?php echo $entity->getPhone(); ?></span></p></div></div>
@@ -58,25 +62,25 @@ Email: <?php echo $contact['email'];?> <br>
 Phone: <?php echo $contact['phone'];?> <br>
 
 Move-in date: <?php echo $contact['movein'];?> <br>
-<?php if(U::arrayGet($contact,'limited.unittype')): ?>
+<?php if(Util::arrayGet($contact,'limited.unittype')): ?>
 <br>
 <b>You are interested in this unit:</b><br>
-Unit Type: <?php echo U::arrayGet($contact,'limited.unittype','--no unit type specified--');?><br>
+Unit Type: <?php echo Util::arrayGet($contact,'limited.unittype','--no unit type specified--');?><br>
 
-Bed: <?php echo U::arrayGet($contact,'limited.bed','--not available--');?><br>
+Bed: <?php echo Util::arrayGet($contact,'limited.bed','--not available--');?><br>
 
-Bath: <?php echo U::arrayGet($contact,'limited.bath','--not available--');?><br>
+Bath: <?php echo Util::arrayGet($contact,'limited.bath','--not available--');?><br>
 
-Square Feet: <?php echo U::arrayGet($contact,'limited.sqft','--not available--');?><br>
+Square Feet: <?php echo Util::arrayGet($contact,'limited.sqft','--not available--');?><br>
 <?php endif;?>
 Action Requested: Request For More Information<br>
 <?php endif; ?>
 
 <?php if ($mode == 'contact'): ?>
 
-First Name: <?php echo $contact['fname'];?> <br>
+First Name: <?php echo $contact['first_name'];?> <br>
 
-Last Name: <?php echo $contact['lname'];?><br>
+Last Name: <?php echo $contact['last_name'];?><br>
 
 Email: <?php echo $contact['email'];?> <br>
 

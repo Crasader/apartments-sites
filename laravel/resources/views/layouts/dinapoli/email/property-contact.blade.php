@@ -1,4 +1,4 @@
-<?php use App\Util\Util as U; ?>
+<?php use App\Util\Util; ?>
 <!DOCTYPE html><html xmlns=http://www.w3.org/1999/xhtml><head><meta http-equiv=Content-Type content=text/html; charset=utf-8>
 <link href=http://www.400rhett.com/css/jquery-ui.min.css rel=stylesheet>
 <?php
@@ -45,16 +45,16 @@ Phone: <?php echo $contact['phone'];?> <br>
 
 Move-in date: <?php echo $contact['movein'];?> <br>
 
-<?php if(U::arrayGet($contact,'limited.unittype')): ?>
+<?php if(Util::arrayGet($contact,'limited.unittype')): ?>
 <br>
 <b>User is interested in this unit:</b><br>
-Unit Type: <?php echo U::arrayGet($contact,'limited.unittype','--no unit type specified--');?><br>
+Unit Type: <?php echo Util::arrayGet($contact,'limited.unittype','--no unit type specified--');?><br>
 
-Bed: <?php echo U::arrayGet($contact,'limited.bed','--not available--');?><br>
+Bed: <?php echo Util::arrayGet($contact,'limited.bed','--not available--');?><br>
 
-Bath: <?php echo U::arrayGet($contact,'limited.bath','--not available--');?><br>
+Bath: <?php echo Util::arrayGet($contact,'limited.bath','--not available--');?><br>
 
-Square Feet: <?php echo U::arrayGet($contact,'limited.sqft','--not available--');?><br>
+Square Feet: <?php echo Util::arrayGet($contact,'limited.sqft','--not available--');?><br>
 <?php endif;?>
 
 Action Requested: Request For More Information<br>
@@ -63,9 +63,9 @@ Action Requested: Request For More Information<br>
 
 <?php if ($mode == 'contact'): ?>
 
-First Name: <?php echo $contact['fname'];?> <br>
+First Name: <?php echo $contact['first_name'];?> <br>
 
-Last Name: <?php echo $contact['lname'];?><br>
+Last Name: <?php echo $contact['last_name'];?><br>
 
 Email: <?php echo $contact['email'];?> <br>
 
