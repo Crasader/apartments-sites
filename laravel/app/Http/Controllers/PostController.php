@@ -662,14 +662,8 @@ class PostController extends Controller
         $maintenanceRequest->maintenance_mrequest = $data['maintenance_mrequest'];
         $maintenanceRequest->save();
         $maintenanceRequest
-            // ->addMediaFromRequest('image')
-            ->addAllmediaFromRequest()
-            ->each(function ($fileAdders) {
-                foreach ($fileAdders as $fileAdder) {
-                    $fileAdder
-                        ->toMediaCollection();
-                }
-            });
+            ->addMediaFromRequest('image')
+            ->toMediaLibrary('default', 'local');
 
         $data = $this->decorateMaintenance($data);
 
