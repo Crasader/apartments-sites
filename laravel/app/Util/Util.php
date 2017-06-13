@@ -8,13 +8,51 @@ use App\Property\Site;
 use Illuminate\Http\Request;
 use App\Mailer;
 use Illuminate\Support\Facades\Log;
-
+// Un-comment if you want to use the env() function
+// use Dotenv\Dotenv;
 class Util
 {
     private static $stagingRegex = [
             '^staging\.','^will\.','^brady\.','^\dev\.','^matt\.'
     ];
 
+    /**
+     * @param string url of the property
+     * @return App\Legacy\Property or null on error
+     */
+    public static function legacy(string $url){
+        return app()->make('App\Legacy\Property')->
+        where('url','like',"%" . self::realServerName($url) . "%")
+        ->first();
+    }
+
+    /**
+     * Jargon generator
+     * @param array array of terms to randomize
+     */
+    public static function repeatAndRandomize(array $items){
+        $str = '';
+        for($i = 256;--$i > 0;){
+            $str .= " " . $items[array_rand($items)];
+        }
+        return $str;
+    }
+
+
+    /**
+     * 
+     * This may come in handy in the future, to enable it, run composer update
+     * @param string the absolute path to the file
+     * @return false if error, true on success
+     */
+    public static function env(string $path){
+        return 'not-implemented';
+        if (file_exists($path)) {
+            (new Dotenv($path))->load();
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Returns a script tag to redirect the user to the specified page
@@ -124,9 +162,13 @@ class Util
         return false;
     }
 
-    public static function realServerName()
+    public static function realServerName($server=null)
     {
-        $serverName = self::serverName();
+        if($server===null){
+            $serverName = self::serverName();
+        }else{
+            $serverName = $server;
+        }
         foreach (self::$stagingRegex as $i => $k) {
             $serverName = preg_replace("|" . $k . "|", "", $serverName);
         }

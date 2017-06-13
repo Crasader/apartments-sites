@@ -42,6 +42,7 @@ class Place extends Model
 
     public function saveNew(array $data){
         $replace = Util::arrayGet($data,'replace');
+        $legacy = app()->make('App\Property\Site')->getEntity()->fk_legacy_property_id;
         if(isset($data['replace'])){
             /* We don't want the 'replace' key to be set in our model 
              * since that will likely break the insert/update
@@ -51,8 +52,11 @@ class Place extends Model
              * page_access_token_expiration field depends on it
              */
             $data['updated_at'] = time();
+            /* Make all the other access tokens invalid */
+            self::where('fk_legacy_property_id',$legacy)
+                ->where('place_type',Util::arrayGet($data,'place_type',null))
+                ->update(['active' => 'n']);
         }
-        $legacy = app()->make('App\Property\Site')->getEntity()->fk_legacy_property_id;
         $data['fk_legacy_property_id'] = $legacy;
 
         /* Create a new model to insert/update the data */
@@ -69,6 +73,7 @@ class Place extends Model
             foreach($data as $key => $value){
                 $firstRecord->{$key} = $value;
             }
+            $firstRecord->active = 'y';
             /* We don't want to allow the user to updated the id willy nilly */
             if(isset($data['id'])){
                 unset($data['id']);
@@ -79,6 +84,7 @@ class Place extends Model
             foreach($data as $key => $value){
                 $place->$key = $value;
             }
+            $place->active = 'y';
             $place->updated_at = null;
             /* I'm not 100% sure if created_at is populated automatically, so I'm doing this just to be sure */
             $place->created_at = time();

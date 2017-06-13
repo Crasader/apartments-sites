@@ -4,6 +4,48 @@
 @extends("layouts/$fsid/main")
 @section('content')
 <script type='text/javascript'>
+    var clickToChange = '<div class="facebook-authorize-app click-to-change">' + 
+        'The Facebook profile for <b>FACEBOOK_ID</b> is currently attached to this apartment property.' + 
+        'To change this, log out of Facebook then click the Log In link below.' + 
+        '</div>';
+        
+  function saveAccessToken(response){
+        $.ajax({
+            'url': '/facebook/post/saveAccessToken',
+            'type': 'post',
+            'data':{
+                'response': response,
+                'token': response.authResponse.accessToken,
+                'replace': 'y'
+            }
+        }).done(finishSaveAccessToken);
+  }
+
+  function finishSaveAccessToken(msg){
+        var json = $.parseJSON(msg);
+        $("#status").append("<hr>");
+        $("#status").append("<b>Fetching reviews...</b>");
+        if(json.data.status == 'ok'){
+            $.ajax({
+                'url': '/api/reviews/pull?platforms[]=fb',
+                'type': 'get',
+            }).done(function(msg){
+                $("#status").html("Reviews fetched!");
+                var response = msg;
+                var data = response.data;
+                console.log(response.data);
+                if(response.status == 'ok'){
+                    $("#reviews").html("<b>Okay here are the reviews...</b>");
+                    for(var i in response.data){
+                        $("#reviews").append("<hr><b>" + response.data[i].author_name + "</b> said: ");
+                        $("#reviews").append("<img src='" + response.data[i].author_url + "'><br>");
+                        $("#reviews").append("<p>" + response.data[i].text_body + "</p><b>rating: " + response.data[i].rating + "</b>");
+                    }
+                }
+            });
+        }
+    }
+
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
     console.log(response);
@@ -14,6 +56,7 @@
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
       testAPI();
+      saveAccessToken(response);
     } else {
       // The person is not logged into your app or we are unable to tell.
       document.getElementById('login-notice').innerHTML = '<h3>Please click the "Log In" button to link your Facebook page to the Marketapts.com Reviews app. <br>*You must log in with a Facebook account that has ADMIN access to the apartment property\'s Facebook page.*</h3>';
@@ -55,24 +98,7 @@
 		if(response.status == 'connected'){
             console.log('tools');
 			console.log(response.authResponse.accessToken);
-            $.ajax({
-                'url': '/facebook/post/saveAccessToken',
-                'type': 'post',
-                'data':{
-                    'response': response,
-                    'token': response.authResponse.accessToken,
-                    'replace': 'y'
-                }
-            }).done(function(msg){
-                var json = $.parseJSON(msg);
-                $("#status").append("<hr>");
-                if(json.data.status == 'ok'){
-                    $("#status").append('<b class="success">We have saved your credentials. You may close this window now.</b>');
-                }else{
-                    $("#status").append('<b class="notice">An error occurred: ' + json.data + '</b>');
-                }
-                console.log(msg);
-            });
+            saveAccessToken(response);
 		}
   });
 
@@ -93,12 +119,17 @@
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
       console.log('Successful login for: ' + response.name);
-      
-      document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.name + '!';
     });
   }
 </script>
+<style>
+.facebook-authorize-app div {
+    text-align: center;
+}
+.facebook-authorize-app .fb-login-current {
+    
+}
+</style>
 <div class='container relative'>
     <div class='facebook-authorize-app main-content'>
         <!--
@@ -107,11 +138,15 @@
           the FB.login() function when clicked.
         -->
         <div class="login-notice" id="login-notice"></div>
-        <div class="center" style='text-align: center;'>
+        <div id='fb-login-current'></div>
+        <div id="fb-login-wrapper" class="center" style='text-align: center;'>
             <fb:login-button scope="public_profile,email,manage_pages" onlogin="checkLoginState();" id='fb_login_btn'>
             </fb:login-button>
         </div>
-        <div id="status">
+        <div id="status" style='text-align:center;'>
+        </div>
+        <div id='reviews'>
+        <b>Reviews will appear here when you authorize the app</b>
         </div>
     </div>
 </div>

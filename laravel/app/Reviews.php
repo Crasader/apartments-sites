@@ -191,12 +191,17 @@ class Reviews extends Model
     }
 
     public function clear($type){
-        return \DB::table('reviews')->where('fk_legacy_property_id',app()->make('App\Property\Site')->getEntity()->fk_legacy_property_id)
+        return self::where('fk_legacy_property_id',app()->make('App\Property\Site')->getEntity()->fk_legacy_property_id)
                 ->where('place_type',$type)
-                ->delete();
+                ->each(function($foo){
+                    $foo->delete();
+                });
     }
 
     public function isGoodReview($review,$type){
+        //For now save ALL ratings so that we can just have them in case the user
+        //wants to all of a sudden allow lower ratings
+        return true;
         switch($type){
             case Reviews::YELP:
                 if(intval(Util::arrayGet($review,'rating')) == 5){
@@ -316,7 +321,15 @@ class Reviews extends Model
          * Return !data.is_valid
          */
         try{
-            $info = $this->doFacebookTokenInfo(Util::arrayGet($place->pluck('page_access_token'),0),Util::arrayGet($place->pluck('page_access_token'),0));
+            return strlen($place->page_access_token) == 0;
+            if($place->page_access_token === null){
+                return true;
+            }
+            if(strlen($pageAccessToken) == 0){
+                throw new \Exception("No access token");
+            }
+            $info = $this->doFacebookTokenInfo($place->page_access_token,$place->page_access_token);
+            $infoObject = Util::arrayGet($info,'info');
             $body = json_decode(Util::arrayGet($info,'info')->getBody(),true);
             return !Util::arrayGet($body,'data.is_valid');
         }catch(\Exception $e){
@@ -396,7 +409,7 @@ class Reviews extends Model
             return ['status' => 'error','exception' => $e];
         }
 
-        $accountData = $this->doGetFacebookAccounts($fb['fb'],Util::arrayGet($fb['place']->pluck('page_access_token'),0));
+        $accountData = $this->doGetFacebookAccounts($fb['fb'],$fb['place']->page_access_token);
         if(Util::arrayGet($accountData,'status','error') == 'error'){
             return ['status' => 'error','error_data' => $accountData];
         }
@@ -438,13 +451,39 @@ class Reviews extends Model
         /* This code should probably be in it's own function... it essentially builds a facebook request */
         $log = [];
         $facebookData = Place::where('fk_legacy_property_id',app()->make('App\Property\Site')->getEntity()->fk_legacy_property_id)
-            ->where('place_type',Reviews::FACEBOOK)->first();
+            ->where('place_type',Reviews::FACEBOOK)
+            ->where('active','y')->first();
         if(!$facebookData){
             return ['status' => 'error', 'message' => 'No facebook id associated with this property'];
         }
         $log[] = "Found facebook row for current property";
-        $tempAccessToken = Util::arrayGet($facebookData->pluck('access_token'),0);
-        $pageAccessToken = $facebookData->pluck('page_access_token');
+        $tempAccessToken = $facebookData->access_token;
+        $pageAccessToken = $facebookData->page_access_token;
+
+/*
+            $json = self::curl('https://graph.facebook.com/v2.9/oauth/access_token?client_id=' . 
+                $this->getFacebookAppId() . '&client_secret=' . 
+                $this->getFacebookAppSecret() . '&grant_type=client_credentials'
+            ,null,[],'get');
+            $data = json_decode($json);
+            dd($data);
+            */
+        $fb = $this->doBuildRawFacebookObject();
+        try{
+            $return = $fb['fb']->get('/me/accounts',$tempAccessToken);
+        }catch(\Exception $e){
+            $invalidToken = true;
+
+        }
+        try{
+            $return = $fb['fb']->get('/me/accounts',$pageAccessToken);
+        }catch(\Exception $e){
+            $forceTokenRefresh = true;
+        }
+        /*
+        if(isset($invalidToken)){
+            throw new \Exception("Access token is invalid, have the user re-log in");
+        }*/
 
         if($forceTokenRefresh || $this->isStaleFacebookToken($facebookData)){
             /* Perform necessary steps to grab the extended page access token */
@@ -454,13 +493,13 @@ class Reviews extends Model
                 $this->getFacebookAppSecret() . '&fb_exchange_token=' . 
                 $tempAccessToken,null,[],'get');
             $data = json_decode($json);
-
+            Util::monoLog("Return from facebook access token extend: " . var_export($data,1));
             /* 
              * If the expires_in token isn't present, then we call our token info function to grab the
              * expiration time
              */
             $expires = Util::arrayGet($data,'expires_in',null);
-            if($expires === null){
+            if(false && $expires === null){
                 /* Grab the token info */
                 $tokenInfo = $this->doFacebookTokenInfo($data->access_token,$tempAccessToken);
                 if(Util::arrayGet($tokenInfo,'status') == 'ok'){
@@ -479,6 +518,7 @@ class Reviews extends Model
             $facebookData->updated_at = (new \Carbon\Carbon)->now()->timestamp;
             $facebookData->save();
             $log[] = "Facebook page_access_token expired. Updated with new one";
+            Util::monoLog("Access token expired, renewed");
         }
         return ['status' => 'ok', 
             'fb' => new FB([
@@ -499,6 +539,23 @@ class Reviews extends Model
         }catch(\Facebook\Exceptions\FacebookSDKException $e) {  
             return ['status' => 'error','message' => "FacebookSDKException: " . $e->getMessage()];
         }
+        //dd($accounts);
+        $rows = Util::arrayGet($accounts->getDecodedBody(),'data',[]);
+        $ctr = 0;
+        foreach($rows as $i => $objectRow){
+            $fba = new \App\Facebook\Accounts;
+            $fba->loadVars($objectRow['access_token'],
+                json_encode($objectRow['category']),$objectRow['name'],
+                $objectRow['id'],json_encode($objectRow['perms'])
+            )->attachPlace(
+                Place::where('fk_legacy_property_id',
+                   app()->make('App\Property\Site')->getEntity()->fk_legacy_property_id
+                )->first(),self::FACEBOOK
+            )->save();
+            $ctr ++;
+        }
+        Util::monoLog("Saved $ctr facebook accounts");
+        Util::monoLog(json_encode($accounts));
         $data = json_decode($accounts->getBody(),true);
         $pageAccessToken = Util::arrayGet($data,'data.0.access_token');
         $id = Util::arrayGet($data,'data.0.id');
