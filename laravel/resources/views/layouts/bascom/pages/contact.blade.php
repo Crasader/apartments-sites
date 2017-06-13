@@ -1,6 +1,7 @@
 <?php
 use App\Property\Site;
 use App\Legacy\Property;
+use App\Property\Template as PropertyTemplate;
 use App\System\Session as Sesh;
 $limited = Sesh::get(Sesh::CONTACT_US_LIMITED_AVAILABILITY);
 if(strlen($limited)){
@@ -127,7 +128,7 @@ if(strlen($limited)){
                                             <div class="map-block">
                                                 <div class="map">
                                                     <div class="map-container">
-                                                        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+                                                        <?=PropertyTemplate::getGmapKey();?>
                                                         <div style="overflow:hidden;height:537px;max-width:100%;">
                                                             <div id="map-canvas" style="max-width:100%;"></div>
                                                         <div>

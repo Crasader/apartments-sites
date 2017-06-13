@@ -1,5 +1,6 @@
 <?php use App\Util\Util;
 use App\Legacy\Property;
+use App\Property\Template as PropertyTemplate;
 
 ?>
 @extends('layouts/bascom/main')
@@ -129,7 +130,7 @@ use App\Legacy\Property;
                                             <div class="map-block">
                                                 <div class="map">
                                                     <div class="map-container">
-                                                        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+                                                        <?=PropertyTemplate::getGmapKey();?>
                                                         <div style="height:537px;overflow:hidden;max-width:100%;">
                                                             <div id="map-canvas" style="max-width:100%;"></div>
                                                         <div>

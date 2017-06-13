@@ -57,7 +57,7 @@ $displayOptions['dont-show-contact-details'] = true;
                                     'home-page-about-description',
                                     [
                                         'oneshot' =>
-                                        "<p>Live better at 80 On Gibson Apartments For Rent in Henderson, Nevada. Indulged by a pristine community greenbelt and overlooking Henderson's best sweeping valley views...there is no other place to call home! Striking finishes, abundant storage, elegant cabinetry, gas heat, fireplaces in select homes and spacious nine foot ceilings give you all the comforts of home, the pleasures of a resort and the appeal of the Henderson community. Work hard. Play harder. </p> 
+                                        "<p>Live better at 80 On Gibson Apartments For Rent in Henderson, Nevada. Indulged by a pristine community greenbelt and overlooking Henderson's best sweeping valley views...there is no other place to call home! Striking finishes, abundant storage, elegant cabinetry, gas heat, fireplaces in select homes and spacious nine foot ceilings give you all the comforts of home, the pleasures of a resort and the appeal of the Henderson community. Work hard. Play harder. </p>
                                         <p>80 On Gibson's Henderson location and pet-friendly community gives you the most out of your day with restaurants, parks, and shopping within minutes and golfing just moments away! Make time to unwind in the spa, work out in the fitness room or play a game of racquetball in our indoor gym. Enjoy a cup of coffee in our resident lounge or take in the breathtaking views from your private deck. At 80 On Gibson, you are surrounded by life's many pleasures!</p>"
                                     ]
                                 );?>
@@ -250,7 +250,7 @@ $displayOptions['dont-show-contact-details'] = true;
                  </div>
                 <div class="row">
                     <div class="map-container">
-                        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+                        <?=PropertyTemplate::getGmapKey();?>
                         <div style="overflow:hidden;max-width:100%;">
                             <div id="map-canvas"></div>
                         <div>
@@ -262,7 +262,7 @@ $displayOptions['dont-show-contact-details'] = true;
             @include('layouts/bascom/pages/inc/contact-details')
             @include('layouts/bascom/pages/inc/epop')
         @stop
-        
+
 
         @section('schedule-a-tour')
             @include('layouts/bascom/pages/inc/schedule-a-tour')
