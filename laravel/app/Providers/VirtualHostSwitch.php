@@ -24,6 +24,9 @@ class VirtualHostSwitch extends ServiceProvider
     {
         $tempThis = $this;
         $this->app->bind(Site::class, function () use ($tempThis) {
+            if(isset($_GET['__aptid'])){
+                return Site::$instance = $this->override($_GET['__aptid']);
+            }
             if (Util::isCommandLine()) {
                 return Site::$instance = $this->newCommandLineSite();
             }
@@ -83,6 +86,10 @@ class VirtualHostSwitch extends ServiceProvider
         return preg_replace("|^dev\.|", "", Util::serverName());
     }
 
+    public function override($id){
+        $entity = PropertyEntity::where('fk_legacy_property_id', $id)->first();
+        return new Site($entity);
+    }
 
     public function newCommandLineSite()
     {
