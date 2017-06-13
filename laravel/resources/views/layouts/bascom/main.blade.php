@@ -29,7 +29,6 @@ $agent = new Agent();
         <!-- CSS -->
 @section('css')
         <!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
-        <?php $customSheet = null; ?>
         <?php //TODO: !refactor move this to a library function so we can utilize this code in every template?>
         <?php
         foreach (glob(public_path() . "/bascom/css/*.css") as $i => $sheet) {
@@ -40,23 +39,29 @@ $agent = new Agent();
             //     continue;
             // }
             if (preg_match("|/bascom/css/([^\.]*)\.css|", $sheet, $matches)
-                    &&
-                    !strstr($sheet, $site->getEntity()->getLegacyProperty()->code)) {
+            &&
+            !strstr($sheet, $site->getEntity()->getLegacyProperty()->code)) {
                 echo "<link rel='stylesheet' href='/bascom/css/{$matches[1]}.css?v={$entity->getAssetsVersion('bascom/css/' . $matches[1] . '.css')}'/>\n\t";
-            } else {
-                echo "<link rel='stylesheet' href='/bascom/css/properties/166TBL.css?v={$entity->getAssetsVersion('bascom/css/properties/166TBL.css')}'/>\n\t";
             }
-        }
-        if ($customSheet) {
-            // echo "<link rel='stylesheet' href='{$customSheet}?v={$entity->getAssetsVersion('$customSheet')}'/>";
         }
         ?>
         <?php
+        $css = 0;
         $extraSheets = $entity->getCustomStyleSheets($page);
-            foreach ($extraSheets as $i => $sheet): ?>
+            foreach ($extraSheets as $i => $sheet):
+                if(strpos($sheet, 'css')){
+                    $css += 1;
+                }
+                ?>
+
             <link rel="stylesheet" href="<?php echo $sheet . "?v={$entity->getAssetsVersion($sheet)}"; ?>">
        <?php
-   endforeach; ?>
+   endforeach;
+   if(!$css){
+
+       echo "<link rel='stylesheet' data-default='true' href='/bascom/css/properties/166TBL.css?v={$entity->getAssetsVersion('bascom/css/properties/166TBL.css')}'/>\n\t";
+   }
+   ?>
 
 @show
         <style type='text/css'>

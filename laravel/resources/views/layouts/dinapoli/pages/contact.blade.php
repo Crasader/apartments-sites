@@ -50,11 +50,11 @@ use App\Legacy\Property;
                                     <input type="hidden" name="form_id" value="contact"/>
                                     <div class="mb-20 mb-md-10 form-group">
                                         <label>First Name</label>
-                                        <input type="text" name="firstname" id="first_name" class="input-md form-control" maxlength="100">
+                                        <input type="text" name="first_name" id="first_name" class="input-md form-control" maxlength="100">
                                     </div>
                                     <div class="mb-20 mb-md-10 form-group">
                                         <label>Last Name</label>
-                                        <input type="text" name="lastname" id="last_name" class="input-md form-control" maxlength="100">
+                                        <input type="text" name="last_name" id="last_name" class="input-md form-control" maxlength="100">
                                     </div>
                                     <div class="mb-20 mb-md-10 form-group">
                                         <label>Email</label>

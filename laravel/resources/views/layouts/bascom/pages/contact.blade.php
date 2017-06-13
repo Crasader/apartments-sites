@@ -1,6 +1,7 @@
 <?php
 use App\Property\Site;
 use App\Legacy\Property;
+use App\Property\Template as PropertyTemplate;
 use App\System\Session as Sesh;
 $limited = Sesh::get(Sesh::CONTACT_US_LIMITED_AVAILABILITY);
 if(strlen($limited)){
@@ -79,11 +80,11 @@ if(strlen($limited)){
                                         <input type="hidden" name="form_id" value="contact"/>
                                         <div class="mb-20 mb-md-10 form-group">
                                             <label>First Name</label>
-                                            <input type="text" name="firstname" id="first_name" class="input-md form-control" maxlength="100">
+                                            <input type="text" name="first_name" id="first_name" class="input-md form-control" maxlength="100">
                                         </div>
                                         <div class="mb-20 mb-md-10 form-group">
                                             <label>Last Name</label>
-                                            <input type="text" name="lastname" id="last_name" class="input-md form-control" maxlength="100">
+                                            <input type="text" name="last_name" id="last_name" class="input-md form-control" maxlength="100">
                                         </div>
                                         <div class="mb-20 mb-md-10 form-group">
                                             <label>Email</label>
@@ -127,7 +128,7 @@ if(strlen($limited)){
                                             <div class="map-block">
                                                 <div class="map">
                                                     <div class="map-container">
-                                                        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+                                                        <?=PropertyTemplate::getGmapKey();?>
                                                         <div style="overflow:hidden;height:537px;max-width:100%;">
                                                             <div id="map-canvas" style="max-width:100%;"></div>
                                                         <div>
