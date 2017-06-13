@@ -8,6 +8,7 @@ exec.sh
 /.idea
 /.vagrant
 *.swp
+/public/.well-known
 /laravel/public/js/build/*
 Homestead.json
 Homestead.yaml

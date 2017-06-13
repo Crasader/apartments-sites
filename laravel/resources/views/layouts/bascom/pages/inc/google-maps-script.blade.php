@@ -136,7 +136,7 @@ function init_map() {
 			icon: '<?php echo $entity->getWebPublicDirectory('template-common');?>/custom-marker.png'
 	});
 	infowindow = new google.maps.InfoWindow({
-			content: '<?php echo "<strong>" . $entity->getLegacyProperty()->name . "</strong><br>" . $entity->getFullAddress();?>'
+			content: "<?php echo "<strong>" . $entity->getLegacyProperty()->name . "</strong><br>" . $entity->getFullAddress();?>"
 	});
 	google.maps.event.addListener(marker, 'click', function() {
 			infowindow.open(map, marker);
