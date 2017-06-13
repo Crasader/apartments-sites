@@ -82,7 +82,7 @@ class Reviews extends Model
     private function preamble()
     {
         if ($this->_api === null) {
-            $this->_api = env('GOOGLE_PLACES_API_KEY');
+            $this->setApiKey(env('GOOGLE_PLACES_API_KEY','AIzaSyDUWwfZJKG9gzf-SX8ZbT8WaUY3ICiYwH0'));
         }
     }
 
@@ -265,8 +265,8 @@ class Reviews extends Model
     {
         //TODO: check if an access token is stored in the db, if there is one, grab it and return it
         $params = array(
-          "client_id" => env('YELP_CLIENT_ID'),
-          "client_secret" => env('YELP_CLIENT_SECRET'),
+          "client_id" => env('YELP_CLIENT_ID','UJUnoaCCjI24vkmt9atP9w'),
+          "client_secret" => env('YELP_CLIENT_SECRET','ApUP7893tk0muH7WcOqbR3g8Pwa9WLIHOasLVJ85QY9qqAaLAqIfJ0ez4JcMgW46'),
           "grant_type" => "bearer");
         $endpoint = "https://api.yelp.com/oauth2/token";
         $json = json_decode(self::curl($endpoint, $params), true);
@@ -413,6 +413,14 @@ class Reviews extends Model
         if(Util::arrayGet($accountData,'status','error') == 'error'){
             return ['status' => 'error','error_data' => $accountData];
         }
+        //dd($accountData);
+        //Util::arrayGet($accountData,'data.
+        //TODO: #########################################
+        //TODO: #########################################
+        //TODO: #########################################
+        //TODO: ###  LOOP THROUGH ALL ACCOUNTS IN ACCOUNTDATA AND GRAB RATINGS FOR ALL OF THEM ######################################
+        //TODO: #########################################
+        //TODO: #########################################
         $ratings = $fb['fb']->get("/" . Util::arrayGet($accountData,'id') . "/ratings",Util::arrayGet($accountData,'pageAccessToken'));
         return ['status' => 'ok','FacebookResponse' => $ratings];
     }
@@ -473,7 +481,6 @@ class Reviews extends Model
             $return = $fb['fb']->get('/me/accounts',$tempAccessToken);
         }catch(\Exception $e){
             $invalidToken = true;
-
         }
         try{
             $return = $fb['fb']->get('/me/accounts',$pageAccessToken);
@@ -539,7 +546,6 @@ class Reviews extends Model
         }catch(\Facebook\Exceptions\FacebookSDKException $e) {  
             return ['status' => 'error','message' => "FacebookSDKException: " . $e->getMessage()];
         }
-        //dd($accounts);
         $rows = Util::arrayGet($accounts->getDecodedBody(),'data',[]);
         $ctr = 0;
         foreach($rows as $i => $objectRow){
@@ -551,17 +557,13 @@ class Reviews extends Model
                 Place::where('fk_legacy_property_id',
                    app()->make('App\Property\Site')->getEntity()->fk_legacy_property_id
                 )->first(),self::FACEBOOK
-            )->save();
+            )->updateOrInsert();
             $ctr ++;
         }
         Util::monoLog("Saved $ctr facebook accounts");
         Util::monoLog(json_encode($accounts));
         $data = json_decode($accounts->getBody(),true);
-        $pageAccessToken = Util::arrayGet($data,'data.0.access_token');
-        $id = Util::arrayGet($data,'data.0.id');
-        $name = Util::arrayGet($data,'data.0.name');
-        $status = 'ok';
-        return compact('id','name','pageAccessToken','data','status');
+        return ['status' => 'ok','data' => $data];
     }
 
 

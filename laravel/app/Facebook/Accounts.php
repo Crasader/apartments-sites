@@ -45,4 +45,17 @@ class Accounts extends Model
         $this->fk_place_id = $p->place_id;
         return $this;
     }
+
+    public function updateOrInsert(){
+        if($first = self::where('account_id',$this->account_id)->first()){
+            $first->access_token = $this->access_token;
+            $first->fk_place_id = $this->fk_place_id;
+            $first->save();
+            return $this;
+        }else{
+            $this->id = $this->insertGetId();
+            return $this; 
+        }
+
+    }
 }
