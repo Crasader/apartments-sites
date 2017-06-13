@@ -8,6 +8,8 @@ use App\Property\Site;
 use Illuminate\Http\Request;
 use App\Mailer;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
+
 // Un-comment if you want to use the env() function
 // use Dotenv\Dotenv;
 class Util
@@ -15,6 +17,29 @@ class Util
     private static $stagingRegex = [
             '^staging\.','^will\.','^brady\.','^\dev\.','^matt\.'
     ];
+
+    private static $timeFind = [
+        "before"
+    ];
+
+    private static $timeReplace = [
+        "ago"
+    ];
+
+    /**
+     * Return a nicely formatted time for humans
+     * @param string time string
+     */
+    public static function friendlyTimeDiff($time){
+        if(is_string($time)){
+            $timestamp = strtotime($time);
+            $dt = Carbon::now();
+            $then = Carbon::createFromTimestamp($timestamp);
+            return str_replace(self::$timeFind,self::$timeReplace,$then->diffForHumans($dt));
+        }else{
+            return $time;
+        }
+    }
 
     /**
      * @param string url of the property

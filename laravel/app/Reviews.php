@@ -146,8 +146,8 @@ class Reviews extends Model
                         $rev->author_name = Util::arrayGet($review,'user.name');
                         $rev->author_url = Util::arrayGet($imageData,'url',Util::arrayGet($review,'user.image_url'));
                         $rev->language = 'en';
-                        $rev->relative_time_description = '';
-                        $rev->post_time = date("Y-m-d H:i:s", Util::arrayGet($review,'time'));
+                        $rev->relative_time_description = Util::friendlyTimeDiff(Util::arrayGet($review,'time_created'));
+                        $rev->post_time = date("Y-m-d H:i:s",strtotime(Util::arrayGet($review,'time_created')));
                         $rev->text_body = Util::arrayGet($review,'text');
                         $rev->place_type = Reviews::YELP;
                         $rev->save();
@@ -176,7 +176,7 @@ class Reviews extends Model
                             $rev->author_name = Util::arrayGet($review,'data.reviewer.name') . "|" . Util::arrayGet($review,'data.reviewer.id');
                             $rev->author_url = Util::arrayGet($review,'data.s3_image.url');
                             $rev->language = 'en';
-                            $rev->relative_time_description = '';   //TODO: it'd be nice if we could come up with our own relative time description .. packagist? hmm...
+                            $rev->relative_time_description = Util::friendlyTimeDiff(Util::arrayGet($review,'time'));
                             $rev->post_time = date("Y-m-d H:i:s", strtotime(Util::arrayGet($review,'data.created_time')));
                             $rev->text_body = Util::arrayGet($review,'data.review_text','-noreview-');
                             $rev->place_type = Reviews::FACEBOOK;
