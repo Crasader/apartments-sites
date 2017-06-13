@@ -8,6 +8,7 @@ use App\Legacy\Property as LegacyProperty;
 use App\Property\Site as Site;
 use App\Util\Util;
 use Redis;
+use App\Mock;
 
 class VirtualHostSwitch extends ServiceProvider
 {
@@ -60,15 +61,18 @@ class VirtualHostSwitch extends ServiceProvider
     private function _resolveSiteId()
     {
         $serverName = Util::realServerName();
-        if (preg_match('|^www\.|', $serverName)) {
-            $site = LegacyProperty::where('url', 'like', 'http://' . $serverName . '%')->get();
-        } else {
-            $site = LegacyProperty::where('url', 'like', 'http://www.' . $serverName . '%')->get();
+        if(Mock::getServer()){
+            $serverName = Mock::getServer();
         }
-        if (count($site)) {
+        if (preg_match('|^www\.|', $serverName)) {
+            $site = LegacyProperty::where('url', 'like', 'http://' . $serverName . '%')->first();
+        } else {
+            $site = LegacyProperty::where('url', 'like', 'http://www.' . $serverName . '%')->first();
+        }
+        if ($site) {
             Site::$site_id_set = true;
             \Debugbar::info($serverName);
-            Site::$site_id = $site->first()->id;
+            Site::$site_id = $site->id;
             return Site::$site_id;
         }
     }
@@ -82,17 +86,11 @@ class VirtualHostSwitch extends ServiceProvider
 
     public function newCommandLineSite()
     {
-        if (!isset($_SERVER['SERVER_NAME'])) {
-            $_SERVER['SERVER_NAME'] = Util::realServerName();
+        $fk = LegacyProperty::where('url','like','%' . env('PHPUNIT_BASE_URL') . '%')->first();
+        if(!$fk){
+            throw new BaseException("Invalid PHPUNIT_BASE_URL env config");
         }
-        $entity = PropertyEntity::where('fk_legacy_property_id', $this->_resolveSiteId())->get()->first();
-        if ($entity === null) {
-            $prop = new PropertyEntity;
-            $legacy = LegacyProperty::where('url', 'like', '%' . Util::serverName() . '%')->get()->first();
-            if ($legacy === null) {
-                $legacy = LegacyProperty::where('devurl', 'like', '%' . Util::serverName() . '%')->get()->first();
-            }
-        }
+        $entity = PropertyEntity::where('fk_legacy_property_id', $fk->id)->get()->first();
         return new Site($entity);
     }
 }

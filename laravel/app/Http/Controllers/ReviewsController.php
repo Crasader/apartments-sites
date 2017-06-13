@@ -15,6 +15,7 @@ class ReviewsController extends Controller
     protected $_allowed = [
        'get'  => 'handleGet',
        'pull' => 'handlePull',
+       'list' => 'handleList',
     ];
 
     private function _end(string $path){
@@ -90,6 +91,20 @@ class ReviewsController extends Controller
             return $this->respond($this->platforms()); 
         }
         return $this->justGiveMeTheReviews();
+    }
+
+    public function handleList(Request $req,array $params){
+        if($this->exists($params,['domains'])){
+            /* Query the `reviews` table and give the user the result of the entire reviews table 
+             * and also dump relevant `property` table information like property.code and property.name
+             */
+            return $this->respond(\DB::table('reviews')
+                ->join('property','property.id','=','reviews.fk_legacy_property_id')
+                ->select('reviews.*','property.code','property.id','property.name','property.url')
+                ->get()
+            );
+        }
+        return $this->respond('nothing to do');
     }
 
     private function justGiveMeTheReviews(){

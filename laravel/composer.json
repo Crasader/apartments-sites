@@ -9,6 +9,7 @@
         "aws/aws-sdk-php": "^3.26",
         "barryvdh/laravel-debugbar": "^2.3",
         "doctrine/dbal": "^2.5",
+        "facebook/graph-sdk": "^5.5",
         "graham-campbell/htmlmin": "^4.5",
         "intervention/imagecache": "^2.3",
         "jenssegers/agent": "^2.5",
