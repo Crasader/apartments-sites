@@ -53,7 +53,7 @@ class Accounts extends Model
             $first->save();
             return $this;
         }else{
-            $this->id = $this->insertGetId();
+            $this->id = $this->insertGetId($this->toArray());
             return $this; 
         }
 

@@ -22,6 +22,7 @@ use App\Exceptions\ParameterException;
 use App\Reviews\Place;
 use Facebook\Facebook as FB;
 use Aws\S3\S3Client as S3;
+use App\Facebook\Accounts as FBAccounts;
 
 
 /* Google places API wrapper */
@@ -159,28 +160,32 @@ class Reviews extends Model
                     continue;
                 }
                 $facebookDeets = $this->doFacebookReviewFetch();
+                Util::monoLog(var_export($facebookDeets,1));
                 if(Util::arrayGet($facebookDeets,'status') == 'ok'){
                     if($store){
                         if($clearFirst){
                             $this->clear(Reviews::FACEBOOK);
                         }
-                        $reviews = Util::arrayGet(Util::arrayGet($facebookDeets,'FacebookResponse')->getDecodedBody(),'data',[]);
-                        foreach($reviews as $i => $review){
-                            if($this->isGoodReview($review,Reviews::FACEBOOK) == false){
-                                continue; 
+                        $reviews = Util::arrayGet($facebookDeets,'FacebookResponse',[]);
+                        foreach($reviews as $id => $fbResponse){
+                            $reviewList = Util::arrayGet($fbResponse->getDecodedBody(),'data');
+                            foreach($reviewList as $rlIndex => $review){
+                                $rev = new self();
+                                //dd("review line 174",$review);
+                                $decorated = $this->doFacebookDecorateReview($review);
+                                //dd("line 176",$review,$decorated);
+                                $rev->fk_legacy_property_id = $row->fk_legacy_property_id;
+                                $rev->rating = Util::arrayGet($review,'rating');
+                                $rev->author_name = Util::arrayGet($review,'reviewer.name') . "|" . Util::arrayGet($review,'reviewer.id');
+                                $rev->author_url = Util::arrayGet($decorated,'data.s3_image.url');
+                                $rev->language = 'en';
+                                $rev->relative_time_description = Util::friendlyTimeDiff(Util::arrayGet($review,'created_time'));
+                                $rev->post_time = date("Y-m-d H:i:s", strtotime(Util::arrayGet($review,'created_time')));
+                                $rev->text_body = Util::arrayGet($review,'review_text','-noreview-');
+                                $rev->place_type = Reviews::FACEBOOK;
+                                $rev->fk_facebook_account_id = FBAccounts::where('account_id',$id)->first()->id;
+                                $rev->save();
                             }
-                            $rev = new self();
-                            $review = $this->doFacebookDecorateReview($review);
-                            $rev->fk_legacy_property_id = $row->fk_legacy_property_id;
-                            $rev->rating = Util::arrayGet($review,'data.rating');
-                            $rev->author_name = Util::arrayGet($review,'data.reviewer.name') . "|" . Util::arrayGet($review,'data.reviewer.id');
-                            $rev->author_url = Util::arrayGet($review,'data.s3_image.url');
-                            $rev->language = 'en';
-                            $rev->relative_time_description = Util::friendlyTimeDiff(Util::arrayGet($review,'time'));
-                            $rev->post_time = date("Y-m-d H:i:s", strtotime(Util::arrayGet($review,'data.created_time')));
-                            $rev->text_body = Util::arrayGet($review,'data.review_text','-noreview-');
-                            $rev->place_type = Reviews::FACEBOOK;
-                            $rev->save();
                         }
                     }
                 }
@@ -386,17 +391,18 @@ class Reviews extends Model
      * !curl - Performs HTTP request to Facebook to grab image url from graph api
      * !curl - Performs HTTP upload to S3 to upload the facebook user's image to S3
      */
-    public function doFacebookDecorateReview($review){
+    public function doFacebookDecorateReview($r){
         //TODO: grab the user's image url :)
+        $ret = [];
         try{
             /* !curl_call here */
-            $imageData = $this->doFacebookUserImageFetch(Util::arrayGet($review,'reviewer.id'));
-            $review['s3_image'] = $this->doUploadUserImageToS3(Util::arrayGet($review,'reviewer.id'),$imageData);
+            $imageData = $this->doFacebookUserImageFetch(Util::arrayGet($r,'reviewer.id'));
+            $ret['s3_image'] = $this->doUploadUserImageToS3(Util::arrayGet($r,'reviewer.id'),$imageData);
         }catch(\Exception $e){
             Util::monoLog("doFacebookDecorateReview doFacebookUserImageFetch failed with exception: {$e->getMessage()}",'error');
             return ['status' => 'error','exception' => $e->getMessage()];
         }
-        return ['status' => 'ok','data' => $review];
+        return ['status' => 'ok','data' => $ret];
 
         //TODO: Detect if it's a hot chick using facial recogniztion/detection and advanced AI
     }
@@ -413,15 +419,11 @@ class Reviews extends Model
         if(Util::arrayGet($accountData,'status','error') == 'error'){
             return ['status' => 'error','error_data' => $accountData];
         }
-        //dd($accountData);
-        //Util::arrayGet($accountData,'data.
-        //TODO: #########################################
-        //TODO: #########################################
-        //TODO: #########################################
-        //TODO: ###  LOOP THROUGH ALL ACCOUNTS IN ACCOUNTDATA AND GRAB RATINGS FOR ALL OF THEM ######################################
-        //TODO: #########################################
-        //TODO: #########################################
-        $ratings = $fb['fb']->get("/" . Util::arrayGet($accountData,'id') . "/ratings",Util::arrayGet($accountData,'pageAccessToken'));
+        
+        $accountList = Util::arrayGet($accountData,'data.data');
+        foreach($accountList as $i => $account){
+            $ratings[Util::arrayGet($account,'id')] = $fb['fb']->get("/" . Util::arrayGet($account,'id') . "/ratings",Util::arrayGet($account,'access_token'));
+        }
         return ['status' => 'ok','FacebookResponse' => $ratings];
     }
    
@@ -468,14 +470,6 @@ class Reviews extends Model
         $tempAccessToken = $facebookData->access_token;
         $pageAccessToken = $facebookData->page_access_token;
 
-/*
-            $json = self::curl('https://graph.facebook.com/v2.9/oauth/access_token?client_id=' . 
-                $this->getFacebookAppId() . '&client_secret=' . 
-                $this->getFacebookAppSecret() . '&grant_type=client_credentials'
-            ,null,[],'get');
-            $data = json_decode($json);
-            dd($data);
-            */
         $fb = $this->doBuildRawFacebookObject();
         try{
             $return = $fb['fb']->get('/me/accounts',$tempAccessToken);
